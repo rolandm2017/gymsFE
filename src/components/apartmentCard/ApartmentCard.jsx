@@ -7,7 +7,7 @@ function ApartmentCard() {
             <h1>Hi</h1>
             <h2 className="poppins">Poppins</h2>
         </div>
-    )
+    );
 }
 
 export default ApartmentCard;

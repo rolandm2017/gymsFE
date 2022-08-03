@@ -10,3 +10,5 @@ function Button() {
         </div>
     );
 }
+
+export default Button;

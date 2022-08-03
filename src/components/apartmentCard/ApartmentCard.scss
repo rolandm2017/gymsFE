@@ -1,5 +1,7 @@
+@use "../../main.scss";
+
 .apTitle {
-    font-family: "Poppins";
+    font-family: $poppins;
     font-style: normal;
     font-weight: 500;
     font-size: 15.2703px;
