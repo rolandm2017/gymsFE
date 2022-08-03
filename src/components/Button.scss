@@ -1,0 +1,21 @@
+@use "../main.scss";
+
+.transparentBg {
+    border: 1px solid $blue-primary;
+    color: $blue-primary;
+}
+
+.opaqueBg {
+    background-color: $blue-primary;
+    color: $white;
+}
+
+.buttonShared {
+    height: 37px;
+    width: 142px;
+    border-radius: $border-rad-sml;
+    font-family: $poppins;
+    font-weight: $wt600;
+    font-size: $font12;
+    letter-spacing: 0.01em;
+}
