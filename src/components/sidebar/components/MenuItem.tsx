@@ -5,7 +5,7 @@ interface MenuItemProps {
 }
 
 const MenuItem: React.FC<MenuItemProps> = props => {
-    return <div>{props.text}</div>;
+    return <div className="text-red-500">{props.text}</div>;
 };
 
 export default MenuItem;
