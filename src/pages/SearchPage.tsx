@@ -6,6 +6,7 @@ import DetailsBar from "../components/detailsBar/DetailsBar";
 import Profile from "../components/profile/Profile";
 import SearchBar from "../components/searchBar/SearchBar";
 import Sidebar from "../components/sidebar/Sidebar";
+import TitleBar from "../components/titleBar/TitleBar";
 
 const SearchPage: React.FC<{}> = props => {
     const hardcodeApartments = [
@@ -19,27 +20,19 @@ const SearchPage: React.FC<{}> = props => {
             gymUrl: "www.goldsgym.com",
         },
     ];
+    console.log("22rm");
 
     return (
         <PageBase>
             <div>
                 {/* Results */}
                 <SearchBar />
-                <div>
-                    <div>
-                        <div>Apartment Name</div>
-                        <div>Apartment Address</div>
-                        <div>Nearest Gym</div>
-                        <div>Distance</div>
-                        <div>Walk Duration</div>
-                        <div>Apartment Link</div>
-                    </div>
-                </div>
+                <TitleBar />
                 <div>
                     {Array(20)
                         .fill(hardcodeApartments[0])
-                        .map(ap => (
-                            <DetailsBar {...ap} />
+                        .map((ap, i) => (
+                            <DetailsBar key={i} {...ap} />
                         ))}
                 </div>
                 <div>

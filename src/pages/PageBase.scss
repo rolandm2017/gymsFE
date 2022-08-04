@@ -1,4 +1,4 @@
-@use "../main.scss";
+@import "../main.scss";
 
 .debug1 {
     border: 2px solid black;
@@ -10,4 +10,9 @@
 
 .debug3 {
     border: 3px solid greenyellow;
+}
+
+.pageBg {
+    // background-color: black;
+    background-color: $page-bg;
 }

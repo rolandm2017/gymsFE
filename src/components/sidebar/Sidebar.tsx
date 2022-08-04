@@ -35,7 +35,7 @@ const Sidebar: React.FC<SidebarProps> = ({ layoutType }) => {
     const nagivate = useNavigate();
 
     return (
-        <div className="h-full">
+        <div className="h-full whiteBg">
             <div className="h-full flex flex-col justify-between">
                 <div>
                     {layoutType === "desktop" ? (
@@ -94,7 +94,14 @@ const Sidebar: React.FC<SidebarProps> = ({ layoutType }) => {
                         text={"Settings"}
                         active={activeItem === 5}
                     />
-                    <div>Toggle Sidebar</div>
+                    <MenuItem
+                        closeSidebar={() => {
+                            // todo: close sidebar
+                        }}
+                        isCloseButton={true}
+                        text={"Toggle sidebar"}
+                        active={activeItem === 6}
+                    />
                 </div>
             </div>
         </div>

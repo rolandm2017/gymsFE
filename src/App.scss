@@ -7,17 +7,30 @@ body,
     height: 100%;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span {
+    letter-spacing: $letter-spacing;
+}
+
+h5 {
+    font-family: $poppins;
+    color: $neutral-blue;
+    font-size: $font13;
+    font-weight: $wt500;
+}
+
 .App {
     text-align: center;
 }
 
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+.whiteBg {
+    background-color: $white;
 }
 
 .blueText {

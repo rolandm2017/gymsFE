@@ -1,16 +1,16 @@
 import React from "react";
 
-function Input() {
+interface InputProps {
+    type: "text" | "number";
+    placeholder: string;
+}
+
+const Input: React.FC<InputProps> = ({ type, placeholder }) => {
     return (
-        <div>
-            <div>
-                <input>
-                    <img />
-                    <span>Text</span>
-                </input>
-            </div>
+        <div className="debug2 w-1/5">
+            <input className="debug1 w-full" type={type} placeholder={placeholder}></input>
         </div>
     );
-}
+};
 
 export default Input;
