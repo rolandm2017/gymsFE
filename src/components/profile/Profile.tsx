@@ -4,13 +4,19 @@ import ProfilePic from "./ProfilePic";
 
 function Profile() {
     return (
-        <div>
-            <div>
+        <div className="pr-10 debug3">
+            <div className="flex">
                 <div>
-                    <ProfilePic />
+                    {/* // for notifications */}
+                    <img alt="bell" />
                 </div>
-                <div>
-                    <NameAndEmail />
+                <div className="">
+                    <div>
+                        <ProfilePic />
+                    </div>
+                    <div>
+                        <NameAndEmail />
+                    </div>
                 </div>
             </div>
         </div>

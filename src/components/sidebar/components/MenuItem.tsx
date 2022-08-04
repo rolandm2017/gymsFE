@@ -1,7 +1,11 @@
 import React from "react";
 
-function MenuItem() {
-    return <div></div>;
+interface MenuItemProps {
+    text: string;
 }
+
+const MenuItem: React.FC<MenuItemProps> = props => {
+    return <div>{props.text}</div>;
+};
 
 export default MenuItem;
