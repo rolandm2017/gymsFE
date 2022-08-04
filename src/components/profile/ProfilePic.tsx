@@ -5,7 +5,7 @@ function ProfilePic() {
     return (
         <div>
             <div>
-                <img src={Cat} alt="profile pic" />
+                <img className="h-10" src={Cat} alt="profile pic" />
             </div>
         </div>
     );

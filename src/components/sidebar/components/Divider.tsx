@@ -1,7 +1,7 @@
 import React from "react";
 
 function Divider() {
-    return <div></div>;
+    return <hr className="divider" />;
 }
 
 export default Divider;

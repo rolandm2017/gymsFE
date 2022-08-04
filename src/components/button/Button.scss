@@ -1,12 +1,12 @@
 @import "../../main.scss";
 
 .transparentBg {
-    border: 1px solid $blue-primary;
-    color: $blue-primary;
+    border: 1px solid $primary-blue;
+    color: $primary-blue;
 }
 
 .opaqueBg {
-    background-color: $blue-primary;
+    background-color: $primary-blue;
     color: $white;
 }
 

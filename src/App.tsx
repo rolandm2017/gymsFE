@@ -1,12 +1,12 @@
 import React from "react";
-import "./App.css";
+import "./App.scss";
 // import ApartmentCard from "./components/ApartmentCard";
 import PageRoutes from "./router/Router";
 
 function App() {
     return (
         <div className="App">
-            <div>
+            <div className="h-full">
                 <PageRoutes />
             </div>
         </div>

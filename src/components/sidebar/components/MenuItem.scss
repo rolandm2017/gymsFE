@@ -1,0 +1,17 @@
+@import "../../../main.scss";
+
+.activeItem {
+    background-color: $soft-blue;
+}
+
+.menuItemText {
+    font-weight: $wt500;
+    font-size: $font13;
+    letter-spacing: $letter-spacing;
+}
+
+.tempReplacementForIcon {
+    height: 20px;
+    width: 20px;
+    background-color: black;
+}
