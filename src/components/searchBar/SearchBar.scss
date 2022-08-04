@@ -1,7 +1,17 @@
 @import "../../main.scss";
 
+// .arrangeForMobile {
+//     flex-direction: row;
+// }
+
+// @media (max-width: $breakpoint-large) {
+//     .arrangeForMobile {
+//         flex-direction: column;
+//     }
+// }
+
 .inputContainerLeft {
-    width: 408px;
+    max-width: 408px;
 }
 
 .inputContainerRight {

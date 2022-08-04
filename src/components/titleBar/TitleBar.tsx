@@ -4,7 +4,7 @@ const TitleBar: React.FC<{}> = () => {
     return (
         <div className="h-12 mt-5 flex items-center bg-white">
             <div className="w-full px-7 flex justify-between items-center">
-                <div className="w-1/6 flex justify-start">
+                <div className="w-1/6 hidden xl:flex justify-start">
                     <h5>Apartment Name</h5>
                 </div>
                 <div className="w-1/6 flex justify-start">
@@ -13,7 +13,7 @@ const TitleBar: React.FC<{}> = () => {
                 <div className="w-1/6 flex justify-start">
                     <h5>Nearest Gym</h5>
                 </div>
-                <div className="w-1/6 flex justify-start">
+                <div className="w-1/6 hidden xl:flex justify-start">
                     <h5>Distance</h5>
                 </div>
                 <div className="w-1/6 flex justify-start">

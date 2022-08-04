@@ -27,7 +27,7 @@ const SearchPage: React.FC<{}> = props => {
 
     return (
         <PageBase>
-            <div>
+            <div id="searchPage" className="debug6">
                 {/* Results */}
                 <SearchBar />
                 <TitleBar />
