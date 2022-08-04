@@ -5,7 +5,7 @@ import "./MenuItem.scss";
 interface MenuItemProps {
     text: string;
     active: boolean;
-    changeActiveItem: (e: any) => void;
+    changeActiveItem: () => void;
 }
 
 const MenuItem: React.FC<MenuItemProps> = ({ text, active, changeActiveItem }) => {

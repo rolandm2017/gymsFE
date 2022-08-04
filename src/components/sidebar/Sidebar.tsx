@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import Profile from "../profile/Profile";
 import Divider from "./components/Divider";
@@ -14,7 +14,23 @@ interface SidebarProps {
 // TODO: Convert layoutType to a css media query. Have display: none; and display: flex in media queries.
 
 const Sidebar: React.FC<SidebarProps> = ({ layoutType }) => {
-    const [activeItem, setActiveItem] = useState(0);
+    const location = useLocation();
+
+    function getLocation(path: string) {
+        if (path === "/dashboard") {
+            return 1;
+        } else if (path === "/search") {
+            return 2;
+        } else if (path === "/map") {
+            return 3;
+        } else if (path === "/feedback") {
+            return 4;
+        } else {
+            throw new Error("Unsupported value for path");
+        }
+    }
+
+    const [activeItem, setActiveItem] = useState(getLocation(location.pathname));
 
     const nagivate = useNavigate();
 
@@ -32,10 +48,10 @@ const Sidebar: React.FC<SidebarProps> = ({ layoutType }) => {
                             <Profile />
                         </div>
                     )}
-                    <div className="">
+                    <div className="pb-11">
                         <MenuItem
-                            changeActiveItem={e => {
-                                console.log(1, e.target);
+                            changeActiveItem={() => {
+                                console.log(1);
                                 nagivate("/dashboard");
                                 setActiveItem(1);
                             }}
