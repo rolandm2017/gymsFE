@@ -6,9 +6,7 @@ import PageRoutes from "./router/Router";
 function App() {
     return (
         <div className="App">
-            <div className="h-full">
-                <PageRoutes />
-            </div>
+            <PageRoutes />
         </div>
     );
 }
