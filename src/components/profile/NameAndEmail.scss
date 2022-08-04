@@ -1,0 +1,15 @@
+@import "../../main.scss";
+
+.nameText {
+    font-weight: $wt500;
+    font-size: $font11;
+    line-height: 17px;
+    color: $off-black;
+}
+
+.emailText {
+    font-weight: $wt500;
+    font-size: 9px;
+    line-height: 13px;
+    color: $gray;
+}
