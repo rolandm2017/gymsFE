@@ -10,7 +10,11 @@ interface InputProps {
 const Input: React.FC<InputProps> = ({ type, placeholder }) => {
     return (
         <div className="">
-            <input className={`debug1 inputText w-full ${type === "text" ? "w-48" : "w-40"}`} type={type} placeholder={placeholder}></input>
+            <input
+                className={`inputText w-full ${type === "text" ? "w-48 addrIcon" : "w-40 distanceIcon"}`}
+                type={type}
+                placeholder={placeholder}
+            ></input>
         </div>
     );
 };

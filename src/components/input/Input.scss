@@ -3,7 +3,21 @@
 .inputText {
     height: 29px;
     // width: 244px;
-    font-size: $font19;
+    font-size: $font16;
     font-weight: $wt400;
+    line-height: 24px;
     letter-spacing: $letter-spacing;
+    border-bottom: 1px solid $divider-grey;
+}
+
+.addrIcon {
+    padding-right: 25px;
+    background: url("../../assets/cat.jpeg") no-repeat right;
+    background-size: 20px;
+}
+
+.distanceIcon {
+    padding-right: 25px;
+    background: url("../../assets/cat.jpeg") no-repeat right;
+    background-size: 20px;
 }
