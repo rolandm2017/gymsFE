@@ -14,7 +14,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ text, active, isCloseButton, change
     return (
         <div onClick={changeActiveItem} className={`menuItemContainer flex flex-start px-6 py-4 ${active ? "activeItem" : null}`}>
             <div className="tempReplacementForIcon mr-2"></div>
-            <p className={`poppins "menuItemText" ${isCloseButton ? "closeSidebarColor" : null}`}>{text}</p>
+            <p className={`menuItemText ${isCloseButton ? "closeSidebarColor" : null}`}>{text}</p>
         </div>
     );
 };

@@ -22,7 +22,7 @@ const PageBase: React.FC<PageProps> = props => {
             <div id="content" className="w-full flex flex-col">
                 {/* <div className="debug1 w-full flex flex-col"> */}
                 <ProfileBar layoutType={layoutType} />
-                <div className="debug3 pl-9 pt-6">{props.children}</div>
+                <div className="debug3 px-9 py-6">{props.children}</div>
             </div>
         </div>
     );

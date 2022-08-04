@@ -2,8 +2,8 @@ import React from "react";
 
 const TitleBar: React.FC<{}> = () => {
     return (
-        <div className="debug1 h-12">
-            <div className="flex">
+        <div className="debug1 h-12 flex items-center">
+            <div className="w-full px-7 flex justify-between items-center">
                 <div>
                     <h5>Apartment Name</h5>
                 </div>

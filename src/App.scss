@@ -16,6 +16,7 @@ h6,
 p,
 span {
     letter-spacing: $letter-spacing;
+    font-family: $poppins;
 }
 
 h5 {
@@ -29,12 +30,14 @@ h5 {
     text-align: center;
 }
 
-.whiteBg {
-    background-color: $white;
-}
+// whiteBg => bg-white
 
 .blueText {
     color: $primary-blue;
+}
+
+.grayText {
+    color: $gray;
 }
 
 .poppins {

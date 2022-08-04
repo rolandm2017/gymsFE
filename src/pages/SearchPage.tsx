@@ -8,9 +8,12 @@ import SearchBar from "../components/searchBar/SearchBar";
 import Sidebar from "../components/sidebar/Sidebar";
 import TitleBar from "../components/titleBar/TitleBar";
 
+import Cat from "../assets/cat.jpeg";
+
 const SearchPage: React.FC<{}> = props => {
     const hardcodeApartments = [
         {
+            pic: Cat,
             name: "Apartment 1",
             addr: "123 Fake St",
             gym: "Gold's Gym",
@@ -28,18 +31,22 @@ const SearchPage: React.FC<{}> = props => {
                 {/* Results */}
                 <SearchBar />
                 <TitleBar />
-                <div>
+                <div className="pb-6">
                     {Array(20)
                         .fill(hardcodeApartments[0])
                         .map((ap, i) => (
                             <DetailsBar key={i} {...ap} />
                         ))}
                 </div>
-                <div>
+                <div className="flex justify-between">
                     <div>Page 1 of 10</div>
-                    <div>
-                        <Button type={"Transparent"} text={"Back"} />
-                        <Button type={"Opaque"} text={"Next"} />
+                    <div className="flex">
+                        <div className="pr-5">
+                            <Button type={"Transparent"} text={"Back"} />
+                        </div>
+                        <div>
+                            <Button type={"Opaque"} text={"Next"} />
+                        </div>
                     </div>
                 </div>
             </div>

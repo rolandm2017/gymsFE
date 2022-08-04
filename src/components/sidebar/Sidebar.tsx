@@ -35,7 +35,7 @@ const Sidebar: React.FC<SidebarProps> = ({ layoutType }) => {
     const nagivate = useNavigate();
 
     return (
-        <div className="h-full whiteBg">
+        <div className="h-full bg-white">
             <div className="h-full flex flex-col justify-between">
                 <div>
                     {layoutType === "desktop" ? (

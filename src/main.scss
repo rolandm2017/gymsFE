@@ -9,8 +9,9 @@ $orange: #f7685b;
 $white: #ffffff;
 $divider-grey: #e5e5e5;
 $action-grey: #90a0b7;
-$page-bg: #f5f6f8;
+$page-bg: #eceff3; // was #F5F6F8 in the Figma, but contrast was a bit too low;
 
+$border-rad-tiny: 2px;
 $border-rad-sml: 4px; // 3.55 px in Figma
 $border-rad-md: 12px;
 $border-rad-lg: 25px;
@@ -20,6 +21,7 @@ $wt600: 600;
 $wt500: 500;
 $wt400: 400;
 $font19: 19px;
+$font15: 15px;
 $font13: 13px;
 $font12: 12px;
 $font11: 11px;
