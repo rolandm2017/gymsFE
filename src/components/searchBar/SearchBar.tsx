@@ -6,13 +6,13 @@ import "./SearchBar.scss";
 
 const SearchBar: React.FC<{}> = () => {
     return (
-        <div className="searchBarContainer w-full h-24 debug1">
+        <div className="searchBarContainer w-full h-24 px-6 flex items-center debug1">
             <div className="flex">
-                <div className="flex">
+                <div className="inputContainerLeft flex debug4">
                     <Input type="text" placeholder={"Address"} />
                     <Input type="text" placeholder={"City"} />
                 </div>
-                <div className="flex">
+                <div className="inputContainerRight flex debug5">
                     <Input type="text" placeholder={"Min Distance"} />
                     <Input type="text" placeholder={"Max Distance"} />
                     <Button type="Opaque" text="Search" />

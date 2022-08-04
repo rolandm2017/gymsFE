@@ -1,8 +1,8 @@
-@use "../../main.scss";
+@import "../../main.scss";
 
 .inputText {
     height: 29px;
-    width: 244px;
+    // width: 244px;
     font-size: $font19;
     font-weight: $wt400;
     letter-spacing: $letter-spacing;

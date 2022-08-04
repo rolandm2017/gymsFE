@@ -1,5 +1,13 @@
 @import "../../main.scss";
 
+.inputContainerLeft {
+    width: 408px;
+}
+
+.inputContainerRight {
+    width: 368px;
+}
+
 .searchBarContainer {
     border-radius: $border-rad-lg;
     background-color: $white;
