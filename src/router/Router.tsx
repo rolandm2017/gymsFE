@@ -9,7 +9,10 @@ import DashboardPage from "../pages/DashboardPage";
 const PageRoutes = () => {
     return (
         <Routes>
-            <Route path="/" element={<DashboardPage />} />
+            {/* // TODO: If logged in, / redirects to /dashboard */}
+            {/* // todo: if logged out, / is a landing page */}
+            {/* // TODO: /login route, /signup route */}
+            <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/search" element={<SearchPage />} />
             <Route path="/map" element={<MapPage />} />
             <Route path="/feedback" element={<FeedbackPage />} />

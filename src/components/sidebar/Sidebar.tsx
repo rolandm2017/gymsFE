@@ -1,4 +1,6 @@
 import React, { useCallback, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import Profile from "../profile/Profile";
 import Divider from "./components/Divider";
 import MenuItem from "./components/MenuItem";
@@ -10,10 +12,11 @@ interface SidebarProps {
 }
 
 // TODO: Convert layoutType to a css media query. Have display: none; and display: flex in media queries.
-// TODO: add .activeItem menu item class on click (and remove it from the others)
 
 const Sidebar: React.FC<SidebarProps> = ({ layoutType }) => {
     const [activeItem, setActiveItem] = useState(0);
+
+    const nagivate = useNavigate();
 
     return (
         <div className="h-full">
@@ -31,7 +34,9 @@ const Sidebar: React.FC<SidebarProps> = ({ layoutType }) => {
                     )}
                     <div className="">
                         <MenuItem
-                            changeActiveItem={() => {
+                            changeActiveItem={e => {
+                                console.log(1, e.target);
+                                nagivate("/dashboard");
                                 setActiveItem(1);
                             }}
                             text={"Dashboard"}
@@ -39,6 +44,8 @@ const Sidebar: React.FC<SidebarProps> = ({ layoutType }) => {
                         />
                         <MenuItem
                             changeActiveItem={() => {
+                                console.log(2);
+                                nagivate("/search");
                                 setActiveItem(2);
                             }}
                             text={"Apartment Search"}
@@ -46,6 +53,7 @@ const Sidebar: React.FC<SidebarProps> = ({ layoutType }) => {
                         />
                         <MenuItem
                             changeActiveItem={() => {
+                                console.log(3);
                                 setActiveItem(3);
                             }}
                             text={"Map"}
@@ -53,6 +61,7 @@ const Sidebar: React.FC<SidebarProps> = ({ layoutType }) => {
                         />
                         <MenuItem
                             changeActiveItem={() => {
+                                console.log(4);
                                 setActiveItem(4);
                             }}
                             text={"Feedback"}
