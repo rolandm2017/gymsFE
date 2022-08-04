@@ -1,5 +1,6 @@
 import React from "react";
 
+import "./DetailsBar.scss";
 interface DeailsBarProps {
     pic: any; // todo: how to say itll be a jpg/png?
     name: string;
@@ -21,19 +22,19 @@ const DetailsBar: React.FC<DeailsBarProps> = ({ pic, name, addr, gym, distance, 
                 <p className="blueText">{name}</p>
             </div>
             <div className="w-1/6 flex items-center">
-                <p className="grayText">{addr}</p>
+                <p className="grayText detailsBarText">{addr}</p>
             </div>
             <div className="w-1/6 flex items-center">
-                <p className="grayText">{gym}</p>
+                <p className="grayText detailsBarText">{gym}</p>
             </div>
             <div className="w-1/6 flex items-center">
-                <p className="grayText">{distance}</p>
+                <p className="grayText detailsBarText">{distance}</p>
             </div>
             <div className="w-1/6 flex items-center">
-                <p className="grayText">{time}</p>
+                <p className="grayText detailsBarText">{time}</p>
             </div>
             <div className="w-1/6 flex items-center">
-                <p className="grayText">{apUrl}</p>
+                <p className="grayText detailsBarText">{apUrl}</p>
             </div>
         </div>
     );

@@ -1,7 +1,11 @@
 @import "../../main.scss";
 
+.detailsBarApartmentName {
+    font-size: $font15;
+}
+
 .detailsBarText {
     font-weight: $wt500;
-    font-size: $font15;
+    font-size: $font13;
     line-height: 22px;
 }
