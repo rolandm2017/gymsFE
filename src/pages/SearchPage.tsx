@@ -23,7 +23,7 @@ const SearchPage: React.FC<{}> = props => {
             gymUrl: "www.goldsgym.com",
         },
     ];
-    console.log("22rm");
+    // console.log(isOpen, "22rm");
 
     return (
         <PageBase>

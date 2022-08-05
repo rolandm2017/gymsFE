@@ -28,10 +28,10 @@ const DetailsBar: React.FC<DeailsBarProps> = ({ pic, name, addr, gym, distance, 
             </div>
             {/* </div> */}
             {/* <div className="w-1/3 flex"> */}
-            <div className="w-1/6 flex items-center">
+            <div className="w-1/6 hidden sm:flex items-center">
                 <p className="grayText detailsBarText">{gym}</p>
             </div>
-            <div className=" w-1/6 hidden xl:flex items-center">
+            <div className="w-1/6 hidden xl:flex items-center">
                 <p className="grayText detailsBarText">{distance}</p>
             </div>
             {/* </div> */}

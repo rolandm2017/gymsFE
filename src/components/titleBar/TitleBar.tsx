@@ -10,7 +10,7 @@ const TitleBar: React.FC<{}> = () => {
                 <div className="w-1/6 flex justify-start">
                     <h5>Apartment Address</h5>
                 </div>
-                <div className="w-1/6 flex justify-start">
+                <div className="w-1/6 hidden sm:flex flex justify-start">
                     <h5>Nearest Gym</h5>
                 </div>
                 <div className="w-1/6 hidden xl:flex justify-start">

@@ -8,12 +8,14 @@ import MenuItem from "./components/MenuItem";
 import "./Sidebar.scss";
 
 interface SidebarProps {
+    isOpen: boolean;
+    toggleIsOpen: Function;
     layoutType: string;
 }
 
 // TODO: Convert layoutType to a css media query. Have display: none; and display: flex in media queries.
 
-const Sidebar: React.FC<SidebarProps> = ({ layoutType }) => {
+const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleIsOpen, layoutType }) => {
     const location = useLocation();
 
     function getLocation(path: string) {
@@ -35,7 +37,7 @@ const Sidebar: React.FC<SidebarProps> = ({ layoutType }) => {
     const nagivate = useNavigate();
 
     return (
-        <div className="h-full bg-white">
+        <div className="closedSidebar h-full bg-white">
             <div className="h-full flex flex-col justify-between">
                 <div>
                     {layoutType === "desktop" ? (
@@ -89,6 +91,7 @@ const Sidebar: React.FC<SidebarProps> = ({ layoutType }) => {
                 <div className="">
                     <MenuItem
                         changeActiveItem={() => {
+                            console.log("94rm");
                             setActiveItem(5);
                         }}
                         text={"Settings"}
@@ -97,6 +100,8 @@ const Sidebar: React.FC<SidebarProps> = ({ layoutType }) => {
                     <MenuItem
                         closeSidebar={() => {
                             // todo: close sidebar
+                            console.log(isOpen, "102rm");
+                            toggleIsOpen(!isOpen);
                         }}
                         isCloseButton={true}
                         text={"Toggle sidebar"}
