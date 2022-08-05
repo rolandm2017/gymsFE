@@ -15,7 +15,7 @@ interface DeailsBarProps {
 //TODO: between 1200 and 390 px, show less details: only addr, gymName, walkTime, link (4 values, not 6)
 const DetailsBar: React.FC<DeailsBarProps> = ({ pic, name, addr, gym, distance, time, apUrl, gymUrl }) => {
     return (
-        <div className="w-auto sm:w-full flex justify-between bg-white h-9 mt-2.5 px-3 sm:px-7">
+        <div className="w-auto sm:w-full flex justify-between bg-white h-9 mt-2.5 px-5 sm:px-7">
             {/* <div className="w-1/3 flex"> */}
             <div className="w-1/6 hidden xl:flex items-center">
                 <div>
@@ -23,7 +23,7 @@ const DetailsBar: React.FC<DeailsBarProps> = ({ pic, name, addr, gym, distance, 
                 </div>
                 <p className="blueText">{name}</p>
             </div>
-            <div className="w-1/6 flex items-center">
+            <div className="w-1/3 sm:w-1/6 mr-2 sm:mr-0 flex items-center">
                 <p className="grayText detailsBarText">{addr}</p>
             </div>
             {/* </div> */}
@@ -36,10 +36,10 @@ const DetailsBar: React.FC<DeailsBarProps> = ({ pic, name, addr, gym, distance, 
             </div>
             {/* </div> */}
             {/* <div className="w-1/3 flex"> */}
-            <div className="w-1/6 flex items-center">
+            <div className="w-1/3 sm:w-1/6 mr-2 sm:mr-0 flex items-center">
                 <p className="grayText detailsBarText">{time}</p>
             </div>
-            <div className="w-1/6 flex items-center">
+            <div className="w-1/3 sm:w-1/6 mr-2 sm:mr-0 flex items-center">
                 <p className="w-full grayText detailsBarText truncate">{apUrl}</p>
             </div>
             {/* </div> */}
