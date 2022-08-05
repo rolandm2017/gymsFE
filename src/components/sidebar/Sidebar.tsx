@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Navigate } from "react-router-dom";
 
 import Profile from "../profile/Profile";
 import Divider from "./components/Divider";
@@ -34,10 +34,17 @@ const Sidebar: React.FC<SidebarProps> = ({ layoutType, isOpen, toggleIsOpen }) =
 
     const [activeItem, setActiveItem] = useState(getLocation(location.pathname));
 
-    const nagivate = useNavigate();
+    const navigate = useNavigate();
 
     return (
-        <div className="closedSidebar h-full bg-white">
+        <div
+            onClick={() => {
+                if (!isOpen) {
+                    toggleIsOpen(true);
+                }
+            }}
+            className="closedSidebar h-full bg-white"
+        >
             <div className="h-full flex flex-col justify-between">
                 <div>
                     {layoutType === "desktop" ? (
@@ -54,7 +61,7 @@ const Sidebar: React.FC<SidebarProps> = ({ layoutType, isOpen, toggleIsOpen }) =
                         <MenuItem
                             changeActiveItem={() => {
                                 console.log(1);
-                                nagivate("/dashboard");
+                                navigate("/dashboard");
                                 setActiveItem(1);
                             }}
                             text={"Dashboard"}
@@ -64,7 +71,7 @@ const Sidebar: React.FC<SidebarProps> = ({ layoutType, isOpen, toggleIsOpen }) =
                         <MenuItem
                             changeActiveItem={() => {
                                 console.log(2);
-                                nagivate("/search");
+                                navigate("/search");
                                 setActiveItem(2);
                             }}
                             text={"Apartment Search"}
@@ -74,6 +81,7 @@ const Sidebar: React.FC<SidebarProps> = ({ layoutType, isOpen, toggleIsOpen }) =
                         <MenuItem
                             changeActiveItem={() => {
                                 console.log(3);
+                                navigate("/map");
                                 setActiveItem(3);
                             }}
                             text={"Map"}
@@ -83,6 +91,7 @@ const Sidebar: React.FC<SidebarProps> = ({ layoutType, isOpen, toggleIsOpen }) =
                         <MenuItem
                             changeActiveItem={() => {
                                 console.log(4);
+                                navigate("/feedback");
                                 setActiveItem(4);
                             }}
                             text={"Feedback"}
