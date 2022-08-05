@@ -19,7 +19,8 @@ const SearchPage: React.FC<{}> = props => {
             gym: "Gold's Gym",
             distance: "1 km",
             time: "10 min",
-            apUrl: "https://google.com",
+            // apUrl: "https://google.com",
+            apUrl: "https",
             gymUrl: "www.goldsgym.com",
         },
     ];
@@ -41,7 +42,7 @@ const SearchPage: React.FC<{}> = props => {
                 <div className="flex justify-between">
                     <div>Page 1 of 10</div>
                     <div className="flex">
-                        <div className="pr-5">
+                        <div className="pr-2.5 sm:pr-5">
                             <Button type={"Transparent"} text={"Back"} />
                         </div>
                         <div>
