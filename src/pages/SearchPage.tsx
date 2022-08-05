@@ -10,25 +10,14 @@ import TitleBar from "../components/titleBar/TitleBar";
 
 import Cat from "../assets/cat.jpeg";
 
+import { hardcodeApartments } from "../data/apartments";
+
 const SearchPage: React.FC<{}> = props => {
-    const hardcodeApartments = [
-        {
-            pic: Cat,
-            name: "Apartment 1",
-            addr: "123 Fake St",
-            gym: "Gold's Gym",
-            distance: "1 km",
-            time: "10 min",
-            // apUrl: "https://google.com",
-            apUrl: "https",
-            gymUrl: "www.goldsgym.com",
-        },
-    ];
     // console.log(isOpen, "22rm");
 
     return (
         <PageBase>
-            <div id="searchPage" className="debug6">
+            <div id="searchPage">
                 {/* Results */}
                 <SearchBar />
                 <TitleBar />

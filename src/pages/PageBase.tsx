@@ -27,7 +27,7 @@ const PageBase: React.FC<PageProps> = props => {
     return (
         <div id="pageBase" className="h-full w-full flex pageBg">
             <div id="sidebar" className="h-full flex">
-                <div className={`${isOpen ? "w-64" : "w-16"} debug2`}>
+                <div className={`${isOpen ? "w-64" : "w-16"}`}>
                     {" "}
                     <Sidebar layoutType={layoutType} isOpen={isOpen} toggleIsOpen={setIsOpen} />{" "}
                 </div>
@@ -35,7 +35,7 @@ const PageBase: React.FC<PageProps> = props => {
             <div id="content" className="w-full flex flex-col">
                 {/* <div className="debug1 w-full flex flex-col"> */}
                 <ProfileBar layoutType={layoutType} />
-                <div className={`debug3 pl-1.5 pt-2.5 sm:px-9 sm:py-6 ${isSearchPage ? "overflow-y-scroll" : ""}`}>{props.children}</div>
+                <div className={`pl-1.5 pt-2.5 sm:px-9 sm:py-6 ${isSearchPage ? "overflow-y-scroll" : ""}`}>{props.children}</div>
             </div>
         </div>
     );

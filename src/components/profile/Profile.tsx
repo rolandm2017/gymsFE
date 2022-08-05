@@ -6,7 +6,7 @@ import Cat from "../../assets/cat.jpeg";
 
 function Profile() {
     return (
-        <div id="profile" className="pr-10 debug3">
+        <div id="profile" className="pr-10">
             <div className="flex">
                 <div className="flex justify-center items-center px-7">
                     {/* // for notifications */}

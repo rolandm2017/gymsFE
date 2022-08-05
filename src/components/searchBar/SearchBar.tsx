@@ -6,8 +6,8 @@ import "./SearchBar.scss";
 
 const SearchBar: React.FC<{}> = () => {
     return (
-        <div className="debug5 searchBarContainer h-24 px-6 flex items-center">
-            <div className="debug4 w-auto flex justify-between">
+        <div className="searchBarContainer h-24 px-6 flex items-center">
+            <div className="w-auto flex justify-between">
                 <div className="inputContainerLeft flex flex-col xl:flex-row">
                     <div className="pr-9">
                         <Input type="text" placeholder={"Address"} />
