@@ -8,14 +8,14 @@ import MenuItem from "./components/MenuItem";
 import "./Sidebar.scss";
 
 interface SidebarProps {
+    layoutType: string;
     isOpen: boolean;
     toggleIsOpen: Function;
-    layoutType: string;
 }
 
 // TODO: Convert layoutType to a css media query. Have display: none; and display: flex in media queries.
 
-const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleIsOpen, layoutType }) => {
+const Sidebar: React.FC<SidebarProps> = ({ layoutType, isOpen, toggleIsOpen }) => {
     const location = useLocation();
 
     function getLocation(path: string) {
@@ -41,7 +41,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleIsOpen, layoutType }) =
             <div className="h-full flex flex-col justify-between">
                 <div>
                     {layoutType === "desktop" ? (
-                        <div className="pl-6 pt-4 pb-8 text-left">
+                        <div className={`${isOpen ? "pl-6" : "flex justify-center"} pt-4 pb-8 text-left`}>
                             <h3 className="blueText logoText">Logo</h3>
                         </div>
                     ) : null}
@@ -59,6 +59,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleIsOpen, layoutType }) =
                             }}
                             text={"Dashboard"}
                             active={activeItem === 1}
+                            isOpen={isOpen}
                         />
                         <MenuItem
                             changeActiveItem={() => {
@@ -68,6 +69,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleIsOpen, layoutType }) =
                             }}
                             text={"Apartment Search"}
                             active={activeItem === 2}
+                            isOpen={isOpen}
                         />
                         <MenuItem
                             changeActiveItem={() => {
@@ -76,6 +78,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleIsOpen, layoutType }) =
                             }}
                             text={"Map"}
                             active={activeItem === 3}
+                            isOpen={isOpen}
                         />
                         <MenuItem
                             changeActiveItem={() => {
@@ -84,6 +87,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleIsOpen, layoutType }) =
                             }}
                             text={"Feedback"}
                             active={activeItem === 4}
+                            isOpen={isOpen}
                         />
                     </div>
                     <Divider />
@@ -96,6 +100,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleIsOpen, layoutType }) =
                         }}
                         text={"Settings"}
                         active={activeItem === 5}
+                        isOpen={isOpen}
                     />
                     <MenuItem
                         closeSidebar={() => {
@@ -106,6 +111,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleIsOpen, layoutType }) =
                         isCloseButton={true}
                         text={"Toggle sidebar"}
                         active={activeItem === 6}
+                        isOpen={isOpen}
                     />
                 </div>
             </div>
