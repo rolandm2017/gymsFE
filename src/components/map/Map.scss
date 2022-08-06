@@ -1,0 +1,15 @@
+@import "../../main.scss";
+
+.mapHeight {
+    height: calc((($apartment-card-height + 8px) * 9) + $apartment-card-height);
+    // 8 is the margin on the bottom. We add it in 9 times. The map is now aligned w/ bottom of the apartmentCards
+}
+
+// probably not the best way to solve this.
+.mapWidthNoSidebar {
+    width: calc();
+}
+
+.mapWidthWithSidebar {
+    width: calc();
+}

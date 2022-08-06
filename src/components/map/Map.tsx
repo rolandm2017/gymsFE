@@ -1,12 +1,14 @@
 import React from "react";
 import MapBox, { GeolocateControl } from "react-map-gl";
 
+import "./Map.scss";
+
 const MAPBOX_TOKEN: string = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN || "";
 console.log(MAPBOX_TOKEN, "5rm");
 
 const Map: React.FC<{}> = () => {
     return (
-        <div className="w-full mr-3">
+        <div className="w-full mapHeight mapWidth mr-3">
             <MapBox
                 mapboxAccessToken={MAPBOX_TOKEN}
                 initialViewState={{
