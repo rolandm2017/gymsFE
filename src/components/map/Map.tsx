@@ -6,16 +6,16 @@ console.log(MAPBOX_TOKEN, "5rm");
 
 const Map: React.FC<{}> = () => {
     return (
-        <div>
-            FOO
+        <div className="w-full mr-3">
             <MapBox
                 mapboxAccessToken={MAPBOX_TOKEN}
                 initialViewState={{
-                    longitude: -100,
-                    latitude: 40,
+                    longitude: -73,
+                    latitude: 45,
                     zoom: 3.5,
                 }}
                 mapStyle="mapbox://styles/mapbox/streets-v11"
+                attributionControl={false}
             >
                 <GeolocateControl positionOptions={{ enableHighAccuracy: true }} trackUserLocation={true} />
             </MapBox>

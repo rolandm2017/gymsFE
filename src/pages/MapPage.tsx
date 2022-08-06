@@ -14,25 +14,30 @@ import { hardcodeApartments } from "../data/apartments";
 const MapPage: React.FC<{}> = props => {
     return (
         <PageBase>
-            <div>
+            {/* // inline block maybe -- todo: remove this comment */}
+            <div className="">
                 {/* Results */}
                 <SearchBar />
-                <div className="flex flex-col sm:flex-row">
+                <div className="mt-5 flex flex-col sm:flex-row">
                     <Map />
-                    <div>
-                        {Array(20)
+                    <div className="inline-block">
+                        {Array(10)
                             .fill(hardcodeApartments[0])
-                            .map(ap => (
-                                <ApartmentCard {...ap} />
+                            .map((ap, i) => (
+                                <ApartmentCard key={i} {...ap} />
                             ))}
                     </div>
                 </div>
 
-                <div>
+                <div className="flex justify-between items-center">
                     <div>20 of 200</div>
-                    <div>
-                        <Button type={"Transparent"} text={"Back"} />
-                        <Button type={"Opaque"} text={"Next"} />
+                    <div className="flex">
+                        <div className="mr-4">
+                            <Button type={"Transparent"} text={"Back"} />
+                        </div>
+                        <div>
+                            <Button type={"Opaque"} text={"Next"} />
+                        </div>
                     </div>
                 </div>
             </div>

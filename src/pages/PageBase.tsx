@@ -21,7 +21,7 @@ const PageBase: React.FC<PageProps> = props => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
     const location = useLocation();
-    const isSearchPage = location.pathname === "/search";
+    const addScrollBar = location.pathname === "/search" || location.pathname === "/map";
     console.log(location.pathname, "25rm");
 
     return (
@@ -35,7 +35,7 @@ const PageBase: React.FC<PageProps> = props => {
             <div id="content" className="w-full flex flex-col">
                 {/* <div className="debug1 w-full flex flex-col"> */}
                 <ProfileBar layoutType={layoutType} />
-                <div className={`pl-1.5 pt-2.5 sm:px-9 sm:py-6 ${isSearchPage ? "overflow-y-scroll" : ""}`}>{props.children}</div>
+                <div className={`pl-1.5 pt-2.5 sm:px-9 sm:py-6 ${addScrollBar ? "overflow-y-scroll" : ""}`}>{props.children}</div>
             </div>
         </div>
     );
