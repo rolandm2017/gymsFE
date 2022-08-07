@@ -15,11 +15,11 @@ const FeedbackPage: React.FC<{}> = props => {
         <PageBase>
             <div className="flex flex-col">
                 <div className="w-full flex">
-                    <div className="ratingContainer mr-2 flex flex-col bg-white">
+                    <div className="ratingContainer mr-2 pt-4 flex flex-col bg-white">
                         <Rating text="This helped me start or keep up a gym habit." />
                         <Rating text="I was able to find several apartments near a gym." />
                         <Rating text="I would recommend this service to a friend." />
-                        <Testimonial text="Write a review for the site that we can display." />
+                        <Testimonial text="Leave a review for us!" />
                     </div>
                     <div className="customerSupportContainer bg-white debug5">
                         <CustomerSupport />

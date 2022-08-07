@@ -6,11 +6,11 @@ interface TestimonialProps {
 
 function Testimonial({ text }: TestimonialProps) {
     return (
-        <div>
+        <div className="px-8 mt-3">
             <div>
-                <h3>{text}</h3>
+                <h3 className="flex justify-start">{text}</h3>
             </div>
-            <div className="px-12">
+            <div className="">
                 <textarea className="w-full debug5" />
             </div>
         </div>
