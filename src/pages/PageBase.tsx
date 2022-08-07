@@ -34,7 +34,7 @@ const PageBase: React.FC<PageProps> = props => {
             <div id="content" className="w-full flex flex-col">
                 {/* <div className="debug1 w-full flex flex-col"> */}
                 <ProfileBar layoutType={layoutType} />
-                <div className={`w-full pl-1.5 pt-2.5 sm:px-9 sm:py-6 ${addScrollBar ? "overflow-y-scroll" : ""}`}>{props.children}</div>
+                <div className={`w-full px-1.5 pt-2.5 sm:px-9 sm:py-6 ${addScrollBar ? "overflow-y-scroll" : ""}`}>{props.children}</div>
             </div>
         </div>
     );

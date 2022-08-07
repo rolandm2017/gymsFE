@@ -30,7 +30,7 @@ const SearchPage: React.FC<{}> = props => {
                             <DetailsBar key={i} {...ap} />
                         ))}
                 </div>
-                <div className="flex justify-between">
+                <div className="mb-3 flex justify-between">
                     <PageNumber />
                     <NavigationBtns />
                 </div>
