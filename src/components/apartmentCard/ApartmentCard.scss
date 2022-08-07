@@ -6,7 +6,13 @@
 
 .apCardContainer {
     height: $apartment-card-height;
-    max-width: 274px;
+    width: auto;
+}
+
+@media (min-width: 900px) {
+    .apCardContainer {
+        width: 274px;
+    }
 }
 
 // @media (min-width: )

@@ -7,6 +7,9 @@ module.exports = {
                 "h-15": "60px",
             }),
         },
+        screens: {
+            md2: "900px",
+        },
     },
     plugins: [],
 };
