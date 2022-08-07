@@ -28,3 +28,11 @@
     // background-color: black;
     background-color: $page-bg;
 }
+
+.pageBaseSidebarOpen {
+    width: $sidebar-width-open;
+}
+
+.pageBaseSidebarClosed {
+    width: $sidebar-width-closed;
+}

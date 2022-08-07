@@ -10,6 +10,9 @@ import ApartmentCard from "../components/apartmentCard/ApartmentCard";
 import Map from "../components/map/Map";
 
 import { hardcodeApartments } from "../data/apartments";
+import FancyMap from "../components/map/FancyMap";
+import thirdMap from "../components/map/ThirdMap";
+import ThirdMap from "../components/map/ThirdMap";
 
 const MapPage: React.FC<{}> = props => {
     return (
@@ -19,13 +22,14 @@ const MapPage: React.FC<{}> = props => {
                 {/* Results */}
                 <SearchBar />
                 <div className="mt-5 flex flex-col sm:flex-row">
-                    <Map />
+                    {/* <Map/> */}
+                    <ThirdMap center={[45, -73]} width={"100%"} height={"300px"} />
                     <div className="inline-block">
-                        {Array(10)
+                        {/* {Array(10)
                             .fill(hardcodeApartments[0])
                             .map((ap, i) => (
                                 <ApartmentCard key={i} {...ap} />
-                            ))}
+                            ))} */}
                     </div>
                 </div>
 

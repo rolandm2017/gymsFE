@@ -6,8 +6,10 @@
 
 .apCardContainer {
     height: $apartment-card-height;
-    width: 274px;
+    max-width: 274px;
 }
+
+// @media (min-width: )
 
 .apCardText div div p {
     font-weight: $wt500;

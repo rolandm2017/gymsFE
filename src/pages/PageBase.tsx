@@ -27,8 +27,7 @@ const PageBase: React.FC<PageProps> = props => {
     return (
         <div id="pageBase" className="h-full w-full flex pageBg">
             <div id="sidebar" className="h-full flex">
-                <div className={`${isOpen ? "w-64" : "w-16"}`}>
-                    {" "}
+                <div className={`${isOpen ? "pageBaseSidebarOpen" : "pageBaseSidebarClosed"}`}>
                     <Sidebar layoutType={layoutType} isOpen={isOpen} toggleIsOpen={setIsOpen} />{" "}
                 </div>
             </div>
