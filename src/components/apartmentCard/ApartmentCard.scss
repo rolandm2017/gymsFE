@@ -9,9 +9,10 @@
     width: auto;
 }
 
-@media (min-width: 900px) {
+// @media (min-width: 900px) {
+@media (min-width: $apartment-cards-on-side-breakpoint) {
     .apCardContainer {
-        width: 274px;
+        width: $apartment-card-width;
     }
 }
 

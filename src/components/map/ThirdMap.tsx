@@ -11,8 +11,6 @@ mapboxgl.accessToken = MAPBOX_TOKEN;
 interface MapboxProps {
     center: [number, number];
     // zoom: number;
-    width: string;
-    height: string;
 }
 
 const ThirdMap: React.FC<MapboxProps> = ({ center }) => {
@@ -22,19 +20,28 @@ const ThirdMap: React.FC<MapboxProps> = ({ center }) => {
     const [lat, setLat] = useState(45.5);
     const [zoom, setZoom] = useState(13);
 
+    function resizeMap() {
+        if (map === null || map.current === null) return;
+        map.current.resize();
+        console.log("resizing! 26rm");
+    }
+
+    window.addEventListener("resize", resizeMap);
+
     useEffect(() => {
         if (map.current) return; // initialize map only once
         map.current = new mapboxgl.Map({
-            container: "someContainer",
+            container: "mapContainer",
             style: "mapbox://styles/mapbox/streets-v11",
             center: [long, lat],
             zoom: zoom,
-        });
+            attributionControl: false,
+        }).addControl(new mapboxgl.AttributionControl({ compact: true }));
     });
 
     return (
-        <div className="w-full">
-            <div id="someContainer" ref={mapContainer}></div>
+        <div id="mapContainerOuter" className="w-full mapHeight mr-2">
+            <div id="mapContainer" ref={mapContainer}></div>
         </div>
     );
 };

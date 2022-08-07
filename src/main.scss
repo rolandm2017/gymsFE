@@ -30,12 +30,20 @@ $font9: 9px;
 
 $letter-spacing: 0.01em;
 
+// breakpoints
 $breakpoint-large: 1281px;
 $breakpoint-medium: 801px;
 $breakpoint-small: 480px;
 $breakpoint-tiny: 320px;
+$apartment-cards-on-side-breakpoint: 900px;
 
+// widths and heights
 $apartment-card-height: 68px;
+$apartment-card-width: 274px;
 
 $sidebar-width-open: 256px;
 $sidebar-width-closed: 68px;
+
+// padding & margin
+$map-screen-padding-left: 6px;
+$map-screen-padding-top: 10px;

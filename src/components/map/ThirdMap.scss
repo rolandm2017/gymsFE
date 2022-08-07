@@ -1,4 +1,38 @@
-#someContainer {
-    height: 300px;
+@import "../../main.scss";
+
+#mapContainer {
+    height: 100%;
     width: 100%;
+}
+
+.mapHeight {
+    height: 350px;
+    // 400px height on small screens because "100vh" could mean iPhone or iPad at this size
+}
+
+.mapWidthSidebarOpen {
+    // width: calc();
+}
+
+.mapWidthSidebarClosed {
+    // width: calc();
+}
+
+@media (min-width: $apartment-cards-on-side-breakpoint) {
+    .mapHeight {
+        height: calc(100vh - 40px - 10px - 96px - 20px - 30px);
+        // 40px: profile bar
+        // 10px: pt-2.5
+        // 96px: search bar
+        // 20px: mt-5
+        // 30px: misc additional space at bottom of map when "- 30px" isn't added
+    }
+
+    .mapWidthSidebarOpen {
+        // width: calc();
+    }
+
+    .mapWidthSidebarClosed {
+        // width: calc();
+    }
 }

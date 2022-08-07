@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import PageBase from "./PageBase";
 import Button from "../components/button/Button";
@@ -22,12 +22,8 @@ const MapPage: React.FC<{}> = props => {
                 {/* Results */}
                 <SearchBar />
                 <div className="mt-5 flex flex-col md2:flex-row debug3">
-                    {/* <Map/> */}
-                    {/* <ThirdMap center={[45, -73]} width={"100%"} height={"300px"} /> */}
-                    <div className="w-full bg-red debug2 basis-auto">
-                        <div>hi</div>
-                    </div>
-                    <div className="inline-block">
+                    <ThirdMap center={[45, -73]} />
+                    <div className="">
                         {Array(10)
                             .fill(hardcodeApartments[0])
                             .map((ap, i) => (
