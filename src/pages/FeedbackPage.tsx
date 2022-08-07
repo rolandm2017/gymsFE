@@ -7,7 +7,7 @@ import Rating from "../components/review/Rating";
 import Testimonial from "../components/review/Testimonial";
 import FeatureRequest from "../components/review/FeatureRequest";
 
-import "./ReviewPage.scss";
+import "./FeedbackPage.scss";
 
 const FeedbackPage: React.FC<{}> = props => {
     const [feedbackReceived, setFeedbackReceived] = useState(false);

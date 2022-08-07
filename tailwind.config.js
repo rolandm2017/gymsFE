@@ -8,7 +8,11 @@ module.exports = {
             }),
         },
         screens: {
-            md2: "900px",
+            sm: "640px",
+            md: "768px",
+            md2: "900px", // my own addition
+            lg: "1024px",
+            xl: "1280px",
         },
     },
     plugins: [],
