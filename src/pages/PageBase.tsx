@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 
 import { useLocation } from "react-router-dom";
 
@@ -17,8 +17,8 @@ interface PageProps {
 const layoutType = "desktop";
 
 const PageBase: React.FC<PageProps> = props => {
-    // const { isOpen, toggleIsOpen } = useContext(SidebarStateContext) as ISidebarContext;
-    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const { isOpen, toggleIsOpen } = useContext(SidebarStateContext) as ISidebarContext;
+    // const [isOpen, setIsOpen] = useState<boolean>(false);
 
     const location = useLocation();
     const addScrollBar = location.pathname === "/search" || location.pathname === "/map";
@@ -28,7 +28,7 @@ const PageBase: React.FC<PageProps> = props => {
         <div id="pageBase" className="h-full w-full flex pageBg">
             <div id="sidebar" className="h-full flex">
                 <div className={`${isOpen ? "pageBaseSidebarOpen" : "pageBaseSidebarClosed"}`}>
-                    <Sidebar layoutType={layoutType} isOpen={isOpen} toggleIsOpen={setIsOpen} />{" "}
+                    <Sidebar layoutType={layoutType} isOpen={isOpen} toggleIsOpen={toggleIsOpen} />{" "}
                 </div>
             </div>
             <div id="content" className="w-full flex flex-col">

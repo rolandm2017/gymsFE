@@ -11,11 +11,11 @@
 }
 
 .mapWidthSidebarOpen {
-    // width: calc();
+    width: calc(100vw - $sidebar-width-open - $map-screen-padding-left - $map-screen-margin-right - $misc-remaining-pixels);
 }
 
 .mapWidthSidebarClosed {
-    // width: calc();
+    width: calc(100vw - $sidebar-width-closed - $map-screen-padding-left - $map-screen-margin-right - $misc-remaining-pixels);
 }
 
 @media (min-width: $apartment-cards-on-side-breakpoint) {
@@ -29,10 +29,14 @@
     }
 
     .mapWidthSidebarOpen {
-        // width: calc();
+        width: calc(
+            100vw - $sidebar-width-open - $map-screen-padding-left - $apartment-card-width - $map-screen-margin-right - $misc-remaining-pixels
+        );
     }
 
     .mapWidthSidebarClosed {
-        // width: calc();
+        width: calc(
+            100vw - $sidebar-width-closed - $map-screen-padding-left - $apartment-card-width - $map-screen-margin-right - $misc-remaining-pixels
+        );
     }
 }

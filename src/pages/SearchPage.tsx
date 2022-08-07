@@ -11,6 +11,8 @@ import TitleBar from "../components/titleBar/TitleBar";
 import Cat from "../assets/cat.jpeg";
 
 import { hardcodeApartments } from "../data/apartments";
+import PageNumber from "../components/pageNumber/PageNumber";
+import NavigationBtns from "../components/navigationBtns/NavigationBtns";
 
 const SearchPage: React.FC<{}> = props => {
     // console.log(isOpen, "22rm");
@@ -29,15 +31,8 @@ const SearchPage: React.FC<{}> = props => {
                         ))}
                 </div>
                 <div className="flex justify-between">
-                    <div>Page 1 of 10</div>
-                    <div className="flex">
-                        <div className="pr-2.5 sm:pr-5">
-                            <Button type={"Transparent"} text={"Back"} />
-                        </div>
-                        <div>
-                            <Button type={"Opaque"} text={"Next"} />
-                        </div>
-                    </div>
+                    <PageNumber />
+                    <NavigationBtns />
                 </div>
             </div>
         </PageBase>

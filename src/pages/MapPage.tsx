@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 
 import PageBase from "./PageBase";
 import Button from "../components/button/Button";
@@ -9,19 +9,23 @@ import Sidebar from "../components/sidebar/Sidebar";
 import ApartmentCard from "../components/apartmentCard/ApartmentCard";
 import Map from "../components/map/Map";
 
+import SidebarStateProvider, { ISidebarContext, SidebarStateContext } from "../context/SidebarStateProvider";
+
 import { hardcodeApartments } from "../data/apartments";
 // import FancyMap from "../components/map/FancyMap";
 // import thirdMap from "../components/map/ThirdMap";
 import ThirdMap from "../components/map/ThirdMap";
+import PageNumber from "../components/pageNumber/PageNumber";
+import NavigationBtns from "../components/navigationBtns/NavigationBtns";
 
 const MapPage: React.FC<{}> = props => {
     return (
         <PageBase>
             {/* // inline block maybe -- todo: remove this comment */}
-            <div className="">
+            <div id="pageBaseInnerContainer" className="">
                 {/* Results */}
                 <SearchBar />
-                <div className="mt-5 flex flex-col md2:flex-row debug3">
+                <div id="middleContainer" className="mt-5 flex flex-col md2:flex-row">
                     <ThirdMap center={[45, -73]} />
                     <div className="">
                         {Array(10)
@@ -32,16 +36,9 @@ const MapPage: React.FC<{}> = props => {
                     </div>
                 </div>
 
-                <div className="flex justify-between items-center">
-                    <div>20 of 200</div>
-                    <div className="flex">
-                        <div className="mr-4">
-                            <Button type={"Transparent"} text={"Back"} />
-                        </div>
-                        <div>
-                            <Button type={"Opaque"} text={"Next"} />
-                        </div>
-                    </div>
+                <div id="pageNumberContainer" className="flex justify-between items-center">
+                    <PageNumber />
+                    <NavigationBtns />
                 </div>
             </div>
         </PageBase>

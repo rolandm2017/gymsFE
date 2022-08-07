@@ -1,6 +1,7 @@
 import mapboxgl from "mapbox-gl";
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useContext } from "react";
 import { MapProps } from "react-map-gl";
+import { ISidebarContext, SidebarStateContext } from "../../context/SidebarStateProvider";
 
 import "./ThirdMap.scss";
 
@@ -14,6 +15,9 @@ interface MapboxProps {
 }
 
 const ThirdMap: React.FC<MapboxProps> = ({ center }) => {
+    const { isOpen, toggleIsOpen } = useContext(SidebarStateContext) as ISidebarContext;
+    console.log(isOpen, "18rm");
+
     const mapContainer = useRef(null);
     const map = useRef<mapboxgl.Map | null>(null);
     const [long, setLong] = useState(-73.5);
@@ -29,6 +33,10 @@ const ThirdMap: React.FC<MapboxProps> = ({ center }) => {
     window.addEventListener("resize", resizeMap);
 
     useEffect(() => {
+        resizeMap();
+    }, [isOpen]);
+
+    useEffect(() => {
         if (map.current) return; // initialize map only once
         map.current = new mapboxgl.Map({
             container: "mapContainer",
@@ -40,7 +48,7 @@ const ThirdMap: React.FC<MapboxProps> = ({ center }) => {
     });
 
     return (
-        <div id="mapContainerOuter" className="w-full mapHeight mr-2">
+        <div id="mapContainerOuter" className={`${isOpen ? "mapWidthSidebarOpen" : "mapWidthSidebarClosed"} w-full mapHeight mr-2`}>
             <div id="mapContainer" ref={mapContainer}></div>
         </div>
     );
