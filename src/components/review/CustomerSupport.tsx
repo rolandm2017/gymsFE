@@ -1,13 +1,19 @@
 import React from "react";
+import Button from "../button/Button";
+
+import "./Review.scss";
 
 function CustomerSupport() {
     return (
-        <div className="h-full px-4 debug4">
-            <div>
-                <h2>Customer Support</h2>
+        <div className="h-full flex flex-col p-6 debug4">
+            <div className="supportHeader">
+                <h2 className="flex justify-start">Customer Support</h2>
             </div>
-            <div className="h-full">
-                <textarea className="w-full h-full debug3" />
+            <div className="supportMain py-2">
+                <textarea className="customerSupportTextArea textAreaShared" />
+            </div>
+            <div className="supportFooter mt-2 flex justify-end">
+                <Button type={"Opaque"} text={"Submit"} />
             </div>
         </div>
     );

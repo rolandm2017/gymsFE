@@ -15,7 +15,7 @@ const FeedbackPage: React.FC<{}> = props => {
         <PageBase>
             <div className="flex flex-col">
                 <div className="w-full flex">
-                    <div className="ratingContainer mr-2 pt-4 flex flex-col bg-white">
+                    <div className="ratingContainer mr-4 py-4 flex flex-col bg-white">
                         <Rating text="This helped me start or keep up a gym habit." />
                         <Rating text="I was able to find several apartments near a gym." />
                         <Rating text="I would recommend this service to a friend." />
@@ -25,10 +25,10 @@ const FeedbackPage: React.FC<{}> = props => {
                         <CustomerSupport />
                     </div>
                 </div>
-                <div className="featureRequestContainer mt-3.5 bg-white debug2">
+                {/* <div className="featureRequestContainer mt-3.5 bg-white debug2">
                     <FeatureRequest />
                 </div>
-                <div className="thanksMessageContainer bg-white">{true ? <ThanksMessage /> : null}</div>
+                <div className="thanksMessageContainer bg-white">{true ? <ThanksMessage /> : null}</div> */}
                 <div>
                     {/* // TODO: stick this at the bottom of the page. */}
                     <a target="_blank" href="https://icons8.com/icon/104/star">

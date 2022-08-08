@@ -7,9 +7,9 @@ interface RatingProps {
 
 function Rating({ text }: RatingProps) {
     return (
-        <div className="rating pl-8">
+        <div className="rating px-8">
             <div>
-                <h4 className="flex justify-start my-1">{text}</h4>
+                <h4 className="text-left my-1">{text}</h4>
             </div>
             <div className="flex justify-start">
                 <StarRating />
