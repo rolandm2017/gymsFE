@@ -5,7 +5,7 @@ import "./Review.scss";
 
 function CustomerSupport() {
     return (
-        <div className="h-full flex flex-col p-6 debug4">
+        <div className="h-full flex flex-col p-6">
             <div className="supportHeader">
                 <h2 className="flex justify-start">Customer Support</h2>
             </div>

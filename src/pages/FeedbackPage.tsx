@@ -21,14 +21,14 @@ const FeedbackPage: React.FC<{}> = props => {
                         <Rating text="I would recommend this service to a friend." />
                         <Testimonial text="Leave a review for us!" />
                     </div>
-                    <div className="customerSupportContainer bg-white debug5">
+                    <div className="customerSupportContainer bg-white">
                         <CustomerSupport />
                     </div>
                 </div>
-                {/* <div className="featureRequestContainer mt-3.5 bg-white debug2">
+                <div className="featureRequestContainer my-3.5 pb-4 bg-white">
                     <FeatureRequest />
                 </div>
-                <div className="thanksMessageContainer bg-white">{true ? <ThanksMessage /> : null}</div> */}
+                <div className="thanksMessageContainer bg-white">{true ? <ThanksMessage /> : null}</div>
                 <div>
                     {/* // TODO: stick this at the bottom of the page. */}
                     <a target="_blank" href="https://icons8.com/icon/104/star">
