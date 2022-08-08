@@ -14,7 +14,7 @@ const FeedbackPage: React.FC<{}> = props => {
     return (
         <PageBase>
             <div className="flex flex-col">
-                <div className="w-full flex">
+                <div className="w-full flex flex-col md:flex-row">
                     <div className="ratingContainer mr-4 py-4 flex flex-col bg-white">
                         <Rating text="This helped me start or keep up a gym habit." />
                         <Rating text="I was able to find several apartments near a gym." />

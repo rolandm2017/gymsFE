@@ -1,8 +1,8 @@
 @import "../main.scss";
 
 .customerSupportContainer {
-    height: auto; // was 272px
-    width: 50%;
+    height: auto;
+    width: 100%;
 }
 
 .featureRequestContainer {
@@ -11,8 +11,22 @@
 }
 
 .ratingContainer {
+    margin-bottom: 16px;
     height: auto;
-    width: 50%;
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    .ratingContainer {
+        margin-bottom: 0px;
+        height: auto;
+        width: 50%;
+    }
+
+    .customerSupportContainer {
+        height: auto;
+        width: 50%;
+    }
 }
 
 .thanksMessageContainer {
