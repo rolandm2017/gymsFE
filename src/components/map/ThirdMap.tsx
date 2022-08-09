@@ -19,7 +19,6 @@ interface MapboxProps {
 const ThirdMap: React.FC<MapboxProps> = ({ center }) => {
     const { isOpen, toggleIsOpen } = useContext(SidebarStateContext) as ISidebarContext;
     const { apartments, gyms } = useContext(LocationsProviderContext) as ILocationContext;
-    console.log(apartments, gyms, "23rm");
 
     const [width, height] = useWindowSize();
     const isOnMobile = width < 768;
@@ -73,12 +72,12 @@ const ThirdMap: React.FC<MapboxProps> = ({ center }) => {
             console.log(gyms.length, apartments.length, "Adding marker 74rm");
             for (const ap of apartments) {
                 if (ap.long && ap.lat) {
-                    new mapboxgl.Marker().setLngLat([ap.long, ap.lat]).addTo(map.current);
+                    // new mapboxgl.Marker().setLngLat([ap.long, ap.lat]).addTo(map.current);
                 }
             }
             for (const g of gyms) {
                 if (g.long && g.lat) {
-                    new mapboxgl.Marker({ color: "#f7685b" }).setLngLat([g.long, g.lat]).addTo(map.current);
+                    // new mapboxgl.Marker({ color: "#f7685b" }).setLngLat([g.long, g.lat]).addTo(map.current);
                 }
             }
             // new mapboxgl.Marker().setLngLat([-73.5, 45.5]).addTo(map.current);

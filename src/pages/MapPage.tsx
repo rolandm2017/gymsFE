@@ -23,7 +23,7 @@ const MapPage: React.FC<{}> = () => {
             <div id="pageBaseInnerContainer">
                 {/* Results */}
                 <SearchBar />
-                <div id="middleContainer" className="mt-5 flex flex-col md2:flex-row">
+                <div id="middleContainer" className="w-full mt-5 flex flex-col md2:flex-row">
                     <ThirdMap center={[45, -73]} />
                     <div id="apartmentCardContainer" className="">
                         {Array(10)
