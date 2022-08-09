@@ -17,7 +17,7 @@ import ThirdMap from "../components/map/ThirdMap";
 import PageNumber from "../components/pageNumber/PageNumber";
 import NavigationBtns from "../components/navigationBtns/NavigationBtns";
 
-const MapPage: React.FC<{}> = props => {
+const MapPage: React.FC<{}> = () => {
     return (
         <PageBase>
             <div id="pageBaseInnerContainer">

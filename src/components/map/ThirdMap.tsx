@@ -3,6 +3,8 @@ import React, { useRef, useEffect, useState, useContext } from "react";
 import { MapProps } from "react-map-gl";
 import { ISidebarContext, SidebarStateContext } from "../../context/SidebarStateProvider";
 
+import useWindowSize from "../../util/useWindowSize";
+
 import "./ThirdMap.scss";
 
 // Be sure to replace this with your own token
@@ -16,6 +18,10 @@ interface MapboxProps {
 
 const ThirdMap: React.FC<MapboxProps> = ({ center }) => {
     const { isOpen, toggleIsOpen } = useContext(SidebarStateContext) as ISidebarContext;
+
+    const [width, height] = useWindowSize();
+
+    const isOnMobile = width < 768;
     console.log(isOpen, "18rm");
 
     const mapContainer = useRef(null);
@@ -47,8 +53,19 @@ const ThirdMap: React.FC<MapboxProps> = ({ center }) => {
         }).addControl(new mapboxgl.AttributionControl({ compact: true }));
     });
 
+    function decideWidth(isOpen: boolean, isOnMobile: boolean): string {
+        if (isOnMobile) {
+            // because on mobile, the map is in a fixed position regardless if the sidebar is open or not
+            return "mapWidthSidebarClosed";
+        } else if (isOpen) {
+            return "mapWidthSidebarOpen";
+        } else {
+            return "mapWidthSidebarClosed";
+        }
+    }
+
     return (
-        <div id="mapContainerOuter" className={`${isOpen ? "mapWidthSidebarOpen" : "mapWidthSidebarClosed"} w-full mapHeight mr-2`}>
+        <div id="mapContainerOuter" className={`${decideWidth(isOpen, isOnMobile)} w-full mapHeight mr-2`}>
             <div id="mapContainer" ref={mapContainer}></div>
         </div>
     );
