@@ -42,7 +42,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleIsOpen }) => {
                     toggleIsOpen(true);
                 }
             }}
-            className="closedSidebar h-full bg-white"
+            className={`h-full bg-white ${isOpen ? "widthSidebarOpen" : ""}`}
         >
             <div className="h-full flex flex-col justify-between">
                 <div>

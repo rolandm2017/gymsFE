@@ -1,9 +1,5 @@
 @import "../../main.scss";
 
-// .closedSidebar {
-//     display: none;
-// }
-
 .logoText {
     font-family: $poppins;
     font-weight: 600;
@@ -12,4 +8,8 @@
 
 .placeholder {
     border: 2px solid red;
+}
+
+.widthSidebarOpen {
+    width: $sidebar-width-open;
 }

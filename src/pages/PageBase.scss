@@ -24,15 +24,34 @@
     border: 1px solid plum;
 }
 
+.contentDivSidebarAdjustment {
+    margin-left: $sidebar-width-closed;
+}
+
+@media (min-width: 768px) {
+    .contentDivSidebarAdjustment {
+        margin-left: 0px;
+    }
+}
+
 .pageBg {
-    // background-color: black;
     background-color: $page-bg;
+}
+
+.pageBaseSidebarClosed {
+    width: $sidebar-width-closed;
 }
 
 .pageBaseSidebarOpen {
     width: $sidebar-width-open;
 }
 
-.pageBaseSidebarClosed {
-    width: $sidebar-width-closed;
+.sidebarCover {
+    background: black;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    opacity: 0.22;
 }
