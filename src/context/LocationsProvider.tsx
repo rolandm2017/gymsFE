@@ -1,6 +1,5 @@
-import React, { createContext, useMemo } from "react";
-import getApartments from "../api/queries/Apartments";
-import getGyms from "../api/queries/Gyms";
+import React, { createContext, useEffect, useMemo } from "react";
+import { getApartments, getGyms } from "../api/queries/Places";
 
 export interface ILocationContext {
     city: string;
@@ -22,20 +21,31 @@ const LocationsProvider: React.FC<ChildrenProps> = ({ children }) => {
     const [apartments, setApartments] = React.useState<any>([]);
     const [gyms, setGyms] = React.useState<any>([]);
 
-    async function requestApartments() {
-        const apData = await getApartments();
-        setApartments(apData);
-    }
+    // async function useGetAps() {
+    //     const data = await getApartments();
+    //     setApartments(data);
+    // }
 
-    async function requestGyms() {
-        const gymData = await getGyms();
-        setGyms(gymData);
-    }
-    // setApartments(apData);
-    // setGyms(gymData);
-    // const places = useMemo(() => {
+    // async function useGetGyms() {
+    //     const data = await getGyms();
+    //     setGyms(data);
+    // }
 
-    // }, [apartments, gyms]);
+    useEffect(() => {
+        if (apartments.length !== 0) return;
+        // useGetAps();
+        getApartments().then(aps => {
+            setApartments(aps);
+        });
+    }, [apartments]);
+
+    useEffect(() => {
+        if (gyms.length !== 0) return;
+        // useGetGyms();
+        getGyms().then(gyms => {
+            setGyms(gyms);
+        });
+    }, [gyms]);
 
     return <LocationsProviderContext.Provider value={{ city: "Montreal", apartments, gyms }}>{children}</LocationsProviderContext.Provider>;
 };

@@ -25,7 +25,7 @@ const ThirdMap: React.FC<MapboxProps> = ({ center }) => {
     const [width, height] = useWindowSize();
 
     const isOnMobile = width < 768;
-    console.log(isOpen, "18rm");
+    // console.log(isOpen, "18rm");
 
     const mapContainer = useRef(null);
     const map = useRef<mapboxgl.Map | null>(null);
