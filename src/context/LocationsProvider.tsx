@@ -47,7 +47,15 @@ const LocationsProvider: React.FC<ChildrenProps> = ({ children }) => {
         });
     }, [gyms]);
 
-    return <LocationsProviderContext.Provider value={{ city: "Montreal", apartments, gyms }}>{children}</LocationsProviderContext.Provider>;
+    const memoedValue = useMemo(
+        () => ({
+            gyms,
+            apartments,
+        }),
+        [gyms, apartments],
+    );
+
+    return <LocationsProviderContext.Provider value={{ city: "Montreal", ...memoedValue }}>{children}</LocationsProviderContext.Provider>;
 };
 
 export default LocationsProvider;
