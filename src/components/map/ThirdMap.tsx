@@ -1,6 +1,7 @@
 import mapboxgl from "mapbox-gl";
 import React, { useRef, useEffect, useState, useContext } from "react";
 import { MapProps } from "react-map-gl";
+import { ILocationContext, LocationsProviderContext } from "../../context/LocationsProvider";
 import { ISidebarContext, SidebarStateContext } from "../../context/SidebarStateProvider";
 
 import useWindowSize from "../../util/useWindowSize";
@@ -18,6 +19,8 @@ interface MapboxProps {
 
 const ThirdMap: React.FC<MapboxProps> = ({ center }) => {
     const { isOpen, toggleIsOpen } = useContext(SidebarStateContext) as ISidebarContext;
+    const { apartments, gyms } = useContext(LocationsProviderContext) as ILocationContext;
+    console.log(apartments, gyms, "23rm");
 
     const [width, height] = useWindowSize();
 
