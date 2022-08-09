@@ -26,11 +26,13 @@
 
 .contentDivSidebarAdjustment {
     margin-left: $sidebar-width-closed;
+    width: calc(100% - $sidebar-width-closed);
 }
 
 @media (min-width: 768px) {
     .contentDivSidebarAdjustment {
         margin-left: 0px;
+        width: 100%;
     }
 }
 

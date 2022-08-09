@@ -12,7 +12,8 @@
 
 .mapWidthSidebarOpen {
     width: calc(
-        100vw - $sidebar-width-open - $map-screen-padding-left - $map-screen-padding-right - $map-screen-margin-right - $misc-remaining-pixels
+        100vw - $sidebar-width-open - $map-screen-padding-left - $map-screen-padding-right - $map-screen-margin-right - $misc-remaining-pixels -
+            $sidebar-width-open
     );
 }
 
@@ -35,7 +36,7 @@
     .mapWidthSidebarOpen {
         width: calc(
             100vw - $sidebar-width-open - $map-screen-padding-left - $map-screen-padding-right - $apartment-card-width - $map-screen-margin-right -
-                $misc-remaining-pixels
+                $misc-remaining-pixels - $sidebar-width-open
         );
     }
 
