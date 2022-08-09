@@ -2,14 +2,10 @@ import React from "react";
 
 import Profile from "./Profile";
 
-interface ProfileBarProps {
-    layoutType: string;
-}
-
-const ProfileBar: React.FC<ProfileBarProps> = ({ layoutType }) => {
+const ProfileBar: React.FC<{}> = () => {
     return (
         <div className="h-15 flex justify-end bg-white">
-            <div>{layoutType === "desktop" ? null : "Logo"}</div>
+            <div className="block md:hidden">Logo</div>
             <div className="flex justify-end">
                 <Profile />
             </div>

@@ -8,14 +8,13 @@ import MenuItem from "./components/MenuItem";
 import "./Sidebar.scss";
 
 interface SidebarProps {
-    layoutType: string;
     isOpen: boolean;
     toggleIsOpen: Function;
 }
 
 // TODO: Convert layoutType to a css media query. Have display: none; and display: flex in media queries.
 
-const Sidebar: React.FC<SidebarProps> = ({ layoutType, isOpen, toggleIsOpen }) => {
+const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleIsOpen }) => {
     const location = useLocation();
 
     function getLocation(path: string) {
@@ -47,16 +46,14 @@ const Sidebar: React.FC<SidebarProps> = ({ layoutType, isOpen, toggleIsOpen }) =
         >
             <div className="h-full flex flex-col justify-between">
                 <div>
-                    {layoutType === "desktop" ? (
+                    <div className="hidden md:block">
                         <div className={`${isOpen ? "pl-6" : "flex justify-center"} pt-4 pb-8 text-left`}>
                             <h3 className="blueText logoText">Logo</h3>
                         </div>
-                    ) : null}
-                    {layoutType === "desktop" ? null : (
-                        <div>
-                            <Profile />
-                        </div>
-                    )}
+                    </div>
+                    <div className="block md:hidden">
+                        <Profile />
+                    </div>
                     <div className="pb-11">
                         <MenuItem
                             changeActiveItem={() => {
