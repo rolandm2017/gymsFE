@@ -1,7 +1,9 @@
 import React, { useCallback, useState } from "react";
 import { useNavigate, useLocation, Navigate } from "react-router-dom";
+import Icon from "../icons/Icon";
 
 import Profile from "../profile/Profile";
+import ProfilePic from "../profile/ProfilePic";
 import Divider from "./components/Divider";
 import MenuItem from "./components/MenuItem";
 
@@ -52,7 +54,23 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleIsOpen }) => {
                         </div>
                     </div>
                     <div className="block md:hidden">
-                        <Profile />
+                        {isOpen ? (
+                            <div className="mt-4">
+                                <Profile />
+                                <div className="w-full pl-6 mt-6 mb-2 flex">
+                                    <Icon type="Notification" />
+                                    <p className={`${isOpen ? "" : "hidden"}`}>Notification</p>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="mt-4 flex flex-col h-20 justify-between items-center">
+                                <ProfilePic />
+                                <div className="flex">
+                                    <Icon type="Notification" />
+                                    <p className={`${isOpen ? "" : "hidden"}`}>Notification</p>
+                                </div>
+                            </div>
+                        )}
                     </div>
                     <div className="pb-11">
                         <MenuItem

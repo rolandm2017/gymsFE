@@ -19,7 +19,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ text, active, isCloseButton, isOpen
                 active ? "activeItem" : ""
             }`}
         >
-            <div className="tempReplacementForIcon mr-2 w-6"></div>
+            <div className={`tempReplacementForIcon w-6 ${isOpen ? "mr-2" : ""}`}></div>
             <p className={`menuItemText ${isCloseButton ? "closeSidebarColor" : ""} ${isOpen ? "" : "hidden"}`}>{text}</p>
         </div>
     );

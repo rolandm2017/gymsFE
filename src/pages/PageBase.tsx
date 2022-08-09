@@ -33,14 +33,19 @@ const PageBase: React.FC<PageProps> = props => {
 
     return (
         <div id="pageBase" className="h-full w-full flex pageBg">
-            <div className={`sidebarCover ${isOpen ? "" : "hidden"}`}>{/* // medium opacity black screen for when mobile sidebar is open */}</div>
+            <div
+                className={`sidebarCover ${isOpen && isOnMobile ? "" : "hidden"}`}
+                onClick={() => {
+                    toggleIsOpen(false);
+                }}
+            >
+                {/* // medium opacity black screen for when mobile sidebar is open */}
+            </div>
             <div id="sidebar" className="h-full flex">
-                {/* <div className={`${isOpen ? "pageBaseSidebarOpen" : "pageBaseSidebarClosed"} absolute`}> */}
                 <div className={`h-full z-30 ${isOpen ? "pageSidebarOpen" : "pageBaseSidebarClosed"} ${isOnMobile ? "absolute" : ""}`}>
                     <Sidebar isOpen={isOpen} toggleIsOpen={toggleIsOpen} />{" "}
                 </div>
             </div>
-            {/* <div id="content" className={`w-full ${isOpen ? "contentDivSidebarClosed" : "contentDivSidebarClosed"} flex flex-col`}> */}
             <div id="content" className={`w-full flex flex-col contentDivSidebarAdjustment`}>
                 <ProfileBar />
                 <div className={`w-full px-1.5 pt-2.5 sm:px-9 sm:py-6 overflow-y-scroll`}>{props.children}</div>
