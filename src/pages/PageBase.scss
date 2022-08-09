@@ -32,7 +32,7 @@
 @media (min-width: 768px) {
     .contentDivSidebarAdjustment {
         margin-left: 0px;
-        width: 100%;
+        width: calc(100% - $sidebar-width-closed);
     }
 }
 

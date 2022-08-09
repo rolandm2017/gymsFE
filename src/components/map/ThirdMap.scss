@@ -12,8 +12,7 @@
 
 .mapWidthSidebarOpen {
     width: calc(
-        100vw - $sidebar-width-open - $map-screen-padding-left - $map-screen-padding-right - $map-screen-margin-right - $misc-remaining-pixels -
-            $sidebar-width-open
+        100vw - $sidebar-width-open - $map-screen-padding-left - $map-screen-padding-right - $map-screen-margin-right - $misc-remaining-pixels
     );
 }
 
@@ -21,6 +20,22 @@
     width: calc(
         100vw - $sidebar-width-closed - $map-screen-padding-left - $map-screen-padding-right - $map-screen-margin-right - $misc-remaining-pixels
     );
+}
+
+@media (min-width: 640px) {
+    // bug occurs without this media query; unsure what the real source is
+    .mapWidthSidebarOpen {
+        width: calc(
+            100vw - $sidebar-width-open - $map-screen-padding-left - $map-screen-padding-right - $map-screen-margin-right - $misc-remaining-pixels
+        );
+    }
+
+    .mapWidthSidebarClosed {
+        width: calc(
+            100vw - $sidebar-width-closed - $map-screen-padding-left - $map-screen-padding-right - $map-screen-margin-right - $misc-remaining-pixels -
+                $sidebar-width-closed
+        );
+    }
 }
 
 @media (min-width: $apartment-cards-on-side-breakpoint) {
