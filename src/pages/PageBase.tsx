@@ -23,7 +23,7 @@ const PageBase: React.FC<PageProps> = props => {
     return (
         <div id="pageBase" className="h-full w-full flex pageBg">
             <div
-                className={`sidebarCover ${isOpen && isOnMobile ? "" : "hidden"}`}
+                className={`sidebarCover z-20 ${isOpen && isOnMobile ? "" : "hidden"}`}
                 onClick={() => {
                     toggleIsOpen(false);
                 }}
