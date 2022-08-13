@@ -18,9 +18,9 @@ const SearchBar: React.FC<{}> = () => {
                 </div>
                 <div className="inputContainerRight w-full flex justify-end">
                     <div className=" pr-8 flex flex-col xl:flex-row">
-                        <div className="pr-8">
+                        {/* <div className="pr-8">
                             <Input type="text" placeholder={"Min Distance"} />
-                        </div>
+                        </div> */}
                         <div>
                             <Input type="text" placeholder={"Max Distance"} />
                         </div>

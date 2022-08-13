@@ -26,5 +26,5 @@ export async function getQualifiedAps() {
     const maxDistance: number = 1.75;
     const res = await axios.get(baseUrl + path, { params: { providers, maxDistance } });
     const { data } = res;
-    return data.gyms;
+    return data.apartments;
 }

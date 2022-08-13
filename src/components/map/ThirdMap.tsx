@@ -3,6 +3,7 @@ import React, { useRef, useEffect, useState, useContext } from "react";
 import { ILocationContext, LocationsProviderContext } from "../../context/LocationsProvider";
 import { ISidebarContext, SidebarStateContext } from "../../context/SidebarStateProvider";
 import { IAssociation } from "../../interface/Association.interface";
+import { IGym } from "../../interface/Gym.interface";
 
 import useWindowSize from "../../util/useWindowSize";
 
@@ -50,7 +51,7 @@ const ThirdMap: React.FC<MapboxProps> = ({ center }) => {
     // initialization
     const mapContainer = useRef(null);
     const map = useRef<mapboxgl.Map | null>(null);
-    const [long, setLong] = useState(-73.5);
+    const [long, setLong] = useState(-73.554);
     const [lat, setLat] = useState(45.5);
     const [zoom, setZoom] = useState(13);
 
@@ -90,19 +91,26 @@ const ThirdMap: React.FC<MapboxProps> = ({ center }) => {
         if (qualified.length !== 0 && map.current) {
             const apartmentMarkers: mapboxgl.Marker[] = [];
             const gymMarkers: mapboxgl.Marker[] = [];
-            const duplicateApartmentArray: number[] = [];
-            for (const gym of qualified) {
-                const associated: IAssociation[] | undefined = gym.associatedUnits;
-                console.log(associated, "95rm");
-                if (associated !== undefined && associated.length > 0 && gym.long && gym.lat) {
-                    const mForGym = new mapboxgl.Marker({ color: "#f7685b" }).setLngLat([gym.long, gym.lat]);
+            const duplicateGymArray: number[] = []; // holds unique longitudes.
+            for (const apartment of qualified) {
+                const nearbyGyms: IAssociation[] | undefined = apartment.nearbyGyms;
+                // console.log(associated, "95rm");
+                if (nearbyGyms !== undefined && nearbyGyms.length > 0 && apartment.long && apartment.lat) {
+                    const mForGym = new mapboxgl.Marker({ color: "#f7685b" }).setLngLat([apartment.long, apartment.lat]);
                     gymMarkers.push(mForGym);
-                    for (const a of associated) {
-                        if (duplicateApartmentArray.includes(a.apartment.long)) {
+                    for (const association of nearbyGyms) {
+                        const gymThatDefinitelyExists: IGym | undefined = association.gym;
+                        if (gymThatDefinitelyExists === undefined) {
                             continue;
                         }
-                        const mForAp = new mapboxgl.Marker().setLngLat([a.apartment.long, a.apartment.lat]).addTo(map.current);
-                        duplicateApartmentArray.push(a.apartment.long);
+                        if (duplicateGymArray.includes(gymThatDefinitelyExists.long)) {
+                            console.log(gymThatDefinitelyExists.long, association, "102rm");
+                            continue;
+                        }
+                        const mForAp = new mapboxgl.Marker()
+                            .setLngLat([gymThatDefinitelyExists.long, gymThatDefinitelyExists.lat])
+                            .addTo(map.current);
+                        duplicateGymArray.push(a.apartment.long);
                         apartmentMarkers.push(mForAp);
                     }
                 }

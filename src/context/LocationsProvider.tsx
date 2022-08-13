@@ -7,7 +7,7 @@ export interface ILocationContext {
     city: string;
     apartments: IHousing[];
     gyms: IGym[];
-    qualified: IGym[];
+    qualified: IHousing[];
 }
 
 export const defaultState = {
@@ -23,7 +23,7 @@ export const LocationsProviderContext = createContext<ILocationContext | null>(n
 const LocationsProvider: React.FC<ChildrenProps> = ({ children }) => {
     const [apartments, setApartments] = React.useState<IHousing[]>([]);
     const [gyms, setGyms] = React.useState<IGym[]>([]);
-    const [qualified, setQualified] = React.useState<IGym[]>([]);
+    const [qualified, setQualified] = React.useState<IHousing[]>([]);
 
     // async function useGetAps() {
     //     const data = await getApartments();
