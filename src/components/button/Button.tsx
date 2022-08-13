@@ -10,7 +10,11 @@ interface ButtonProps {
 function Button({ type, text, size }: ButtonProps) {
     return (
         <div>
-            <div className={`buttonShared w-20 sm:w-36 flex justify-center items-center ${type === "Transparent" ? "transparentBg" : "opaqueBg"}`}>
+            <div
+                className={`buttonShared ${size === "Small" ? "w-14 h-8" : "h-9 w-20 sm:w-36"} flex justify-center items-center ${
+                    type === "Transparent" ? "transparentBg" : "opaqueBg"
+                }`}
+            >
                 <p>{text}</p>
             </div>
         </div>

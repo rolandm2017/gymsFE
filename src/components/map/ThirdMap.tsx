@@ -96,8 +96,8 @@ const ThirdMap: React.FC<MapboxProps> = ({ center }) => {
                 const nearbyGyms: IAssociation[] | undefined = apartment.nearbyGyms;
                 // console.log(associated, "95rm");
                 if (nearbyGyms !== undefined && nearbyGyms.length > 0 && apartment.long && apartment.lat) {
-                    const mForGym = new mapboxgl.Marker({ color: "#f7685b" }).setLngLat([apartment.long, apartment.lat]);
-                    gymMarkers.push(mForGym);
+                    const mForAp = new mapboxgl.Marker().setLngLat([apartment.long, apartment.lat]);
+                    apartmentMarkers.push(mForAp);
                     for (const association of nearbyGyms) {
                         const gymThatDefinitelyExists: IGym | undefined = association.gym;
                         if (gymThatDefinitelyExists === undefined) {
@@ -107,11 +107,11 @@ const ThirdMap: React.FC<MapboxProps> = ({ center }) => {
                             console.log(gymThatDefinitelyExists.long, association, "102rm");
                             continue;
                         }
-                        const mForAp = new mapboxgl.Marker()
+                        const mForGym = new mapboxgl.Marker({ color: "#f7685b" })
                             .setLngLat([gymThatDefinitelyExists.long, gymThatDefinitelyExists.lat])
                             .addTo(map.current);
                         duplicateGymArray.push(gymThatDefinitelyExists.long);
-                        apartmentMarkers.push(mForAp);
+                        gymMarkers.push(mForGym);
                     }
                 }
             }
