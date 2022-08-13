@@ -110,7 +110,7 @@ const ThirdMap: React.FC<MapboxProps> = ({ center }) => {
                         const mForAp = new mapboxgl.Marker()
                             .setLngLat([gymThatDefinitelyExists.long, gymThatDefinitelyExists.lat])
                             .addTo(map.current);
-                        duplicateGymArray.push(a.apartment.long);
+                        duplicateGymArray.push(gymThatDefinitelyExists.long);
                         apartmentMarkers.push(mForAp);
                     }
                 }

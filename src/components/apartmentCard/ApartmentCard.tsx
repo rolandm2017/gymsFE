@@ -24,29 +24,36 @@ const ApartmentCard: React.FC<ApartmentCardProps> = ({ addr, gyms, apUrl }) => {
                             <span className="blueText mr-2">Address</span> <span className="grayText">{addr}</span>
                         </p>
                     </div>
-                    <div>{/* <Button type="Opaque" text="Link" size="Small" /> */}</div>
+                    <div>
+                        <Button type="Opaque" text="Link" size="Small" />
+                    </div>
                 </div>
-                {/* <div className="w-full flex justify-between"> */}
-                    {gyms.length > 0 ? gyms.map((association, index) => {
-                        const gym: IGym = association.gym;
+                {gyms.length > 0 ? (
+                    gyms.map((association, index) => {
+                        const gym: IGym = association.gym as IGym;
                         const gymName: string = gym?.name;
                         const distanceFromApartment: number = association.distanceInKM;
                         const walkTimeInMinutes: number = calculateWalkTimeInMinutes(distanceFromApartment);
                         const linkToGym = gym.url;
-                        return (<div className="w-full flex justify-between">
-                       <div>
-                        <p className="grayText">{gymName}</p>
-                    </div>
+                        return (
+                            <div className="w-full flex justify-between">
+                                <div>
+                                    <p className="grayText">{gymName}</p>
+                                </div>
+                                <div>
+                                    <p className="grayText">{distanceFromApartment} km</p>
+                                </div>
+                                <div>
+                                    <p className="grayText">{walkTimeInMinutes} minutes away</p>
+                                </div>
+                            </div>
+                        );
+                    })
+                ) : (
                     <div>
-                        <p className="grayText">{distance}</p>
+                        <p>gyms didn't load</p>
                     </div>
-                    <div>
-                        <p className="grayText">{time}</p>
-                    </div>     
-                            </div>)
-                    })}
-                    
-                // </div>
+                )}
             </div>
         </div>
     );

@@ -8,6 +8,7 @@ import ThirdMap from "../components/map/ThirdMap";
 import PageNumber from "../components/pageNumber/PageNumber";
 import NavigationBtns from "../components/navigationBtns/NavigationBtns";
 import { ILocationContext, LocationsProviderContext } from "../context/LocationsProvider";
+import { IAssociation } from "../interface/Association.interface";
 
 const MapPage: React.FC<{}> = () => {
     const { qualified } = useContext(LocationsProviderContext) as ILocationContext;
@@ -25,10 +26,10 @@ const MapPage: React.FC<{}> = () => {
                         {qualified
                             ? qualified.map((ap, i) => {
                                   const address = ap.address ? ap.address : "455 Placeholder St."; // TODO: make sure address appears on all apartments
-                                  const associatedGymsWithDistances = ap.nearbyGyms;
-                                  const apartmentURL = ap.url;
+                                  const associatedGymsWithDistances = ap.nearbyGyms as IAssociation[];
+                                  const apartmentURL = ap.url !== undefined ? ap.url : "No link found";
 
-                                  return <ApartmentCard key={i} addr={address} {...ap} />;
+                                  return <ApartmentCard key={i} addr={address} gyms={associatedGymsWithDistances} apUrl={apartmentURL} />;
                               })
                             : null}
                         {/* {Array(10)
