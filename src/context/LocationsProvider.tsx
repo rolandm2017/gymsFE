@@ -1,10 +1,13 @@
 import React, { createContext, useEffect, useMemo } from "react";
-import { getApartments, getGyms } from "../api/queries/Places";
+import { getApartments, getGyms, getQualifiedAps } from "../api/queries/Places";
+import { IGym } from "../interface/Gym.interface";
+import { IHousing } from "../interface/Housing.interface";
 
 export interface ILocationContext {
     city: string;
-    apartments: any[];
-    gyms: any[];
+    apartments: IHousing[];
+    gyms: IGym[];
+    qualified: IGym[];
 }
 
 export const defaultState = {
@@ -18,8 +21,9 @@ interface ChildrenProps {
 export const LocationsProviderContext = createContext<ILocationContext | null>(null);
 
 const LocationsProvider: React.FC<ChildrenProps> = ({ children }) => {
-    const [apartments, setApartments] = React.useState<any>([]);
-    const [gyms, setGyms] = React.useState<any>([]);
+    const [apartments, setApartments] = React.useState<IHousing[]>([]);
+    const [gyms, setGyms] = React.useState<IGym[]>([]);
+    const [qualified, setQualified] = React.useState<IGym[]>([]);
 
     // async function useGetAps() {
     //     const data = await getApartments();
@@ -33,26 +37,32 @@ const LocationsProvider: React.FC<ChildrenProps> = ({ children }) => {
 
     useEffect(() => {
         if (apartments.length !== 0) return;
-        // useGetAps();
-        getApartments().then(aps => {
-            setApartments(aps);
-        });
+        // getApartments().then(aps => {
+        //     setApartments(aps);
+        // });
     }, [apartments]);
 
     useEffect(() => {
         if (gyms.length !== 0) return;
-        // useGetGyms();
-        getGyms().then(gyms => {
-            setGyms(gyms);
-        });
+        // getGyms().then(gyms => {
+        //     setGyms(gyms);
+        // });
     }, [gyms]);
+
+    useEffect(() => {
+        if (qualified.length !== 0) return;
+        getQualifiedAps().then(gyms => {
+            setQualified(gyms);
+        });
+    });
 
     const memoedValue = useMemo(
         () => ({
             gyms,
             apartments,
+            qualified,
         }),
-        [gyms, apartments],
+        [gyms, apartments, qualified],
     );
 
     return <LocationsProviderContext.Provider value={{ city: "Montreal", ...memoedValue }}>{children}</LocationsProviderContext.Provider>;

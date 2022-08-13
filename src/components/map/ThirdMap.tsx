@@ -2,6 +2,7 @@ import mapboxgl from "mapbox-gl";
 import React, { useRef, useEffect, useState, useContext } from "react";
 import { ILocationContext, LocationsProviderContext } from "../../context/LocationsProvider";
 import { ISidebarContext, SidebarStateContext } from "../../context/SidebarStateProvider";
+import { IAssociation } from "../../interface/Association.interface";
 
 import useWindowSize from "../../util/useWindowSize";
 
@@ -18,7 +19,7 @@ interface MapboxProps {
 
 const ThirdMap: React.FC<MapboxProps> = ({ center }) => {
     const { isOpen, toggleIsOpen } = useContext(SidebarStateContext) as ISidebarContext;
-    const { apartments, gyms } = useContext(LocationsProviderContext) as ILocationContext;
+    const { apartments, gyms, qualified } = useContext(LocationsProviderContext) as ILocationContext;
 
     const [width, height] = useWindowSize();
     const isOnMobile = width < 768;
@@ -65,43 +66,52 @@ const ThirdMap: React.FC<MapboxProps> = ({ center }) => {
     });
 
     // plot places as markers
+    // useEffect(() => {
+    //     if (gyms.length !== 0 && apartments.length !== 0 && map.current) {
+    //         const markers = [];
+    //         if (map === null) return;
+    //         console.log(gyms.length, apartments.length, "Adding marker 74rm");
+    //         for (const ap of apartments) {
+    //             if (ap.long && ap.lat) {
+    //                 new mapboxgl.Marker().setLngLat([ap.long, ap.lat]).addTo(map.current);
+    //             }
+    //         }
+    //         for (const g of gyms) {
+    //             if (g.long && g.lat) {
+    //                 new mapboxgl.Marker({ color: "#f7685b" }).setLngLat([g.long, g.lat]).addTo(map.current);
+    //             }
+    //         }
+    //     }
+    // }, [gyms, apartments, map]);
+
+    // plot qualified gyms and apartments
     useEffect(() => {
-        if (gyms.length !== 0 && apartments.length !== 0 && map.current) {
-            const markers = [];
-            if (map === null) return;
-            console.log(gyms.length, apartments.length, "Adding marker 74rm");
-            for (const ap of apartments) {
-                if (ap.long && ap.lat) {
-                    new mapboxgl.Marker().setLngLat([ap.long, ap.lat]).addTo(map.current);
+        if (map === null) return;
+        if (qualified.length !== 0 && map.current) {
+            const apartmentMarkers: mapboxgl.Marker[] = [];
+            const gymMarkers: mapboxgl.Marker[] = [];
+            const duplicateApartmentArray: number[] = [];
+            for (const gym of qualified) {
+                const associated: IAssociation[] | undefined = gym.associatedUnits;
+                console.log(associated, "95rm");
+                if (associated !== undefined && associated.length > 0 && gym.long && gym.lat) {
+                    const mForGym = new mapboxgl.Marker({ color: "#f7685b" }).setLngLat([gym.long, gym.lat]);
+                    gymMarkers.push(mForGym);
+                    for (const a of associated) {
+                        if (duplicateApartmentArray.includes(a.apartment.long)) {
+                            continue;
+                        }
+                        const mForAp = new mapboxgl.Marker().setLngLat([a.apartment.long, a.apartment.lat]).addTo(map.current);
+                        duplicateApartmentArray.push(a.apartment.long);
+                        apartmentMarkers.push(mForAp);
+                    }
                 }
             }
-            for (const g of gyms) {
-                if (g.long && g.lat) {
-                    new mapboxgl.Marker({ color: "#f7685b" }).setLngLat([g.long, g.lat]).addTo(map.current);
-                }
+            for (const marker of [apartmentMarkers, gymMarkers].flat()) {
+                marker.addTo(map.current);
             }
-            // new mapboxgl.Marker().setLngLat([-73.5, 45.5]).addTo(map.current);
-            // // sources method (doesnt work)
-            // map.current.on("load", () => {
-            //     map.current!.addSource("places-src", {
-            //         type: "canvas",
-            //         canvas: "mapContainer",
-            //         animate: true,
-            //         coordinates: [
-            //             [-73.5, 45.5],
-            //             [-73.5, 45.51],
-            //             [-73.5, 45.52],
-            //             [-73.5, 45.53],
-            //         ],
-            //     });
-            //     map.current!.addLayer({
-            //         id: "canvas-layer",
-            //         type: "raster",
-            //         source: "places-src",
-            //     });
-            // });
         }
-    }, [gyms, apartments, map]);
+    }, [map, qualified]);
 
     return (
         <div id="mapContainerOuter" className={`${decideWidth(isOpen, isOnMobile)} w-full mapHeight mr-2`}>

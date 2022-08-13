@@ -18,3 +18,13 @@ export async function getGyms() {
     const { data } = res;
     return data.rows;
 }
+
+export async function getQualifiedAps() {
+    const baseUrl = process.env.REACT_APP_BACKEND_ADDR;
+    const path = "/housing/qualified";
+    const providers = "rentCanada,rentFaster,rentSeeker";
+    const maxDistance: number = 1.75;
+    const res = await axios.get(baseUrl + path, { params: { providers, maxDistance } });
+    const { data } = res;
+    return data.gyms;
+}
