@@ -1,7 +1,19 @@
 import React from "react";
+import { IHousing } from "../../interface/Housing.interface";
 
-const PageNumber: React.FC<{}> = () => {
-    return <div>Page 1 of 10</div>;
+interface PageNumberProps {
+    currentPage: number;
+    totalPages: number;
+}
+
+const PageNumber: React.FC<PageNumberProps> = ({ currentPage, totalPages }) => {
+    return (
+        <div>
+            <p>
+                Page {currentPage} of {totalPages}
+            </p>
+        </div>
+    );
 };
 
 export default PageNumber;

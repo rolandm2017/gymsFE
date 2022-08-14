@@ -1,13 +1,29 @@
 import React from "react";
 import Button from "../button/Button";
 
-const NavigationBtns: React.FC<{}> = () => {
+interface NavigationBtnProps {
+    currentPage: number;
+    changePgHandler: Function;
+}
+
+const NavigationBtns: React.FC<NavigationBtnProps> = ({ currentPage, changePgHandler }) => {
     return (
         <div className="flex">
-            <div className="mr-4">
+            <div
+                onClick={() => {
+                    console.log("new pg:", currentPage - 1);
+                    changePgHandler(currentPage - 1);
+                }}
+                className="mr-4"
+            >
                 <Button type={"Transparent"} text={"Back"} />
             </div>
-            <div>
+            <div
+                onClick={() => {
+                    console.log("new pg:", currentPage + 1);
+                    changePgHandler(currentPage + 1);
+                }}
+            >
                 <Button type={"Opaque"} text={"Next"} />
             </div>
         </div>

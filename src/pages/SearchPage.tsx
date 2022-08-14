@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 
 import PageBase from "./PageBase";
 import Button from "../components/button/Button";
@@ -13,8 +13,12 @@ import Cat from "../assets/cat.jpeg";
 import { hardcodeApartments } from "../data/apartments";
 import PageNumber from "../components/pageNumber/PageNumber";
 import NavigationBtns from "../components/navigationBtns/NavigationBtns";
+import { calcTotalPages } from "../util/calcTotalPages";
+import { ILocationContext, LocationsProviderContext } from "../context/LocationsProvider";
 
 const SearchPage: React.FC<{}> = props => {
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const { qualified } = useContext(LocationsProviderContext) as ILocationContext;
     // console.log(isOpen, "22rm");
 
     return (
@@ -31,8 +35,8 @@ const SearchPage: React.FC<{}> = props => {
                         ))}
                 </div>
                 <div className="mb-3 flex justify-between">
-                    <PageNumber />
-                    <NavigationBtns />
+                    <PageNumber currentPage={currentPage} totalPages={calcTotalPages(qualified)} />
+                    <NavigationBtns currentPage={currentPage} changePgHandler={setCurrentPage} />
                 </div>
             </div>
         </PageBase>
