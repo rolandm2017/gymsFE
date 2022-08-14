@@ -61,7 +61,7 @@ const MapPage: React.FC<{}> = () => {
 
                 <div id="pageNumberContainer" className="mb-3 flex justify-between items-center">
                     <PageNumber currentPage={currentPage} totalPages={calcTotalPages(qualified)} />
-                    <NavigationBtns currentPage={currentPage} changePgHandler={setCurrentPage} />
+                    <NavigationBtns currentPage={currentPage} totalPages={calcTotalPages(qualified)} changePgHandler={setCurrentPage} />
                 </div>
             </div>
         </PageBase>

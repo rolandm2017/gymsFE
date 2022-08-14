@@ -20,7 +20,7 @@ const SidebarStateProvider: React.FC<ChildrenProps> = ({ children }) => {
 
     function getSidebarState(): boolean {
         const isPresent = window.localStorage.getItem("ANG_SIDEBAR_STATE");
-        console.log(isPresent, "23rm");
+        // console.log(isPresent, "23rm");
         if (isPresent === null) {
             return false;
         }

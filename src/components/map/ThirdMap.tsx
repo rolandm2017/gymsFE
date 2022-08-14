@@ -21,8 +21,8 @@ interface MapboxProps {
 }
 
 const ThirdMap: React.FC<MapboxProps> = ({ center, qualified }) => {
+    const [markers, setMarkers] = useState<mapboxgl.Marker[]>([]);
     const { isOpen, toggleIsOpen } = useContext(SidebarStateContext) as ISidebarContext;
-    // const { apartments, gyms, qualified } = useContext(LocationsProviderContext) as ILocationContext;
 
     const [width, height] = useWindowSize();
     const isOnMobile = width < 768;
@@ -30,7 +30,7 @@ const ThirdMap: React.FC<MapboxProps> = ({ center, qualified }) => {
     function resizeMap() {
         if (map === null || map.current === null) return;
         map.current.resize();
-        console.log("resizing! 26rm");
+        // console.log("resizing! 26rm");
     }
 
     window.addEventListener("resize", resizeMap);
@@ -55,7 +55,7 @@ const ThirdMap: React.FC<MapboxProps> = ({ center, qualified }) => {
     const map = useRef<mapboxgl.Map | null>(null);
     const [long, setLong] = useState(-73.554);
     const [lat, setLat] = useState(45.5);
-    const [zoom, setZoom] = useState(13);
+    const [zoom, setZoom] = useState(12);
 
     useEffect(() => {
         if (map.current) return; // initialize map only once
@@ -68,28 +68,14 @@ const ThirdMap: React.FC<MapboxProps> = ({ center, qualified }) => {
         }).addControl(new mapboxgl.AttributionControl({ compact: true }));
     });
 
-    // plot places as markers
-    // useEffect(() => {
-    //     if (gyms.length !== 0 && apartments.length !== 0 && map.current) {
-    //         const markers = [];
-    //         if (map === null) return;
-    //         console.log(gyms.length, apartments.length, "Adding marker 74rm");
-    //         for (const ap of apartments) {
-    //             if (ap.long && ap.lat) {
-    //                 new mapboxgl.Marker().setLngLat([ap.long, ap.lat]).addTo(map.current);
-    //             }
-    //         }
-    //         for (const g of gyms) {
-    //             if (g.long && g.lat) {
-    //                 new mapboxgl.Marker({ color: "#f7685b" }).setLngLat([g.long, g.lat]).addTo(map.current);
-    //             }
-    //         }
-    //     }
-    // }, [gyms, apartments, map]);
-
     // plot qualified gyms and apartments
     useEffect(() => {
+        console.log("inside useEffect ThirdMap", qualified.length, markers.length, "92rm");
         if (map === null) return;
+        // remove all old markers
+        for (const marker of markers) {
+            marker.remove();
+        }
         if (qualified.length !== 0 && map.current) {
             const apartmentMarkers: mapboxgl.Marker[] = [];
             const gymMarkers: mapboxgl.Marker[] = [];
@@ -114,15 +100,20 @@ const ThirdMap: React.FC<MapboxProps> = ({ center, qualified }) => {
                             // console.log(gymThatDefinitelyExists.long, association, "102rm");
                             continue;
                         }
-                        const mForGym = new mapboxgl.Marker({ color: "#f7685b" })
-                            .setLngLat([gymThatDefinitelyExists.long, gymThatDefinitelyExists.lat])
-                            .addTo(map.current);
+                        const mForGym = new mapboxgl.Marker({ color: "#f7685b" }).setLngLat([
+                            gymThatDefinitelyExists.long,
+                            gymThatDefinitelyExists.lat,
+                        ]);
+                        // .addTo(map.current);
                         duplicateGymArray.push(gymThatDefinitelyExists.long);
                         gymMarkers.push(mForGym);
                     }
                 }
             }
-            for (const marker of [apartmentMarkers, gymMarkers].flat()) {
+            const allMarkers = [apartmentMarkers, gymMarkers].flat();
+            console.log(allMarkers.length, "133rm");
+            setMarkers(allMarkers);
+            for (const marker of allMarkers) {
                 marker.addTo(map.current);
             }
         }

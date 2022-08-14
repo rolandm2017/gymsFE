@@ -36,7 +36,7 @@ const SearchPage: React.FC<{}> = props => {
                 </div>
                 <div className="mb-3 flex justify-between">
                     <PageNumber currentPage={currentPage} totalPages={calcTotalPages(qualified)} />
-                    <NavigationBtns currentPage={currentPage} changePgHandler={setCurrentPage} />
+                    <NavigationBtns currentPage={currentPage} totalPages={calcTotalPages(qualified)} changePgHandler={setCurrentPage} />
                 </div>
             </div>
         </PageBase>
