@@ -3,22 +3,31 @@ import { Route } from "react-router-dom";
 
 import { IAssociation } from "../../interface/Association.interface";
 import { IGym } from "../../interface/Gym.interface";
+import { IHousing } from "../../interface/Housing.interface";
 import { calculateWalkTimeInMinutes } from "../../util/calcWalkTime";
 import Button from "../button/Button";
 import "./ApartmentCard.scss";
 
 interface ApartmentCardProps {
+    apartment: IHousing;
     addr: string;
     gyms: IAssociation[];
 
-    // time?: string; // todo: calculate time from distance
     apUrl: string;
-    // gymUrl?: string;
 }
 
-const ApartmentCard: React.FC<ApartmentCardProps> = ({ addr, gyms, apUrl }) => {
+const ApartmentCard: React.FC<ApartmentCardProps> = ({ apartment, addr, gyms, apUrl }) => {
     return (
-        <div className="apCardContainer apCardBoxShadow mb-2 mr-2 md2:mr-0 mt-2 md2:mt-0 py-3 bg-white rounded-md">
+        <div
+            onMouseEnter={() => {
+                console.log("mouse enter", "23rm");
+                apartment.isHighlighted = true;
+            }}
+            onMouseLeave={() => {
+                apartment.isHighlighted = false;
+            }}
+            className="apCardContainer apCardBoxShadow mb-2 mr-2 md2:mr-0 mt-2 md2:mt-0 py-3 bg-white rounded-md"
+        >
             <div className="apCardText h-full mx-4 flex flex-col justify-center items-start">
                 <div className="w-full flex justify-between mb-2">
                     <div>
@@ -48,7 +57,7 @@ const ApartmentCard: React.FC<ApartmentCardProps> = ({ addr, gyms, apUrl }) => {
                         })
                         .map((association, index) => {
                             if (index > 0) {
-                                return; // Temp until Kavindu tells me what to do with the UI
+                                return; // Temp until Kavindu tells me what to do with >=1 gyms in the UI
                             }
                             const gym: IGym = association.gym as IGym;
                             const gymName: string = gym.name.length > 0 ? gym.name : "noNameFound";

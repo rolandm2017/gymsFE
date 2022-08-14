@@ -14,5 +14,6 @@ export interface IHousing {
     long: number;
     source: Provider;
     nearbyGyms?: IAssociation[];
+    isHighlighted?: boolean;
     // TODO: consider adding "availability"
 }

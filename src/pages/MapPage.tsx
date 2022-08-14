@@ -21,15 +21,17 @@ const MapPage: React.FC<{}> = () => {
                 {/* Results */}
                 <SearchBar />
                 <div id="middleContainer" className="w-full mt-5 flex flex-col md2:flex-row">
-                    <ThirdMap center={[45, -73]} />
+                    {qualified && qualified.length > 0 ? <ThirdMap center={[45, -73]} qualified={qualified.slice(0, 5)} /> : null}
                     <div id="apartmentCardContainer" className="">
                         {qualified
-                            ? qualified.map((ap, i) => {
+                            ? qualified.slice(0, 5).map((ap, i) => {
                                   const address = ap.address ? ap.address : "455 Placeholder St."; // TODO: make sure address appears on all apartments
                                   const associatedGymsWithDistances = ap.nearbyGyms as IAssociation[];
                                   const apartmentURL = ap.url !== undefined ? ap.url : "No link found";
 
-                                  return <ApartmentCard key={i} addr={address} gyms={associatedGymsWithDistances} apUrl={apartmentURL} />;
+                                  return (
+                                      <ApartmentCard key={i} apartment={ap} addr={address} gyms={associatedGymsWithDistances} apUrl={apartmentURL} />
+                                  );
                               })
                             : null}
                         {/* {Array(10)

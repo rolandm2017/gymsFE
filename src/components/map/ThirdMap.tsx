@@ -4,6 +4,7 @@ import { ILocationContext, LocationsProviderContext } from "../../context/Locati
 import { ISidebarContext, SidebarStateContext } from "../../context/SidebarStateProvider";
 import { IAssociation } from "../../interface/Association.interface";
 import { IGym } from "../../interface/Gym.interface";
+import { IHousing } from "../../interface/Housing.interface";
 
 import useWindowSize from "../../util/useWindowSize";
 
@@ -15,12 +16,13 @@ mapboxgl.accessToken = MAPBOX_TOKEN;
 
 interface MapboxProps {
     center: [number, number];
+    qualified: IHousing[];
     // zoom: number;
 }
 
-const ThirdMap: React.FC<MapboxProps> = ({ center }) => {
+const ThirdMap: React.FC<MapboxProps> = ({ center, qualified }) => {
     const { isOpen, toggleIsOpen } = useContext(SidebarStateContext) as ISidebarContext;
-    const { apartments, gyms, qualified } = useContext(LocationsProviderContext) as ILocationContext;
+    // const { apartments, gyms, qualified } = useContext(LocationsProviderContext) as ILocationContext;
 
     const [width, height] = useWindowSize();
     const isOnMobile = width < 768;
@@ -96,7 +98,12 @@ const ThirdMap: React.FC<MapboxProps> = ({ center }) => {
                 const nearbyGyms: IAssociation[] | undefined = apartment.nearbyGyms;
                 // console.log(associated, "95rm");
                 if (nearbyGyms !== undefined && nearbyGyms.length > 0 && apartment.long && apartment.lat) {
-                    const mForAp = new mapboxgl.Marker().setLngLat([apartment.long, apartment.lat]);
+                    let mForAp;
+                    if (apartment.isHighlighted) {
+                        mForAp = new mapboxgl.Marker({ color: "#ffffff" }).setLngLat([apartment.long, apartment.lat]);
+                    } else {
+                        mForAp = new mapboxgl.Marker().setLngLat([apartment.long, apartment.lat]);
+                    }
                     apartmentMarkers.push(mForAp);
                     for (const association of nearbyGyms) {
                         const gymThatDefinitelyExists: IGym | undefined = association.gym;
@@ -104,7 +111,7 @@ const ThirdMap: React.FC<MapboxProps> = ({ center }) => {
                             continue;
                         }
                         if (duplicateGymArray.includes(gymThatDefinitelyExists.long)) {
-                            console.log(gymThatDefinitelyExists.long, association, "102rm");
+                            // console.log(gymThatDefinitelyExists.long, association, "102rm");
                             continue;
                         }
                         const mForGym = new mapboxgl.Marker({ color: "#f7685b" })
