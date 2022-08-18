@@ -17,10 +17,11 @@ mapboxgl.accessToken = MAPBOX_TOKEN;
 interface MapboxProps {
     center: [number, number];
     qualifiedFromCurrentPage: IHousing[];
+    activeApartment: number | null;
     // zoom: number;
 }
 
-const Map: React.FC<MapboxProps> = ({ center, qualifiedFromCurrentPage }) => {
+const Map: React.FC<MapboxProps> = ({ center, qualifiedFromCurrentPage, activeApartment }) => {
     const [markers, setMarkers] = useState<mapboxgl.Marker[]>([]);
     const { isOpen, toggleIsOpen } = useContext(SidebarStateContext) as ISidebarContext;
 
@@ -92,19 +93,23 @@ const Map: React.FC<MapboxProps> = ({ center, qualifiedFromCurrentPage }) => {
         };
     }, [map, qualifiedFromCurrentPage]);
 
-    function unpackMarkers(pageMarkers: IHousing[]): { apartmentMarkers: mapboxgl.Marker[]; gymMarkers: mapboxgl.Marker[] } {
+    function unpackMarkers(apartments: IHousing[]): { apartmentMarkers: mapboxgl.Marker[]; gymMarkers: mapboxgl.Marker[] } {
         const apartmentMarkers: mapboxgl.Marker[] = [];
         const gymMarkers: mapboxgl.Marker[] = [];
         const duplicateGymArray: number[] = []; // holds unique longitudes.
-        for (const apartment of pageMarkers) {
+
+        for (let i = 0; i < apartments.length; i++) {
+            const apartment = apartments[i];
             const nearbyGyms: IAssociation[] | undefined = apartment.nearbyGyms;
             if (nearbyGyms !== undefined && nearbyGyms.length > 0 && apartment.long && apartment.lat) {
                 let mForAp;
-                if (apartment.isHighlighted) {
+                if (i === activeApartment) {
                     console.log("HIGHLIGHTED DETECTED 107rm");
-                    mForAp = new mapboxgl.Marker({ color: "#ffffff" }).setLngLat([apartment.long, apartment.lat]);
+                    mForAp = new mapboxgl.Marker({ color: "#ffffff", scale: 1.4 }).setLngLat([apartment.long, apartment.lat]);
                 } else {
-                    mForAp = new mapboxgl.Marker().setLngLat([apartment.long, apartment.lat]);
+                    mForAp = new mapboxgl.Marker()
+                        .setLngLat([apartment.long, apartment.lat])
+                        .setPopup(new mapboxgl.Popup().setHTML("<h1>Hello World!</h1>"));
                 }
                 apartmentMarkers.push(mForAp);
                 for (const association of nearbyGyms) {
@@ -112,7 +117,9 @@ const Map: React.FC<MapboxProps> = ({ center, qualifiedFromCurrentPage }) => {
                     if (gymThatDefinitelyExists === undefined || duplicateGymArray.includes(gymThatDefinitelyExists.long)) {
                         continue;
                     }
-                    const mForGym = new mapboxgl.Marker({ color: "#f7685b" }).setLngLat([gymThatDefinitelyExists.long, gymThatDefinitelyExists.lat]);
+                    const mForGym = new mapboxgl.Marker({ color: "#f7685b" })
+                        .setLngLat([gymThatDefinitelyExists.long, gymThatDefinitelyExists.lat])
+                        .setPopup(new mapboxgl.Popup().setHTML("<h1>A GYM!</h1>"));
                     duplicateGymArray.push(gymThatDefinitelyExists.long);
                     gymMarkers.push(mForGym);
                 }

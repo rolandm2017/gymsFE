@@ -12,20 +12,21 @@ interface ApartmentCardProps {
     apartment: IHousing;
     addr: string;
     gyms: IAssociation[];
-
     apUrl: string;
+    activeNum: number | null;
+    setActive: Function;
 }
 
-const ApartmentCard: React.FC<ApartmentCardProps> = ({ apartment, addr, gyms, apUrl }) => {
+const ApartmentCard: React.FC<ApartmentCardProps> = ({ apartment, addr, gyms, apUrl, activeNum, setActive }) => {
     return (
         <div
             onMouseEnter={() => {
                 console.log("mouse enter", "23rm");
-                apartment.isHighlighted = true;
+                setActive(activeNum);
             }}
-            onMouseLeave={() => {
-                apartment.isHighlighted = false;
-            }}
+            // onMouseLeave={() => {
+            // setActive(null);
+            // }}
             className="apCardContainer apCardBoxShadow mb-2 mr-2 md2:mr-0 mt-2 md2:mt-0 py-3 bg-white rounded-md"
         >
             <div className="apCardText h-full mx-4 flex flex-col justify-center items-start">

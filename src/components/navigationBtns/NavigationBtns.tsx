@@ -5,9 +5,10 @@ interface NavigationBtnProps {
     currentPage: number;
     totalPages: number;
     changePgHandler: Function;
+    resetActive?: Function;
 }
 
-const NavigationBtns: React.FC<NavigationBtnProps> = ({ currentPage, totalPages, changePgHandler }) => {
+const NavigationBtns: React.FC<NavigationBtnProps> = ({ currentPage, totalPages, changePgHandler, resetActive }) => {
     return (
         <div className="flex">
             <div
@@ -15,6 +16,9 @@ const NavigationBtns: React.FC<NavigationBtnProps> = ({ currentPage, totalPages,
                     console.log("new pg:", currentPage - 1);
                     if (currentPage > 1) {
                         changePgHandler(currentPage - 1);
+                        if (resetActive) {
+                            resetActive(null);
+                        }
                     }
                 }}
                 className="mr-4"
@@ -26,6 +30,9 @@ const NavigationBtns: React.FC<NavigationBtnProps> = ({ currentPage, totalPages,
                     console.log("new pg:", currentPage + 1);
                     if (currentPage < totalPages) {
                         changePgHandler(currentPage + 1);
+                        if (resetActive) {
+                            resetActive(null);
+                        }
                     }
                 }}
             >
