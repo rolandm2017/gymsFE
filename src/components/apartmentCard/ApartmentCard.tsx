@@ -20,7 +20,7 @@ const ApartmentCard: React.FC<ApartmentCardProps> = ({ apartment, addr, gyms, ap
     return (
         <div
             onMouseEnter={() => {
-                // console.log("mouse enter", "23rm");
+                console.log("mouse enter", "23rm");
                 apartment.isHighlighted = true;
             }}
             onMouseLeave={() => {

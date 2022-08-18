@@ -4,7 +4,7 @@ import PageBase from "./PageBase";
 import SearchBar from "../components/searchBar/SearchBar";
 import ApartmentCard from "../components/apartmentCard/ApartmentCard";
 
-import ThirdMap from "../components/map/ThirdMap";
+import Map from "../components/map/Map";
 import PageNumber from "../components/pageNumber/PageNumber";
 import NavigationBtns from "../components/navigationBtns/NavigationBtns";
 import { ILocationContext, LocationsProviderContext } from "../context/LocationsProvider";
@@ -37,7 +37,7 @@ const MapPage: React.FC<{}> = () => {
                 <SearchBar />
                 <div id="middleContainer" className="w-full mt-5 flex flex-col md2:flex-row">
                     {qualified && qualified.length > 0 ? (
-                        <ThirdMap center={[45, -73]} qualifiedFromCurrentPage={getCurrentPageResults(qualified, currentPage)} />
+                        <Map center={[45, -73]} qualifiedFromCurrentPage={getCurrentPageResults(qualified, currentPage)} />
                     ) : null}
                     <div id="apartmentCardContainer" className="">
                         {qualified
