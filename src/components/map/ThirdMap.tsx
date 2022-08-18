@@ -16,13 +16,17 @@ mapboxgl.accessToken = MAPBOX_TOKEN;
 
 interface MapboxProps {
     center: [number, number];
-    qualified: IHousing[];
+    qualifiedFromCurrentPage: IHousing[];
     // zoom: number;
 }
 
-const ThirdMap: React.FC<MapboxProps> = ({ center, qualified }) => {
+const ThirdMap: React.FC<MapboxProps> = ({ center, qualifiedFromCurrentPage }) => {
+    // The problem: markers are being set multiple times on the first render.
+    // The solution: A counter.
     const [markers, setMarkers] = useState<mapboxgl.Marker[]>([]);
+    // const [timesSet, setTimesSet] = useState<number>(0);
     const { isOpen, toggleIsOpen } = useContext(SidebarStateContext) as ISidebarContext;
+    // const [markerHistory, setMarkerHistory] = useState<mapboxgl.Marker[]>([]);
 
     const [width, height] = useWindowSize();
     const isOnMobile = width < 768;
@@ -68,56 +72,71 @@ const ThirdMap: React.FC<MapboxProps> = ({ center, qualified }) => {
         }).addControl(new mapboxgl.AttributionControl({ compact: true }));
     });
 
+    useEffect(() => {
+        console.log("Runs once");
+    }, []);
+
     // plot qualified gyms and apartments
     useEffect(() => {
-        console.log("inside useEffect ThirdMap", qualified.length, markers.length, "92rm");
         if (map === null) return;
+        console.log("inside useEffect ThirdMap", qualifiedFromCurrentPage.length, markers.length, "92rm");
         // remove all old markers
         for (const marker of markers) {
             marker.remove();
         }
-        if (qualified.length !== 0 && map.current) {
-            const apartmentMarkers: mapboxgl.Marker[] = [];
-            const gymMarkers: mapboxgl.Marker[] = [];
-            const duplicateGymArray: number[] = []; // holds unique longitudes.
-            for (const apartment of qualified) {
-                const nearbyGyms: IAssociation[] | undefined = apartment.nearbyGyms;
-                // console.log(associated, "95rm");
-                if (nearbyGyms !== undefined && nearbyGyms.length > 0 && apartment.long && apartment.lat) {
-                    let mForAp;
-                    if (apartment.isHighlighted) {
-                        mForAp = new mapboxgl.Marker({ color: "#ffffff" }).setLngLat([apartment.long, apartment.lat]);
-                    } else {
-                        mForAp = new mapboxgl.Marker().setLngLat([apartment.long, apartment.lat]);
+        if (qualifiedFromCurrentPage.length !== 0 && map.current) {
+            const { apartmentMarkers, gymMarkers } = unpackMarkers(qualifiedFromCurrentPage);
+            const allMarkers = [apartmentMarkers, gymMarkers].flat();
+
+            addNewMarkers(allMarkers, markers, setMarkers, map.current);
+        }
+    }, [map, qualifiedFromCurrentPage]);
+
+    function unpackMarkers(pageMarkers: IHousing[]): { apartmentMarkers: mapboxgl.Marker[]; gymMarkers: mapboxgl.Marker[] } {
+        const apartmentMarkers: mapboxgl.Marker[] = [];
+        const gymMarkers: mapboxgl.Marker[] = [];
+        const duplicateGymArray: number[] = []; // holds unique longitudes.
+        for (const apartment of pageMarkers) {
+            const nearbyGyms: IAssociation[] | undefined = apartment.nearbyGyms;
+            // console.log(associated, "95rm");
+            if (nearbyGyms !== undefined && nearbyGyms.length > 0 && apartment.long && apartment.lat) {
+                let mForAp;
+                if (apartment.isHighlighted) {
+                    mForAp = new mapboxgl.Marker({ color: "#ffffff" }).setLngLat([apartment.long, apartment.lat]);
+                } else {
+                    mForAp = new mapboxgl.Marker().setLngLat([apartment.long, apartment.lat]);
+                }
+                apartmentMarkers.push(mForAp);
+                for (const association of nearbyGyms) {
+                    const gymThatDefinitelyExists: IGym | undefined = association.gym;
+                    if (gymThatDefinitelyExists === undefined || duplicateGymArray.includes(gymThatDefinitelyExists.long)) {
+                        continue;
                     }
-                    apartmentMarkers.push(mForAp);
-                    for (const association of nearbyGyms) {
-                        const gymThatDefinitelyExists: IGym | undefined = association.gym;
-                        if (gymThatDefinitelyExists === undefined) {
-                            continue;
-                        }
-                        if (duplicateGymArray.includes(gymThatDefinitelyExists.long)) {
-                            // console.log(gymThatDefinitelyExists.long, association, "102rm");
-                            continue;
-                        }
-                        const mForGym = new mapboxgl.Marker({ color: "#f7685b" }).setLngLat([
-                            gymThatDefinitelyExists.long,
-                            gymThatDefinitelyExists.lat,
-                        ]);
-                        // .addTo(map.current);
-                        duplicateGymArray.push(gymThatDefinitelyExists.long);
-                        gymMarkers.push(mForGym);
-                    }
+                    const mForGym = new mapboxgl.Marker({ color: "#f7685b" }).setLngLat([gymThatDefinitelyExists.long, gymThatDefinitelyExists.lat]);
+                    duplicateGymArray.push(gymThatDefinitelyExists.long);
+                    gymMarkers.push(mForGym);
                 }
             }
-            const allMarkers = [apartmentMarkers, gymMarkers].flat();
-            console.log(allMarkers.length, "133rm");
-            setMarkers(allMarkers);
-            for (const marker of allMarkers) {
-                marker.addTo(map.current);
-            }
         }
-    }, [map, qualified]);
+        return { apartmentMarkers, gymMarkers };
+    }
+
+    function removeAllOldMarkers(markerHistory: mapboxgl.Marker[]) {
+        for (const marker of markerHistory) {
+            marker.remove();
+        }
+    }
+
+    function addNewMarkers(newMarkers: mapboxgl.Marker[], oldMarkers: mapboxgl.Marker[], markerUpdater: Function, map: mapboxgl.Map) {
+        // for (const marker of oldMarkers) {
+        //     marker.remove();
+        // }
+        console.log("adding all markers...");
+        for (const marker of newMarkers) {
+            marker.addTo(map);
+        }
+        markerUpdater(newMarkers);
+    }
 
     return (
         <div id="mapContainerOuter" className={`${decideWidth(isOpen, isOnMobile)} w-full mapHeight mr-2`}>

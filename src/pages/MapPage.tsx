@@ -37,7 +37,7 @@ const MapPage: React.FC<{}> = () => {
                 <SearchBar />
                 <div id="middleContainer" className="w-full mt-5 flex flex-col md2:flex-row">
                     {qualified && qualified.length > 0 ? (
-                        <ThirdMap center={[45, -73]} qualified={getCurrentPageResults(qualified, currentPage)} />
+                        <ThirdMap center={[45, -73]} qualifiedFromCurrentPage={getCurrentPageResults(qualified, currentPage)} />
                     ) : null}
                     <div id="apartmentCardContainer" className="">
                         {qualified
