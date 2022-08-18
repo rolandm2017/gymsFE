@@ -104,12 +104,11 @@ const Map: React.FC<MapboxProps> = ({ center, qualifiedFromCurrentPage, activeAp
             if (nearbyGyms !== undefined && nearbyGyms.length > 0 && apartment.long && apartment.lat) {
                 let mForAp;
                 if (i === activeApartment) {
-                    console.log("HIGHLIGHTED DETECTED 107rm");
                     mForAp = new mapboxgl.Marker({ color: "#ffffff", scale: 1.4 }).setLngLat([apartment.long, apartment.lat]);
                 } else {
                     mForAp = new mapboxgl.Marker()
                         .setLngLat([apartment.long, apartment.lat])
-                        .setPopup(new mapboxgl.Popup().setHTML("<h1>Hello World!</h1>"));
+                        .setPopup(new mapboxgl.Popup().setHTML(makePopupHTMLForApartment(apartment)));
                 }
                 apartmentMarkers.push(mForAp);
                 for (const association of nearbyGyms) {
@@ -119,13 +118,36 @@ const Map: React.FC<MapboxProps> = ({ center, qualifiedFromCurrentPage, activeAp
                     }
                     const mForGym = new mapboxgl.Marker({ color: "#f7685b" })
                         .setLngLat([gymThatDefinitelyExists.long, gymThatDefinitelyExists.lat])
-                        .setPopup(new mapboxgl.Popup().setHTML("<h1>A GYM!</h1>"));
+                        .setPopup(new mapboxgl.Popup().setHTML(makePopupHTMLForGym(association)));
                     duplicateGymArray.push(gymThatDefinitelyExists.long);
                     gymMarkers.push(mForGym);
                 }
             }
         }
         return { apartmentMarkers, gymMarkers };
+    }
+
+    function makePopupHTMLForApartment(apartment: IHousing): string {
+        const nearbyGym = apartment.nearbyGyms ? apartment.nearbyGyms[0].gym?.name : "No gyms found";
+        const distance = apartment.nearbyGyms ? apartment.nearbyGyms[0].distanceInKM : "No data";
+        return `<div>
+                <h4>${apartment.address}</h4>
+                <p>Gym: ${nearbyGym}</p>
+                <p>Distance: ${distance}</p>
+            </div>`;
+    }
+
+    function makePopupHTMLForGym(association: IAssociation): string {
+        // gym: addr, distance to ap
+        const gym = association.gym as IGym;
+        const name = gym.name;
+        const addr = gym.formatted_address;
+        const distance = association.distanceInKM;
+        return `<div>
+                <h4>${name}</h4>
+                <p>${addr}</p>
+                <p>${distance}</p>
+            </div>`;
     }
 
     function addNewMarkers(newMarkers: mapboxgl.Marker[], oldMarkers: mapboxgl.Marker[], markerUpdater: Function, map: mapboxgl.Map) {
