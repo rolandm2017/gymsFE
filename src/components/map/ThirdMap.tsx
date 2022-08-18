@@ -81,15 +81,21 @@ const ThirdMap: React.FC<MapboxProps> = ({ center, qualifiedFromCurrentPage }) =
         if (map === null) return;
         console.log("inside useEffect ThirdMap", qualifiedFromCurrentPage.length, markers.length, "92rm");
         // remove all old markers
-        for (const marker of markers) {
-            marker.remove();
-        }
+        // for (const marker of markers) {
+        //     marker.remove();
+        // }
+        let allMarkers: mapboxgl.Marker[] = [];
         if (qualifiedFromCurrentPage.length !== 0 && map.current) {
             const { apartmentMarkers, gymMarkers } = unpackMarkers(qualifiedFromCurrentPage);
-            const allMarkers = [apartmentMarkers, gymMarkers].flat();
+            allMarkers = [apartmentMarkers, gymMarkers].flat();
 
             addNewMarkers(allMarkers, markers, setMarkers, map.current);
         }
+        return () => {
+            for (const marker of allMarkers) {
+                marker.remove();
+            }
+        };
     }, [map, qualifiedFromCurrentPage]);
 
     function unpackMarkers(pageMarkers: IHousing[]): { apartmentMarkers: mapboxgl.Marker[]; gymMarkers: mapboxgl.Marker[] } {
