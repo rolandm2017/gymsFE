@@ -11,11 +11,21 @@ interface DeailsBarProps {
     time: string;
     apUrl: string;
     gymUrl: string;
+    active: number;
+    detailNumber: number;
+    setActive: Function;
 }
 //TODO: between 1200 and 390 px, show less details: only addr, gymName, walkTime, link (4 values, not 6)
-const DetailsBar: React.FC<DeailsBarProps> = ({ pic, name, addr, gym, distance, time, apUrl, gymUrl }) => {
+const DetailsBar: React.FC<DeailsBarProps> = ({ pic, name, addr, gym, distance, time, apUrl, gymUrl, active, detailNumber, setActive }) => {
     return (
-        <div className="w-auto sm:w-full flex justify-between bg-white h-9 mt-2.5 px-5 sm:px-7">
+        <div
+            onClick={() => {
+                setActive(detailNumber);
+            }}
+            className={`w-auto sm:w-full flex justify-between bg-white h-9 mt-2.5 px-5 sm:px-7 ${
+                active === detailNumber ? "detailsBarHighlighted" : null
+            }`}
+        >
             {/* <div className="w-1/3 flex"> */}
             <div className="w-1/6 hidden xl:flex items-center">
                 <div>

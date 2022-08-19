@@ -19,6 +19,7 @@ import { ILocationContext, LocationsProviderContext } from "../context/Locations
 const SearchPage: React.FC<{}> = props => {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const { qualified } = useContext(LocationsProviderContext) as ILocationContext;
+    const [active, setActive] = useState<number | null>(null);
     // console.log(isOpen, "22rm");
 
     return (
@@ -31,7 +32,7 @@ const SearchPage: React.FC<{}> = props => {
                     {Array(20)
                         .fill(hardcodeApartments[0])
                         .map((ap, i) => (
-                            <DetailsBar key={i} {...ap} />
+                            <DetailsBar key={i} {...ap} detailNumber={i} active={active} setActive={setActive} />
                         ))}
                 </div>
                 <div className="mb-3 flex justify-between">
