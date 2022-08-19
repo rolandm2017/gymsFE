@@ -5,6 +5,8 @@ import { ISidebarContext, SidebarStateContext } from "../../context/SidebarState
 import { IAssociation } from "../../interface/Association.interface";
 import { IGym } from "../../interface/Gym.interface";
 import { IHousing } from "../../interface/Housing.interface";
+import { calculateWalkTimeInMinutes } from "../../util/calcWalkTime";
+import { truncateDecimals } from "../../util/truncateDecimals";
 
 import useWindowSize from "../../util/useWindowSize";
 
@@ -108,6 +110,7 @@ const Map: React.FC<MapboxProps> = ({ center, qualifiedFromCurrentPage, activeAp
                 } else {
                     mForAp = new mapboxgl.Marker()
                         .setLngLat([apartment.long, apartment.lat])
+
                         .setPopup(new mapboxgl.Popup().setHTML(makePopupHTMLForApartment(apartment)));
                 }
                 apartmentMarkers.push(mForAp);
@@ -129,24 +132,24 @@ const Map: React.FC<MapboxProps> = ({ center, qualifiedFromCurrentPage, activeAp
 
     function makePopupHTMLForApartment(apartment: IHousing): string {
         const nearbyGym = apartment.nearbyGyms ? apartment.nearbyGyms[0].gym?.name : "No gyms found";
-        const distance = apartment.nearbyGyms ? apartment.nearbyGyms[0].distanceInKM : "No data";
+        const distance = apartment.nearbyGyms ? truncateDecimals(apartment.nearbyGyms[0].distanceInKM, 2) : "No data";
         return `<div>
                 <h4>${apartment.address}</h4>
-                <p>Gym: ${nearbyGym}</p>
+                <p>Near: ${nearbyGym}</p>
                 <p>Distance: ${distance}</p>
             </div>`;
     }
 
     function makePopupHTMLForGym(association: IAssociation): string {
         // gym: addr, distance to ap
-        const gym = association.gym as IGym;
-        const name = gym.name;
-        const addr = gym.formatted_address;
-        const distance = association.distanceInKM;
+        const gym = association.gym;
+        const name = gym ? gym.name : "name MIA";
+        const addr = gym ? gym.formatted_address : "addr mia";
+        const distance = truncateDecimals(calculateWalkTimeInMinutes(association.distanceInKM), 2);
         return `<div>
                 <h4>${name}</h4>
                 <p>${addr}</p>
-                <p>${distance}</p>
+                <p>Nearest apartment: ${distance}</p>
             </div>`;
     }
 

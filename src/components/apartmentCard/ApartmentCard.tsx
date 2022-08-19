@@ -5,6 +5,7 @@ import { IAssociation } from "../../interface/Association.interface";
 import { IGym } from "../../interface/Gym.interface";
 import { IHousing } from "../../interface/Housing.interface";
 import { calculateWalkTimeInMinutes } from "../../util/calcWalkTime";
+import { truncateDecimals } from "../../util/truncateDecimals";
 import Button from "../button/Button";
 import "./ApartmentCard.scss";
 
@@ -62,8 +63,8 @@ const ApartmentCard: React.FC<ApartmentCardProps> = ({ apartment, addr, gyms, ap
                             }
                             const gym: IGym = association.gym as IGym;
                             const gymName: string = gym.name.length > 0 ? gym.name : "noNameFound";
-                            const distanceFromApartment: number = Math.trunc(association.distanceInKM * 100) / 100;
-                            const walkTimeInMinutes: number = Math.trunc(calculateWalkTimeInMinutes(distanceFromApartment) * 10) / 10;
+                            const distanceFromApartmentInKM: number = truncateDecimals(association.distanceInKM, 2); // get only 3 decimals
+                            const walkTimeInMinutes: number = truncateDecimals(calculateWalkTimeInMinutes(distanceFromApartmentInKM), 1);
                             const linkToGym = gym.url;
                             return (
                                 <div key={index} className="w-full flex justify-between">
@@ -71,7 +72,7 @@ const ApartmentCard: React.FC<ApartmentCardProps> = ({ apartment, addr, gyms, ap
                                         <p className="grayText">Gym {gymName}</p>
                                     </div>
                                     <div>
-                                        <p className="grayText">{distanceFromApartment} km</p>
+                                        <p className="grayText">{distanceFromApartmentInKM} km</p>
                                     </div>
                                     <div>
                                         <p className="grayText">{walkTimeInMinutes} min away</p>
