@@ -24,6 +24,7 @@ interface MapboxProps {
 }
 
 const Map: React.FC<MapboxProps> = ({ center, qualifiedFromCurrentPage, activeApartment }) => {
+    // console.log(qualifiedFromCurrentPage, "27rm");
     const [markers, setMarkers] = useState<mapboxgl.Marker[]>([]);
     const { isOpen, toggleIsOpen } = useContext(SidebarStateContext) as ISidebarContext;
 
@@ -73,7 +74,7 @@ const Map: React.FC<MapboxProps> = ({ center, qualifiedFromCurrentPage, activeAp
 
     useEffect(() => {
         console.log("Runs once");
-        console.log(qualifiedFromCurrentPage.map(a => a.isHighlighted));
+        // console.log(qualifiedFromCurrentPage.map(a => a.isHighlighted));
     }, [qualifiedFromCurrentPage]);
 
     // plot qualified gyms and apartments
@@ -82,7 +83,7 @@ const Map: React.FC<MapboxProps> = ({ center, qualifiedFromCurrentPage, activeAp
 
         let allMarkers: mapboxgl.Marker[] = [];
         if (qualifiedFromCurrentPage.length !== 0 && map.current) {
-            const { apartmentMarkers, gymMarkers } = unpackMarkers(qualifiedFromCurrentPage);
+            const { apartmentMarkers, gymMarkers } = unpackMarkers(qualifiedFromCurrentPage, true);
             allMarkers = [apartmentMarkers, gymMarkers].flat();
 
             addNewMarkers(allMarkers, markers, setMarkers, map.current);
@@ -95,7 +96,8 @@ const Map: React.FC<MapboxProps> = ({ center, qualifiedFromCurrentPage, activeAp
         };
     }, [map, qualifiedFromCurrentPage]);
 
-    function unpackMarkers(apartments: IHousing[]): { apartmentMarkers: mapboxgl.Marker[]; gymMarkers: mapboxgl.Marker[] } {
+    function unpackMarkers(apartments: IHousing[], onAdminPage: boolean): { apartmentMarkers: mapboxgl.Marker[]; gymMarkers: mapboxgl.Marker[] } {
+        console.log(apartments, "100rm");
         const apartmentMarkers: mapboxgl.Marker[] = [];
         const gymMarkers: mapboxgl.Marker[] = [];
         const duplicateGymArray: number[] = []; // holds unique longitudes.
@@ -127,6 +129,7 @@ const Map: React.FC<MapboxProps> = ({ center, qualifiedFromCurrentPage, activeAp
                 }
             }
         }
+        console.log(apartmentMarkers, gymMarkers, "132rm");
         return { apartmentMarkers, gymMarkers };
     }
 

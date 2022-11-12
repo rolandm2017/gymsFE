@@ -44,7 +44,7 @@ const DetailsBar: React.FC<DeailsBarProps> = ({ pic, address, nearbyGyms, url, a
                     {/* <img src={pic} alt="profile pic" height={24} width={24} /> */}
                     {/* // TODO: Scrape the URL of a pic from the listing. Forward the URL thru backend to here and display pic. */}
                 </div>
-                <p className="grayText detailsBarText">{address}</p>
+                <p className="grayText detailsBarText">{address && address.length > 0 ? address : "Placeholder St."}</p>
             </div>
             <div className="w-1/3 sm:w-1/6 mr-2 sm:mr-0 flex items-center">
                 <p className="blueText">$800</p>
@@ -56,12 +56,12 @@ const DetailsBar: React.FC<DeailsBarProps> = ({ pic, address, nearbyGyms, url, a
                 <p className="grayText detailsBarText">{closestGym.gym!.name}</p>
             </div>
             <div className="w-1/6 hidden xl:flex items-center">
-                <p className="grayText detailsBarText">{closestGym.distanceInKM}</p>
+                <p className="grayText detailsBarText">{truncateDecimals(closestGym.distanceInKM, 2)} km</p>
             </div>
             {/* </div> */}
             {/* <div className="w-1/3 flex"> */}
             <div className="w-1/3 sm:w-1/6 mr-2 sm:mr-0 flex items-center">
-                <p className="grayText detailsBarText">{truncateDecimals(calculateWalkTimeInMinutes(closestGym.distanceInKM), 2)}</p>
+                <p className="grayText detailsBarText">{truncateDecimals(calculateWalkTimeInMinutes(closestGym.distanceInKM), 2)} minutes</p>
             </div>
             <div className="w-1/3 sm:w-1/6 mr-2 sm:mr-0 flex items-center">
                 <p className="w-full grayText detailsBarText truncate text-left">{url}</p>
