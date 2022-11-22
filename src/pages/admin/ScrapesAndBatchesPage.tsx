@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from "react";
 //
 import PageBase from "../PageBase";
-import Map from "../../components/map/Map";
 import { IHousing } from "../../interface/Housing.interface";
 import { ILatLong } from "../../interface/LatLong.interface";
 import Button from "../../components/button/Button";
-import { getBatchesAdmin, housingHealthCheck, queryAllScrapesAdmin, queryScrapesAdmin } from "../../api/queries/AdminQueries";
+import { getAllBatchesAdmin, getBatchesAdmin, housingHealthCheck, queryAllScrapesAdmin, queryScrapesAdmin } from "../../api/queries/AdminQueries";
+import { IBatchMarker } from "../../interface/BatchMarker.interface";
+import AdminMap from "../../components/map/AdminMap";
 
 const ScrapesAndBatchesPage: React.FC<{}> = props => {
-    console.log("5rm");
-
     // responses
     const [apartments, setApartments] = useState<IHousing[]>([]);
-    const [batchMarkers, setBatchMarkers] = useState<ILatLong[]>([]);
+    const [batchMarkers, setBatchMarkers] = useState<IBatchMarker[]>([]);
     // inputs
     const [provider, setProvider] = useState<string>("rentCanada");
     const [cityId, setCityId] = useState<number>(6);
@@ -21,12 +20,15 @@ const ScrapesAndBatchesPage: React.FC<{}> = props => {
     const [longitude, setLongitude] = useState<number>(0);
     const [latitude, setLatitude] = useState<number>(0);
     const [zoom, setZoom] = useState<number>(10);
+    const [showApartments, setShowApartments] = useState<boolean>(true);
+    const [showBatchMarkers, setshowBatchMarkers] = useState<boolean>(true);
 
     useEffect(() => {
         housingHealthCheck();
         const fetchData = async () => {
-            const results = await getBatchesAdmin(provider, batchNum);
-            console.log(results, "25rm");
+            // const results = await getBatchesAdmin(provider, batchNum);
+            const results = await getAllBatchesAdmin();
+            console.log("batches: ", results, "25rm");
             setBatchMarkers(results);
         };
         fetchData();
@@ -44,17 +46,16 @@ const ScrapesAndBatchesPage: React.FC<{}> = props => {
     return (
         <PageBase>
             <div>
-                foo
-                <div>
-                    <div>Admin Panel Tabs</div>
-                    <div>
-                        <div>Batches & Scrapes</div>
-                        <div>User Activity</div>
-                    </div>
-                </div>
                 <div>
                     {apartments && apartments.length > 0 ? (
-                        <Map qualifiedFromCurrentPage={apartments} activeApartment={null} center={[apartments[0].lat, apartments[0].long]} />
+                        <AdminMap
+                            qualifiedFromCurrentPage={apartments}
+                            activeApartment={null}
+                            center={[apartments[0].lat, apartments[0].long]}
+                            batchMarkersData={batchMarkers}
+                            showApartments={showApartments}
+                            showBatchMarkers={showBatchMarkers}
+                        />
                     ) : null}
                 </div>
                 <div>
@@ -69,6 +70,24 @@ const ScrapesAndBatchesPage: React.FC<{}> = props => {
                         }}
                     >
                         <Button type={"Transparent"} text={"Inspect"} onClickHandler={() => {}} />
+                    </div>
+                    <div
+                        onClick={() => {
+                            setShowApartments(!showApartments);
+                        }}
+                    >
+                        {showApartments ? <Button type={"Opaque"} text={"Apartments"} /> : <Button type={"Transparent"} text={"Apartments"} />}
+                    </div>
+                    <div
+                        onClick={() => {
+                            setshowBatchMarkers(!showBatchMarkers);
+                        }}
+                    >
+                        {showBatchMarkers ? (
+                            <Button type={"Opaque"} text={"Batch Markers"} />
+                        ) : (
+                            <Button type={"Transparent"} text={"Batch Markers"} />
+                        )}
                     </div>
                 </div>
             </div>

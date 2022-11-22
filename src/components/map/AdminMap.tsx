@@ -18,14 +18,24 @@ import "./Map.scss";
 const MAPBOX_TOKEN: string = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN || "";
 mapboxgl.accessToken = MAPBOX_TOKEN;
 
-interface MapboxProps {
+interface AdminMapboxProps {
     center: [number, number];
     qualifiedFromCurrentPage: IHousing[];
     activeApartment: number | null;
+    batchMarkersData: IBatchMarker[];
+    showApartments: boolean;
+    showBatchMarkers: boolean;
     // zoom: number;
 }
 
-const Map: React.FC<MapboxProps> = ({ center, qualifiedFromCurrentPage, activeApartment }) => {
+const AdminMap: React.FC<AdminMapboxProps> = ({
+    center,
+    qualifiedFromCurrentPage,
+    activeApartment,
+    batchMarkersData,
+    showApartments,
+    showBatchMarkers,
+}) => {
     // console.log(qualifiedFromCurrentPage, "27rm");
     const [markers, setMarkers] = useState<mapboxgl.Marker[]>([]);
     const { isOpen, toggleIsOpen } = useContext(SidebarStateContext) as ISidebarContext;
@@ -85,8 +95,13 @@ const Map: React.FC<MapboxProps> = ({ center, qualifiedFromCurrentPage, activeAp
 
         let allMarkers: mapboxgl.Marker[] = [];
         if (qualifiedFromCurrentPage.length !== 0 && map.current) {
-            const { apartmentMarkers, gymMarkers } = unpackMarkers(qualifiedFromCurrentPage);
-            allMarkers = [apartmentMarkers, gymMarkers].flat();
+            const { apartmentMarkers, gymMarkers } = unpackMarkers(qualifiedFromCurrentPage, true);
+            if (batchMarkersData && showBatchMarkers) {
+                const batchMarkers = makeBatchMarkers(batchMarkersData);
+                allMarkers = [apartmentMarkers, gymMarkers, batchMarkers].flat();
+            } else {
+                allMarkers = [apartmentMarkers, gymMarkers].flat();
+            }
 
             addNewMarkers(allMarkers, markers, setMarkers, map.current);
         }
@@ -98,9 +113,24 @@ const Map: React.FC<MapboxProps> = ({ center, qualifiedFromCurrentPage, activeAp
         };
     }, [map, qualifiedFromCurrentPage]);
 
-    function unpackMarkers(apartments: IHousing[]): { apartmentMarkers: mapboxgl.Marker[]; gymMarkers: mapboxgl.Marker[] } {
+    function makeBatchMarkers(batchMarkersData: IBatchMarker[]): mapboxgl.Marker[] {
+        const batchMarkers: mapboxgl.Marker[] = [];
+        for (const b of batchMarkersData) {
+            const m = new mapboxgl.Marker({ color: "#AA0000", scale: 1.4 }).setLngLat([b.long, b.lat]);
+            batchMarkers.push(m);
+        }
+        return batchMarkers;
+    }
+
+    function unpackMarkers(apartments: IHousing[], onAdminPage: boolean): { apartmentMarkers: mapboxgl.Marker[]; gymMarkers: mapboxgl.Marker[] } {
+        console.log(apartments, "100rm");
         const apartmentMarkers: mapboxgl.Marker[] = [];
         const gymMarkers: mapboxgl.Marker[] = [];
+        if (onAdminPage)
+            return {
+                apartmentMarkers: apartments.map(ap => new mapboxgl.Marker({ color: "#ffffff", scale: 1.4 }).setLngLat([ap.long, ap.lat])),
+                gymMarkers: [],
+            };
         const duplicateGymArray: number[] = []; // holds unique longitudes.
 
         for (let i = 0; i < apartments.length; i++) {
@@ -182,4 +212,4 @@ const Map: React.FC<MapboxProps> = ({ center, qualifiedFromCurrentPage, activeAp
     );
 };
 
-export default Map;
+export default AdminMap;

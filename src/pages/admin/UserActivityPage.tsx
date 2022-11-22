@@ -10,13 +10,7 @@ const UserActivityPage: React.FC<{}> = props => {
         <PageBase>
             <div>
                 foo
-                <div>
-                    <div>Admin Panel Tabs</div>
-                    <div>
-                        <div>Batches & Scrapes</div>
-                        <div>User Activity</div>
-                    </div>
-                </div>
+                <div></div>
             </div>
         </PageBase>
     );
