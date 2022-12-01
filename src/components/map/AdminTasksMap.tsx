@@ -25,7 +25,6 @@ interface AdminTasksMapboxProps {
 }
 
 const AdminTasksMap: React.FC<AdminTasksMapboxProps> = ({ center, tasks }) => {
-    console.log(tasks, "27rm");
     const [markers, setMarkers] = useState<mapboxgl.Marker[]>([]);
     const { isOpen } = useContext(SidebarStateContext) as ISidebarContext;
 
@@ -76,19 +75,23 @@ const AdminTasksMap: React.FC<AdminTasksMapboxProps> = ({ center, tasks }) => {
         console.log(map, "76rm");
         if (map === null) return;
 
-        let allMarkers: mapboxgl.Marker[] = [];
+        // remove old markers;
+        for (const m of markers) {
+            m.remove();
+        }
+
         if (tasks.length !== 0 && map.current) {
             console.log("unpacking 80rm");
             const taskMarkers = unpackMarkers(tasks);
 
             addNewMarkers(taskMarkers, markers, setMarkers, map.current);
         }
-        return () => {
-            // remove all old markers
-            for (const marker of allMarkers) {
-                marker.remove();
-            }
-        };
+        // return () => {
+        //     // remove all old markers
+        //     for (const marker of allMarkers) {
+        //         marker.remove();
+        //     }
+        // };
     }, [map, tasks]);
 
     // function makeBatchMarkers(batchMarkersData: ITask[]): mapboxgl.Marker[] {

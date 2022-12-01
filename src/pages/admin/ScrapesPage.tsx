@@ -22,13 +22,13 @@ const ScrapesPage: React.FC<{}> = props => {
     const [cityId, setCityId] = useState<number>(6);
     const [activeBatchNum, setActiveBatchNum] = useState<number | undefined>(undefined);
     const [activeTaskId, setActiveTaskId] = useState<number | undefined>(undefined);
-    const [activeCityId, setActiveCityId] = useState<number | undefined>(undefined);
+    const [activeCityIndex, setActiveCityIndex] = useState<number | undefined>(undefined);
     const [longitude, setLongitude] = useState<number>(0);
     const [latitude, setLatitude] = useState<number>(0);
     const [zoom, setZoom] = useState<number>(10);
     const [qualified, setQualified] = useState<IHousing[]>([]);
     const [showApartments, setShowApartments] = useState<boolean>(false);
-    const [showBatchMarkers, setShowBatchMarkers] = useState<boolean>(false);
+    const [showTaskMarkers, setShowTaskMarkers] = useState<boolean>(false);
 
     useEffect(() => {
         const fetchBatchData = async () => {
@@ -78,6 +78,10 @@ const ScrapesPage: React.FC<{}> = props => {
         }
     }, [apartments, activeTaskId]);
 
+    useEffect(() => {
+        // center map on selected city
+    }, [activeCityIndex]);
+
     return (
         <PageBase>
             <div>
@@ -88,10 +92,13 @@ const ScrapesPage: React.FC<{}> = props => {
                                 qualified={qualified}
                                 activeApartment={null}
                                 activeTaskId={activeTaskId}
-                                center={[apartments[0].lat, apartments[0].long]}
+                                center={[
+                                    SEED_CITIES[activeCityIndex ? activeCityIndex : 0].centerLat,
+                                    SEED_CITIES[activeCityIndex ? activeCityIndex : 0].centerLong,
+                                ]}
                                 tasks={tasks}
                                 showApartments={showApartments}
-                                showTaskMarkers={showBatchMarkers}
+                                showTaskMarkers={showTaskMarkers}
                             />
                         ) : null}
                     </div>
@@ -111,8 +118,8 @@ const ScrapesPage: React.FC<{}> = props => {
                         <TitledDropdown
                             title="City"
                             options={SEED_CITIES}
-                            valueReporter={setActiveCityId}
-                            activeOption={activeCityId}
+                            valueReporter={setActiveCityIndex}
+                            activeOption={activeCityIndex}
                             usesCities={true}
                         />
                     </div>
@@ -142,14 +149,10 @@ const ScrapesPage: React.FC<{}> = props => {
                     <div
                         className=""
                         onClick={() => {
-                            setShowBatchMarkers(!showBatchMarkers);
+                            setShowTaskMarkers(!showTaskMarkers);
                         }}
                     >
-                        {showBatchMarkers ? (
-                            <Button type={"Opaque"} text={"Batch Markers"} />
-                        ) : (
-                            <Button type={"Transparent"} text={"Batch Markers"} />
-                        )}
+                        {showTaskMarkers ? <Button type={"Opaque"} text={"Task Markers"} /> : <Button type={"Transparent"} text={"Task Markers"} />}
                     </div>
                 </div>
             </div>

@@ -31,7 +31,6 @@ interface AdminApartmentsMapboxProps {
 }
 
 const AdminApartmentsMap: React.FC<AdminApartmentsMapboxProps> = ({ center, qualified, activeTaskId, tasks, showApartments, showTaskMarkers }) => {
-    // console.log(qualifiedFromCurrentPage, "27rm");
     const [markers, setMarkers] = useState<mapboxgl.Marker[]>([]);
     const { isOpen } = useContext(SidebarStateContext) as ISidebarContext;
 
@@ -83,27 +82,28 @@ const AdminApartmentsMap: React.FC<AdminApartmentsMapboxProps> = ({ center, qual
     useEffect(() => {
         if (map === null) return;
 
-        let allMarkers: mapboxgl.Marker[] = [];
-        console.log(qualified, "86rm");
+        // remove old markers;
+        for (const m of markers) {
+            m.remove();
+        }
+
+        console.log(qualified, showApartments, showTaskMarkers, "86rm");
         if (qualified.length !== 0 && map.current) {
             console.log(activeTaskId, "95rm");
-            const { apartmentMarkers } = unpackMarkers(qualified, activeTaskId);
+            // manifest toggle
+            let apartmentMarkers: mapboxgl.Marker[] = [];
+            let taskMarkers: mapboxgl.Marker[] = [];
+            if (qualified && showApartments) {
+                apartmentMarkers = unpackMarkers(qualified, activeTaskId);
+            }
             if (tasks && showTaskMarkers) {
-                const taskMarkers = makeTaskMarkers(tasks);
-                allMarkers = [apartmentMarkers, taskMarkers].flat();
-            } else {
-                allMarkers = apartmentMarkers;
+                taskMarkers = makeTaskMarkers(tasks);
             }
+            const allMarkers = [apartmentMarkers, taskMarkers].flat();
 
-            addNewMarkers(allMarkers, markers, setMarkers, map.current);
+            addNewMarkers(allMarkers, setMarkers, map.current);
         }
-        return () => {
-            // remove all old markers
-            for (const marker of allMarkers) {
-                marker.remove();
-            }
-        };
-    }, [map, qualified, activeTaskId]);
+    }, [map, qualified, showApartments, tasks, showTaskMarkers, activeTaskId]);
 
     function makeTaskMarkers(tasks: ITask[]): mapboxgl.Marker[] {
         const taskMarkers: mapboxgl.Marker[] = [];
@@ -114,27 +114,23 @@ const AdminApartmentsMap: React.FC<AdminApartmentsMapboxProps> = ({ center, qual
         return taskMarkers;
     }
 
-    function unpackMarkers(apartments: IHousing[], activeTaskId: number | undefined): { apartmentMarkers: mapboxgl.Marker[] } {
+    function unpackMarkers(apartments: IHousing[], activeTaskId: number | undefined): mapboxgl.Marker[] {
         if (activeTaskId)
-            return {
-                apartmentMarkers: apartments
-                    .filter(ap => ap.taskId === activeTaskId)
-                    .map(ap => {
-                        const colorChoice = ap.taskId % hexCodes.length;
-                        return new mapboxgl.Marker({ color: hexCodes[colorChoice].colorCode, scale: 1.4 })
-                            .setLngLat([ap.long, ap.lat])
-                            .setPopup(new mapboxgl.Popup().setHTML(makePopupHTMLForApartment(ap)));
-                    }),
-            };
-
-        return {
-            apartmentMarkers: apartments.map(ap => {
+            return apartments
+                .filter(ap => ap.taskId === activeTaskId)
+                .map(ap => {
+                    const colorChoice = ap.taskId % hexCodes.length;
+                    return new mapboxgl.Marker({ color: hexCodes[colorChoice].colorCode, scale: 1.4 })
+                        .setLngLat([ap.long, ap.lat])
+                        .setPopup(new mapboxgl.Popup().setHTML(makePopupHTMLForApartment(ap)));
+                });
+        else
+            return apartments.map(ap => {
                 const colorChoice = ap.taskId % hexCodes.length;
                 return new mapboxgl.Marker({ color: hexCodes[colorChoice].colorCode, scale: 1.4 })
                     .setLngLat([ap.long, ap.lat])
                     .setPopup(new mapboxgl.Popup().setHTML(makePopupHTMLForApartment(ap)));
-            }),
-        };
+            });
     }
 
     function makePopupHTMLForApartment(apartment: IHousing): string {
@@ -144,10 +140,7 @@ const AdminApartmentsMap: React.FC<AdminApartmentsMapboxProps> = ({ center, qual
             </div>`;
     }
 
-    function addNewMarkers(newMarkers: mapboxgl.Marker[], oldMarkers: mapboxgl.Marker[], markerUpdater: Function, map: mapboxgl.Map) {
-        // for (const marker of oldMarkers) {
-        //     marker.remove();
-        // }
+    function addNewMarkers(newMarkers: mapboxgl.Marker[], markerUpdater: Function, map: mapboxgl.Map) {
         console.log("adding all markers...", newMarkers);
         for (const marker of newMarkers) {
             marker.addTo(map);

@@ -1,17 +1,9 @@
 import React, { useEffect, useState } from "react";
 //
 import PageBase from "../PageBase";
-import { IHousing } from "../../interface/Housing.interface";
 import Button from "../../components/button/Button";
-import {
-    getAllBatchesAdmin,
-    getAllBatchNumsAdmin,
-    getApartmentsByLocationAdmin,
-    getTaskMarkersByBatchNumAdmin,
-    housingHealthCheck,
-} from "../../api/queries/AdminQueries";
+import { getAllBatchNumsAdmin, getTaskMarkersByBatchNumAdmin } from "../../api/queries/AdminQueries";
 import { ITask } from "../../interface/Task.interface";
-import AdminMap from "../../components/map/AdminApartmentsMap";
 
 import "./TaskMarkerPage.scss";
 import TitledDropdown from "../../components/titledDropdown/TitledDropdown";
@@ -26,7 +18,7 @@ const TaskMarkerPage: React.FC<{}> = props => {
     // inputs
     const [cityId, setCityId] = useState<number>(6);
     const [activeBatchNum, setActiveBatchNum] = useState<number>(0);
-    const [activeCityId, setActiveCityId] = useState<number | undefined>(undefined);
+    const [activeCityIndex, setActiveCityIndex] = useState<number | undefined>(undefined);
     // const [longitude, setLongitude] = useState<number>(0);
     // const [latitude, setLatitude] = useState<number>(0);
     // const [zoom, setZoom] = useState<number>(10);
@@ -57,7 +49,15 @@ const TaskMarkerPage: React.FC<{}> = props => {
             <div>
                 <div id="mapAndOptionsContainer" className="flex w-full ">
                     <div className="w-full mr-4">
-                        {tasks && tasks.length > 0 ? <AdminTasksMap tasks={tasks} center={[tasks[0].lat, tasks[0].long]} /> : null}
+                        {tasks && tasks.length > 0 ? (
+                            <AdminTasksMap
+                                tasks={tasks}
+                                center={[
+                                    SEED_CITIES[activeCityIndex ? activeCityIndex : 0].centerLat,
+                                    SEED_CITIES[activeCityIndex ? activeCityIndex : 0].centerLong,
+                                ]}
+                            />
+                        ) : null}
                     </div>
                     <div id="optionsDropdowns">
                         <TitledDropdownWithButtons
@@ -69,8 +69,8 @@ const TaskMarkerPage: React.FC<{}> = props => {
                         <TitledDropdown
                             title="City"
                             options={SEED_CITIES}
-                            valueReporter={setActiveCityId}
-                            activeOption={activeCityId}
+                            valueReporter={setActiveCityIndex}
+                            activeOption={activeCityIndex}
                             usesCities={true}
                         />
                     </div>

@@ -79,6 +79,11 @@ const Map: React.FC<MapboxProps> = ({ center, qualifiedFromCurrentPage, activeAp
     useEffect(() => {
         if (map === null) return;
 
+        // remove all old markers
+        for (const marker of markers) {
+            marker.remove();
+        }
+
         let allMarkers: mapboxgl.Marker[] = [];
         if (qualifiedFromCurrentPage.length !== 0 && map.current) {
             const { apartmentMarkers, gymMarkers } = unpackMarkers(qualifiedFromCurrentPage);
@@ -86,12 +91,12 @@ const Map: React.FC<MapboxProps> = ({ center, qualifiedFromCurrentPage, activeAp
 
             addNewMarkers(allMarkers, markers, setMarkers, map.current);
         }
-        return () => {
-            // remove all old markers
-            for (const marker of allMarkers) {
-                marker.remove();
-            }
-        };
+        // return () => {
+        //     // remove all old markers
+        //     for (const marker of allMarkers) {
+        //         marker.remove();
+        //     }
+        // };
     }, [map, qualifiedFromCurrentPage]);
 
     function unpackMarkers(apartments: IHousing[]): { apartmentMarkers: mapboxgl.Marker[]; gymMarkers: mapboxgl.Marker[] } {
