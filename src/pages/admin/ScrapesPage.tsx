@@ -10,31 +10,31 @@ import AdminMap from "../../components/map/AdminApartmentsMap";
 import "./ScrapesPage.scss";
 import TitledDropdown from "../../components/titledDropdown/TitledDropdown";
 import AdminApartmentsMap from "../../components/map/AdminApartmentsMap";
+import TitledDropdownWithButtons from "../../components/titledDropdownWithButtons/TitledDropdownWithButtons";
 
 const ScrapesPage: React.FC<{}> = props => {
     // responses from server
     const [apartments, setApartments] = useState<IHousing[]>([]);
-    const [taskMarkers, setTaskMarkers] = useState<ITask[]>([]);
+    const [tasks, setTasks] = useState<ITask[]>([]);
     // inputs
     const [provider, setProvider] = useState<string>("rentCanada");
     const [cityId, setCityId] = useState<number>(6);
     const [activeBatchNum, setActiveBatchNum] = useState<number | undefined>(undefined);
     const [activeTaskId, setActiveTaskId] = useState<number | undefined>(undefined);
     const [activeCity, setActiveCity] = useState<string | undefined>(undefined);
-    // const [displayMode, setDisplayMode] = useState<string>("batch");
     const [longitude, setLongitude] = useState<number>(0);
     const [latitude, setLatitude] = useState<number>(0);
     const [zoom, setZoom] = useState<number>(10);
-    const [showApartments, setShowApartments] = useState<boolean>(true);
-    const [showBatchMarkers, setshowBatchMarkers] = useState<boolean>(true);
+    const [qualified, setQualified] = useState<IHousing[]>([]);
+    const [showApartments, setShowApartments] = useState<boolean>(false);
+    const [showBatchMarkers, setShowBatchMarkers] = useState<boolean>(false);
 
     useEffect(() => {
-        housingHealthCheck();
         const fetchBatchData = async () => {
             // const results = await getBatchesAdmin(provider, batchNum);
             const results = await getAllBatchesAdmin();
             console.log("batches: ", results, "25rm");
-            setTaskMarkers(results);
+            setTasks(results);
         };
         fetchBatchData();
     }, [activeBatchNum]);
@@ -47,7 +47,7 @@ const ScrapesPage: React.FC<{}> = props => {
         fetchHousingData();
     }, [cityId, longitude, latitude, zoom]);
 
-    const justApartmentTaskIds = Array.from(
+    const justApartmentTaskIds: (string | number)[] = Array.from(
         new Set(
             apartments
                 .map(a => a.taskId)
@@ -56,7 +56,26 @@ const ScrapesPage: React.FC<{}> = props => {
                 }),
         ),
     );
-    const justApartmentBatchNums = Array.from(new Set(apartments.map(a => (a.batchId ? a.batchId : "null"))));
+    justApartmentTaskIds.unshift("all");
+    const justApartmentBatchNums: (string | number)[] = Array.from(new Set(apartments.map(a => (a.batchId ? a.batchId : "null"))));
+    justApartmentBatchNums.unshift("all");
+
+    useEffect(() => {
+        // display scraped data filtered by activeTaskId
+        console.log(apartments, activeTaskId, "64rm");
+        const x = Array.from(new Set(apartments.map(ap => ap.lat)));
+        console.log(x.length, "number of unique apartments, 66rm");
+
+        if (apartments.length === 0) return;
+        if (activeTaskId === undefined) {
+            setQualified(apartments);
+        } else {
+            console.log(typeof activeTaskId, "69rm");
+            const apartmentsWithMatchingTaskId = apartments.filter(ap => ap.taskId === activeTaskId);
+            console.log(apartmentsWithMatchingTaskId, "matching task id 70rm");
+            setQualified(apartmentsWithMatchingTaskId);
+        }
+    }, [apartments, activeTaskId]);
 
     return (
         <PageBase>
@@ -65,19 +84,23 @@ const ScrapesPage: React.FC<{}> = props => {
                     <div className="w-full mr-4">
                         {apartments && apartments.length > 0 ? (
                             <AdminApartmentsMap
-                                qualifiedFromCurrentPage={apartments}
+                                qualified={qualified}
                                 activeApartment={null}
                                 activeTaskId={activeTaskId}
                                 center={[apartments[0].lat, apartments[0].long]}
-                                taskMarkers={taskMarkers}
+                                tasks={tasks}
                                 showApartments={showApartments}
-                                showBatchMarkers={showBatchMarkers}
+                                showTaskMarkers={showBatchMarkers}
                             />
                         ) : null}
                     </div>
                     <div id="optionsDropdowns">
-                        <TitledDropdown title="Apartments by Task Id" options={justApartmentTaskIds} valueReporter={setActiveTaskId} />
-                        <TitledDropdown title="Apartments by Batch Number" options={justApartmentBatchNums} valueReporter={setActiveBatchNum} />
+                        <TitledDropdownWithButtons title="Apartments by Task Id" options={justApartmentTaskIds} valueReporter={setActiveTaskId} />
+                        <TitledDropdownWithButtons
+                            title="Apartments by Batch Number"
+                            options={justApartmentBatchNums}
+                            valueReporter={setActiveBatchNum}
+                        />
                         <TitledDropdown title="City" options={["Vancouver", "Montreal", "Toronto"]} valueReporter={setActiveCity} />
                     </div>
                 </div>
@@ -106,7 +129,7 @@ const ScrapesPage: React.FC<{}> = props => {
                     <div
                         className=""
                         onClick={() => {
-                            setshowBatchMarkers(!showBatchMarkers);
+                            setShowBatchMarkers(!showBatchMarkers);
                         }}
                     >
                         {showBatchMarkers ? (

@@ -13,6 +13,7 @@ import { truncateDecimals } from "../../util/truncateDecimals";
 import useWindowSize from "../../util/useWindowSize";
 
 import "./Map.scss";
+import { hexCodes } from "../../util/hexCodes";
 
 const MAPBOX_TOKEN: string = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN || "";
 mapboxgl.accessToken = MAPBOX_TOKEN;
@@ -98,22 +99,6 @@ const AdminTasksMap: React.FC<AdminTasksMapboxProps> = ({ center, tasks }) => {
     //     }
     //     return batchMarkers;
     // }
-
-    const hexCodes = [
-        { colorCode: "#FFFF00", name: "yellow" },
-        { colorCode: "#800080", name: "purple" },
-        { colorCode: "#FFA500", name: "orange" },
-        { colorCode: "#800000", name: "maroon" },
-        { colorCode: "#FF00FF", name: "fuschia" },
-        { colorCode: "#00FF00", name: "lime" },
-        { colorCode: "#00FFFF", name: "aqua" },
-        { colorCode: "#008080", name: "teal" },
-        { colorCode: "#808000", name: "olive" },
-        { colorCode: "#000080", name: "navy" },
-        { colorCode: "#FF0000", name: "red" },
-        { colorCode: "#008000", name: "green" },
-        { colorCode: "#0000FF", name: "blue" },
-    ];
 
     function unpackMarkers(tasks: ITask[]): mapboxgl.Marker[] {
         const taskMarkers: mapboxgl.Marker[] = tasks.map(task => {

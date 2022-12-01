@@ -25,7 +25,7 @@ export async function getAllBatchNumsAdmin() {
     return data.batchNums;
 }
 
-export async function getBatchesAdmin(provider: string, batchNum: number) {
+export async function getAllTasksAdmin(provider: string, batchNum: number) {
     const path = "/admin/task_queue/all";
     const response = await axios.get(baseUrl + path, { params: { provider, batchNum }, headers });
     const { data } = response;

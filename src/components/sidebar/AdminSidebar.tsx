@@ -19,7 +19,7 @@ interface AdminSidebarProps {
 const AdminSidebar: React.FC<AdminSidebarProps> = ({ isOpen, toggleIsOpen }) => {
     const location = useLocation();
 
-    const [activeItem, setActiveItem] = useState<number>(1)
+    const [activeItem, setActiveItem] = useState<number>(1);
 
     const navigate = useNavigate();
 
@@ -62,7 +62,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ isOpen, toggleIsOpen }) => 
                         <MenuItem
                             changeActiveItem={() => {
                                 console.log(1);
-                                navigate("/dashboard");
+                                navigate("/admin/scrapesByCity");
                                 setActiveItem(1);
                             }}
                             text={"Scrapes"}
@@ -71,12 +71,22 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ isOpen, toggleIsOpen }) => 
                         />
                         <MenuItem
                             changeActiveItem={() => {
-                                console.log(2);
-                                navigate("/search");
+                                console.log(1);
+                                navigate("/admin/tasksByBatch");
                                 setActiveItem(2);
                             }}
-                            text={"User Activity"}
+                            text={"Tasks"}
                             active={activeItem === 2}
+                            isOpen={isOpen}
+                        />
+                        <MenuItem
+                            changeActiveItem={() => {
+                                console.log(2);
+                                navigate("/admin/userActivity");
+                                setActiveItem(3);
+                            }}
+                            text={"User Activity"}
+                            active={activeItem === 3}
                             isOpen={isOpen}
                         />
                     </div>

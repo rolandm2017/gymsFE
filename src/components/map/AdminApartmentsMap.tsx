@@ -13,6 +13,7 @@ import { truncateDecimals } from "../../util/truncateDecimals";
 import useWindowSize from "../../util/useWindowSize";
 
 import "./Map.scss";
+import { hexCodes } from "../../util/hexCodes";
 
 // Be sure to replace this with your own token
 const MAPBOX_TOKEN: string = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN || "";
@@ -20,24 +21,16 @@ mapboxgl.accessToken = MAPBOX_TOKEN;
 
 interface AdminApartmentsMapboxProps {
     center: [number, number];
-    qualifiedFromCurrentPage: IHousing[];
+    qualified: IHousing[];
     activeApartment: number | null;
     activeTaskId: number | undefined;
-    taskMarkers: ITask[];
+    tasks: ITask[];
     showApartments?: boolean;
-    showBatchMarkers?: boolean;
+    showTaskMarkers?: boolean;
     // zoom: number;
 }
 
-const AdminApartmentsMap: React.FC<AdminApartmentsMapboxProps> = ({
-    center,
-    qualifiedFromCurrentPage,
-    activeApartment,
-    activeTaskId,
-    taskMarkers,
-    showApartments,
-    showBatchMarkers,
-}) => {
+const AdminApartmentsMap: React.FC<AdminApartmentsMapboxProps> = ({ center, qualified, activeTaskId, tasks, showApartments, showTaskMarkers }) => {
     // console.log(qualifiedFromCurrentPage, "27rm");
     const [markers, setMarkers] = useState<mapboxgl.Marker[]>([]);
     const { isOpen } = useContext(SidebarStateContext) as ISidebarContext;
@@ -91,14 +84,15 @@ const AdminApartmentsMap: React.FC<AdminApartmentsMapboxProps> = ({
         if (map === null) return;
 
         let allMarkers: mapboxgl.Marker[] = [];
-        if (qualifiedFromCurrentPage.length !== 0 && map.current) {
+        console.log(qualified, "86rm");
+        if (qualified.length !== 0 && map.current) {
             console.log(activeTaskId, "95rm");
-            const { apartmentMarkers, gymMarkers } = unpackMarkers(qualifiedFromCurrentPage, true, activeTaskId);
-            if (taskMarkers && showBatchMarkers) {
-                const batchMarkers = makeBatchMarkers(taskMarkers);
-                allMarkers = [apartmentMarkers, gymMarkers, batchMarkers].flat();
+            const { apartmentMarkers } = unpackMarkers(qualified, activeTaskId);
+            if (tasks && showTaskMarkers) {
+                const taskMarkers = makeTaskMarkers(tasks);
+                allMarkers = [apartmentMarkers, taskMarkers].flat();
             } else {
-                allMarkers = [apartmentMarkers, gymMarkers].flat();
+                allMarkers = apartmentMarkers;
             }
 
             addNewMarkers(allMarkers, markers, setMarkers, map.current);
@@ -109,113 +103,44 @@ const AdminApartmentsMap: React.FC<AdminApartmentsMapboxProps> = ({
                 marker.remove();
             }
         };
-    }, [map, qualifiedFromCurrentPage, activeTaskId]);
+    }, [map, qualified, activeTaskId]);
 
-    function makeBatchMarkers(batchMarkersData: ITask[]): mapboxgl.Marker[] {
-        const batchMarkers: mapboxgl.Marker[] = [];
-        for (const b of batchMarkersData) {
-            const m = new mapboxgl.Marker({ color: "#AA0000", scale: 1.4 }).setLngLat([b.long, b.lat]);
-            batchMarkers.push(m);
+    function makeTaskMarkers(tasks: ITask[]): mapboxgl.Marker[] {
+        const taskMarkers: mapboxgl.Marker[] = [];
+        for (const t of tasks) {
+            const marker = new mapboxgl.Marker({ color: "#AA0000", scale: 1.4 }).setLngLat([t.long, t.lat]);
+            taskMarkers.push(marker);
         }
-        return batchMarkers;
+        return taskMarkers;
     }
 
-    const hexCodes = [
-        { colorCode: "#FFFF00", name: "yellow" },
-        { colorCode: "#800080", name: "purple" },
-        { colorCode: "#FFA500", name: "orange" },
-        { colorCode: "#800000", name: "maroon" },
-        { colorCode: "#FF00FF", name: "fuschia" },
-        { colorCode: "#00FF00", name: "lime" },
-        { colorCode: "#00FFFF", name: "aqua" },
-        { colorCode: "#008080", name: "teal" },
-        { colorCode: "#808000", name: "olive" },
-        { colorCode: "#000080", name: "navy" },
-        { colorCode: "#FF0000", name: "red" },
-        { colorCode: "#008000", name: "green" },
-        { colorCode: "#0000FF", name: "blue" },
-    ];
-
-    function unpackMarkers(
-        apartments: IHousing[],
-        onAdminPage: boolean,
-        activeTaskId: number | undefined,
-    ): { apartmentMarkers: mapboxgl.Marker[]; gymMarkers: mapboxgl.Marker[] } {
-        const apartmentMarkers: mapboxgl.Marker[] = [];
-        const gymMarkers: mapboxgl.Marker[] = [];
-        if (onAdminPage && activeTaskId)
+    function unpackMarkers(apartments: IHousing[], activeTaskId: number | undefined): { apartmentMarkers: mapboxgl.Marker[] } {
+        if (activeTaskId)
             return {
                 apartmentMarkers: apartments
                     .filter(ap => ap.taskId === activeTaskId)
                     .map(ap => {
                         const colorChoice = ap.taskId % hexCodes.length;
-                        return new mapboxgl.Marker({ color: hexCodes[colorChoice].colorCode, scale: 1.4 }).setLngLat([ap.long, ap.lat]);
+                        return new mapboxgl.Marker({ color: hexCodes[colorChoice].colorCode, scale: 1.4 })
+                            .setLngLat([ap.long, ap.lat])
+                            .setPopup(new mapboxgl.Popup().setHTML(makePopupHTMLForApartment(ap)));
                     }),
-                gymMarkers: [],
             };
 
-        if (onAdminPage)
-            return {
-                apartmentMarkers: apartments.map(ap => {
-                    const colorChoice = ap.taskId % hexCodes.length;
-                    return new mapboxgl.Marker({ color: hexCodes[colorChoice].colorCode, scale: 1.4 }).setLngLat([ap.long, ap.lat]);
-                }),
-                gymMarkers: [],
-            };
-        const duplicateGymArray: number[] = []; // holds unique longitudes.
-
-        for (let i = 0; i < apartments.length; i++) {
-            const apartment = apartments[i];
-            const nearbyGyms: IAssociation[] | undefined = apartment.nearbyGyms;
-            if (nearbyGyms !== undefined && nearbyGyms.length > 0 && apartment.long && apartment.lat) {
-                let markerForAp;
-                const currentApartmentIsActive = i === activeApartment;
-                if (currentApartmentIsActive) {
-                    markerForAp = new mapboxgl.Marker({ color: "#ffffff", scale: 1.4 }).setLngLat([apartment.long, apartment.lat]);
-                } else {
-                    markerForAp = new mapboxgl.Marker()
-                        .setLngLat([apartment.long, apartment.lat])
-
-                        .setPopup(new mapboxgl.Popup().setHTML(makePopupHTMLForApartment(apartment)));
-                }
-                apartmentMarkers.push(markerForAp);
-                for (const association of nearbyGyms) {
-                    const gymThatDefinitelyExists: IGym | undefined = association.gym;
-                    if (gymThatDefinitelyExists === undefined || duplicateGymArray.includes(gymThatDefinitelyExists.long)) {
-                        continue;
-                    }
-                    const mForGym = new mapboxgl.Marker({ color: "#f7685b" })
-                        .setLngLat([gymThatDefinitelyExists.long, gymThatDefinitelyExists.lat])
-                        .setPopup(new mapboxgl.Popup().setHTML(makePopupHTMLForGym(association)));
-                    duplicateGymArray.push(gymThatDefinitelyExists.long);
-                    gymMarkers.push(mForGym);
-                }
-            }
-        }
-        console.log(apartmentMarkers, gymMarkers, "132rm");
-        return { apartmentMarkers, gymMarkers };
+        return {
+            apartmentMarkers: apartments.map(ap => {
+                const colorChoice = ap.taskId % hexCodes.length;
+                return new mapboxgl.Marker({ color: hexCodes[colorChoice].colorCode, scale: 1.4 })
+                    .setLngLat([ap.long, ap.lat])
+                    .setPopup(new mapboxgl.Popup().setHTML(makePopupHTMLForApartment(ap)));
+            }),
+        };
     }
 
     function makePopupHTMLForApartment(apartment: IHousing): string {
-        const nearbyGym = apartment.nearbyGyms ? apartment.nearbyGyms[0].gym?.name : "No gyms found";
-        const distance = apartment.nearbyGyms ? truncateDecimals(apartment.nearbyGyms[0].distanceInKM, 2) : "No data";
         return `<div>
                 <h4>${apartment.address}</h4>
-                <p>Near: ${nearbyGym}</p>
-                <p>Distance: ${distance}</p>
-            </div>`;
-    }
-
-    function makePopupHTMLForGym(association: IAssociation): string {
-        // gym: addr, distance to ap
-        const gym = association.gym;
-        const name = gym ? gym.name : "name MIA";
-        const addr = gym ? gym.formatted_address : "addr mia";
-        const distance = truncateDecimals(calculateWalkTimeInMinutes(association.distanceInKM), 2);
-        return `<div>
-                <h4>${name}</h4>
-                <p>${addr}</p>
-                <p>Nearest apartment: ${distance}</p>
+                <p>TaskId: ${apartment.taskId}</p>
             </div>`;
     }
 
@@ -223,7 +148,7 @@ const AdminApartmentsMap: React.FC<AdminApartmentsMapboxProps> = ({
         // for (const marker of oldMarkers) {
         //     marker.remove();
         // }
-        console.log("adding all markers...");
+        console.log("adding all markers...", newMarkers);
         for (const marker of newMarkers) {
             marker.addTo(map);
         }
