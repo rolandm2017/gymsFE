@@ -1,12 +1,9 @@
 import mapboxgl from "mapbox-gl";
 import React, { useRef, useEffect, useState, useContext } from "react";
-import { ILocationContext, LocationsProviderContext } from "../../context/LocationsProvider";
 import { ISidebarContext, SidebarStateContext } from "../../context/SidebarStateProvider";
 import { IAssociation } from "../../interface/Association.interface";
-import { IBatchMarker } from "../../interface/BatchMarker.interface";
 import { IGym } from "../../interface/Gym.interface";
 import { IHousing } from "../../interface/Housing.interface";
-import { ILatLong } from "../../interface/LatLong.interface";
 import { calculateWalkTimeInMinutes } from "../../util/calcWalkTime";
 import { truncateDecimals } from "../../util/truncateDecimals";
 
@@ -14,7 +11,6 @@ import useWindowSize from "../../util/useWindowSize";
 
 import "./Map.scss";
 
-// Be sure to replace this with your own token
 const MAPBOX_TOKEN: string = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN || "";
 mapboxgl.accessToken = MAPBOX_TOKEN;
 
@@ -28,7 +24,7 @@ interface MapboxProps {
 const Map: React.FC<MapboxProps> = ({ center, qualifiedFromCurrentPage, activeApartment }) => {
     // console.log(qualifiedFromCurrentPage, "27rm");
     const [markers, setMarkers] = useState<mapboxgl.Marker[]>([]);
-    const { isOpen, toggleIsOpen } = useContext(SidebarStateContext) as ISidebarContext;
+    const { isOpen } = useContext(SidebarStateContext) as ISidebarContext;
 
     const [width, height] = useWindowSize();
     const isOnMobile = width < 768;
@@ -74,10 +70,10 @@ const Map: React.FC<MapboxProps> = ({ center, qualifiedFromCurrentPage, activeAp
         }).addControl(new mapboxgl.AttributionControl({ compact: true }));
     });
 
-    useEffect(() => {
-        console.log("Runs once");
-        // console.log(qualifiedFromCurrentPage.map(a => a.isHighlighted));
-    }, [qualifiedFromCurrentPage]);
+    // useEffect(() => {
+    //     console.log("Runs once");
+    //     // console.log(qualifiedFromCurrentPage.map(a => a.isHighlighted));
+    // }, [qualifiedFromCurrentPage]);
 
     // plot qualified gyms and apartments
     useEffect(() => {
@@ -101,32 +97,36 @@ const Map: React.FC<MapboxProps> = ({ center, qualifiedFromCurrentPage, activeAp
     function unpackMarkers(apartments: IHousing[]): { apartmentMarkers: mapboxgl.Marker[]; gymMarkers: mapboxgl.Marker[] } {
         const apartmentMarkers: mapboxgl.Marker[] = [];
         const gymMarkers: mapboxgl.Marker[] = [];
-        const duplicateGymArray: number[] = []; // holds unique longitudes.
+        const duplicateGymDetectorArray: number[] = []; // holds unique longitudes.
 
         for (let i = 0; i < apartments.length; i++) {
             const apartment = apartments[i];
             const nearbyGyms: IAssociation[] | undefined = apartment.nearbyGyms;
-            if (nearbyGyms !== undefined && nearbyGyms.length > 0 && apartment.long && apartment.lat) {
-                let mForAp;
-                if (i === activeApartment) {
-                    mForAp = new mapboxgl.Marker({ color: "#ffffff", scale: 1.4 }).setLngLat([apartment.long, apartment.lat]);
+            const theApartmentHasNearbyGyms = nearbyGyms !== undefined && nearbyGyms.length > 0;
+            const theApartmentHasCoords = apartment.long && apartment.lat;
+            if (theApartmentHasCoords && theApartmentHasNearbyGyms) {
+                let markerForAp;
+                const currentApartmentIsActive = i === activeApartment;
+                if (currentApartmentIsActive) {
+                    markerForAp = new mapboxgl.Marker({ color: "#ffffff", scale: 1.4 }).setLngLat([apartment.long, apartment.lat]);
                 } else {
-                    mForAp = new mapboxgl.Marker()
+                    markerForAp = new mapboxgl.Marker()
                         .setLngLat([apartment.long, apartment.lat])
 
                         .setPopup(new mapboxgl.Popup().setHTML(makePopupHTMLForApartment(apartment)));
                 }
-                apartmentMarkers.push(mForAp);
+                apartmentMarkers.push(markerForAp);
                 for (const association of nearbyGyms) {
-                    const gymThatDefinitelyExists: IGym | undefined = association.gym;
-                    if (gymThatDefinitelyExists === undefined || duplicateGymArray.includes(gymThatDefinitelyExists.long)) {
-                        continue;
-                    }
-                    const mForGym = new mapboxgl.Marker({ color: "#f7685b" })
+                    const gymThatDefinitelyExists: IGym | undefined = association.gym; // ts doesn't know it definitely exists, but I do
+                    const gymWasActuallyUndefined = gymThatDefinitelyExists === undefined;
+                    if (gymWasActuallyUndefined) continue;
+                    const gymWasAlreadyAdded = duplicateGymDetectorArray.includes(gymThatDefinitelyExists.long);
+                    if (gymWasAlreadyAdded) continue;
+                    const markerForGym = new mapboxgl.Marker({ color: "#f7685b" })
                         .setLngLat([gymThatDefinitelyExists.long, gymThatDefinitelyExists.lat])
                         .setPopup(new mapboxgl.Popup().setHTML(makePopupHTMLForGym(association)));
-                    duplicateGymArray.push(gymThatDefinitelyExists.long);
-                    gymMarkers.push(mForGym);
+                    duplicateGymDetectorArray.push(gymThatDefinitelyExists.long);
+                    gymMarkers.push(markerForGym);
                 }
             }
         }

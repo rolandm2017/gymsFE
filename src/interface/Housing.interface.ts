@@ -11,6 +11,7 @@ export interface IHousing {
     price?: number;
     phone?: string;
     url?: string;
+    taskId: number;
     lat: number;
     long: number;
     source: Provider;

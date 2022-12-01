@@ -11,7 +11,7 @@ import ScrapesAndBatchesPage from "../pages/admin/ScrapesAndBatchesPage";
 const PageRoutes = () => {
     return (
         <Routes>
-            {/* // TODO: If logged in, / redirects to /dashboard */}
+            {/* // TODO: If logged in, / is the dashboard */}
             {/* // todo: if logged out, / is a landing page */}
             {/* // TODO: /login route, /signup route */}
             <Route path="/dashboard" element={<DashboardPage />} />

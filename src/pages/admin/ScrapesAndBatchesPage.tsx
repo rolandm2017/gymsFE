@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 //
 import PageBase from "../PageBase";
 import { IHousing } from "../../interface/Housing.interface";
-import { ILatLong } from "../../interface/LatLong.interface";
 import Button from "../../components/button/Button";
-import { getAllBatchesAdmin, getBatchesAdmin, housingHealthCheck, queryAllScrapesAdmin, queryScrapesAdmin } from "../../api/queries/AdminQueries";
+import { getAllBatchesAdmin, getApartmentsByLocationAdmin, housingHealthCheck } from "../../api/queries/AdminQueries";
 import { IBatchMarker } from "../../interface/BatchMarker.interface";
 import AdminMap from "../../components/map/AdminMap";
+
+import "./ScrapesAndBatchesPage.scss";
 
 const ScrapesAndBatchesPage: React.FC<{}> = props => {
     // responses
@@ -25,45 +26,49 @@ const ScrapesAndBatchesPage: React.FC<{}> = props => {
 
     useEffect(() => {
         housingHealthCheck();
-        const fetchData = async () => {
+        const fetchBatchData = async () => {
             // const results = await getBatchesAdmin(provider, batchNum);
             const results = await getAllBatchesAdmin();
             console.log("batches: ", results, "25rm");
             setBatchMarkers(results);
         };
-        fetchData();
+        fetchBatchData();
     }, [batchNum, displayMode]);
 
     useEffect(() => {
-        const fetchData = async () => {
-            const results = await queryAllScrapesAdmin();
+        const fetchHousingData = async () => {
+            const results = await getApartmentsByLocationAdmin("Montreal");
             console.log(results, "38rm");
             setApartments(results);
         };
-        fetchData();
+        fetchHousingData();
     }, [cityId, longitude, latitude, zoom]);
 
     return (
         <PageBase>
             <div>
-                <div>
-                    {apartments && apartments.length > 0 ? (
-                        <AdminMap
-                            qualifiedFromCurrentPage={apartments}
-                            activeApartment={null}
-                            center={[apartments[0].lat, apartments[0].long]}
-                            batchMarkersData={batchMarkers}
-                            showApartments={showApartments}
-                            showBatchMarkers={showBatchMarkers}
-                        />
-                    ) : null}
+                <div id="mapAndOptionsContainer" className="flex w-full ">
+                    <div className="w-full mr-4">
+                        {apartments && apartments.length > 0 ? (
+                            <AdminMap
+                                qualifiedFromCurrentPage={apartments}
+                                activeApartment={null}
+                                center={[apartments[0].lat, apartments[0].long]}
+                                batchMarkersData={batchMarkers}
+                                showApartments={showApartments}
+                                showBatchMarkers={showBatchMarkers}
+                            />
+                        ) : null}
+                    </div>
+                    <div id="optionsDropdowns"></div>
                 </div>
-                <div>
-                    <div>
+                <div id="underMapContainer" className="flex justify-between mt-3">
+                    <div className="">
                         <Button type={"Transparent"} text={"Refresh"} />
                     </div>
 
                     <div
+                        className=""
                         onClick={() => {
                             console.log("foo");
                             console.log(apartments, "67rm");
@@ -72,6 +77,7 @@ const ScrapesAndBatchesPage: React.FC<{}> = props => {
                         <Button type={"Transparent"} text={"Inspect"} onClickHandler={() => {}} />
                     </div>
                     <div
+                        className=""
                         onClick={() => {
                             setShowApartments(!showApartments);
                         }}
@@ -79,6 +85,7 @@ const ScrapesAndBatchesPage: React.FC<{}> = props => {
                         {showApartments ? <Button type={"Opaque"} text={"Apartments"} /> : <Button type={"Transparent"} text={"Apartments"} />}
                     </div>
                     <div
+                        className=""
                         onClick={() => {
                             setshowBatchMarkers(!showBatchMarkers);
                         }}

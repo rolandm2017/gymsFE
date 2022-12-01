@@ -1,12 +1,12 @@
+import { renderToStaticMarkup } from "react-dom/server";
 import mapboxgl from "mapbox-gl";
 import React, { useRef, useEffect, useState, useContext } from "react";
-import { ILocationContext, LocationsProviderContext } from "../../context/LocationsProvider";
+//
 import { ISidebarContext, SidebarStateContext } from "../../context/SidebarStateProvider";
 import { IAssociation } from "../../interface/Association.interface";
 import { IBatchMarker } from "../../interface/BatchMarker.interface";
 import { IGym } from "../../interface/Gym.interface";
 import { IHousing } from "../../interface/Housing.interface";
-import { ILatLong } from "../../interface/LatLong.interface";
 import { calculateWalkTimeInMinutes } from "../../util/calcWalkTime";
 import { truncateDecimals } from "../../util/truncateDecimals";
 
@@ -38,7 +38,7 @@ const AdminMap: React.FC<AdminMapboxProps> = ({
 }) => {
     // console.log(qualifiedFromCurrentPage, "27rm");
     const [markers, setMarkers] = useState<mapboxgl.Marker[]>([]);
-    const { isOpen, toggleIsOpen } = useContext(SidebarStateContext) as ISidebarContext;
+    const { isOpen } = useContext(SidebarStateContext) as ISidebarContext;
 
     const [width, height] = useWindowSize();
     const isOnMobile = width < 768;
@@ -84,11 +84,6 @@ const AdminMap: React.FC<AdminMapboxProps> = ({
         }).addControl(new mapboxgl.AttributionControl({ compact: true }));
     });
 
-    useEffect(() => {
-        console.log("Runs once");
-        // console.log(qualifiedFromCurrentPage.map(a => a.isHighlighted));
-    }, [qualifiedFromCurrentPage]);
-
     // plot qualified gyms and apartments
     useEffect(() => {
         if (map === null) return;
@@ -122,13 +117,32 @@ const AdminMap: React.FC<AdminMapboxProps> = ({
         return batchMarkers;
     }
 
+    const hexCodes = [
+        { colorCode: "#FFFF00", name: "yellow" },
+        { colorCode: "#800080", name: "purple" },
+        { colorCode: "#FFA500", name: "orange" },
+        { colorCode: "#800000", name: "maroon" },
+        { colorCode: "#FF00FF", name: "fuschia" },
+        { colorCode: "#00FF00", name: "lime" },
+        { colorCode: "#00FFFF", name: "aqua" },
+        { colorCode: "#008080", name: "teal" },
+        { colorCode: "#808000", name: "olive" },
+        { colorCode: "#000080", name: "navy" },
+        { colorCode: "#FF0000", name: "red" },
+        { colorCode: "#008000", name: "green" },
+        { colorCode: "#0000FF", name: "blue" },
+    ];
+
     function unpackMarkers(apartments: IHousing[], onAdminPage: boolean): { apartmentMarkers: mapboxgl.Marker[]; gymMarkers: mapboxgl.Marker[] } {
         console.log(apartments, "100rm");
         const apartmentMarkers: mapboxgl.Marker[] = [];
         const gymMarkers: mapboxgl.Marker[] = [];
         if (onAdminPage)
             return {
-                apartmentMarkers: apartments.map(ap => new mapboxgl.Marker({ color: "#ffffff", scale: 1.4 }).setLngLat([ap.long, ap.lat])),
+                apartmentMarkers: apartments.map(ap => {
+                    const colorChoice = ap.taskId % hexCodes.length;
+                    return new mapboxgl.Marker({ color: hexCodes[colorChoice].colorCode, scale: 1.4 }).setLngLat([ap.long, ap.lat]);
+                }),
                 gymMarkers: [],
             };
         const duplicateGymArray: number[] = []; // holds unique longitudes.
@@ -137,16 +151,17 @@ const AdminMap: React.FC<AdminMapboxProps> = ({
             const apartment = apartments[i];
             const nearbyGyms: IAssociation[] | undefined = apartment.nearbyGyms;
             if (nearbyGyms !== undefined && nearbyGyms.length > 0 && apartment.long && apartment.lat) {
-                let mForAp;
-                if (i === activeApartment) {
-                    mForAp = new mapboxgl.Marker({ color: "#ffffff", scale: 1.4 }).setLngLat([apartment.long, apartment.lat]);
+                let markerForAp;
+                const currentApartmentIsActive = i === activeApartment;
+                if (currentApartmentIsActive) {
+                    markerForAp = new mapboxgl.Marker({ color: "#ffffff", scale: 1.4 }).setLngLat([apartment.long, apartment.lat]);
                 } else {
-                    mForAp = new mapboxgl.Marker()
+                    markerForAp = new mapboxgl.Marker()
                         .setLngLat([apartment.long, apartment.lat])
 
                         .setPopup(new mapboxgl.Popup().setHTML(makePopupHTMLForApartment(apartment)));
                 }
-                apartmentMarkers.push(mForAp);
+                apartmentMarkers.push(markerForAp);
                 for (const association of nearbyGyms) {
                     const gymThatDefinitelyExists: IGym | undefined = association.gym;
                     if (gymThatDefinitelyExists === undefined || duplicateGymArray.includes(gymThatDefinitelyExists.long)) {
@@ -199,15 +214,8 @@ const AdminMap: React.FC<AdminMapboxProps> = ({
     }
 
     return (
-        <div id="mapContainerOuter" className={`${decideWidth(isOpen, isOnMobile)} w-full mapHeight mr-2`}>
+        <div id="adminMapContainerOuter" className={`${decideWidth(isOpen, isOnMobile)} w-full mapHeight mr-2`}>
             <div id="mapContainer" ref={mapContainer}></div>
-            <button
-                onClick={() => {
-                    console.log(qualifiedFromCurrentPage, "142rm");
-                }}
-            >
-                Hi
-            </button>
         </div>
     );
 };

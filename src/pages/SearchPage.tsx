@@ -1,21 +1,14 @@
 import React, { useContext, useState } from "react";
 
 import PageBase from "./PageBase";
-import Button from "../components/button/Button";
 import DetailsBar from "../components/detailsBar/DetailsBar";
-import Profile from "../components/profile/Profile";
 import SearchBar from "../components/searchBar/SearchBar";
-import Sidebar from "../components/sidebar/Sidebar";
 import TitleBar from "../components/titleBar/TitleBar";
 
-import Cat from "../assets/cat.jpeg";
-
-import { hardcodeApartments } from "../data/apartments";
 import PageNumber from "../components/pageNumber/PageNumber";
 import NavigationBtns from "../components/navigationBtns/NavigationBtns";
 import { calcTotalPages } from "../util/calcTotalPages";
 import { ILocationContext, LocationsProviderContext } from "../context/LocationsProvider";
-import { IHousing } from "../interface/Housing.interface";
 import { getCurrentPageResults } from "../util/getCurrentPageResults";
 
 const SearchPage: React.FC<{}> = props => {
