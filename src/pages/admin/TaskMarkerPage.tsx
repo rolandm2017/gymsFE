@@ -16,6 +16,8 @@ import AdminMap from "../../components/map/AdminApartmentsMap";
 import "./TaskMarkerPage.scss";
 import TitledDropdown from "../../components/titledDropdown/TitledDropdown";
 import AdminTasksMap from "../../components/map/AdminTasksMap";
+import TitledDropdownWithButtons from "../../components/titledDropdownWithButtons/TitledDropdownWithButtons";
+import { SEED_CITIES } from "../../util/cities";
 
 const TaskMarkerPage: React.FC<{}> = props => {
     // responses from server
@@ -24,7 +26,7 @@ const TaskMarkerPage: React.FC<{}> = props => {
     // inputs
     const [cityId, setCityId] = useState<number>(6);
     const [activeBatchNum, setActiveBatchNum] = useState<number>(0);
-    const [activeCity, setActiveCity] = useState<string | undefined>(undefined);
+    const [activeCityId, setActiveCityId] = useState<number | undefined>(undefined);
     // const [longitude, setLongitude] = useState<number>(0);
     // const [latitude, setLatitude] = useState<number>(0);
     // const [zoom, setZoom] = useState<number>(10);
@@ -58,8 +60,19 @@ const TaskMarkerPage: React.FC<{}> = props => {
                         {tasks && tasks.length > 0 ? <AdminTasksMap tasks={tasks} center={[tasks[0].lat, tasks[0].long]} /> : null}
                     </div>
                     <div id="optionsDropdowns">
-                        <TitledDropdown title="Batch Number" options={batchNumbers} valueReporter={setActiveBatchNum} />
-                        <TitledDropdown title="City" options={["Vancouver", "Montreal", "Toronto"]} valueReporter={setActiveCity} />
+                        <TitledDropdownWithButtons
+                            title="Batch Number"
+                            options={batchNumbers}
+                            valueReporter={setActiveBatchNum}
+                            activeOption={activeBatchNum}
+                        />
+                        <TitledDropdown
+                            title="City"
+                            options={SEED_CITIES}
+                            valueReporter={setActiveCityId}
+                            activeOption={activeCityId}
+                            usesCities={true}
+                        />
                     </div>
                 </div>
                 <div id="underMapContainer" className="flex justify-between mt-3">

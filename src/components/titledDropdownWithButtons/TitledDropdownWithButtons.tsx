@@ -5,10 +5,11 @@ import IncrementButton from "../button/IncrementButton";
 interface TitledDropdownWithButtonsProps {
     title: string;
     options: any[];
+    activeOption: number | undefined;
     valueReporter: Function;
 }
 
-const TitledDropdownWithButtons: React.FC<TitledDropdownWithButtonsProps> = ({ title, options, valueReporter }) => {
+const TitledDropdownWithButtons: React.FC<TitledDropdownWithButtonsProps> = ({ title, options, activeOption, valueReporter }) => {
     function handleChange(e: ChangeEvent<HTMLSelectElement>) {
         e.preventDefault();
         console.log(e.target.value);
@@ -23,7 +24,17 @@ const TitledDropdownWithButtons: React.FC<TitledDropdownWithButtonsProps> = ({ t
         <div>
             <div>{title}</div>
             <div className="flex mx-4 items-center">
-                <div>
+                <div
+                    onClick={() => {
+                        if (activeOption === undefined) {
+                            // cannot go left from 'all'
+                            return;
+                        } else {
+                            const prevOption = options[options.indexOf(activeOption) - 1];
+                            valueReporter(prevOption);
+                        }
+                    }}
+                >
                     <IncrementButton type="Opaque" text={"<"} />
                 </div>
                 <div className="w-full">
@@ -31,6 +42,7 @@ const TitledDropdownWithButtons: React.FC<TitledDropdownWithButtonsProps> = ({ t
                         onChange={e => {
                             handleChange(e);
                         }}
+                        value={activeOption}
                     >
                         {options.map((option, i) => {
                             return (
@@ -48,7 +60,17 @@ const TitledDropdownWithButtons: React.FC<TitledDropdownWithButtonsProps> = ({ t
                         })}
                     </select>
                 </div>
-                <div>
+                <div
+                    onClick={() => {
+                        if (activeOption === options[options.length - 1]) {
+                            // cannot go right from final entry
+                            return;
+                        } else {
+                            const nextOption = options[options.indexOf(activeOption) + 1];
+                            valueReporter(nextOption);
+                        }
+                    }}
+                >
                     <IncrementButton type="Opaque" text={">"} />
                 </div>
             </div>

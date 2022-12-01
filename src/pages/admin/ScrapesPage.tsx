@@ -11,6 +11,7 @@ import "./ScrapesPage.scss";
 import TitledDropdown from "../../components/titledDropdown/TitledDropdown";
 import AdminApartmentsMap from "../../components/map/AdminApartmentsMap";
 import TitledDropdownWithButtons from "../../components/titledDropdownWithButtons/TitledDropdownWithButtons";
+import { SEED_CITIES } from "../../util/cities";
 
 const ScrapesPage: React.FC<{}> = props => {
     // responses from server
@@ -21,7 +22,7 @@ const ScrapesPage: React.FC<{}> = props => {
     const [cityId, setCityId] = useState<number>(6);
     const [activeBatchNum, setActiveBatchNum] = useState<number | undefined>(undefined);
     const [activeTaskId, setActiveTaskId] = useState<number | undefined>(undefined);
-    const [activeCity, setActiveCity] = useState<string | undefined>(undefined);
+    const [activeCityId, setActiveCityId] = useState<number | undefined>(undefined);
     const [longitude, setLongitude] = useState<number>(0);
     const [latitude, setLatitude] = useState<number>(0);
     const [zoom, setZoom] = useState<number>(10);
@@ -95,13 +96,25 @@ const ScrapesPage: React.FC<{}> = props => {
                         ) : null}
                     </div>
                     <div id="optionsDropdowns">
-                        <TitledDropdownWithButtons title="Apartments by Task Id" options={justApartmentTaskIds} valueReporter={setActiveTaskId} />
+                        <TitledDropdownWithButtons
+                            title="Apartments by Task Id"
+                            options={justApartmentTaskIds}
+                            valueReporter={setActiveTaskId}
+                            activeOption={activeTaskId}
+                        />
                         <TitledDropdownWithButtons
                             title="Apartments by Batch Number"
                             options={justApartmentBatchNums}
                             valueReporter={setActiveBatchNum}
+                            activeOption={activeBatchNum}
                         />
-                        <TitledDropdown title="City" options={["Vancouver", "Montreal", "Toronto"]} valueReporter={setActiveCity} />
+                        <TitledDropdown
+                            title="City"
+                            options={SEED_CITIES}
+                            valueReporter={setActiveCityId}
+                            activeOption={activeCityId}
+                            usesCities={true}
+                        />
                     </div>
                 </div>
                 <div id="underMapContainer" className="flex justify-between mt-3">

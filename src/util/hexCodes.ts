@@ -12,7 +12,6 @@ export const hexCodes = [
     { colorCode: "#FF0000", name: "red" },
     { colorCode: "#008000", name: "green" },
     { colorCode: "#0000FF", name: "blue" },
-
     { colorCode: "#FFFACD", name: "LemonChiffon" },
     { colorCode: "#FF69B4", name: "HotPink" },
     { colorCode: "#B22222", name: "FireBrick" },
