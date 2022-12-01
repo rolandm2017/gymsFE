@@ -12,6 +12,7 @@ export interface IHousing {
     phone?: string;
     url?: string;
     taskId: number;
+    batchId: number;
     lat: number;
     long: number;
     source: Provider;

@@ -8,6 +8,7 @@ import { IBatchMarker } from "../../interface/BatchMarker.interface";
 import AdminMap from "../../components/map/AdminMap";
 
 import "./ScrapesAndBatchesPage.scss";
+import TitledDropdown from "../../components/titledDropdown/TitledDropdown";
 
 const ScrapesAndBatchesPage: React.FC<{}> = props => {
     // responses
@@ -16,7 +17,9 @@ const ScrapesAndBatchesPage: React.FC<{}> = props => {
     // inputs
     const [provider, setProvider] = useState<string>("rentCanada");
     const [cityId, setCityId] = useState<number>(6);
-    const [batchNum, setBatchNum] = useState<number>(0);
+    const [activeBatchNum, setActiveBatchNum] = useState<number | undefined>(undefined);
+    const [activeTaskId, setActiveTaskId] = useState<number | undefined>(undefined);
+    const [activeCity, setActiveCity] = useState<string | undefined>(undefined);
     const [displayMode, setDisplayMode] = useState<string>("batch");
     const [longitude, setLongitude] = useState<number>(0);
     const [latitude, setLatitude] = useState<number>(0);
@@ -33,16 +36,26 @@ const ScrapesAndBatchesPage: React.FC<{}> = props => {
             setBatchMarkers(results);
         };
         fetchBatchData();
-    }, [batchNum, displayMode]);
+    }, [activeBatchNum, displayMode]);
 
     useEffect(() => {
         const fetchHousingData = async () => {
             const results = await getApartmentsByLocationAdmin("Montreal");
-            console.log(results, "38rm");
             setApartments(results);
         };
         fetchHousingData();
     }, [cityId, longitude, latitude, zoom]);
+
+    const justApartmentTaskIds = Array.from(
+        new Set(
+            apartments
+                .map(a => a.taskId)
+                .sort(function (a, b) {
+                    return a - b;
+                }),
+        ),
+    );
+    const justApartmentBatchNums = Array.from(new Set(apartments.map(a => (a.batchId ? a.batchId : "null"))));
 
     return (
         <PageBase>
@@ -53,6 +66,7 @@ const ScrapesAndBatchesPage: React.FC<{}> = props => {
                             <AdminMap
                                 qualifiedFromCurrentPage={apartments}
                                 activeApartment={null}
+                                activeTaskId={activeTaskId}
                                 center={[apartments[0].lat, apartments[0].long]}
                                 batchMarkersData={batchMarkers}
                                 showApartments={showApartments}
@@ -60,7 +74,11 @@ const ScrapesAndBatchesPage: React.FC<{}> = props => {
                             />
                         ) : null}
                     </div>
-                    <div id="optionsDropdowns"></div>
+                    <div id="optionsDropdowns">
+                        <TitledDropdown title="Apartments by Task Id" options={justApartmentTaskIds} valueReporter={setActiveTaskId} />
+                        <TitledDropdown title="Apartments by Batch Number" options={justApartmentBatchNums} valueReporter={setActiveBatchNum} />
+                        <TitledDropdown title="City" options={["Vancouver", "Montreal", "Toronto"]} valueReporter={setActiveCity} />
+                    </div>
                 </div>
                 <div id="underMapContainer" className="flex justify-between mt-3">
                     <div className="">

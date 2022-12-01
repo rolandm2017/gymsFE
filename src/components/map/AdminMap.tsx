@@ -22,6 +22,7 @@ interface AdminMapboxProps {
     center: [number, number];
     qualifiedFromCurrentPage: IHousing[];
     activeApartment: number | null;
+    activeTaskId: number | undefined;
     batchMarkersData: IBatchMarker[];
     showApartments: boolean;
     showBatchMarkers: boolean;
@@ -32,6 +33,7 @@ const AdminMap: React.FC<AdminMapboxProps> = ({
     center,
     qualifiedFromCurrentPage,
     activeApartment,
+    activeTaskId,
     batchMarkersData,
     showApartments,
     showBatchMarkers,
@@ -90,7 +92,8 @@ const AdminMap: React.FC<AdminMapboxProps> = ({
 
         let allMarkers: mapboxgl.Marker[] = [];
         if (qualifiedFromCurrentPage.length !== 0 && map.current) {
-            const { apartmentMarkers, gymMarkers } = unpackMarkers(qualifiedFromCurrentPage, true);
+            console.log(activeTaskId, "95rm");
+            const { apartmentMarkers, gymMarkers } = unpackMarkers(qualifiedFromCurrentPage, true, activeTaskId);
             if (batchMarkersData && showBatchMarkers) {
                 const batchMarkers = makeBatchMarkers(batchMarkersData);
                 allMarkers = [apartmentMarkers, gymMarkers, batchMarkers].flat();
@@ -106,7 +109,7 @@ const AdminMap: React.FC<AdminMapboxProps> = ({
                 marker.remove();
             }
         };
-    }, [map, qualifiedFromCurrentPage]);
+    }, [map, qualifiedFromCurrentPage, activeTaskId]);
 
     function makeBatchMarkers(batchMarkersData: IBatchMarker[]): mapboxgl.Marker[] {
         const batchMarkers: mapboxgl.Marker[] = [];
@@ -133,10 +136,24 @@ const AdminMap: React.FC<AdminMapboxProps> = ({
         { colorCode: "#0000FF", name: "blue" },
     ];
 
-    function unpackMarkers(apartments: IHousing[], onAdminPage: boolean): { apartmentMarkers: mapboxgl.Marker[]; gymMarkers: mapboxgl.Marker[] } {
-        console.log(apartments, "100rm");
+    function unpackMarkers(
+        apartments: IHousing[],
+        onAdminPage: boolean,
+        activeTaskId: number | undefined,
+    ): { apartmentMarkers: mapboxgl.Marker[]; gymMarkers: mapboxgl.Marker[] } {
         const apartmentMarkers: mapboxgl.Marker[] = [];
         const gymMarkers: mapboxgl.Marker[] = [];
+        if (onAdminPage && activeTaskId)
+            return {
+                apartmentMarkers: apartments
+                    .filter(ap => ap.taskId === activeTaskId)
+                    .map(ap => {
+                        const colorChoice = ap.taskId % hexCodes.length;
+                        return new mapboxgl.Marker({ color: hexCodes[colorChoice].colorCode, scale: 1.4 }).setLngLat([ap.long, ap.lat]);
+                    }),
+                gymMarkers: [],
+            };
+
         if (onAdminPage)
             return {
                 apartmentMarkers: apartments.map(ap => {
