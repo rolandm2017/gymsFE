@@ -6,7 +6,9 @@ import MapPage from "../pages/MapPage";
 import FeedbackPage from "../pages/FeedbackPage";
 import DashboardPage from "../pages/DashboardPage";
 import UserActivityPage from "../pages/admin/UserActivityPage";
-import ScrapesAndBatchesPage from "../pages/admin/ScrapesAndBatchesPage";
+import ScrapesAndBatchesPage from "../pages/admin/ScrapesPage";
+import ScrapesPage from "../pages/admin/ScrapesPage";
+import TaskMarkerPage from "../pages/admin/TaskMarkerPage";
 
 const PageRoutes = () => {
     return (
@@ -18,8 +20,9 @@ const PageRoutes = () => {
             <Route path="/search" element={<SearchPage />} />
             <Route path="/map" element={<MapPage />} />
             {/* // todo: wrap Private Route with admin privileges */}
-            <Route path="/admin/scrape_and_batch" element={<ScrapesAndBatchesPage />} />
-            <Route path="/admin/user_activity" element={<UserActivityPage />} />
+            <Route path="/admin/scrapesByCity" element={<ScrapesPage />} />
+            <Route path="/admin/tasksByBatch" element={<TaskMarkerPage />} />
+            <Route path="/admin/userActivity" element={<UserActivityPage />} />
             <Route path="/feedback" element={<FeedbackPage />} />
         </Routes>
     );

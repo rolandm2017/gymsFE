@@ -4,23 +4,24 @@ import PageBase from "../PageBase";
 import { IHousing } from "../../interface/Housing.interface";
 import Button from "../../components/button/Button";
 import { getAllBatchesAdmin, getApartmentsByLocationAdmin, housingHealthCheck } from "../../api/queries/AdminQueries";
-import { IBatchMarker } from "../../interface/BatchMarker.interface";
-import AdminMap from "../../components/map/AdminMap";
+import { ITask } from "../../interface/Task.interface";
+import AdminMap from "../../components/map/AdminApartmentsMap";
 
-import "./ScrapesAndBatchesPage.scss";
+import "./ScrapesPage.scss";
 import TitledDropdown from "../../components/titledDropdown/TitledDropdown";
+import AdminApartmentsMap from "../../components/map/AdminApartmentsMap";
 
-const ScrapesAndBatchesPage: React.FC<{}> = props => {
-    // responses
+const ScrapesPage: React.FC<{}> = props => {
+    // responses from server
     const [apartments, setApartments] = useState<IHousing[]>([]);
-    const [batchMarkers, setBatchMarkers] = useState<IBatchMarker[]>([]);
+    const [taskMarkers, setTaskMarkers] = useState<ITask[]>([]);
     // inputs
     const [provider, setProvider] = useState<string>("rentCanada");
     const [cityId, setCityId] = useState<number>(6);
     const [activeBatchNum, setActiveBatchNum] = useState<number | undefined>(undefined);
     const [activeTaskId, setActiveTaskId] = useState<number | undefined>(undefined);
     const [activeCity, setActiveCity] = useState<string | undefined>(undefined);
-    const [displayMode, setDisplayMode] = useState<string>("batch");
+    // const [displayMode, setDisplayMode] = useState<string>("batch");
     const [longitude, setLongitude] = useState<number>(0);
     const [latitude, setLatitude] = useState<number>(0);
     const [zoom, setZoom] = useState<number>(10);
@@ -33,10 +34,10 @@ const ScrapesAndBatchesPage: React.FC<{}> = props => {
             // const results = await getBatchesAdmin(provider, batchNum);
             const results = await getAllBatchesAdmin();
             console.log("batches: ", results, "25rm");
-            setBatchMarkers(results);
+            setTaskMarkers(results);
         };
         fetchBatchData();
-    }, [activeBatchNum, displayMode]);
+    }, [activeBatchNum]);
 
     useEffect(() => {
         const fetchHousingData = async () => {
@@ -63,12 +64,12 @@ const ScrapesAndBatchesPage: React.FC<{}> = props => {
                 <div id="mapAndOptionsContainer" className="flex w-full ">
                     <div className="w-full mr-4">
                         {apartments && apartments.length > 0 ? (
-                            <AdminMap
+                            <AdminApartmentsMap
                                 qualifiedFromCurrentPage={apartments}
                                 activeApartment={null}
                                 activeTaskId={activeTaskId}
                                 center={[apartments[0].lat, apartments[0].long]}
-                                batchMarkersData={batchMarkers}
+                                taskMarkers={taskMarkers}
                                 showApartments={showApartments}
                                 showBatchMarkers={showBatchMarkers}
                             />
@@ -120,4 +121,4 @@ const ScrapesAndBatchesPage: React.FC<{}> = props => {
     );
 };
 
-export default ScrapesAndBatchesPage;
+export default ScrapesPage;
