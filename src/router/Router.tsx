@@ -9,6 +9,7 @@ import UserActivityPage from "../pages/admin/UserActivityPage";
 import ScrapesAndBatchesPage from "../pages/admin/ScrapesPage";
 import ScrapesPage from "../pages/admin/ScrapesPage";
 import TaskMarkerPage from "../pages/admin/TaskMarkerPage";
+import LandingPage from "../pages/LandingPage";
 
 const PageRoutes = () => {
     return (
@@ -16,6 +17,7 @@ const PageRoutes = () => {
             {/* // TODO: If logged in, / is the dashboard */}
             {/* // todo: if logged out, / is a landing page */}
             {/* // TODO: /login route, /signup route */}
+            <Route path="/" element={<LandingPage />} />
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/search" element={<SearchPage />} />
             <Route path="/map" element={<MapPage />} />
