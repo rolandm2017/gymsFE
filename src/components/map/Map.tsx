@@ -23,6 +23,12 @@ interface MapboxProps {
 
 const Map: React.FC<MapboxProps> = ({ center, qualifiedFromCurrentPage, activeApartment }) => {
     // console.log(qualifiedFromCurrentPage, "27rm");
+    // initialization
+    const mapContainer = useRef(null);
+    const map = useRef<mapboxgl.Map | null>(null);
+    const [long, setLong] = useState(-73.554);
+    const [lat, setLat] = useState(45.5);
+    const [zoom, setZoom] = useState(12);
     const [markers, setMarkers] = useState<mapboxgl.Marker[]>([]);
     const { isOpen } = useContext(SidebarStateContext) as ISidebarContext;
 
@@ -52,13 +58,6 @@ const Map: React.FC<MapboxProps> = ({ center, qualifiedFromCurrentPage, activeAp
         }
     }
 
-    // initialization
-    const mapContainer = useRef(null);
-    const map = useRef<mapboxgl.Map | null>(null);
-    const [long, setLong] = useState(-73.554);
-    const [lat, setLat] = useState(45.5);
-    const [zoom, setZoom] = useState(12);
-
     useEffect(() => {
         if (map.current) return; // initialize map only once
         map.current = new mapboxgl.Map({
@@ -69,11 +68,6 @@ const Map: React.FC<MapboxProps> = ({ center, qualifiedFromCurrentPage, activeAp
             attributionControl: false,
         }).addControl(new mapboxgl.AttributionControl({ compact: true }));
     });
-
-    // useEffect(() => {
-    //     console.log("Runs once");
-    //     // console.log(qualifiedFromCurrentPage.map(a => a.isHighlighted));
-    // }, [qualifiedFromCurrentPage]);
 
     // plot qualified gyms and apartments
     useEffect(() => {
@@ -91,12 +85,6 @@ const Map: React.FC<MapboxProps> = ({ center, qualifiedFromCurrentPage, activeAp
 
             addNewMarkers(allMarkers, markers, setMarkers, map.current);
         }
-        // return () => {
-        //     // remove all old markers
-        //     for (const marker of allMarkers) {
-        //         marker.remove();
-        //     }
-        // };
     }, [map, qualifiedFromCurrentPage]);
 
     function unpackMarkers(apartments: IHousing[]): { apartmentMarkers: mapboxgl.Marker[]; gymMarkers: mapboxgl.Marker[] } {
@@ -176,13 +164,6 @@ const Map: React.FC<MapboxProps> = ({ center, qualifiedFromCurrentPage, activeAp
     return (
         <div id="mapContainerOuter" className={`${decideWidth(isOpen, isOnMobile)} w-full mapHeight mr-2`}>
             <div id="mapContainer" ref={mapContainer}></div>
-            <button
-                onClick={() => {
-                    console.log(qualifiedFromCurrentPage, "142rm");
-                }}
-            >
-                Hi
-            </button>
         </div>
     );
 };

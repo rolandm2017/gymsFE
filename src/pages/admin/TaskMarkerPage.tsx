@@ -49,15 +49,13 @@ const TaskMarkerPage: React.FC<{}> = props => {
             <div>
                 <div id="mapAndOptionsContainer" className="flex w-full ">
                     <div className="w-full mr-4">
-                        {tasks && tasks.length > 0 ? (
-                            <AdminTasksMap
-                                tasks={tasks}
-                                center={[
-                                    SEED_CITIES[activeCityIndex ? activeCityIndex : 0].centerLat,
-                                    SEED_CITIES[activeCityIndex ? activeCityIndex : 0].centerLong,
-                                ]}
-                            />
-                        ) : null}
+                        <AdminTasksMap
+                            tasks={tasks}
+                            center={[
+                                SEED_CITIES[activeCityIndex ? activeCityIndex : 0].centerLat,
+                                SEED_CITIES[activeCityIndex ? activeCityIndex : 0].centerLong,
+                            ]}
+                        />
                     </div>
                     <div id="optionsDropdowns">
                         <TitledDropdownWithButtons

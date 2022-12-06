@@ -1,14 +1,9 @@
-import { renderToStaticMarkup } from "react-dom/server";
 import mapboxgl from "mapbox-gl";
 import React, { useRef, useEffect, useState, useContext } from "react";
 //
 import { ISidebarContext, SidebarStateContext } from "../../context/SidebarStateProvider";
-import { IAssociation } from "../../interface/Association.interface";
 import { ITask } from "../../interface/Task.interface";
-import { IGym } from "../../interface/Gym.interface";
 import { IHousing } from "../../interface/Housing.interface";
-import { calculateWalkTimeInMinutes } from "../../util/calcWalkTime";
-import { truncateDecimals } from "../../util/truncateDecimals";
 
 import useWindowSize from "../../util/useWindowSize";
 
@@ -80,6 +75,7 @@ const AdminApartmentsMap: React.FC<AdminApartmentsMapboxProps> = ({ center, qual
 
     // plot qualified gyms and apartments
     useEffect(() => {
+        // todo: this shoudl be "if map.current, return"
         if (map === null) return;
 
         // remove old markers;

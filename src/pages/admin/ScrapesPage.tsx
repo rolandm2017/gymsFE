@@ -87,20 +87,18 @@ const ScrapesPage: React.FC<{}> = props => {
             <div>
                 <div id="mapAndOptionsContainer" className="flex w-full ">
                     <div className="w-full mr-4">
-                        {apartments && apartments.length > 0 ? (
-                            <AdminApartmentsMap
-                                qualified={qualified}
-                                activeApartment={null}
-                                activeTaskId={activeTaskId}
-                                center={[
-                                    SEED_CITIES[activeCityIndex ? activeCityIndex : 0].centerLat,
-                                    SEED_CITIES[activeCityIndex ? activeCityIndex : 0].centerLong,
-                                ]}
-                                tasks={tasks}
-                                showApartments={showApartments}
-                                showTaskMarkers={showTaskMarkers}
-                            />
-                        ) : null}
+                        <AdminApartmentsMap
+                            qualified={qualified}
+                            activeApartment={null}
+                            activeTaskId={activeTaskId}
+                            center={[
+                                SEED_CITIES[activeCityIndex ? activeCityIndex : 0].centerLat,
+                                SEED_CITIES[activeCityIndex ? activeCityIndex : 0].centerLong,
+                            ]}
+                            tasks={tasks}
+                            showApartments={showApartments}
+                            showTaskMarkers={showTaskMarkers}
+                        />
                     </div>
                     <div id="optionsDropdowns">
                         <TitledDropdownWithButtons
