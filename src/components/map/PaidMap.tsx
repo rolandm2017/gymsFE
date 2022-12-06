@@ -4,6 +4,8 @@ import { ISidebarContext, SidebarStateContext } from "../../context/SidebarState
 import { IAssociation } from "../../interface/Association.interface";
 import { IGym } from "../../interface/Gym.interface";
 import { IHousing } from "../../interface/Housing.interface";
+import { ILatLong } from "../../interface/LatLong.interface";
+import { IViewportBounds } from "../../interface/ViewportBounds.interface";
 import { calculateWalkTimeInMinutes } from "../../util/calcWalkTime";
 import { truncateDecimals } from "../../util/truncateDecimals";
 
@@ -14,14 +16,15 @@ import "./Map.scss";
 const MAPBOX_TOKEN: string = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN || "";
 mapboxgl.accessToken = MAPBOX_TOKEN;
 
-interface MapboxProps {
+interface PaidMapProps {
     center: [number, number];
     qualifiedFromCurrentPage: IHousing[];
     activeApartment: number | null;
+    adjustedCenterReporter?: Function;
     // zoom: number;
 }
 
-const Map: React.FC<MapboxProps> = ({ center, qualifiedFromCurrentPage, activeApartment }) => {
+const PaidMap: React.FC<PaidMapProps> = ({ center, qualifiedFromCurrentPage, activeApartment, adjustedCenterReporter }: PaidMapProps) => {
     // console.log(qualifiedFromCurrentPage, "27rm");
     // initialization
     const mapContainer = useRef(null);
@@ -60,13 +63,28 @@ const Map: React.FC<MapboxProps> = ({ center, qualifiedFromCurrentPage, activeAp
 
     useEffect(() => {
         if (map.current) return; // initialize map only once
-        map.current = new mapboxgl.Map({
+        const currentMap = new mapboxgl.Map({
             container: "mapContainer",
             style: "mapbox://styles/mapbox/streets-v11",
             center: [long, lat],
             zoom: zoom,
             attributionControl: false,
         }).addControl(new mapboxgl.AttributionControl({ compact: true }));
+        map.current = currentMap;
+
+        currentMap.on("dragend", () => {
+            const coords: mapboxgl.LngLatBounds = currentMap.getBounds();
+            console.log(coords.sw, coords.ne, "77rm");
+            const coordsNE: mapboxgl.LngLat = coords.getNorthEast();
+            const coordsSW: mapboxgl.LngLat = coords.getSouthWest();
+            console.log(coordsNE, coordsSW, "80rm");
+            const coordsButAsInterface: IViewportBounds = {
+                ne: { long: coordsNE.lng, lat: coordsNE.lat },
+                sw: { long: coordsSW.lng, lat: coordsSW.lat },
+            };
+            console.log(coords, "77rm");
+            if (adjustedCenterReporter) adjustedCenterReporter(coordsButAsInterface);
+        });
     });
 
     // plot qualified gyms and apartments
@@ -168,4 +186,4 @@ const Map: React.FC<MapboxProps> = ({ center, qualifiedFromCurrentPage, activeAp
     );
 };
 
-export default Map;
+export default PaidMap;

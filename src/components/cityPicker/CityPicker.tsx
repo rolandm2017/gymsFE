@@ -6,39 +6,41 @@ import Slide from "./Slide";
 
 import "./CityPicker.scss";
 
-const CityPicker: React.FC<{}> = () => {
+interface CityPickerProps {
+    choiceReporter: Function;
+}
+
+const CityPicker: React.FC<CityPickerProps> = ({ choiceReporter }: CityPickerProps) => {
     const availableIndexes = SEED_CITIES.map((city, index) => index);
     const [selectedCityIndex, setSelectedCityIndex] = useState<number>(0);
-    const [slideIndex, setSlideIndex] = useState<number>(0);
-    const [activeSlide, setActiveSlide] = useState<number>(0);
-    const [activeDot, setActiveDot] = useState<number>(0);
-
-    // showSlides(slideIndex);
 
     function plusSlides(n: number) {
-        const newSlideIndex = slideIndex + n;
-        showSlides(newSlideIndex);
+        const newselectedCityIndex = selectedCityIndex + n;
+        showSlides(newselectedCityIndex);
     }
 
     function currentSlide(n: number) {
-        const newSlideIndex = slideIndex + n;
-        showSlides(newSlideIndex);
+        const newselectedCityIndex = selectedCityIndex + n;
+        showSlides(newselectedCityIndex);
     }
 
     function showSlides(n: number) {
         const numberOfIndexes = availableIndexes.length - 1;
         const nIsGreaterThanNumberOfSlides = n > numberOfIndexes;
         if (nIsGreaterThanNumberOfSlides) {
-            setSlideIndex(0);
+            setSelectedCityIndex(0);
+            choiceReporter(0);
             return;
         }
         const nIsBeforeFirstIndex = n < 0;
         if (nIsBeforeFirstIndex) {
             // reset to final slide
-            setSlideIndex(numberOfIndexes);
+            setSelectedCityIndex(numberOfIndexes);
+            choiceReporter(numberOfIndexes);
             return;
         }
-        setSlideIndex(n);
+        setSelectedCityIndex(n);
+        choiceReporter(n);
     }
 
     return (
@@ -56,7 +58,7 @@ const CityPicker: React.FC<{}> = () => {
                 {/* //   <!-- Full-width slides --> */}
 
                 {SEED_CITIES.map((city, index) => (
-                    <Slide key={index} slideIndex={index} activeIndex={slideIndex} slideText={city.cityName} />
+                    <Slide key={index} slideIndex={index} activeIndex={selectedCityIndex} slideText={city.cityName} />
                 ))}
 
                 {/* <!-- Next/prev buttons --> */}
@@ -74,7 +76,7 @@ const CityPicker: React.FC<{}> = () => {
             {/* // <!-- Dots/bullets/indicators --> */}
             <div className="dot-container">
                 {availableIndexes.map(index => {
-                    return <Dot key={index} dotIndex={index} activeIndex={slideIndex} changeCurrentSlide={currentSlide} />;
+                    return <Dot key={index} dotIndex={index} activeIndex={selectedCityIndex} changeCurrentSlide={currentSlide} />;
                 })}
             </div>
         </div>

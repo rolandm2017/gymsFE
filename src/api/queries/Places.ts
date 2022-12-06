@@ -1,7 +1,17 @@
 import axios from "axios";
 
+const baseUrl = process.env.REACT_APP_BACKEND_ADDR;
+
+export async function getDemoApartments(neLong: number, neLat: number, swLong: number, swLat: number) {
+    const path = "/housing/demo";
+    console.log(neLat, neLong, swLat, swLong, "7rm");
+    const res = await axios.get(baseUrl + path, { params: { neLong, neLat, swLong, swLat } });
+    const { data } = res;
+    console.log(data, "9rm");
+    return data.demoContent;
+}
+
 export async function getApartments() {
-    const baseUrl = process.env.REACT_APP_BACKEND_ADDR;
     const path = "/housing/hardcode";
     // const city = "Montreal";
     const providers = "rentCanada,rentFaster,rentSeeker";
