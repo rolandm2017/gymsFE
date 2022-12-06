@@ -42,16 +42,9 @@ const CityPicker: React.FC<{}> = () => {
     }
 
     return (
-        <div>
+        <div className="w-72">
             {/* <!-- Slideshow container --> */}
             <div className="slideshow-container">
-                {/* //   <!-- Full-width slides --> */}
-
-                {SEED_CITIES.map((city, index) => (
-                    <Slide key={index} slideIndex={index} activeIndex={slideIndex} slideText={city.cityName} />
-                ))}
-
-                {/* <!-- Next/prev buttons --> */}
                 <span
                     className="prev"
                     onClick={() => {
@@ -60,6 +53,14 @@ const CityPicker: React.FC<{}> = () => {
                 >
                     &#10094;
                 </span>
+                {/* //   <!-- Full-width slides --> */}
+
+                {SEED_CITIES.map((city, index) => (
+                    <Slide key={index} slideIndex={index} activeIndex={slideIndex} slideText={city.cityName} />
+                ))}
+
+                {/* <!-- Next/prev buttons --> */}
+
                 <span
                     className="next"
                     onClick={() => {

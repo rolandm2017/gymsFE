@@ -14,8 +14,10 @@ const LandingPage: React.FC<{}> = () => {
             <div>
                 <p>placeholder</p>
             </div>
-            <div>
-                <CityPicker />
+            <div className="">
+                <div className="w-full mt-5 flex justify-center">
+                    <CityPicker />
+                </div>
             </div>
             <div>{/* <Map /> */}</div>
         </div>
