@@ -19,11 +19,11 @@ import { GetAllTasks } from "../interface/payload/GetAllTasks.interface";
 //this.router.post("/user/ban", authorize([Role.Admin]), this.banUser.bind(this));
 //this.router.post("/user/make-admin", this.makeAdmin.bind(this));
 
-export function useGetAllBatchNumsAPI(): { batchNums: number[]; getAllBatchNumsErr: string; loaded: boolean } {
+export function useGetAllBatchNumsAPI(): { batchNums: number[]; getAllBatchNumsErr: string; batchNumsIsLoaded: boolean } {
     // good
     const [batchNums, setBatchNums] = useState<number[]>([]);
     const [getAllBatchNumsErr, setGetAllBatchNumsErr] = useState<string>("");
-    const [loaded, setLoaded] = useState<boolean>(false);
+    const [batchNumsIsLoaded, setLoaded] = useState<boolean>(false);
 
     const server = useServer();
 
@@ -44,7 +44,7 @@ export function useGetAllBatchNumsAPI(): { batchNums: number[]; getAllBatchNumsE
         })();
     }, []);
 
-    return { batchNums, getAllBatchNumsErr, loaded };
+    return { batchNums, getAllBatchNumsErr, batchNumsIsLoaded };
 }
 
 export function useGetAllTasksAPI(): { allTasks: ITask[]; runGetAllTasks: Function; getAllTasksErr: string; loaded: boolean } {
@@ -88,41 +88,44 @@ export function useGetTaskMarkersByBatchNumAPI(): {
     taskMarkersForBatchNum: ITask[];
     runGetTaskMarkersByBatchNum: Function;
     getTaskMarkerByBatchNumErr: string;
-    loaded: boolean;
+    getTaskMarkersIsLoaded: boolean;
+    loadedBatchNum: number | undefined;
 } {
     const [taskMarkersForBatchNum, setTaskMarkersForBatchNum] = useState<ITask[]>([]);
     const [getTaskMarkerByBatchNumErr, setGetTaskMarkerByBatchNumErr] = useState("");
-    const [loaded, setLoaded] = useState(false);
+    const [getTaskMarkersIsLoaded, setLoaded] = useState(false);
     const [payload, setPayload] = useState<GetTaskMarkersByBatchNum | undefined>(undefined);
+    const [loadedBatchNum, setLoadedBatchNum] = useState<number | undefined>(undefined);
 
     const server = useServer();
 
     function runGetTaskMarkersByBatchNum(batchNum: number) {
-        setPayload({ batchNum });
         setLoaded(false);
+        setPayload({ batchNum });
     }
 
     useEffect(() => {
-        if (payload && !loaded) {
+        if (payload && !getTaskMarkersIsLoaded) {
             (async () => {
                 try {
                     setGetTaskMarkerByBatchNumErr("");
                     const path = "/admin/task-queue/tasks-by-batch-num";
-                    const response = await server.get(path);
+                    const response = await server.get(path, { params: { ...payload } });
                     const tasks = response.data;
                     setTaskMarkersForBatchNum(tasks);
                 } catch (err) {
                     const msg = handleError(err);
                     setGetTaskMarkerByBatchNumErr(msg);
                 } finally {
+                    setLoadedBatchNum(payload.batchNum);
                     setLoaded(true);
                     setPayload(undefined);
                 }
             })();
         }
-    }, [payload, loaded]);
+    }, [payload, getTaskMarkersIsLoaded]);
 
-    return { taskMarkersForBatchNum, runGetTaskMarkersByBatchNum, getTaskMarkerByBatchNumErr, loaded };
+    return { taskMarkersForBatchNum, runGetTaskMarkersByBatchNum, getTaskMarkerByBatchNumErr, getTaskMarkersIsLoaded, loadedBatchNum };
 }
 
 export function useGetHousingByLocationAPI(): {

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 //
 import PageBase from "../PageBase";
 import Button from "../../components/button/Button";
-import { getAllBatchNumsAdmin, getTaskMarkersByBatchNumAdmin } from "../../api/adminAPI";
+import { useGetAllBatchNumsAPI, useGetTaskMarkersByBatchNumAPI } from "../../api/adminAPI";
 import { ITask } from "../../interface/Task.interface";
 
 import "./TaskMarkerPage.scss";
@@ -16,33 +16,31 @@ const TaskMarkerPage: React.FC<{}> = props => {
     const [tasks, setTasks] = useState<ITask[]>([]);
     const [batchNumbers, setBatchNumbers] = useState<number[]>([]);
     // inputs
-    const [cityId, setCityId] = useState<number>(6);
-    const [activeBatchNum, setActiveBatchNum] = useState<number>(0);
+    const [cityId, setCityId] = useState<number>(6); // FIXME: city id should come from hardcoded enum or enum-esque thing
+    const [activeBatchNum, setActiveBatchNum] = useState<number | undefined>(undefined);
     const [activeCityIndex, setActiveCityIndex] = useState<number | undefined>(undefined);
-    // const [longitude, setLongitude] = useState<number>(0);
-    // const [latitude, setLatitude] = useState<number>(0);
-    // const [zoom, setZoom] = useState<number>(10);
+
+    const { batchNums, getAllBatchNumsErr, batchNumsIsLoaded } = useGetAllBatchNumsAPI();
+    const { taskMarkersForBatchNum, runGetTaskMarkersByBatchNum, getTaskMarkerByBatchNumErr, getTaskMarkersIsLoaded, loadedBatchNum } =
+        useGetTaskMarkersByBatchNumAPI();
 
     useEffect(() => {
-        const fetchAllBatchNums = async () => {
-            const batchNumsFromServer = await getAllBatchNumsAdmin();
-            console.log(batchNumsFromServer, "29rm");
-            setBatchNumbers(batchNumsFromServer);
-        };
-        fetchAllBatchNums();
-    }, []);
+        if (batchNumsIsLoaded && batchNums.length !== 0) {
+            setBatchNumbers(batchNums);
+        }
+    }, [batchNumsIsLoaded, batchNumbers.length]);
 
     useEffect(() => {
-        console.log("here 42rm");
-        const fetchBatchData = async () => {
-            // const results = await getBatchesAdmin(provider, batchNum);
-            console.log("getting task markers for batch num " + activeBatchNum, "44rm");
-            const tasks = await getTaskMarkersByBatchNumAdmin(1);
-            console.log("taskMarkers: ", tasks, "25rm");
-            setTasks(tasks);
-        };
-        fetchBatchData();
-    }, [activeBatchNum]);
+        const activeBatchNumIsSet = activeBatchNum !== undefined;
+        const timeToGetNewTaskMarkers = activeBatchNum !== loadedBatchNum;
+        if (activeBatchNumIsSet && timeToGetNewTaskMarkers) {
+            runGetTaskMarkersByBatchNum(activeBatchNum);
+        }
+        const newTaskMarkersAreLoaded = activeBatchNum === loadedBatchNum;
+        if (newTaskMarkersAreLoaded) {
+            setTasks(taskMarkersForBatchNum);
+        }
+    }, [activeBatchNum, loadedBatchNum]);
 
     return (
         <PageBase>

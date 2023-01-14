@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import PageBase from "../PageBase";
 import { IHousing } from "../../interface/Housing.interface";
 import Button from "../../components/button/Button";
-import { getAllBatchesAdmin, getApartmentsByLocationAdmin, housingHealthCheck } from "../../api/adminAPI";
+import { useGetAllBatchNumsAPI, useGetHousingByLocationAPI, useGetTaskMarkersByBatchNumAPI, useHealthCheckAPI } from "../../api/adminAPI";
 import { ITask } from "../../interface/Task.interface";
 import AdminMap from "../../components/map/AdminApartmentsMap";
 
@@ -17,6 +17,7 @@ const ScrapesPage: React.FC<{}> = props => {
     // responses from server
     const [apartments, setApartments] = useState<IHousing[]>([]);
     const [tasks, setTasks] = useState<ITask[]>([]);
+    const [batchNums, setBatchNums] = useState<number[]>([]);
     // inputs
     const [provider, setProvider] = useState<string>("rentCanada");
     const [cityId, setCityId] = useState<number>(6);
@@ -30,20 +31,24 @@ const ScrapesPage: React.FC<{}> = props => {
     const [showApartments, setShowApartments] = useState<boolean>(false);
     const [showTaskMarkers, setShowTaskMarkers] = useState<boolean>(false);
 
+    const { taskMarkersForBatchNum, runGetTaskMarkersByBatchNum, getTaskMarkerByBatchNumErr, getTaskMarkersIsLoaded, loadedBatchNum } =
+        useGetTaskMarkersByBatchNumAPI();
+
+    const { housingByLocation, runGetHousingByLocation, getHousingByLocationErr, loaded } = useGetHousingByLocationAPI();
+
     useEffect(() => {
-        const fetchBatchData = async () => {
-            // const results = await getBatchesAdmin(provider, batchNum);
-            const results = await getAllBatchesAdmin();
-            console.log("batches: ", results, "25rm");
-            setTasks(results);
-        };
-        fetchBatchData();
+        if (getTaskMarkersIsLoaded && loadedBatchNum === activeBatchNum) {
+            setTasks(taskMarkersForBatchNum);
+        }
+        if (activeBatchNum) {
+            runGetTaskMarkersByBatchNum(activeBatchNum);
+        }
     }, [activeBatchNum]);
 
     useEffect(() => {
         const fetchHousingData = async () => {
-            const results = await getApartmentsByLocationAdmin("Montreal");
-            setApartments(results);
+            // runGetHousingByLocation("Montreal");
+            // FIXME
         };
         fetchHousingData();
     }, [cityId, longitude, latitude, zoom]);
