@@ -1,4 +1,4 @@
-import jwt from "jsonwebtoken";
+import jwt_decode, { JwtPayload } from "jwt-decode";
 import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
 
 //
@@ -39,7 +39,7 @@ export function AuthProvider({ children }: AuthContextProps) {
     useEffect(() => {
         // refresh the access token if it's about to expire or has expired.
         if (accessToken !== "") {
-            const decodedToken = jwt.decode(accessToken, { complete: true });
+            const decodedToken = jwt_decode<JwtPayload>(accessToken);
             const dateNow = new Date();
             // null check: appeasing typescript
             if (decodedToken === null) {
@@ -47,13 +47,13 @@ export function AuthProvider({ children }: AuthContextProps) {
                 return;
             }
             // more appeasing typescript.
-            if (typeof decodedToken.payload === "string" || decodedToken.payload.exp === undefined) {
+            if (decodedToken.exp === undefined) {
                 // invalid token
                 return;
             }
             // according to // https://stackoverflow.com/questions/51292406/check-if-token-expired-using-this-jwt-library
             // the payload.exp has to be * 1000 for whatever reason
-            const tokenExpiryTime = new Date(decodedToken.payload.exp * 1000);
+            const tokenExpiryTime = new Date(decodedToken.exp * 1000);
             const millisecondsPerMinute = 1000 * 60;
             const twoMinutes = millisecondsPerMinute * 2;
             const soon = new Date(dateNow.getTime() - twoMinutes);
