@@ -56,7 +56,7 @@ export function useGetAllTasksAPI(): { allTasks: ITask[]; getAllTasksErr: string
         (async () => {
             try {
                 setGetAllTasksErr("");
-                const path = "/admin/batches/all";
+                const path = "/admin/task-queue/all";
                 const response = await server.get(path);
                 const tasks = response.data;
                 setAllTasks(tasks);
@@ -178,6 +178,7 @@ export function useGetHousingByCityIdAndBatchNumAPI(): {
                 try {
                     setGetHousingByCityIdAndBatchNumErr("");
                     const path = "/admin/housing/by-city-id-and-batch-num";
+                    //     const response = await axios.get(baseUrl + path, { params: { cityId, batchNum }, headers });
                     const response = await server.get(path, { params: { payload } });
                     const tasks = response.data;
                     setHousingByCityIdAndBatchNum(tasks);
@@ -195,13 +196,6 @@ export function useGetHousingByCityIdAndBatchNumAPI(): {
     return { housingByCityIdAndBatchNum, runGetHousingByCityIdAndBatchNum, getHousingByCityIdAndBatchNumErr, loaded };
 }
 
-// export async function getApartmentsByCityIdAndBatchNum(cityId: number, batchNum: number) {
-//     const response = await axios.get(baseUrl + path, { params: { cityId, batchNum }, headers });
-//     const { data } = response;
-//     console.log(data);
-//     return data.apartments;
-// }
-
 // this.router.get("/housing/by-location", authorize([Role.Admin]), this.getApartmentsByLocation.bind(this));
 // this.router.get("/housing/by-city-id-and-batch-num", authorize([Role.Admin]), this.getApartmentsByCityIdAndBatchNum.bind(this));
 
@@ -212,25 +206,70 @@ export function useGetHousingByCityIdAndBatchNumAPI(): {
 //     return data.apartments;
 // }
 
-export function useGetAllBatchesAPI() {
+// export function useGetAllBatchNumsAPI() {
+//     const [batchNums, setBatchNums] = useState<number[]>([]);
+//     const [getAllBatchNumsErr, setGetAllBatchNumsErr] = useState<string>("");
+//     const [loaded, setLoaded] = useState<boolean>(false);
+
+//     const server = useServer();
+
+//     useEffect(() => {
+//         (async () => {
+//             try {
+//                 setGetAllBatchNumsErr("");
+//                 const path = "/admin/batches/all";
+//                 const response = await server.get(path);
+//                 const { batchNums } = response.data;
+//                 setBatchNums(batchNums);
+//             } catch (err) {
+//                 const msg = handleError(err);
+//                 setGetAllBatchNumsErr(msg);
+//             } finally {
+//                 setLoaded(true);
+//             }
+//         })();
+//     }, []);
+
+//     return { batchNums, getAllBatchNumsErr, loaded };
+// }
+
+// export async function getAllBatchesAdmin() {
+//     const response = await axios.get(baseUrl + path, { headers });
+//     const { data } = response;
+//     return data.tasks;
+// }
+
+export function useHealthCheckAPI(where: string): { healthCheckResponse: string; err: string; loaded: boolean } {
     //
+    const [healthCheckResponse, setHealthCheckResponse] = useState("");
+    const [err, setErr] = useState("");
+    const [loaded, setLoaded] = useState(false);
+
+    const server = useServer();
+
+    useEffect(() => {
+        (async () => {
+            try {
+                setErr("");
+                const path = "/task-queue/health-check";
+                const response = await server.get(path);
+                const { data } = response;
+                console.log(data);
+            } catch (err) {
+                const msg = handleError(err);
+                setErr(msg);
+            } finally {
+                setLoaded(true);
+            }
+        })();
+    }, []);
+
+    return { healthCheckResponse, loaded, err };
 }
 
-export async function getAllBatchesAdmin() {
-    const path = "/admin/task-queue/all";
-    const response = await axios.get(baseUrl + path, { headers });
-    const { data } = response;
-    return data.tasks;
-}
-
-export function healthCheckAPI(where: string) {
-    //
-}
-
-export async function housingHealthCheck() {
-    const path = "/task-queue/health-check";
-    console.log(baseUrl + path, "22rm");
-    const response = await axios.get(baseUrl + path);
-    const { data } = response;
-    console.log(data);
-}
+// export async function housingHealthCheck() {
+//     console.log(baseUrl + path, "22rm");
+//     const response = await axios.get(baseUrl + path);
+//     const { data } = response;
+//     console.log(data);
+// }
