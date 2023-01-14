@@ -5,7 +5,7 @@ import Profile from "../components/profile/Profile";
 import ProfileBar from "../components/profile/ProfileBar";
 import AdminSidebar from "../components/sidebar/AdminSidebar";
 import Sidebar from "../components/sidebar/Sidebar";
-import SidebarStateProvider, { ISidebarContext, SidebarStateContext } from "../context/SidebarStateProvider";
+import SidebarStateProvider, { ISidebarContext, SidebarStateContext } from "../context/SidebarContext";
 
 import useWindowSize from "../util/useWindowSize";
 

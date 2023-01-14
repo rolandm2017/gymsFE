@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 //
-import { getDemoApartments } from "../api/queries/Places";
+import { getDemoApartments } from "../api/placesAPI";
 import CityPicker from "../components/cityPicker/CityPicker";
+import GoogleLogin from "../components/googleSSO/GoogleLogin";
 import DemoMap from "../components/map/DemoMap";
 import { ICity } from "../interface/City.interface";
 import { IDemoHousing } from "../interface/DemoHousing.interface";
@@ -57,6 +58,9 @@ const LandingPage: React.FC<{}> = () => {
             </div>
             <div>
                 <p>placeholder</p>
+            </div>
+            <div>
+                <GoogleLogin />
             </div>
             <div className="">
                 <div className="w-full mt-5 flex justify-center">

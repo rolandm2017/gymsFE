@@ -1,6 +1,6 @@
 import mapboxgl from "mapbox-gl";
 import React, { useRef, useEffect, useState, useContext } from "react";
-import { ISidebarContext, SidebarStateContext } from "../../context/SidebarStateProvider";
+import { ISidebarContext, SidebarStateContext } from "../../context/SidebarContext";
 import { IAssociation } from "../../interface/Association.interface";
 import { IDemoHousing } from "../../interface/DemoHousing.interface";
 import { IGym } from "../../interface/Gym.interface";

@@ -3,8 +3,8 @@ import mapboxgl from "mapbox-gl"; // eslint-disable-line import/no-webpack-loade
 
 import "./App.scss";
 import PageRoutes from "./router/Router";
-import SidebarStateProvider from "./context/SidebarStateProvider";
-import LocationsProvider from "./context/LocationsProvider";
+import SidebarStateProvider from "./context/SidebarContext";
+import LocationsProvider from "./context/LocationsContext";
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN || "";
 // TODO before production: put access token on server and retrieve it on page load

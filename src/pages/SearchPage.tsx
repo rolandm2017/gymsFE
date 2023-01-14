@@ -8,7 +8,7 @@ import TitleBar from "../components/titleBar/TitleBar";
 import PageNumber from "../components/pageNumber/PageNumber";
 import NavigationBtns from "../components/navigationBtns/NavigationBtns";
 import { calcTotalPages } from "../util/calcTotalPages";
-import { ILocationContext, LocationsProviderContext } from "../context/LocationsProvider";
+import { ILocationContext, LocationsProviderContext } from "../context/LocationsContext";
 import { getCurrentPageResults } from "../util/getCurrentPageResults";
 
 const SearchPage: React.FC<{}> = props => {

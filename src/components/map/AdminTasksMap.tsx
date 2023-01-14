@@ -1,7 +1,7 @@
 import mapboxgl from "mapbox-gl";
 import React, { useRef, useEffect, useState, useContext } from "react";
 //
-import { ISidebarContext, SidebarStateContext } from "../../context/SidebarStateProvider";
+import { ISidebarContext, SidebarStateContext } from "../../context/SidebarContext";
 import { ITask } from "../../interface/Task.interface";
 
 import useWindowSize from "../../util/useWindowSize";

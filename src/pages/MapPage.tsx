@@ -7,7 +7,7 @@ import ApartmentCard from "../components/apartmentCard/ApartmentCard";
 import PaidMap from "../components/map/PaidMap";
 import PageNumber from "../components/pageNumber/PageNumber";
 import NavigationBtns from "../components/navigationBtns/NavigationBtns";
-import { ILocationContext, LocationsProviderContext } from "../context/LocationsProvider";
+import { ILocationContext, LocationsProviderContext } from "../context/LocationsContext";
 import { IAssociation } from "../interface/Association.interface";
 import { IHousing } from "../interface/Housing.interface";
 import { calcTotalPages } from "../util/calcTotalPages";

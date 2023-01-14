@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 //
 import PageBase from "../PageBase";
 import Button from "../../components/button/Button";
-import { getAllBatchNumsAdmin, getTaskMarkersByBatchNumAdmin } from "../../api/queries/AdminQueries";
+import { getAllBatchNumsAdmin, getTaskMarkersByBatchNumAdmin } from "../../api/adminAPI";
 import { ITask } from "../../interface/Task.interface";
 
 import "./TaskMarkerPage.scss";

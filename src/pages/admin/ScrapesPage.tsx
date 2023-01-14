@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import PageBase from "../PageBase";
 import { IHousing } from "../../interface/Housing.interface";
 import Button from "../../components/button/Button";
-import { getAllBatchesAdmin, getApartmentsByLocationAdmin, housingHealthCheck } from "../../api/queries/AdminQueries";
+import { getAllBatchesAdmin, getApartmentsByLocationAdmin, housingHealthCheck } from "../../api/adminAPI";
 import { ITask } from "../../interface/Task.interface";
 import AdminMap from "../../components/map/AdminApartmentsMap";
 

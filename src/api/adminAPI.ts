@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { adminToken } from "../../context/AuthProvider";
+import { adminToken } from "../context/AuthContext";
 
 const baseUrl = process.env.REACT_APP_BACKEND_ADDR;
 

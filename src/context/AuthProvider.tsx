@@ -1,2 +1,0 @@
-export const adminToken =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImFjY3RJZCI6MSwiaWF0IjoxNjY5NzYzNDkzLCJleHAiOjE2Njk3NjQzOTN9.H3rk1vKDomr_2D4d5i7PPjDlxumY0nKJ_tDFg8soajw";
