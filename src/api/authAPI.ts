@@ -1,111 +1,96 @@
 import { useState, useEffect, useMemo } from "react";
 import { useServer } from "../context/ServerContext";
-import { Role } from "../enum/Role.enum";
-import { Member } from "../interface/Member.interface";
 import { handleError } from "../util/handleError";
 import { useAuth } from "../context/AuthContext";
-import { EmailSignUpPayload } from "../interface/payloads/EmailSignUp.interface";
+import { EmailAuth } from "../interface/payload/EmailAuth.interface";
+import { UserProfile } from "../interface/UserProfile.interface";
 
-export function useSignUpWithEmailAPI(): { signUpData: Member; signUpErr: string; signUpIsLoaded: boolean; runSignUp: Function } {
-    const emptyPayload: EmailSignUpPayload = useMemo(() => {
-        return {
-            role: Role.NewMember,
-            firstName: "",
-            lastName: "",
-            email: "",
-            fakeGoogleId: "",
-            isReady: false,
-        };
-    }, []);
-    const [signUpData, setSignUpData] = useState<Member>({} as Member);
+export function useSignUpWithEmailAPI(): { signUpData: UserProfile | undefined; signUpErr: string; signUpIsLoaded: boolean; runSignUp: Function } {
+    const [signUpData, setSignUpData] = useState<UserProfile | undefined>(undefined);
     const [signUpErr, setSignUpErr] = useState("");
     const [signUpIsLoaded, setSignUpIsLoaded] = useState(false);
-    const [payload, setPayload] = useState<EmailSignUpPayload>(emptyPayload);
+    const [payload, setPayload] = useState<EmailAuth | undefined>(undefined);
 
     const server = useServer();
 
-    function runSignUp(email: string, fakeGoogleId: string, firstName: string, lastName: string, role: Role) {
+    function runSignUp(email: string, password: string) {
         setSignUpIsLoaded(false);
-        setPayload({ email, fakeGoogleId, firstName, lastName, role, isReady: true });
+        setPayload({ email, password });
     }
 
     useEffect(() => {
-        if (!signUpIsLoaded && payload.isReady) {
+        if (!signUpIsLoaded && payload) {
             (async () => {
                 try {
                     setSignUpErr(""); // remove old errors
                     const response = await server!.post("/auth/email/signup", {
-                        email: payload.email,
-                        fakeGoogleId: payload.fakeGoogleId,
-                        firstName: payload.firstName,
-                        lastName: payload.lastName,
-                        role: payload.role,
+                        ...payload,
                     });
-                    const newMember = response.data as Member;
-                    setSignUpData(newMember);
+                    const newUser = response.data as UserProfile;
+                    setSignUpData(newUser);
                 } catch (error) {
                     const msg = handleError(error);
                     setSignUpErr(msg);
                 } finally {
                     setSignUpIsLoaded(true);
-                    setPayload(emptyPayload); // so it doesn't re-run.
+                    setPayload(undefined); // so it doesn't re-run.
                 }
             })();
         }
-    }, [signUpIsLoaded, emptyPayload, payload, server]);
+    }, [signUpIsLoaded, payload, server]);
 
     return { signUpData, signUpErr, signUpIsLoaded, runSignUp };
 }
 
 export function useLoginWithEmailAPI(): {
-    loginData: Member | undefined;
+    loginData: UserProfile | undefined;
     loginErr: string;
     loginIsLoaded: boolean;
     runLogin: Function;
 } {
-    const [loginData, setLoginData] = useState<Member | undefined>(undefined);
+    const [loginData, setLoginData] = useState<UserProfile | undefined>(undefined);
     const [loginErr, setLoginErr] = useState("");
     const [loginIsLoaded, setLoginIsLoaded] = useState(false);
-    const [email, setEmail] = useState("");
+    const [payload, setPayload] = useState<EmailAuth | undefined>(undefined);
 
     const server = useServer();
     const { setAccessToken } = useAuth();
 
-    function runLogin(email: string) {
+    function runLogin(email: string, password: string) {
         setLoginIsLoaded(false);
-        setEmail(email);
+        setPayload({ email, password });
     }
 
     useEffect(() => {
-        if (email) {
+        if (payload) {
             (async () => {
                 try {
                     setLoginErr(""); // remove old errors
-                    const response = await server!.post("/auth/email/login", { email });
-                    const { member, accessToken } = response.data;
-                    setLoginData(member);
+                    const response = await server!.post("/auth/email/login", { payload });
+                    const { user, accessToken } = response.data;
+                    setLoginData(user);
                     setAccessToken(accessToken);
                 } catch (error) {
                     const msg = handleError(error);
                     setLoginErr(msg);
                 } finally {
                     setLoginIsLoaded(true);
-                    setEmail(""); // so it doesn't re-run.
+                    setPayload(undefined); // so it doesn't re-run.
                 }
             })();
         }
-    }, [email, server, setAccessToken]);
+    }, [payload, server]);
 
     return { loginData, loginErr, loginIsLoaded, runLogin };
 }
 
 export function useRefreshJwtAPI(): {
-    refreshedMember: Member;
+    refresheduser: UserProfile | undefined;
     refreshErr: string;
     refreshIsLoaded: boolean;
     runRefreshJwt: Function;
 } {
-    const [refreshedMember, setRefreshedMember] = useState<Member>({} as Member);
+    const [refresheduser, setRefresheduser] = useState<UserProfile | undefined>(undefined);
     const [refreshErr, setRefreshErr] = useState("");
     const [refreshIsLoaded, setRefreshIsLoaded] = useState(false);
     const [run, setRun] = useState(false);
@@ -124,9 +109,9 @@ export function useRefreshJwtAPI(): {
                 try {
                     setRefreshErr(""); // clear old error
                     const response = await server!.post("/auth/jwt/refresh");
-                    const { member, accessToken } = response.data;
+                    const { user, accessToken } = response.data;
                     setAccessToken(accessToken);
-                    setRefreshedMember(member);
+                    setRefresheduser(user);
                 } catch (error) {
                     console.log("failed to refresh token");
                     const msg = handleError(error);
@@ -139,7 +124,7 @@ export function useRefreshJwtAPI(): {
         }
     }, [run, setAccessToken, server]);
 
-    return { refreshedMember, refreshErr, refreshIsLoaded, runRefreshJwt };
+    return { refresheduser, refreshErr, refreshIsLoaded, runRefreshJwt };
 }
 
 export function useLogOutAPI(): { success: boolean; error: string; loaded: boolean; runLogOut: Function } {
