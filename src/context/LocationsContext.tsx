@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useMemo } from "react";
-import { getApartments, getGyms, getQualifiedAps } from "../api/placesAPI";
+import { useGetApartmentsAPI, useGetGymsAPI, useGetQualifiedApsAPI } from "../api/placesAPI";
 import { IGym } from "../interface/Gym.interface";
 import { IHousing } from "../interface/Housing.interface";
 
@@ -25,36 +25,24 @@ const LocationsProvider: React.FC<ChildrenProps> = ({ children }) => {
     const [gyms, setGyms] = React.useState<IGym[]>([]);
     const [qualified, setQualified] = React.useState<IHousing[]>([]);
 
-    // async function useGetAps() {
-    //     const data = await getApartments();
-    //     setApartments(data);
-    // }
-
-    // async function useGetGyms() {
-    //     const data = await getGyms();
-    //     setGyms(data);
-    // }
+    const { qualifiedAps, qualifiedApsAreLoaded, runGetQualifiedAps } = useGetQualifiedApsAPI();
 
     useEffect(() => {
         if (apartments.length !== 0) return;
-        // getApartments().then(aps => {
-        //     setApartments(aps);
-        // });
     }, [apartments]);
 
     useEffect(() => {
         if (gyms.length !== 0) return;
-        // getGyms().then(gyms => {
-        //     setGyms(gyms);
-        // });
     }, [gyms]);
 
     useEffect(() => {
+        if (qualifiedApsAreLoaded) {
+            setQualified(qualifiedAps);
+            return;
+        }
         if (qualified.length !== 0) return;
-        getQualifiedAps().then(gyms => {
-            setQualified(gyms);
-        });
-    });
+        runGetQualifiedAps();
+    }, [qualifiedApsAreLoaded]);
 
     const memoedValue = useMemo(
         () => ({

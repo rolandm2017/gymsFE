@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 //
-import { getDemoApartments } from "../api/placesAPI";
+import { useGetDemoApartmentsAPI } from "../api/placesAPI";
 import CityPicker from "../components/cityPicker/CityPicker";
 import GoogleLogin from "../components/googleSSO/GoogleLogin";
 import DemoMap from "../components/map/DemoMap";
@@ -17,12 +17,18 @@ const LandingPage: React.FC<{}> = () => {
     const [neLat, setNeLat] = useState<number>(0);
     const [swLat, setSwLat] = useState<number>(0);
 
-    console.log("here");
+    const { newDemoHousing, moveViewport, err, demoApartmentsAreLoaded, recenteredViewportCounter } = useGetDemoApartmentsAPI();
 
     useEffect(() => {
         centerMapOnLocation(SEED_CITIES[selectedCityIndex]);
         setSelectedCity(SEED_CITIES[selectedCityIndex]);
     }, [selectedCityIndex]);
+
+    useEffect(() => {
+        // add housings whenever there are new loaded housings from moving the viewport.
+        const updated = [...apartments, ...newDemoHousing];
+        setApartments(updated);
+    }, [recenteredViewportCounter]);
 
     useEffect(() => {
         const fetchDemoApartments = async () => {
@@ -31,9 +37,7 @@ const LandingPage: React.FC<{}> = () => {
                 // setApartments(prevApartments => [...prevApartments, apartmentsToAdd]);
                 return;
             }
-            const apartmentsToAdd = await getDemoApartments(centerCoords.ne.long, centerCoords.ne.lat, centerCoords.sw.long, centerCoords.sw.lat);
-            console.log(apartmentsToAdd, "34rm");
-            setApartments(prevApartments => [...prevApartments, apartmentsToAdd]);
+            moveViewport(centerCoords.ne.long, centerCoords.ne.lat, centerCoords.sw.long, centerCoords.sw.lat);
         };
         fetchDemoApartments();
     }, [neLat, swLat]);
