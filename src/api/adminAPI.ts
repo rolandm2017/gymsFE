@@ -6,8 +6,9 @@ import { handleError } from "../util/handleError";
 import { ITask } from "../interface/Task.interface";
 import { GetTaskMarkersByBatchNum } from "../interface/payload/GetTaskMarkersByBatchNum.interface";
 import { IHousing } from "../interface/Housing.interface";
-import { GetHousingByLocation } from "../interface/payload/GetHousingByLocation.interface";
+import { GetHousingByCityName } from "../interface/payload/GetHousingByCityName.interface";
 import { GetHousingByCityIdAndBatchNum } from "../interface/payload/GetHousingByCityIdAndBatchNum.interface";
+import { GetAllTasks } from "../interface/payload/GetAllTasks.interface";
 
 // this.router.get("/batches/all", authorize([Role.Admin]), this.getAllBatchNumbers.bind(this));
 //this.router.get("/task-queue/all", authorize([Role.Admin]), this.getAllTasks.bind(this));
@@ -19,6 +20,7 @@ import { GetHousingByCityIdAndBatchNum } from "../interface/payload/GetHousingBy
 //this.router.post("/user/make-admin", this.makeAdmin.bind(this));
 
 export function useGetAllBatchNumsAPI(): { batchNums: number[]; getAllBatchNumsErr: string; loaded: boolean } {
+    // good
     const [batchNums, setBatchNums] = useState<number[]>([]);
     const [getAllBatchNumsErr, setGetAllBatchNumsErr] = useState<string>("");
     const [loaded, setLoaded] = useState<boolean>(false);
@@ -45,31 +47,41 @@ export function useGetAllBatchNumsAPI(): { batchNums: number[]; getAllBatchNumsE
     return { batchNums, getAllBatchNumsErr, loaded };
 }
 
-export function useGetAllTasksAPI(): { allTasks: ITask[]; getAllTasksErr: string; loaded: boolean } {
+export function useGetAllTasksAPI(): { allTasks: ITask[]; runGetAllTasks: Function; getAllTasksErr: string; loaded: boolean } {
+    //
     const [allTasks, setAllTasks] = useState<ITask[]>([]);
     const [getAllTasksErr, setGetAllTasksErr] = useState("");
     const [loaded, setLoaded] = useState<boolean>(false);
+    const [payload, setPayload] = useState<GetAllTasks | undefined>(undefined);
 
     const server = useServer();
 
-    useEffect(() => {
-        (async () => {
-            try {
-                setGetAllTasksErr("");
-                const path = "/admin/task-queue/all";
-                const response = await server.get(path);
-                const tasks = response.data;
-                setAllTasks(tasks);
-            } catch (err) {
-                const msg = handleError(err);
-                setGetAllTasksErr(msg);
-            } finally {
-                setLoaded(true);
-            }
-        })();
-    }, []);
+    function runGetAllTasks(provider: string, batchNum: number) {
+        setPayload({ provider, batchNum });
+        setLoaded(false);
+    }
 
-    return { allTasks, getAllTasksErr, loaded };
+    useEffect(() => {
+        if (payload && !loaded) {
+            (async () => {
+                try {
+                    setGetAllTasksErr("");
+                    const path = "/admin/task-queue/all";
+                    const response = await server.get(path);
+                    const tasks = response.data;
+                    setAllTasks(tasks);
+                } catch (err) {
+                    const msg = handleError(err);
+                    setGetAllTasksErr(msg);
+                } finally {
+                    setLoaded(true);
+                    setPayload(undefined);
+                }
+            })();
+        }
+    }, [payload, loaded]);
+
+    return { allTasks, runGetAllTasks, getAllTasksErr, loaded };
 }
 
 export function useGetTaskMarkersByBatchNumAPI(): {
@@ -95,7 +107,7 @@ export function useGetTaskMarkersByBatchNumAPI(): {
             (async () => {
                 try {
                     setGetTaskMarkerByBatchNumErr("");
-                    const path = "/admin/batches/all";
+                    const path = "/admin/task-queue/tasks-by-batch-num";
                     const response = await server.get(path);
                     const tasks = response.data;
                     setTaskMarkersForBatchNum(tasks);
@@ -108,7 +120,7 @@ export function useGetTaskMarkersByBatchNumAPI(): {
                 }
             })();
         }
-    }, [payload]);
+    }, [payload, loaded]);
 
     return { taskMarkersForBatchNum, runGetTaskMarkersByBatchNum, getTaskMarkerByBatchNumErr, loaded };
 }
@@ -122,7 +134,7 @@ export function useGetHousingByLocationAPI(): {
     const [housingByLocation, setHousingByLocation] = useState<IHousing[]>([]);
     const [getHousingByLocationErr, setGetHousingByLocationErr] = useState("");
     const [loaded, setLoaded] = useState(false);
-    const [payload, setPayload] = useState<GetHousingByLocation | undefined>(undefined);
+    const [payload, setPayload] = useState<GetHousingByCityName | undefined>(undefined);
 
     const server = useServer();
 
@@ -149,7 +161,7 @@ export function useGetHousingByLocationAPI(): {
                 }
             })();
         }
-    }, [payload]);
+    }, [payload, loaded]);
 
     return { housingByLocation, runGetHousingByLocation, getHousingByLocationErr, loaded };
 }
@@ -191,53 +203,13 @@ export function useGetHousingByCityIdAndBatchNumAPI(): {
                 }
             })();
         }
-    }, [payload]);
+    }, [payload, loaded]);
 
     return { housingByCityIdAndBatchNum, runGetHousingByCityIdAndBatchNum, getHousingByCityIdAndBatchNumErr, loaded };
 }
 
 // this.router.get("/housing/by-location", authorize([Role.Admin]), this.getApartmentsByLocation.bind(this));
 // this.router.get("/housing/by-city-id-and-batch-num", authorize([Role.Admin]), this.getApartmentsByCityIdAndBatchNum.bind(this));
-
-// export async function getAllHousingAdmin() {
-//     const path = "/admin/housing/all";
-//     const response = await axios.get(baseUrl + path, { headers });
-//     const { data } = response;
-//     return data.apartments;
-// }
-
-// export function useGetAllBatchNumsAPI() {
-//     const [batchNums, setBatchNums] = useState<number[]>([]);
-//     const [getAllBatchNumsErr, setGetAllBatchNumsErr] = useState<string>("");
-//     const [loaded, setLoaded] = useState<boolean>(false);
-
-//     const server = useServer();
-
-//     useEffect(() => {
-//         (async () => {
-//             try {
-//                 setGetAllBatchNumsErr("");
-//                 const path = "/admin/batches/all";
-//                 const response = await server.get(path);
-//                 const { batchNums } = response.data;
-//                 setBatchNums(batchNums);
-//             } catch (err) {
-//                 const msg = handleError(err);
-//                 setGetAllBatchNumsErr(msg);
-//             } finally {
-//                 setLoaded(true);
-//             }
-//         })();
-//     }, []);
-
-//     return { batchNums, getAllBatchNumsErr, loaded };
-// }
-
-// export async function getAllBatchesAdmin() {
-//     const response = await axios.get(baseUrl + path, { headers });
-//     const { data } = response;
-//     return data.tasks;
-// }
 
 export function useHealthCheckAPI(where: string): { healthCheckResponse: string; err: string; loaded: boolean } {
     //
@@ -266,10 +238,3 @@ export function useHealthCheckAPI(where: string): { healthCheckResponse: string;
 
     return { healthCheckResponse, loaded, err };
 }
-
-// export async function housingHealthCheck() {
-//     console.log(baseUrl + path, "22rm");
-//     const response = await axios.get(baseUrl + path);
-//     const { data } = response;
-//     console.log(data);
-// }
