@@ -26,6 +26,7 @@ export function useSignUpWithEmailAPI(): { signUpData: UserProfile | undefined; 
                     const response = await server!.post("/auth/email/signup", {
                         ...payload,
                     });
+                    console.log(response.data, "29rm");
                     const newUser = response.data as UserProfile;
                     setSignUpData(newUser);
                 } catch (error) {

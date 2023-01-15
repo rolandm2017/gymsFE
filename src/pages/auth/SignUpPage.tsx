@@ -1,10 +1,35 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useSignUpWithEmailAPI } from "../../api/authAPI";
 import ExpanderButton from "../../components/button/ExpanderButton";
 import GoogleButton from "../../components/button/GoogleButton";
 import AuthInput from "../../components/input/AuthInput";
 
 const SignUpPage: React.FC<{}> = () => {
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [err, setErr] = useState("");
+
+    const navigate = useNavigate();
+
+    const { signUpData, signUpErr, signUpIsLoaded, runSignUp } = useSignUpWithEmailAPI();
+
+    useEffect(() => {
+        setErr(signUpErr);
+    }, [signUpErr]);
+
+    useEffect(() => {
+        // redirect to dashboard if user credentials are returned
+        if (signUpData && signUpIsLoaded) {
+            navigate("/login");
+        }
+    }, [signUpData, signUpIsLoaded, navigate]);
+
+    function submitSignUp() {
+        runSignUp(email, password);
+    }
+
     return (
         <main className="h-full w-full">
             <div className="h-full flex">
@@ -23,11 +48,12 @@ const SignUpPage: React.FC<{}> = () => {
                             <p className="text-4xl font-medium">Sign up</p>
                         </div>
                         <div>
-                            <AuthInput type={"text"} placeholder="Email" />
-                            <AuthInput type={"password"} placeholder="Password" />
+                            <AuthInput type={"text"} placeholder="Name" changeHandler={setName} />
+                            <AuthInput type={"text"} placeholder="Email" changeHandler={setEmail} />
+                            <AuthInput type={"password"} placeholder="Password" changeHandler={setPassword} />
                         </div>
                         <div>
-                            <ExpanderButton type={"Opaque"} text="Sign Up" />
+                            <ExpanderButton type={"Opaque"} text="Sign Up" onClickHandler={submitSignUp} />
                         </div>
 
                         <div>

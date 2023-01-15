@@ -1,12 +1,39 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useLoginWithEmailAPI } from "../../api/authAPI";
 import ExpanderButton from "../../components/button/ExpanderButton";
 import GoogleButton from "../../components/button/GoogleButton";
 import AuthInput from "../../components/input/AuthInput";
+import { useAuth } from "../../context/AuthContext";
 
 import "./Auth.scss";
 
 const LoginPage: React.FC<{}> = () => {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [err, setErr] = useState("");
+
+    const navigate = useNavigate();
+
+    const { setProfile } = useAuth();
+    const { loginData, loginErr, loginIsLoaded, runLogin } = useLoginWithEmailAPI();
+
+    useEffect(() => {
+        setErr(loginErr);
+    }, [loginErr]);
+
+    useEffect(() => {
+        // redirect to dashboard if user credentials are returned
+        if (loginData && loginIsLoaded) {
+            setProfile(loginData);
+            navigate("/login");
+        }
+    }, [loginData, loginIsLoaded, navigate, setProfile]);
+
+    function submitLogIn() {
+        runLogin(email, password);
+    }
+
     return (
         <main className="h-full w-full">
             <div className="h-full flex">
@@ -24,12 +51,11 @@ const LoginPage: React.FC<{}> = () => {
                             <p className="text-4xl font-medium">Log in</p>
                         </div>
                         <div>
-                            <AuthInput type={"text"} placeholder="Name" />
-                            <AuthInput type={"text"} placeholder="Email" />
-                            <AuthInput type={"password"} placeholder="Password" />
+                            <AuthInput type={"text"} placeholder="Email" changeHandler={setEmail} />
+                            <AuthInput type={"password"} placeholder="Password" changeHandler={setPassword} />
                         </div>
                         <div>
-                            <ExpanderButton type={"Opaque"} text="Log In" />
+                            <ExpanderButton type={"Opaque"} text="Log In" onClickHandler={submitLogIn} />
                         </div>
                         <div className="flex flex-col items-start">
                             <div className="mt-4 h-8 mt-3 flex items-center">

@@ -9,7 +9,7 @@ type AuthContextType = {
     accessToken: string;
     isLoggedIn: Function;
     setAccessToken: Function;
-
+    setProfile: Function;
     profile: UserProfile | undefined;
 };
 
@@ -17,6 +17,7 @@ const authContextDefaultValues: AuthContextType = {
     accessToken: "",
     isLoggedIn: () => {},
     setAccessToken: () => {},
+    setProfile: () => {},
     profile: undefined,
 };
 
@@ -40,7 +41,7 @@ export function AuthProvider({ children }: AuthContextProps) {
         // try get access token 1x on every page load.
         console.log("refresh token 41rm");
         runRefreshJwt();
-    }, []);
+    }, [runRefreshJwt]);
 
     useEffect(() => {
         // refresh the access token if it's about to expire or has expired.
@@ -68,7 +69,7 @@ export function AuthProvider({ children }: AuthContextProps) {
                 runRefreshJwt();
             }
         }
-    }, [accessToken]);
+    }, [accessToken, runRefreshJwt]);
 
     const isLoggedIn = () => {
         return !!accessToken;
@@ -78,6 +79,7 @@ export function AuthProvider({ children }: AuthContextProps) {
         accessToken,
         setAccessToken,
         profile,
+        setProfile,
         isLoggedIn,
     };
 

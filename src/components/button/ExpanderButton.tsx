@@ -4,12 +4,17 @@ import "./Button.scss";
 interface ButtonProps {
     type: "Transparent" | "Opaque";
     text: string;
-    onClickHandler?: Function;
+    onClickHandler: Function;
 }
 
 function ExpanderButton({ type, text, onClickHandler }: ButtonProps) {
     return (
-        <div className={`buttonShared w-full h-9 flex justify-center items-center ${type === "Transparent" ? "transparentBg" : "opaqueBg"}`}>
+        <div
+            className={`buttonShared w-full h-9 flex justify-center items-center ${type === "Transparent" ? "transparentBg" : "opaqueBg"}`}
+            onClick={() => {
+                onClickHandler();
+            }}
+        >
             <button>{text}</button>
         </div>
     );
