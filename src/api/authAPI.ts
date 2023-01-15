@@ -2,20 +2,21 @@ import { useState, useEffect, useMemo } from "react";
 import { useServer } from "../context/ServerContext";
 import { handleError } from "../util/handleError";
 import { useAuth } from "../context/AuthContext";
-import { EmailAuth } from "../interface/payload/EmailAuth.interface";
+import { LogInAuth } from "../interface/payload/LogInAuth.interface";
+import { SignUpAuth } from "../interface/payload/SignUpAuth.interface";
 import { UserProfile } from "../interface/UserProfile.interface";
 
 export function useSignUpWithEmailAPI(): { signUpData: UserProfile | undefined; signUpErr: string; signUpIsLoaded: boolean; runSignUp: Function } {
     const [signUpData, setSignUpData] = useState<UserProfile | undefined>(undefined);
     const [signUpErr, setSignUpErr] = useState("");
     const [signUpIsLoaded, setSignUpIsLoaded] = useState(false);
-    const [payload, setPayload] = useState<EmailAuth | undefined>(undefined);
+    const [payload, setPayload] = useState<SignUpAuth | undefined>(undefined);
 
     const server = useServer();
 
-    function runSignUp(email: string, password: string) {
+    function runSignUp(name: string, email: string, password: string) {
         setSignUpIsLoaded(false);
-        setPayload({ email, password });
+        setPayload({ name, email, password });
     }
 
     useEffect(() => {
@@ -23,7 +24,7 @@ export function useSignUpWithEmailAPI(): { signUpData: UserProfile | undefined; 
             (async () => {
                 try {
                     setSignUpErr(""); // remove old errors
-                    const response = await server!.post("/auth/email/signup", {
+                    const response = await server!.post("/auth/register", {
                         ...payload,
                     });
                     console.log(response.data, "29rm");
@@ -52,7 +53,7 @@ export function useLoginWithEmailAPI(): {
     const [loginData, setLoginData] = useState<UserProfile | undefined>(undefined);
     const [loginErr, setLoginErr] = useState("");
     const [loginIsLoaded, setLoginIsLoaded] = useState(false);
-    const [payload, setPayload] = useState<EmailAuth | undefined>(undefined);
+    const [payload, setPayload] = useState<LogInAuth | undefined>(undefined);
 
     const server = useServer();
     const { setAccessToken } = useAuth();
@@ -67,7 +68,7 @@ export function useLoginWithEmailAPI(): {
             (async () => {
                 try {
                     setLoginErr(""); // remove old errors
-                    const response = await server!.post("/auth/email/login", { payload });
+                    const response = await server!.post("/auth/authenticate", { payload });
                     const { user, accessToken } = response.data;
                     setLoginData(user);
                     setAccessToken(accessToken);
@@ -80,7 +81,7 @@ export function useLoginWithEmailAPI(): {
                 }
             })();
         }
-    }, [payload, server]);
+    }, [payload, server, setAccessToken]);
 
     return { loginData, loginErr, loginIsLoaded, runLogin };
 }

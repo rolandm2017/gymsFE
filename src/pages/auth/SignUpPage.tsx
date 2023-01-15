@@ -4,11 +4,13 @@ import { useSignUpWithEmailAPI } from "../../api/authAPI";
 import ExpanderButton from "../../components/button/ExpanderButton";
 import GoogleButton from "../../components/button/GoogleButton";
 import AuthInput from "../../components/input/AuthInput";
+import { isEmail, isValidName, isValidPassword } from "../../util/validation";
 
 const SignUpPage: React.FC<{}> = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [confirmation, setConfirmation] = useState("");
     const [err, setErr] = useState("");
 
     const navigate = useNavigate();
@@ -26,8 +28,33 @@ const SignUpPage: React.FC<{}> = () => {
         }
     }, [signUpData, signUpIsLoaded, navigate]);
 
+    useEffect(() => {
+        // if pws match, clear
+        if (isValidPassword(password, confirmation)) {
+            setErr("");
+        }
+        // if pw2 is empty, say so
+        if (password && confirmation.length === 0) {
+            setErr("Must confirm your password");
+        }
+        // if pws dont match, say so
+        if (password && confirmation && !isValidPassword(password, confirmation)) {
+            setErr("Passwords don't match");
+        }
+        if (email && !isEmail(email)) {
+            setErr("Invalid email");
+        }
+        if (name && !isValidName(name)) {
+            setErr("First and last name must be at least 2 characters");
+        }
+    }, [password, confirmation, name, email]);
+
     function submitSignUp() {
-        runSignUp(email, password);
+        console.log("sign upping", email, password, "30rm");
+        const passwordsMatch = password === confirmation;
+        if (name && email && passwordsMatch) {
+            runSignUp(name, email, password);
+        }
     }
 
     return (
@@ -51,9 +78,13 @@ const SignUpPage: React.FC<{}> = () => {
                             <AuthInput type={"text"} placeholder="Name" changeHandler={setName} />
                             <AuthInput type={"text"} placeholder="Email" changeHandler={setEmail} />
                             <AuthInput type={"password"} placeholder="Password" changeHandler={setPassword} />
+                            <AuthInput type={"password"} placeholder="Confirm Password" changeHandler={setConfirmation} />
                         </div>
                         <div>
                             <ExpanderButton type={"Opaque"} text="Sign Up" onClickHandler={submitSignUp} />
+                        </div>
+                        <div>
+                            <p>{err ? err : null}</p>
                         </div>
 
                         <div>

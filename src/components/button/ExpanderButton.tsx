@@ -10,7 +10,9 @@ interface ButtonProps {
 function ExpanderButton({ type, text, onClickHandler }: ButtonProps) {
     return (
         <div
-            className={`buttonShared w-full h-9 flex justify-center items-center ${type === "Transparent" ? "transparentBg" : "opaqueBg"}`}
+            className={`buttonShared w-full h-9 flex justify-center items-center ${
+                type === "Transparent" ? "transparentBg" : "opaqueBg"
+            } cursor-pointer`}
             onClick={() => {
                 onClickHandler();
             }}

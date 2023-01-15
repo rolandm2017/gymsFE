@@ -26,7 +26,7 @@ const LoginPage: React.FC<{}> = () => {
         // redirect to dashboard if user credentials are returned
         if (loginData && loginIsLoaded) {
             setProfile(loginData);
-            navigate("/login");
+            navigate("/dashboard");
         }
     }, [loginData, loginIsLoaded, navigate, setProfile]);
 
@@ -56,6 +56,9 @@ const LoginPage: React.FC<{}> = () => {
                         </div>
                         <div>
                             <ExpanderButton type={"Opaque"} text="Log In" onClickHandler={submitLogIn} />
+                        </div>
+                        <div>
+                            <p>{err ? err : null}</p>
                         </div>
                         <div className="flex flex-col items-start">
                             <div className="mt-4 h-8 mt-3 flex items-center">
