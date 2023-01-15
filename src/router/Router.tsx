@@ -6,12 +6,11 @@ import MapPage from "../pages/MapPage";
 import FeedbackPage from "../pages/FeedbackPage";
 import DashboardPage from "../pages/DashboardPage";
 import UserActivityPage from "../pages/admin/UserActivityPage";
-import ScrapesAndBatchesPage from "../pages/admin/ScrapesPage";
 import ScrapesPage from "../pages/admin/ScrapesPage";
 import TaskMarkerPage from "../pages/admin/TaskMarkerPage";
 import LandingPage from "../pages/LandingPage";
 import LoginPage from "../pages/auth/LoginPage";
-import SignUpPage from "../pages/auth/SignupPage";
+import SignUpPage from "../pages/auth/SignUpPage";
 import ForgotPasswordPage from "../pages/auth/ForgotPasswordPage";
 
 const PageRoutes = () => {
