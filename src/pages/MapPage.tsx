@@ -11,6 +11,7 @@ import { ILocationContext, LocationsProviderContext } from "../context/Locations
 import { IAssociation } from "../interface/Association.interface";
 import { IHousing } from "../interface/Housing.interface";
 import { calcTotalPages } from "../util/calcTotalPages";
+import WithAuthentication from "../components/hoc/WithAuth";
 
 const MapPage: React.FC<{}> = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
@@ -80,4 +81,4 @@ const MapPage: React.FC<{}> = () => {
     );
 };
 
-export default MapPage;
+export default WithAuthentication(MapPage);

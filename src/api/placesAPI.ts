@@ -24,6 +24,8 @@ export function useGetDemoApartmentsAPI(): {
     const [payload, setPayload] = useState<MapViewportDimensions | undefined>(undefined);
     const [recenteredViewportCounter, setRecenteredViewportCounter] = useState(0);
 
+    const server = useServer();
+
     function moveViewport(neLong: number, neLat: number, swLong: number, swLat: number) {
         setPayload({ neLong, neLat, swLong, swLat });
         setLoaded(false);
@@ -36,7 +38,7 @@ export function useGetDemoApartmentsAPI(): {
                     setErr("");
                     const path = "/housing/demo";
 
-                    const res = await axios.get(path, { params: { ...payload } });
+                    const res = await server.get(path, { params: { ...payload } });
                     const { demoContent } = res.data;
                     setNewDemoHousing(demoContent);
                 } catch (err) {
@@ -57,10 +59,10 @@ export function useGetDemoApartmentsAPI(): {
 export function useGetApartmentsAPI(): { apartments: IHousing[]; runGetApartments: Function; err: string; loaded: boolean } {
     const [apartments, setApartments] = useState<IHousing[]>([]);
     const [err, setErr] = useState("");
-
     const [loaded, setLoaded] = useState(false);
-
     const [payload, setPayload] = useState<GetApartments | undefined>(undefined);
+
+    const server = useServer();
 
     function runGetApartments(providers: Provider[]) {
         setPayload({ providers });
@@ -74,7 +76,7 @@ export function useGetApartmentsAPI(): { apartments: IHousing[]; runGetApartment
                     setErr("");
                     const path = "/housing/hardcode";
 
-                    const res = await axios.get(path, { params: { ...payload } });
+                    const res = await server.get(path, { params: { ...payload } });
                     const { apartments } = res.data;
                     setApartments(apartments);
                 } catch (err) {
@@ -110,7 +112,7 @@ export function useGetGymsAPI(): { gyms: IGym[]; runGetGyms: Function; err: stri
                 try {
                     setErr("");
                     const path = "/google/saved";
-                    const res = await axios.get(path, { params: { ...payload } });
+                    const res = await server.get(path, { params: { ...payload } });
                     const { rows } = res.data;
                     setGyms(rows);
                 } catch (err) {
@@ -151,6 +153,7 @@ export function useGetQualifiedApsAPI(): { qualifiedAps: IHousing[]; runGetQuali
                     const { apartments } = res.data;
                     setQualifiedAps(apartments);
                 } catch (err) {
+                    console.log(err, "156rm");
                     const msg = handleError(err);
                     setErr(msg);
                 } finally {

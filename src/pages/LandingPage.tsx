@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 //
 import { useGetDemoApartmentsAPI } from "../api/placesAPI";
+import AuthPrompt from "../components/auth/AuthPrompt";
 import CityPicker from "../components/cityPicker/CityPicker";
 import GoogleLogin from "../components/googleSSO/GoogleLogin";
 import DemoMap from "../components/map/DemoMap";
@@ -61,10 +62,13 @@ const LandingPage: React.FC<{}> = () => {
                 <h1>Apartments Near Gyms</h1>
             </div>
             <div>
-                <p>placeholder</p>
+                <p>placeholder - get your convenient apartment now</p>
             </div>
             <div>
                 <GoogleLogin />
+            </div>
+            <div>
+                <AuthPrompt />
             </div>
             <div className="">
                 <div className="w-full mt-5 flex justify-center">

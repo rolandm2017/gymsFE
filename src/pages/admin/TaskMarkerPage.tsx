@@ -10,6 +10,7 @@ import TitledDropdown from "../../components/titledDropdown/TitledDropdown";
 import AdminTasksMap from "../../components/map/AdminTasksMap";
 import TitledDropdownWithButtons from "../../components/titledDropdownWithButtons/TitledDropdownWithButtons";
 import { SEED_CITIES } from "../../util/cities";
+import AsAdmin from "../../components/hoc/AsAdmin";
 
 const TaskMarkerPage: React.FC<{}> = props => {
     // responses from server
@@ -28,7 +29,7 @@ const TaskMarkerPage: React.FC<{}> = props => {
         if (batchNumsIsLoaded && batchNums.length !== 0) {
             setBatchNumbers(batchNums);
         }
-    }, [batchNumsIsLoaded, batchNumbers.length]);
+    }, [batchNumsIsLoaded, batchNumbers.length, batchNums]);
 
     useEffect(() => {
         const activeBatchNumIsSet = activeBatchNum !== undefined;
@@ -40,7 +41,7 @@ const TaskMarkerPage: React.FC<{}> = props => {
         if (newTaskMarkersAreLoaded) {
             setTasks(taskMarkersForBatchNum);
         }
-    }, [activeBatchNum, loadedBatchNum]);
+    }, [activeBatchNum, loadedBatchNum, taskMarkersForBatchNum, runGetTaskMarkersByBatchNum]);
 
     return (
         <PageBase>
@@ -85,4 +86,4 @@ const TaskMarkerPage: React.FC<{}> = props => {
     );
 };
 
-export default TaskMarkerPage;
+export default AsAdmin(TaskMarkerPage);

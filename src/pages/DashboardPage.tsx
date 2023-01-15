@@ -5,6 +5,7 @@ import Button from "../components/button/Button";
 import DetailsBar from "../components/detailsBar/DetailsBar";
 import SearchBar from "../components/searchBar/SearchBar";
 import { hardcodeApartments } from "../data/apartments";
+import WithAuthentication from "../components/hoc/WithAuth";
 
 const DashboardPage: React.FC<{}> = props => {
     return (
@@ -19,4 +20,4 @@ const DashboardPage: React.FC<{}> = props => {
     );
 };
 
-export default DashboardPage;
+export default WithAuthentication(DashboardPage);

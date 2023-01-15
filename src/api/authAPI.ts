@@ -85,12 +85,12 @@ export function useLoginWithEmailAPI(): {
 }
 
 export function useRefreshJwtAPI(): {
-    refresheduser: UserProfile | undefined;
+    refreshedUser: UserProfile | undefined;
     refreshErr: string;
     refreshIsLoaded: boolean;
     runRefreshJwt: Function;
 } {
-    const [refresheduser, setRefresheduser] = useState<UserProfile | undefined>(undefined);
+    const [refreshedUser, setRefreshedUser] = useState<UserProfile | undefined>(undefined);
     const [refreshErr, setRefreshErr] = useState("");
     const [refreshIsLoaded, setRefreshIsLoaded] = useState(false);
     const [run, setRun] = useState(false);
@@ -108,10 +108,11 @@ export function useRefreshJwtAPI(): {
             (async () => {
                 try {
                     setRefreshErr(""); // clear old error
+                    console.log("refreshing 111rm");
                     const response = await server!.post("/auth/jwt/refresh");
                     const { user, accessToken } = response.data;
                     setAccessToken(accessToken);
-                    setRefresheduser(user);
+                    setRefreshedUser(user);
                 } catch (error) {
                     console.log("failed to refresh token");
                     const msg = handleError(error);
@@ -124,7 +125,7 @@ export function useRefreshJwtAPI(): {
         }
     }, [run, setAccessToken, server]);
 
-    return { refresheduser, refreshErr, refreshIsLoaded, runRefreshJwt };
+    return { refreshedUser, refreshErr, refreshIsLoaded, runRefreshJwt };
 }
 
 export function useLogOutAPI(): { success: boolean; error: string; loaded: boolean; runLogOut: Function } {

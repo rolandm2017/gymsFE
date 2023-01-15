@@ -1,0 +1,15 @@
+@import "../../main.scss";
+
+.authInput {
+    height: 29px;
+    width: calc(100%);
+    font-size: $font15;
+    font-weight: $wt400;
+    line-height: 24px;
+    letter-spacing: $letter-spacing;
+    border-bottom: 1px solid $divider-grey;
+}
+
+.linkBlue {
+    color: $link-blue;
+}

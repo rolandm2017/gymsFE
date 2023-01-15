@@ -10,6 +10,7 @@ import NavigationBtns from "../components/navigationBtns/NavigationBtns";
 import { calcTotalPages } from "../util/calcTotalPages";
 import { ILocationContext, LocationsProviderContext } from "../context/LocationsContext";
 import { getCurrentPageResults } from "../util/getCurrentPageResults";
+import WithAuthentication from "../components/hoc/WithAuth";
 
 const SearchPage: React.FC<{}> = props => {
     const [currentPage, setCurrentPage] = useState<number>(1);
@@ -53,4 +54,4 @@ const SearchPage: React.FC<{}> = props => {
     );
 };
 
-export default SearchPage;
+export default WithAuthentication(SearchPage);

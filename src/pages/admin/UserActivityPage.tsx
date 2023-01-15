@@ -1,8 +1,8 @@
 import React from "react";
+import AsAdmin from "../../components/hoc/AsAdmin";
 import PageBase from "../PageBase";
 
 const UserActivityPage: React.FC<{}> = props => {
-    console.log("5rm");
     // todo: grab list of recently active users
     // todo: grab user activity by username
     // todo: grab list of registered emails & "isEmployer"
@@ -16,4 +16,4 @@ const UserActivityPage: React.FC<{}> = props => {
     );
 };
 
-export default UserActivityPage;
+export default AsAdmin(UserActivityPage);

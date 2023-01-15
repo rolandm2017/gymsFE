@@ -3,7 +3,7 @@ import React from "react";
 import "./Input.scss";
 
 interface InputProps {
-    type: "text" | "number";
+    type: "text" | "number" | "password";
     placeholder: string;
 }
 
