@@ -83,6 +83,7 @@ const SignUpPage: React.FC<{}> = () => {
 
     return (
         <main className="h-full w-full">
+            <div className="h-1/2 absolute z-20 bg-red-500"></div>
             <div className="h-full flex">
                 <div className="h-full w-1/2 shadow-2xl z-20 softBlueBg">
                     {/* // left hand side */}

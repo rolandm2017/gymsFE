@@ -13,7 +13,7 @@ export function isEmail(maybeEmail: string): boolean {
             .email({ tlds: { allow: false } })
             .required(),
     });
-    const { error, value } = schema.validate({ email: maybeEmail });
+    const { error } = schema.validate({ email: maybeEmail });
     if (error) return false;
     else return true;
 }
@@ -23,7 +23,7 @@ export function isValidPassword(pw: string, confirmation: string) {
         password: Joi.string().min(6).max(100).required(),
         confirmPassword: Joi.string().valid(Joi.ref("password")).required(),
     });
-    const { error, value } = schema.validate({ password: pw, confirmPassword: confirmation });
+    const { error } = schema.validate({ password: pw, confirmPassword: confirmation });
     if (error) return false;
     return true;
 }
@@ -35,7 +35,7 @@ export function validAuthentication(email: string, password: string) {
             .required(),
         password: Joi.string().required(),
     });
-    const { error, value } = schema.validate({ email, password });
+    const { error } = schema.validate({ email, password });
     if (error) return false;
     else return true;
 }
@@ -49,7 +49,7 @@ export function validRegistration(name: string, email: string, password: string,
         confirmPassword: Joi.string().valid(Joi.ref("password")).required(),
         acceptTerms: Joi.boolean().valid(true).required(),
     });
-    const { error, value } = schema.validate({ email, password, confirmPassword, acceptTerms: true });
+    const { error } = schema.validate({ email, password, confirmPassword, acceptTerms: true });
     if (!isValidName(name)) return false;
     if (error) return false;
     else return true;
