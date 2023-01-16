@@ -10,7 +10,7 @@ const WithAuthentication = (WrappedComponent: FunctionComponent) => {
         const { accessToken, isLoggedIn, returnTest } = useAuth();
 
         useEffect(() => {
-            console.log("problem", isLoggedIn(), accessToken, accessToken.length, "13rm");
+            console.log("problem", isLoggedIn(), accessToken.length, accessToken, "13rm");
             // debugger;
             if (refreshIsLoaded) {
                 console.log(refreshIsLoaded, accessToken.length, isLoggedIn(), "16rm");
@@ -21,7 +21,7 @@ const WithAuthentication = (WrappedComponent: FunctionComponent) => {
                     navigate("/");
                     return;
                 }
-                debugger;
+                // debugger;
             } else {
                 runRefreshJwt();
             }
