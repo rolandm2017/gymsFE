@@ -66,7 +66,6 @@ const AdminTasksMap: React.FC<AdminTasksMapboxProps> = ({ center, tasks }) => {
     });
 
     useEffect(() => {
-        console.log(map, "76rm");
         if (map === null) return;
 
         // remove old markers;
@@ -75,7 +74,6 @@ const AdminTasksMap: React.FC<AdminTasksMapboxProps> = ({ center, tasks }) => {
         }
 
         if (tasks.length !== 0 && map.current) {
-            console.log("unpacking 80rm");
             const taskMarkers = unpackMarkers(tasks);
 
             addNewMarkers(taskMarkers, markers, setMarkers, map.current);

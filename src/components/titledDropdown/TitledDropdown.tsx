@@ -37,19 +37,7 @@ const TitledDropdown: React.FC<TitledDropdownProps> = ({ title, options, valueRe
                 >
                     {options.map((option, i) => {
                         return (
-                            <option
-                                key={i}
-                                // onClick={() => {
-                                //     console.log(i, usesCities, "39rm");
-                                //     if (usesCities) {
-                                //         valueReporter(i); // city is selected by index
-                                //         return;
-                                //     }
-                                //     console.log(option, "20rm");
-                                //     valueReporter(option);
-                                // }}
-                                value={option.cityName}
-                            >
+                            <option key={i} value={option.cityName}>
                                 {option.cityName}
                             </option>
                         );

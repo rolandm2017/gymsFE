@@ -69,17 +69,12 @@ const ScrapesPage: React.FC<{}> = props => {
 
     useEffect(() => {
         // display scraped data filtered by activeTaskId
-        console.log(apartments, activeTaskId, "64rm");
-        const x = Array.from(new Set(apartments.map(ap => ap.lat)));
-        console.log(x.length, "number of unique apartments, 66rm");
 
         if (apartments.length === 0) return;
         if (activeTaskId === undefined) {
             setQualified(apartments);
         } else {
-            console.log(typeof activeTaskId, "69rm");
             const apartmentsWithMatchingTaskId = apartments.filter(ap => ap.taskId === activeTaskId);
-            console.log(apartmentsWithMatchingTaskId, "matching task id 70rm");
             setQualified(apartmentsWithMatchingTaskId);
         }
     }, [apartments, activeTaskId]);

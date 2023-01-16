@@ -49,7 +49,6 @@ const SignUpPage: React.FC<{}> = () => {
     }, [email]);
 
     useEffect(() => {
-        console.log(password, confirmation, isValidPassword(password, confirmation), "50rm");
         if (isValidPassword(password, confirmation)) {
             setErr("");
             return;
@@ -67,7 +66,6 @@ const SignUpPage: React.FC<{}> = () => {
     }, [password, confirmation]);
 
     function submitSignUp() {
-        console.log("sign upping", email, password, "30rm");
         const passwordsMatch = password === confirmation;
         if (name && email && passwordsMatch) {
             runSignUp(name, email, password, confirmation);

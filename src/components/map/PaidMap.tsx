@@ -25,7 +25,6 @@ interface PaidMapProps {
 }
 
 const PaidMap: React.FC<PaidMapProps> = ({ center, qualifiedFromCurrentPage, activeApartment, adjustedCenterReporter }: PaidMapProps) => {
-    // console.log(qualifiedFromCurrentPage, "27rm");
     // initialization
     const mapContainer = useRef(null);
     const map = useRef<mapboxgl.Map | null>(null);
@@ -41,7 +40,6 @@ const PaidMap: React.FC<PaidMapProps> = ({ center, qualifiedFromCurrentPage, act
     function resizeMap() {
         if (map === null || map.current === null) return;
         map.current.resize();
-        // console.log("resizing! 26rm");
     }
 
     window.addEventListener("resize", resizeMap);
@@ -80,7 +78,6 @@ const PaidMap: React.FC<PaidMapProps> = ({ center, qualifiedFromCurrentPage, act
                 ne: { long: coordsNE.lng, lat: coordsNE.lat },
                 sw: { long: coordsSW.lng, lat: coordsSW.lat },
             };
-            console.log(coords, "77rm");
             if (adjustedCenterReporter) adjustedCenterReporter(coordsButAsInterface);
         });
     });
@@ -139,7 +136,6 @@ const PaidMap: React.FC<PaidMapProps> = ({ center, qualifiedFromCurrentPage, act
                 }
             }
         }
-        console.log(apartmentMarkers, gymMarkers, "132rm");
         return { apartmentMarkers, gymMarkers };
     }
 

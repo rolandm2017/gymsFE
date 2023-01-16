@@ -34,7 +34,6 @@ export function useSignUpWithEmailAPI(): {
                     const response = await server!.post("/auth/register", {
                         ...payload,
                     });
-                    console.log(response.data, "29rm");
                     const { message, accountDetails } = response.data;
                     setSignUpData(accountDetails);
                     setBackendMsg(message);
@@ -77,7 +76,6 @@ export function useLoginWithEmailAPI(): {
                 try {
                     setLoginErr(""); // remove old errors
                     const response = await server!.post("/auth/authenticate", { ...payload });
-                    console.log(response.data, "80rm");
                     const { acctId, email, isVerified, credits, role, jwtToken } = response.data;
                     setLoginData({ acctId, email, isVerified, role, credits });
                     console.log(jwtToken, "storing jwt, 83rm");
@@ -120,7 +118,6 @@ export function useRefreshJwtAPI(): {
             (async () => {
                 try {
                     setRefreshErr(""); // clear old error
-                    console.log("refreshing 111rm");
                     const response = await server!.post("/auth/refresh-token");
                     const { user, accessToken } = response.data;
                     console.log(user, accessToken, "setting access token, 125rm");
@@ -129,7 +126,6 @@ export function useRefreshJwtAPI(): {
                     // debugger;
                 } catch (error) {
                     console.log("failed to refresh token");
-                    console.log(error, "133rm");
                     const msg = handleError(error);
                     setRefreshErr(msg);
                 } finally {

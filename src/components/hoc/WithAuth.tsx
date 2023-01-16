@@ -11,8 +11,6 @@ const WithAuthentication = (WrappedComponent: FunctionComponent) => {
 
         useEffect(() => {
             console.log("problem", isLoggedIn(), accessToken, accessToken.length, "13rm");
-            console.log(refreshIsLoaded, "13rm");
-            console.log("TEST", returnTest(), "15rm");
             if (refreshIsLoaded) {
                 const didNotLogIn = refreshIsLoaded && isLoggedIn() === false;
                 console.log(refreshIsLoaded, isLoggedIn(), didNotLogIn, "16rm");

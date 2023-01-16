@@ -35,7 +35,6 @@ const AdminApartmentsMap: React.FC<AdminApartmentsMapboxProps> = ({ center, qual
     function resizeMap() {
         if (map === null || map.current === null) return;
         map.current.resize();
-        // console.log("resizing! 26rm");
     }
 
     window.addEventListener("resize", resizeMap);
@@ -83,9 +82,7 @@ const AdminApartmentsMap: React.FC<AdminApartmentsMapboxProps> = ({ center, qual
             m.remove();
         }
 
-        console.log(qualified, showApartments, showTaskMarkers, "86rm");
         if (qualified.length !== 0 && map.current) {
-            console.log(activeTaskId, "95rm");
             // manifest toggle
             let apartmentMarkers: mapboxgl.Marker[] = [];
             let taskMarkers: mapboxgl.Marker[] = [];

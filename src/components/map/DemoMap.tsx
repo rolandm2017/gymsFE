@@ -26,7 +26,6 @@ interface DemoMapProps {
 }
 
 const DemoMap: React.FC<DemoMapProps> = ({ center, qualifiedFromCurrentPage, activeApartment, adjustedCenterReporter }: DemoMapProps) => {
-    // console.log(qualifiedFromCurrentPage, "27rm");
     // initialization
     const mapContainer = useRef(null);
     const map = useRef<mapboxgl.Map | null>(null);
@@ -46,7 +45,6 @@ const DemoMap: React.FC<DemoMapProps> = ({ center, qualifiedFromCurrentPage, act
     function resizeMap() {
         if (map === null || map.current === null) return;
         map.current.resize();
-        // console.log("resizing! 26rm");
     }
 
     window.addEventListener("resize", resizeMap);
@@ -149,7 +147,6 @@ const DemoMap: React.FC<DemoMapProps> = ({ center, qualifiedFromCurrentPage, act
                 }
             }
         }
-        console.log(apartmentMarkers, gymMarkers, "132rm");
         return { apartmentMarkers, gymMarkers };
     }
 

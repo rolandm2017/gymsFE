@@ -22,12 +22,8 @@ const ApartmentCard: React.FC<ApartmentCardProps> = ({ apartment, addr, gyms, ap
     return (
         <div
             onMouseEnter={() => {
-                console.log("mouse enter", "23rm");
                 setActive(activeNum);
             }}
-            // onMouseLeave={() => {
-            // setActive(null);
-            // }}
             className="apCardContainer apCardBoxShadow mb-2 mr-2 md2:mr-0 mt-2 md2:mt-0 py-3 bg-white rounded-md"
         >
             <div className="apCardText h-full mx-4 flex flex-col justify-center items-start">

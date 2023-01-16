@@ -3,7 +3,6 @@ import { AxiosError } from "axios";
 export function handleError(error: unknown): string {
     const err = error as AxiosError;
     const data = err.response?.data;
-    console.log(hasError(data), "6rm");
     if (err.name === "AxiosError") {
         console.log(err);
         return "";

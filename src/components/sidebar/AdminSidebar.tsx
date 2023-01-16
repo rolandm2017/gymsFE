@@ -92,28 +92,6 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ isOpen, toggleIsOpen }) => 
                     </div>
                     {/* <Divider /> */}
                 </div>
-                {/* <div className="">
-                    <MenuItem
-                        changeActiveItem={() => {
-                            console.log("94rm");
-                            setActiveItem(5);
-                        }}
-                        text={"Settings"}
-                        active={activeItem === 5}
-                        isOpen={isOpen}
-                    />
-                    <MenuItem
-                        closeSidebar={() => {
-                            // todo: close sidebar
-                            console.log(isOpen, "102rm");
-                            toggleIsOpen(!isOpen);
-                        }}
-                        isCloseButton={true}
-                        text={"Toggle sidebar"}
-                        active={activeItem === 6}
-                        isOpen={isOpen}
-                    />
-                </div> */}
             </div>
         </div>
     );

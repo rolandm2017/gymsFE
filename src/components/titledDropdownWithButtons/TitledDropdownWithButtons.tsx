@@ -49,7 +49,6 @@ const TitledDropdownWithButtons: React.FC<TitledDropdownWithButtonsProps> = ({ t
                                 <option
                                     key={i}
                                     onClick={() => {
-                                        console.log(option, "20rm");
                                         valueReporter(option);
                                     }}
                                     value={option}

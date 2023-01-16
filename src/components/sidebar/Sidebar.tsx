@@ -119,7 +119,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleIsOpen }) => {
                 <div className="">
                     <MenuItem
                         changeActiveItem={() => {
-                            console.log("94rm");
                             setActiveItem(5);
                         }}
                         text={"Settings"}
@@ -128,8 +127,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleIsOpen }) => {
                     />
                     <MenuItem
                         closeSidebar={() => {
-                            // todo: close sidebar
-                            console.log(isOpen, "102rm");
                             toggleIsOpen(!isOpen);
                         }}
                         isCloseButton={true}
