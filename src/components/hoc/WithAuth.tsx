@@ -11,13 +11,17 @@ const WithAuthentication = (WrappedComponent: FunctionComponent) => {
 
         useEffect(() => {
             console.log("problem", isLoggedIn(), accessToken, accessToken.length, "13rm");
+            // debugger;
             if (refreshIsLoaded) {
-                const didNotLogIn = refreshIsLoaded && isLoggedIn() === false;
-                console.log(refreshIsLoaded, isLoggedIn(), didNotLogIn, "16rm");
-                if (didNotLogIn) {
+                console.log(refreshIsLoaded, accessToken.length, isLoggedIn(), "16rm");
+                // debugger;
+                if (!isLoggedIn()) {
                     console.log("did not log in! redirect", "21rm");
+                    // debugger;
                     navigate("/");
+                    return;
                 }
+                debugger;
             } else {
                 runRefreshJwt();
             }
