@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { KeyboardEvent, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSignUpWithEmailAPI } from "../../api/authAPI";
 import ExpanderButton from "../../components/button/ExpanderButton";
@@ -12,10 +12,11 @@ const SignUpPage: React.FC<{}> = () => {
     const [password, setPassword] = useState("");
     const [confirmation, setConfirmation] = useState("");
     const [err, setErr] = useState("");
+    const [successMsg, setSuccessMsg] = useState("");
 
     const navigate = useNavigate();
 
-    const { signUpData, signUpErr, signUpIsLoaded, runSignUp } = useSignUpWithEmailAPI();
+    const { signUpData, signUpErr, signUpIsLoaded, runSignUp, backendMsg } = useSignUpWithEmailAPI();
 
     useEffect(() => {
         setErr(signUpErr);
@@ -23,37 +24,60 @@ const SignUpPage: React.FC<{}> = () => {
 
     useEffect(() => {
         // redirect to dashboard if user credentials are returned
-        if (signUpData && signUpIsLoaded) {
-            navigate("/login");
+        if (signUpData && signUpIsLoaded && backendMsg) {
+            setErr("");
+            setSuccessMsg(backendMsg);
         }
-    }, [signUpData, signUpIsLoaded, navigate]);
+    }, [signUpData, signUpIsLoaded, navigate, backendMsg]);
 
     useEffect(() => {
-        // if pws match, clear
+        if (name && !isValidName(name)) {
+            setErr("First and last name must be at least 2 characters");
+            return;
+        } else {
+            setErr("");
+        }
+    }, [name]);
+
+    useEffect(() => {
+        if (email && !isEmail(email)) {
+            setErr("Invalid email");
+            return;
+        } else {
+            setErr("");
+        }
+    }, [email]);
+
+    useEffect(() => {
+        console.log(password, confirmation, isValidPassword(password, confirmation), "50rm");
         if (isValidPassword(password, confirmation)) {
             setErr("");
+            return;
         }
         // if pw2 is empty, say so
         if (password && confirmation.length === 0) {
             setErr("Must confirm your password");
+            return;
         }
         // if pws dont match, say so
-        if (password && confirmation && !isValidPassword(password, confirmation)) {
+        if (password && confirmation) {
             setErr("Passwords don't match");
+            return;
         }
-        if (email && !isEmail(email)) {
-            setErr("Invalid email");
-        }
-        if (name && !isValidName(name)) {
-            setErr("First and last name must be at least 2 characters");
-        }
-    }, [password, confirmation, name, email]);
+    }, [password, confirmation]);
 
     function submitSignUp() {
         console.log("sign upping", email, password, "30rm");
         const passwordsMatch = password === confirmation;
         if (name && email && passwordsMatch) {
-            runSignUp(name, email, password);
+            runSignUp(name, email, password, confirmation);
+        }
+    }
+
+    function submitIfEnter(event: KeyboardEvent<HTMLInputElement>) {
+        console.log(event.key, "40rm");
+        if (event.key === "Enter") {
+            submitSignUp();
         }
     }
 
@@ -75,16 +99,22 @@ const SignUpPage: React.FC<{}> = () => {
                             <p className="text-4xl font-medium">Sign up</p>
                         </div>
                         <div>
-                            <AuthInput type={"text"} placeholder="Name" changeHandler={setName} />
-                            <AuthInput type={"text"} placeholder="Email" changeHandler={setEmail} />
-                            <AuthInput type={"password"} placeholder="Password" changeHandler={setPassword} />
-                            <AuthInput type={"password"} placeholder="Confirm Password" changeHandler={setConfirmation} />
+                            <AuthInput type={"text"} placeholder="Name" changeHandler={setName} keyDownHandler={submitIfEnter} />
+                            <AuthInput type={"text"} placeholder="Email" changeHandler={setEmail} keyDownHandler={submitIfEnter} />
+                            <AuthInput type={"password"} placeholder="Password" changeHandler={setPassword} keyDownHandler={submitIfEnter} />
+                            <AuthInput
+                                type={"password"}
+                                placeholder="Confirm Password"
+                                changeHandler={setConfirmation}
+                                keyDownHandler={submitIfEnter}
+                            />
                         </div>
                         <div>
                             <ExpanderButton type={"Opaque"} text="Sign Up" onClickHandler={submitSignUp} />
                         </div>
-                        <div>
-                            <p>{err ? err : null}</p>
+                        <div className="text-left">
+                            {err ? <p className="text-red-500 mt-3">{err}</p> : null}
+                            {successMsg ? <p className="text-black mt-3">{successMsg}. Check your spam!</p> : null}
                         </div>
 
                         <div>

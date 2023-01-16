@@ -1,3 +1,7 @@
 export interface UserProfile {
-    // todo: fill this in
+    acctId: number;
+    email: string;
+    isVerified: boolean;
+    role: string;
+    credits: number;
 }

@@ -10,16 +10,18 @@ const WithAuthentication = (WrappedComponent: FunctionComponent) => {
         const { accessToken, isLoggedIn } = useAuth();
 
         useEffect(() => {
+            console.log(refreshIsLoaded, "13rm");
             if (refreshIsLoaded) {
                 const didNotLogIn = refreshIsLoaded && !isLoggedIn();
-                console.log(refreshIsLoaded, isLoggedIn(), didNotLogIn, "13rm");
+                console.log(isLoggedIn, isLoggedIn(), "15rm");
+                console.log(refreshIsLoaded, didNotLogIn, "16rm");
                 if (didNotLogIn) {
                     navigate("/");
                 }
             } else {
                 runRefreshJwt();
             }
-        }, [refreshIsLoaded, isLoggedIn]);
+        }, [refreshIsLoaded, isLoggedIn, navigate, runRefreshJwt]);
 
         return <WrappedComponent />; // Render whatever you want while the authentication occurs
     };

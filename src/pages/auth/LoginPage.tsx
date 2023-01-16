@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, KeyboardEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useLoginWithEmailAPI } from "../../api/authAPI";
 import ExpanderButton from "../../components/button/ExpanderButton";
@@ -26,12 +26,21 @@ const LoginPage: React.FC<{}> = () => {
         // redirect to dashboard if user credentials are returned
         if (loginData && loginIsLoaded) {
             setProfile(loginData);
+            console.log("going to dashboard 29rm");
             navigate("/dashboard");
         }
     }, [loginData, loginIsLoaded, navigate, setProfile]);
 
     function submitLogIn() {
+        console.log("submitting login 35rm");
         runLogin(email, password);
+    }
+
+    function submitIfEnter(event: KeyboardEvent<HTMLInputElement>) {
+        console.log(event.key, "40rm");
+        if (event.key === "Enter") {
+            submitLogIn();
+        }
     }
 
     return (
@@ -51,10 +60,14 @@ const LoginPage: React.FC<{}> = () => {
                             <p className="text-4xl font-medium">Log in</p>
                         </div>
                         <div>
-                            <AuthInput type={"text"} placeholder="Email" changeHandler={setEmail} />
-                            <AuthInput type={"password"} placeholder="Password" changeHandler={setPassword} />
+                            <AuthInput type={"text"} placeholder="Email" changeHandler={setEmail} keyDownHandler={submitIfEnter} />
+                            <AuthInput type={"password"} placeholder="Password" changeHandler={setPassword} keyDownHandler={submitIfEnter} />
                         </div>
-                        <div>
+                        <div
+                            onKeyDown={() => {
+                                submitLogIn();
+                            }}
+                        >
                             <ExpanderButton type={"Opaque"} text="Log In" onClickHandler={submitLogIn} />
                         </div>
                         <div>

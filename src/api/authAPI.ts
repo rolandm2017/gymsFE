@@ -6,7 +6,14 @@ import { LogInAuth } from "../interface/payload/LogInAuth.interface";
 import { SignUpAuth } from "../interface/payload/SignUpAuth.interface";
 import { UserProfile } from "../interface/UserProfile.interface";
 
-export function useSignUpWithEmailAPI(): { signUpData: UserProfile | undefined; signUpErr: string; signUpIsLoaded: boolean; runSignUp: Function } {
+export function useSignUpWithEmailAPI(): {
+    signUpData: UserProfile | undefined;
+    signUpErr: string;
+    signUpIsLoaded: boolean;
+    runSignUp: Function;
+    backendMsg: string;
+} {
+    const [backendMsg, setBackendMsg] = useState("");
     const [signUpData, setSignUpData] = useState<UserProfile | undefined>(undefined);
     const [signUpErr, setSignUpErr] = useState("");
     const [signUpIsLoaded, setSignUpIsLoaded] = useState(false);
@@ -14,9 +21,9 @@ export function useSignUpWithEmailAPI(): { signUpData: UserProfile | undefined; 
 
     const server = useServer();
 
-    function runSignUp(name: string, email: string, password: string) {
+    function runSignUp(name: string, email: string, password: string, confirmPassword: string) {
         setSignUpIsLoaded(false);
-        setPayload({ name, email, password });
+        setPayload({ name, email, password, confirmPassword, acceptsTerms: true });
     }
 
     useEffect(() => {
@@ -28,8 +35,9 @@ export function useSignUpWithEmailAPI(): { signUpData: UserProfile | undefined; 
                         ...payload,
                     });
                     console.log(response.data, "29rm");
-                    const newUser = response.data as UserProfile;
-                    setSignUpData(newUser);
+                    const { message, accountDetails } = response.data;
+                    setSignUpData(accountDetails);
+                    setBackendMsg(message);
                 } catch (error) {
                     const msg = handleError(error);
                     setSignUpErr(msg);
@@ -41,7 +49,7 @@ export function useSignUpWithEmailAPI(): { signUpData: UserProfile | undefined; 
         }
     }, [signUpIsLoaded, payload, server]);
 
-    return { signUpData, signUpErr, signUpIsLoaded, runSignUp };
+    return { signUpData, signUpErr, signUpIsLoaded, runSignUp, backendMsg };
 }
 
 export function useLoginWithEmailAPI(): {
@@ -68,10 +76,11 @@ export function useLoginWithEmailAPI(): {
             (async () => {
                 try {
                     setLoginErr(""); // remove old errors
-                    const response = await server!.post("/auth/authenticate", { payload });
-                    const { user, accessToken } = response.data;
-                    setLoginData(user);
-                    setAccessToken(accessToken);
+                    const response = await server!.post("/auth/authenticate", { ...payload });
+                    console.log(response.data, "80rm");
+                    const { acctId, email, isVerified, credits, role, jwtToken } = response.data;
+                    setLoginData({ acctId, email, isVerified, role, credits });
+                    setAccessToken(jwtToken);
                 } catch (error) {
                     const msg = handleError(error);
                     setLoginErr(msg);
@@ -111,7 +120,7 @@ export function useRefreshJwtAPI(): {
                 try {
                     setRefreshErr(""); // clear old error
                     console.log("refreshing 111rm");
-                    const response = await server!.post("/auth/jwt/refresh");
+                    const response = await server!.post("/auth/refresh-token");
                     const { user, accessToken } = response.data;
                     setAccessToken(accessToken);
                     setRefreshedUser(user);

@@ -71,9 +71,10 @@ export function AuthProvider({ children }: AuthContextProps) {
         }
     }, [accessToken, runRefreshJwt]);
 
-    const isLoggedIn = () => {
+    function isLoggedIn() {
+        console.log(!!accessToken, "75rm");
         return !!accessToken;
-    };
+    }
 
     const exportedValues = {
         accessToken,
