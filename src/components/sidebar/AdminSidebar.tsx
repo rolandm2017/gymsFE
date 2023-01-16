@@ -62,9 +62,9 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ isOpen, toggleIsOpen }) => 
                         <MenuItem
                             changeActiveItem={() => {
                                 console.log(1);
-                                navigate("/admin/scrapesByCity");
                                 setActiveItem(1);
                             }}
+                            location={"/admin/scrapesByCity"}
                             text={"Scrapes"}
                             active={activeItem === 1}
                             isOpen={isOpen}
@@ -72,9 +72,9 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ isOpen, toggleIsOpen }) => 
                         <MenuItem
                             changeActiveItem={() => {
                                 console.log(1);
-                                navigate("/admin/tasksByBatch");
                                 setActiveItem(2);
                             }}
+                            location={"/admin/tasksByBatch"}
                             text={"Tasks"}
                             active={activeItem === 2}
                             isOpen={isOpen}
@@ -82,9 +82,9 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ isOpen, toggleIsOpen }) => 
                         <MenuItem
                             changeActiveItem={() => {
                                 console.log(2);
-                                navigate("/admin/userActivity");
                                 setActiveItem(3);
                             }}
+                            location={"/admin/userActivity"}
                             text={"User Activity"}
                             active={activeItem === 3}
                             isOpen={isOpen}

@@ -6,6 +6,7 @@ import Profile from "../profile/Profile";
 import ProfilePic from "../profile/ProfilePic";
 import Divider from "./components/Divider";
 import MenuItem from "./components/MenuItem";
+import PlainMenuItem from "./components/PlainMenuItem";
 
 import "./Sidebar.scss";
 
@@ -76,9 +77,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleIsOpen }) => {
                         <MenuItem
                             changeActiveItem={() => {
                                 console.log(1);
-                                navigate("/dashboard");
                                 setActiveItem(1);
                             }}
+                            location="/dashboard"
                             text={"Dashboard"}
                             active={activeItem === 1}
                             isOpen={isOpen}
@@ -86,9 +87,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleIsOpen }) => {
                         <MenuItem
                             changeActiveItem={() => {
                                 console.log(2);
-                                navigate("/search");
                                 setActiveItem(2);
                             }}
+                            location={"/search"}
                             text={"Apartment Search"}
                             active={activeItem === 2}
                             isOpen={isOpen}
@@ -96,9 +97,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleIsOpen }) => {
                         <MenuItem
                             changeActiveItem={() => {
                                 console.log(3);
-                                navigate("/map");
                                 setActiveItem(3);
                             }}
+                            location={"/map"}
                             text={"Map"}
                             active={activeItem === 3}
                             isOpen={isOpen}
@@ -106,9 +107,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleIsOpen }) => {
                         <MenuItem
                             changeActiveItem={() => {
                                 console.log(4);
-                                navigate("/feedback");
                                 setActiveItem(4);
                             }}
+                            location={"/feedback"}
                             text={"Feedback"}
                             active={activeItem === 4}
                             isOpen={isOpen}
@@ -121,11 +122,12 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleIsOpen }) => {
                         changeActiveItem={() => {
                             setActiveItem(5);
                         }}
+                        location={"/settings"}
                         text={"Settings"}
                         active={activeItem === 5}
                         isOpen={isOpen}
                     />
-                    <MenuItem
+                    <PlainMenuItem
                         closeSidebar={() => {
                             toggleIsOpen(!isOpen);
                         }}
