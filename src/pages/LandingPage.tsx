@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useRefreshJwtAPI } from "../api/authAPI";
 //
 import { useGetDemoApartmentsAPI } from "../api/placesAPI";
 import AuthPrompt from "../components/auth/AuthPrompt";
@@ -55,6 +56,7 @@ const LandingPage: React.FC<{}> = () => {
     }
 
     // todo: when map is moved, get coords of new location, load apartments for that location.
+    const { runRefreshJwt } = useRefreshJwtAPI();
 
     return (
         <div>
@@ -69,6 +71,15 @@ const LandingPage: React.FC<{}> = () => {
             </div>
             <div>
                 <AuthPrompt />
+            </div>
+            <div>
+                <button
+                    onClick={() => {
+                        runRefreshJwt();
+                    }}
+                >
+                    Refresh token
+                </button>
             </div>
             <div className="">
                 <div className="w-full mt-5 flex justify-center">

@@ -80,6 +80,7 @@ export function useLoginWithEmailAPI(): {
                     console.log(response.data, "80rm");
                     const { acctId, email, isVerified, credits, role, jwtToken } = response.data;
                     setLoginData({ acctId, email, isVerified, role, credits });
+                    console.log("storing jwt, 83rm");
                     setAccessToken(jwtToken);
                 } catch (error) {
                     const msg = handleError(error);
@@ -122,8 +123,10 @@ export function useRefreshJwtAPI(): {
                     console.log("refreshing 111rm");
                     const response = await server!.post("/auth/refresh-token");
                     const { user, accessToken } = response.data;
+                    console.log("setting access token, 125rm");
                     setAccessToken(accessToken);
                     setRefreshedUser(user);
+                    // debugger;
                 } catch (error) {
                     console.log("failed to refresh token");
                     const msg = handleError(error);

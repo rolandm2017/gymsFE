@@ -40,8 +40,9 @@ export function AuthProvider({ children }: AuthContextProps) {
     useEffect(() => {
         // try get access token 1x on every page load.
         console.log("refresh token 41rm");
+        // debugger;
         runRefreshJwt();
-    }, [runRefreshJwt]);
+    }, []);
 
     useEffect(() => {
         // refresh the access token if it's about to expire or has expired.

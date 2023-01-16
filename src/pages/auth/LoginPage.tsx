@@ -37,7 +37,6 @@ const LoginPage: React.FC<{}> = () => {
     }
 
     function submitIfEnter(event: KeyboardEvent<HTMLInputElement>) {
-        console.log(event.key, "40rm");
         if (event.key === "Enter") {
             submitLogIn();
         }

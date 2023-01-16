@@ -70,7 +70,6 @@ const DemoMap: React.FC<DemoMapProps> = ({ center, qualifiedFromCurrentPage, act
         const coords: mapboxgl.LngLatBounds = map.getBounds();
         const coordsNE: mapboxgl.LngLat = coords.getNorthEast();
         const coordsSW: mapboxgl.LngLat = coords.getSouthWest();
-        console.log(coordsNE, coordsSW, "80rm");
         const coordsButAsInterface: IViewportBounds = {
             ne: { long: coordsNE.lng, lat: coordsNE.lat },
             sw: { long: coordsSW.lng, lat: coordsSW.lat },

@@ -74,10 +74,8 @@ const PaidMap: React.FC<PaidMapProps> = ({ center, qualifiedFromCurrentPage, act
 
         currentMap.on("dragend", () => {
             const coords: mapboxgl.LngLatBounds = currentMap.getBounds();
-            console.log(coords.sw, coords.ne, "77rm");
             const coordsNE: mapboxgl.LngLat = coords.getNorthEast();
             const coordsSW: mapboxgl.LngLat = coords.getSouthWest();
-            console.log(coordsNE, coordsSW, "80rm");
             const coordsButAsInterface: IViewportBounds = {
                 ne: { long: coordsNE.lng, lat: coordsNE.lat },
                 sw: { long: coordsSW.lng, lat: coordsSW.lat },
