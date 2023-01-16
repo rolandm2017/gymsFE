@@ -35,7 +35,7 @@ function Profile() {
         if (success && loaded) {
             navigate("/");
         }
-    }, [success]);
+    }, [success, loaded, navigate]);
 
     return (
         <div
