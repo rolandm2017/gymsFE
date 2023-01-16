@@ -1,9 +1,18 @@
 import React from "react";
 
-const DropdownItem: React.FC<{}> = () => {
+interface DropdownItemProps {
+    text: string;
+    onClickAction: Function;
+}
+
+const DropdownItem: React.FC<DropdownItemProps> = ({ text, onClickAction }: DropdownItemProps) => {
     return (
-        <div>
-            <p>foo</p>
+        <div
+            onClick={() => {
+                onClickAction();
+            }}
+        >
+            <p>{text}</p>
         </div>
     );
 };
