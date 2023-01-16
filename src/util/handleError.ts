@@ -11,6 +11,7 @@ export function handleError(error: unknown): string {
     if (data && hasError(data)) {
         return data.message;
     }
+    console.log(err, "14rm");
     throw err; // throw if not what we expect
 }
 

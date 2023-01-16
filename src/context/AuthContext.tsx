@@ -8,6 +8,7 @@ import { useRefreshJwtAPI } from "../api/authAPI";
 type AuthContextType = {
     accessToken: string;
     isLoggedIn: Function;
+    returnTest: Function;
     setAccessToken: Function;
     setProfile: Function;
     profile: UserProfile | undefined;
@@ -16,6 +17,7 @@ type AuthContextType = {
 const authContextDefaultValues: AuthContextType = {
     accessToken: "",
     isLoggedIn: () => {},
+    returnTest: () => {},
     setAccessToken: () => {},
     setProfile: () => {},
     profile: undefined,
@@ -77,9 +79,14 @@ export function AuthProvider({ children }: AuthContextProps) {
         return !!accessToken;
     }
 
+    function returnTest() {
+        return 9;
+    }
+
     const exportedValues = {
         accessToken,
         setAccessToken,
+        returnTest,
         profile,
         setProfile,
         isLoggedIn,
