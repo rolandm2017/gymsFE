@@ -87,7 +87,7 @@ const SignUpPage: React.FC<{}> = () => {
                     <div className="h-2/5"></div>
                     <div className="pt-8 pl-14 w-1/2 blueText">
                         <p className="font-semibold text-3xl text-left">Lorem ipsum doloret sit amet, consectur adipsing elit.</p>
-                        <p className="text-right">-Jason Bustamante</p>
+                        <p className="mt-3 text-right">-Jason Bustamante</p>
                     </div>
                 </div>
                 <div className="h-full w-1/2 bg-white flex justify-center items-center">

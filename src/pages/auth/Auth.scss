@@ -1,7 +1,14 @@
-.loginMan {
+.loginManBgImg {
     background-image: url("../../assets/LoginMan.png");
+    // background-color: black;
+    background-size: 100% 100%, cover;
+    background-repeat: no-repeat;
 }
 
-.signupMan {
+.signupManBgImg {
     background-image: url("../../assets/SignupMan.png");
+}
+
+.catTest {
+    background-image: url("../../assets/cat.jpeg");
 }

@@ -49,7 +49,14 @@ const LoginPage: React.FC<{}> = () => {
                     {/* // left hand side */}
                     <div className="pt-8 pl-14 w-1/2 blueText">
                         <p className="font-semibold text-3xl text-left">Lorem ipsum doloret sit amet, consectur adipsing elit.</p>
-                        <p className="text-right">-Jack Liu</p>
+                        <p className="mt-3 text-right">-Jack Liu</p>
+                    </div>
+                </div>
+                <div className="absolute z-40 h-screen w-screen border-2 border-red-400">
+                    {/* // middle person */}
+                    <div className="">{/* // spacer */}</div>
+                    <div className="h-full w-full flex justify-center absolute bottom-0 z-40 border-4 border-black loginManBgImg">
+                        {/* <div className="w-full ">// login man</div> */}
                     </div>
                 </div>
                 <div className="h-full w-1/2 bg-white flex justify-center items-center">

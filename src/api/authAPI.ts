@@ -120,12 +120,11 @@ export function useRefreshJwtAPI(): {
                     setRefreshErr(""); // clear old error
                     const response = await server!.post("/auth/refresh-token");
                     const { acctId, email, name, role, isVerified, credits, jwtToken } = response.data;
-                    console.log(response.data, "123rm");
-                    console.log(jwtToken, "setting access token, 125rm");
+                    console.log(response.data, jwtToken, "setting access token, 125rm");
                     setAccessToken(jwtToken === undefined ? "" : jwtToken);
                     setRefreshedUser({ acctId, email, name, role, isVerified, credits });
                 } catch (error) {
-                    console.log("failed to refresh token");
+                    console.warn("failed to refresh token");
                     const msg = handleError(error);
                     setRefreshErr(msg);
                 } finally {
