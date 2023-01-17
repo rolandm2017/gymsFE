@@ -11,6 +11,7 @@ import AdminTasksMap from "../../components/map/AdminTasksMap";
 import TitledDropdownWithButtons from "../../components/titledDropdownWithButtons/TitledDropdownWithButtons";
 import { SEED_CITIES } from "../../util/cities";
 import AsAdmin from "../../components/hoc/AsAdmin";
+import WithAuthentication from "../../components/hoc/WithAuth";
 
 const TaskMarkerPage: React.FC<{}> = props => {
     // responses from server
@@ -86,4 +87,4 @@ const TaskMarkerPage: React.FC<{}> = props => {
     );
 };
 
-export default AsAdmin(TaskMarkerPage);
+export default WithAuthentication(AsAdmin(TaskMarkerPage));

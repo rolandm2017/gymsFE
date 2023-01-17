@@ -13,6 +13,7 @@ import AdminApartmentsMap from "../../components/map/AdminApartmentsMap";
 import TitledDropdownWithButtons from "../../components/titledDropdownWithButtons/TitledDropdownWithButtons";
 import { SEED_CITIES } from "../../util/cities";
 import AsAdmin from "../../components/hoc/AsAdmin";
+import WithAuthentication from "../../components/hoc/WithAuth";
 
 const ScrapesPage: React.FC<{}> = props => {
     // responses from server
@@ -159,4 +160,4 @@ const ScrapesPage: React.FC<{}> = props => {
     );
 };
 
-export default AsAdmin(ScrapesPage);
+export default WithAuthentication(AsAdmin(ScrapesPage));

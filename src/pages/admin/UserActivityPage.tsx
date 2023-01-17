@@ -1,5 +1,6 @@
 import React from "react";
 import AsAdmin from "../../components/hoc/AsAdmin";
+import WithAuthentication from "../../components/hoc/WithAuth";
 import PageBase from "../PageBase";
 
 const UserActivityPage: React.FC<{}> = props => {
@@ -9,11 +10,10 @@ const UserActivityPage: React.FC<{}> = props => {
     return (
         <PageBase>
             <div>
-                foo
                 <div></div>
             </div>
         </PageBase>
     );
 };
 
-export default AsAdmin(UserActivityPage);
+export default WithAuthentication(AsAdmin(UserActivityPage));

@@ -7,15 +7,16 @@ const WithAuthentication = (WrappedComponent: FunctionComponent) => {
     const AuthenticatedComponent = () => {
         const navigate = useNavigate();
         const { refreshedUser, refreshErr, refreshIsLoaded, runRefreshJwt } = useRefreshJwtAPI();
-        const { accessToken, isLoggedIn, returnTest } = useAuth();
+        const { accessToken, returnTest } = useAuth();
 
         useEffect(() => {
-            console.log("problem", isLoggedIn(), accessToken.length, accessToken, "13rm");
+            console.log("problem", accessToken.length, accessToken, "13rm");
             // debugger;
             if (refreshIsLoaded) {
-                console.log(refreshIsLoaded, accessToken.length, isLoggedIn(), "16rm");
+                console.log(refreshIsLoaded, accessToken.length, "16rm");
                 // debugger;
-                if (!isLoggedIn()) {
+                const stillNoAccessToken = accessToken.length === 0;
+                if (stillNoAccessToken) {
                     console.log("did not log in! redirect", "21rm");
                     // debugger;
                     navigate("/");
@@ -25,7 +26,7 @@ const WithAuthentication = (WrappedComponent: FunctionComponent) => {
             } else {
                 runRefreshJwt();
             }
-        }, [refreshIsLoaded, isLoggedIn, accessToken, navigate, runRefreshJwt]);
+        }, [refreshIsLoaded, accessToken, navigate, runRefreshJwt]);
 
         return <WrappedComponent />; // Render whatever you want while the authentication occurs
     };

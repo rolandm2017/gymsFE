@@ -20,7 +20,7 @@ const DropdownContainer: React.FC<DropdownContainerProps> = ({
     children,
 }: DropdownContainerProps) => {
     return (
-        <div className="fullScreenRegardless absolute">
+        <div className={`absolute ${isOpen ? "fullScreenRegardless" : ""}`}>
             <div
                 className="w-full h-full absolute z-30 bg-transparent"
                 onClick={() => {

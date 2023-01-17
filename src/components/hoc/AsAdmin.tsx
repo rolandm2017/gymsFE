@@ -2,25 +2,22 @@ import React, { useEffect, ComponentType, FC, FunctionComponent } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { useRefreshJwtAPI } from "../../api/authAPI";
+import { Role } from "../../enum/roles.enum";
 
 const AsAdmin = (WrappedComponent: FunctionComponent) => {
     const AdminOnlyComponent = () => {
         const navigate = useNavigate();
-        const { refreshedUser, refreshErr, refreshIsLoaded, runRefreshJwt } = useRefreshJwtAPI();
-        const { accessToken, isLoggedIn } = useAuth();
+        const { profile } = useAuth();
 
         useEffect(() => {
             // todo: if admin, render. else, redirect.
-            if (refreshIsLoaded) {
-                const didNotLogIn = refreshIsLoaded && !isLoggedIn();
-                console.log(refreshIsLoaded, isLoggedIn(), didNotLogIn, "13rm");
-                if (didNotLogIn) {
+            if (profile) {
+                const isAdmin = profile.role === Role.Admin;
+                if (!isAdmin) {
                     navigate("/");
                 }
-            } else {
-                runRefreshJwt();
             }
-        }, [refreshIsLoaded, isLoggedIn]);
+        }, [profile, navigate]);
 
         return <WrappedComponent />; // Render whatever you want while the authentication occurs
     };
