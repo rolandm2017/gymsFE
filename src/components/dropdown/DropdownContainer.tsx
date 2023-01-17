@@ -7,6 +7,7 @@ interface DropdownContainerProps {
     topDisplacement: number | undefined;
     leftDisplacement: number | undefined;
     width: number;
+    closeDropdown: Function;
     children: ReactNode;
 }
 
@@ -15,11 +16,19 @@ const DropdownContainer: React.FC<DropdownContainerProps> = ({
     topDisplacement,
     leftDisplacement,
     width,
+    closeDropdown,
     children,
 }: DropdownContainerProps) => {
     return (
         <div className="fullScreenRegardless absolute">
-            <div className="w-full h-full absolute z-30 bg-black"></div>
+            <div
+                className="w-full h-full absolute z-30 bg-transparent"
+                onClick={() => {
+                    closeDropdown();
+                }}
+            >
+                {/* // dropdown click target */}
+            </div>
             <div
                 className={`${isOpen ? "" : "hidden"} p-2 absolute bg-white border-2 rounded-lg z-40`}
                 style={{ top: topDisplacement, left: leftDisplacement, width }}

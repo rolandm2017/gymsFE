@@ -9,6 +9,7 @@ import { useLogOutAPI } from "../../api/authAPI";
 import DropdownItemWithLink from "../dropdown/DropdownItemWithLink";
 import { useNavigate } from "react-router-dom";
 import { getMaxLeftDisplacement } from "../../util/getMaxLeftDisplacement";
+import { useAuth } from "../../context/AuthContext";
 
 function Profile() {
     const [isOpen, setIsOpen] = useState(false);
@@ -37,6 +38,8 @@ function Profile() {
         }
     }, [success, loaded, navigate]);
 
+    const { profile } = useAuth();
+
     return (
         <div
             id="profile"
@@ -47,7 +50,15 @@ function Profile() {
                 setDropdownPosition(e, dropdownWidth);
             }}
         >
-            <DropdownContainer isOpen={isOpen} topDisplacement={topDisplacement} leftDisplacement={leftDisplacement} width={dropdownWidth}>
+            <DropdownContainer
+                isOpen={isOpen}
+                topDisplacement={topDisplacement}
+                leftDisplacement={leftDisplacement}
+                width={dropdownWidth}
+                closeDropdown={() => {
+                    setIsOpen(false);
+                }}
+            >
                 <DropdownItemWithLink text="Settings" location={"/settings"} />
                 <DropdownItem text="Log Out" onClickAction={runLogOut} />
             </DropdownContainer>
@@ -61,7 +72,10 @@ function Profile() {
                         <ProfilePic />
                     </div>
                     <div>
-                        <NameAndEmail name={"Sam Alexi"} email={"s.alexi@gmail.com"} />
+                        <NameAndEmail
+                            name={profile?.name ? profile.name : "No name found"}
+                            email={profile?.email ? profile.email : "No email found"}
+                        />
                     </div>
                 </div>
             </div>
