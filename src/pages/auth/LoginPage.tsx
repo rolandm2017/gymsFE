@@ -50,13 +50,22 @@ const LoginPage: React.FC<{}> = () => {
     return (
         <main className="h-full w-full">
             <div className="h-full flex flex-col sm:flex-row">
-                <div className="h-full w-full sm:w-1/2 shadow-2xl z-20 flex flex-col justify-between primaryBlueBg">
-                    {/* // left hand side */}
+                <div className="h-full w-full sm:w-1/2 shadow-2xl z-20 hidden sm:flex flex-col justify-between primaryBlueBg">
+                    {/* // left hand side - hidden on mobile*/}
                     <BigQuote quote="Lorem ipsum doloret sit amet, consectur adipsing elit." author="Jack Liu" />
                     <div className="z-50 border-4 border-purple-500 ">
                         <img src={LogInPageCurve} alt="curved lines" className="loginPageCurve" />
                     </div>
                     <div className="mb-8 ml-8 text-left  z-50 block sm:hidden">
+                        <p className="text-4xl font-medium">Log in</p>
+                    </div>
+                </div>
+                <div className="h-1/2 w-full relative flex flex-col sm:hidden primaryBlueBg">
+                    {/* // top - hidden on desktop */}
+                    <div className="z-50 border-4 border-purple-500">
+                        <img src={LogInPageCurve} alt="curved lines" className="loginPageCurve" />
+                    </div>
+                    <div className="mb-8 ml-8 text-left z-50 absolute bottom-0 block sm:hidden">
                         <p className="text-4xl font-medium">Log in</p>
                     </div>
                 </div>
