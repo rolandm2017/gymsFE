@@ -57,10 +57,10 @@ const LoginPage: React.FC<{}> = () => {
                         <img src={LogInPageCurve} alt="curved lines" className="loginPageCurve" />
                     </div>
                 </div>
-                <div className="absolute z-40 h-screen w-screen border-2 border-red-400">
+                <div className="absolute z-40 h-screen w-screen border-2 border-red-400 flex flex-col">
                     {/* // middle person */}
                     <div className="h-full w-full flex justify-center absolute bottom-0 z-40">
-                        <img src={LogInMan} alt="log in man" />
+                        <img src={LogInMan} alt="log in man" className="loginManBgImg" />
                     </div>
                 </div>
                 <div className="h-full w-1/2 bg-white flex justify-center items-center">
