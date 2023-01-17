@@ -7,6 +7,8 @@ import AuthInput from "../../components/input/AuthInput";
 import BigQuote from "../../components/testimonial/BigQuote";
 import { isEmail, isValidName, isValidPassword } from "../../util/validation";
 
+import SignUpMan from "../../assets/SignupMan.png";
+
 const SignUpPage: React.FC<{}> = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -92,7 +94,7 @@ const SignUpPage: React.FC<{}> = () => {
                 <div className="absolute z-40 h-screen w-screen border-2 border-red-400">
                     {/* // middle person */}
                     <div className="h-full w-full flex justify-center absolute bottom-0 z-40 border-4 border-black signupManBgImg">
-                        {/* <div className="w-full ">// login man</div> */}
+                        <img src={SignUpMan} alt="sign up man" className="pl-20 pt-36 signupManBgImg" />
                     </div>
                 </div>
                 <div className="h-full w-1/2 bg-white flex justify-center items-center">

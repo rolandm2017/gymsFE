@@ -8,10 +8,6 @@
 }
 
 .signupManBgImg {
-    background-image: url("../../assets/SignupMan.png");
-    background-size: 115% 100%, cover;
-    background-position: -95px 0px;
-    background-repeat: no-repeat;
 }
 
 .signupPageCurve {
@@ -31,6 +27,13 @@
 
 @media only screen and (max-width: 1200px) {
     .loginManBgImg {
+        height: 80%;
+        position: absolute;
+        bottom: 0;
+        object-position: left bottom;
+    }
+
+    .signupManBgImg {
         height: 80%;
         position: absolute;
         bottom: 0;
