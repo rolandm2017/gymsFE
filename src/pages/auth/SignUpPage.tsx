@@ -84,7 +84,7 @@ const SignUpPage: React.FC<{}> = () => {
             <div className="h-1/2 absolute z-20 bg-red-500"></div>
             <div className="h-full flex">
                 <div className="h-full w-1/2 shadow-2xl z-20 primaryBlueBg">
-                    {/* // left hand side */}
+                    {/* // left hand side - shows on desktop, hidden on mobile */}
                     <div className="h-2/5"></div>
                     <BigQuote quote="Lorem ipsum doloret sit amet, consectur adipsing elit." author="Jason Bustamante" />
                     <div className="z-50 signupPageCurve"></div>

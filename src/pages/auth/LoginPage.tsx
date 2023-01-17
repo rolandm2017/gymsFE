@@ -51,9 +51,9 @@ const LoginPage: React.FC<{}> = () => {
         <main className="h-full w-full">
             <div className="h-full flex flex-col sm:flex-row">
                 <div className="h-full w-full sm:w-1/2 shadow-2xl z-20 hidden sm:flex flex-col justify-between primaryBlueBg">
-                    {/* // left hand side - shows on desktop, hidden on mobile*/}
+                    {/* // left hand side - shows on desktop, hidden on mobile */}
                     <BigQuote quote="Lorem ipsum doloret sit amet, consectur adipsing elit." author="Jack Liu" />
-                    <div className="z-50 border-4 border-purple-500 ">
+                    <div className="z-50">
                         <img src={LogInPageCurve} alt="curved lines" className="loginPageCurve" />
                     </div>
                     <div className="mb-8 ml-8 text-left  z-50 block sm:hidden">
@@ -62,7 +62,7 @@ const LoginPage: React.FC<{}> = () => {
                 </div>
                 <div className="h-min w-full relative flex flex-col sm:hidden primaryBlueBg">
                     {/* // top - shows on mobile, hidden on desktop */}
-                    <div className="max-h-96 z-50 flex items-end border-4 border-purple-500">
+                    <div className="max-h-96 z-50 flex items-end">
                         <img src={LogInPageCurve} alt="curved lines" className="loginPageCurve" />
                     </div>
                     <div className="h-1/2 mb-8 ml-8 text-left z-50 absolute bottom-0 block sm:hidden">
@@ -71,7 +71,7 @@ const LoginPage: React.FC<{}> = () => {
                         </div>
                     </div>
                 </div>
-                <div className="absolute z-40 h-screen w-screen border-2 border-red-400 flex-col hidden sm:flex">
+                <div className="absolute z-40 h-screen w-screen flex-col hidden sm:flex">
                     {/* // middle person */}
                     <div className="h-full w-full flex justify-center absolute bottom-0 z-40">
                         <img src={LogInMan} alt="log in man" className="loginManBgImg" />
