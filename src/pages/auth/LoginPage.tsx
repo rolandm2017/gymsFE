@@ -49,21 +49,21 @@ const LoginPage: React.FC<{}> = () => {
 
     return (
         <main className="h-full w-full">
-            <div className="h-full flex">
-                <div className="h-full w-1/2 shadow-2xl z-20 flex flex-col justify-between primaryBlueBg">
+            <div className="h-full flex flex-col sm:flex-row">
+                <div className="h-full w-full sm:w-1/2 shadow-2xl z-20 flex flex-col justify-between primaryBlueBg">
                     {/* // left hand side */}
                     <BigQuote quote="Lorem ipsum doloret sit amet, consectur adipsing elit." author="Jack Liu" />
                     <div className="z-50 border-4 border-purple-500">
                         <img src={LogInPageCurve} alt="curved lines" className="loginPageCurve" />
                     </div>
                 </div>
-                <div className="absolute z-40 h-screen w-screen border-2 border-red-400 flex flex-col">
+                <div className="absolute z-40 h-screen w-screen border-2 border-red-400 hidden sm:flex flex-col">
                     {/* // middle person */}
                     <div className="h-full w-full flex justify-center absolute bottom-0 z-40">
                         <img src={LogInMan} alt="log in man" className="loginManBgImg" />
                     </div>
                 </div>
-                <div className="h-full w-1/2 bg-white flex justify-center items-center">
+                <div className="h-full w-full sm:w-1/2 bg-white flex justify-center items-center">
                     {/* // right hand side */}
                     <div className="w-1/2">
                         <div className="mb-8 text-left">
@@ -84,7 +84,7 @@ const LoginPage: React.FC<{}> = () => {
                             <p>{err ? err : null}</p>
                         </div>
                         <div className="flex flex-col items-start">
-                            <div className="mt-4 h-8 mt-3 flex items-center">
+                            <div className="mt-4 h-8 flex items-center">
                                 <p className="font-xl font-medium text-left">
                                     Forgot your password?{" "}
                                     <Link to={"/forgot-password"}>
@@ -93,8 +93,8 @@ const LoginPage: React.FC<{}> = () => {
                                     .
                                 </p>
                             </div>
-                            <div className="mt-4 h-8 flex items-center">
-                                <p className="font-xl font-medium text-left">
+                            <div className="mt-6 md:mt-4 h-8 flex items-center">
+                                <p className="font-xl  font-medium text-left">
                                     No account?{" "}
                                     <Link to={"/signup"}>
                                         <span className="linkBlue">Make one</span>
