@@ -6,7 +6,11 @@ import GoogleButton from "../../components/button/GoogleButton";
 import AuthInput from "../../components/input/AuthInput";
 import { useAuth } from "../../context/AuthContext";
 
+// imgs
+// import LoginPageCurve from "../../assets/tr-almost-sq.png";
+
 import "./Auth.scss";
+import BigQuote from "../../components/testimonial/BigQuote";
 
 const LoginPage: React.FC<{}> = () => {
     const [email, setEmail] = useState("");
@@ -45,16 +49,13 @@ const LoginPage: React.FC<{}> = () => {
     return (
         <main className="h-full w-full">
             <div className="h-full flex">
-                <div className="h-full w-1/2 shadow-2xl z-20 softBlueBg">
+                <div className="h-full w-1/2 shadow-2xl z-20 primaryBlueBg">
                     {/* // left hand side */}
-                    <div className="pt-8 pl-14 w-1/2 blueText">
-                        <p className="font-semibold text-3xl text-left">Lorem ipsum doloret sit amet, consectur adipsing elit.</p>
-                        <p className="mt-3 text-right">-Jack Liu</p>
-                    </div>
+                    <BigQuote quote="Lorem ipsum doloret sit amet, consectur adipsing elit." author="Jack Liu" />
+                    <div className="z-50 loginPageCurve"></div>
                 </div>
                 <div className="absolute z-40 h-screen w-screen border-2 border-red-400">
                     {/* // middle person */}
-                    <div className="">{/* // spacer */}</div>
                     <div className="h-full w-full flex justify-center absolute bottom-0 z-40 border-4 border-black loginManBgImg">
                         {/* <div className="w-full ">// login man</div> */}
                     </div>

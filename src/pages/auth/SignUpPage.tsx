@@ -4,6 +4,7 @@ import { useSignUpWithEmailAPI } from "../../api/authAPI";
 import ExpanderButton from "../../components/button/ExpanderButton";
 import GoogleButton from "../../components/button/GoogleButton";
 import AuthInput from "../../components/input/AuthInput";
+import BigQuote from "../../components/testimonial/BigQuote";
 import { isEmail, isValidName, isValidPassword } from "../../util/validation";
 
 const SignUpPage: React.FC<{}> = () => {
@@ -82,12 +83,16 @@ const SignUpPage: React.FC<{}> = () => {
         <main className="h-full w-full">
             <div className="h-1/2 absolute z-20 bg-red-500"></div>
             <div className="h-full flex">
-                <div className="h-full w-1/2 shadow-2xl z-20 softBlueBg">
+                <div className="h-full w-1/2 shadow-2xl z-20 primaryBlueBg">
                     {/* // left hand side */}
                     <div className="h-2/5"></div>
-                    <div className="pt-8 pl-14 w-1/2 blueText">
-                        <p className="font-semibold text-3xl text-left">Lorem ipsum doloret sit amet, consectur adipsing elit.</p>
-                        <p className="mt-3 text-right">-Jason Bustamante</p>
+                    <BigQuote quote="Lorem ipsum doloret sit amet, consectur adipsing elit." author="Jason Bustamante" />
+                    <div className="z-50 signupPageCurve"></div>
+                </div>
+                <div className="absolute z-40 h-screen w-screen border-2 border-red-400">
+                    {/* // middle person */}
+                    <div className="h-full w-full flex justify-center absolute bottom-0 z-40 border-4 border-black signupManBgImg">
+                        {/* <div className="w-full ">// login man</div> */}
                     </div>
                 </div>
                 <div className="h-full w-1/2 bg-white flex justify-center items-center">
