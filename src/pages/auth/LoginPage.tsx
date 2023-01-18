@@ -52,7 +52,7 @@ const LoginPage: React.FC<{}> = () => {
             <div className="h-full flex flex-col sm:flex-row">
                 <div className="h-full w-full sm:w-1/2 shadow-2xl z-20 hidden sm:flex flex-col justify-between primaryBlueBg">
                     {/* // left hand side - shows on desktop, hidden on mobile */}
-                    <BigQuote quote="Lorem ipsum doloret sit amet, consectur adipsing elit." author="Jack Liu" />
+                    <BigQuote quote="Lorem ipsum doloret sit amet, consectur adipsing elit." author="Jack Liu" topPadding={true} thin={false} />
                     <div className="z-50">
                         <img src={LogInPageCurve} alt="curved lines" className="loginPageCurve" />
                     </div>

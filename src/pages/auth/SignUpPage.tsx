@@ -8,6 +8,7 @@ import BigQuote from "../../components/testimonial/BigQuote";
 import { isEmail, isValidName, isValidPassword } from "../../util/validation";
 
 import SignUpMan from "../../assets/SignupMan.png";
+import SignUpPageCurve from "../../assets/signup-pg-curve.png";
 
 const SignUpPage: React.FC<{}> = () => {
     const [name, setName] = useState("");
@@ -87,13 +88,22 @@ const SignUpPage: React.FC<{}> = () => {
             <div className="h-full flex">
                 <div className="h-full w-1/2 shadow-2xl z-20 primaryBlueBg">
                     {/* // left hand side - shows on desktop, hidden on mobile */}
-                    <div className="h-2/5"></div>
-                    <BigQuote quote="Lorem ipsum doloret sit amet, consectur adipsing elit." author="Jason Bustamante" />
-                    <div className="z-50 signupPageCurve"></div>
+                    <div className="w-full z-50 border-2 border-red-400 flex justify-end">
+                        <img src={SignUpPageCurve} />
+                        {/* // todo (1) - find soruce of horizontal scroll
+                        // todo 1.5 - make two separate containers, left and top, for desktop and mobile code
+                        // todo (2) - mobile design */}
+                    </div>
+                    <BigQuote
+                        quote="Lorem ipsum doloret sit amet, consectur adipsing elit."
+                        author="Jason Bustamante"
+                        topPadding={false}
+                        thin={true}
+                    />
                 </div>
-                <div className="absolute z-40 h-screen w-screen border-2 border-red-400">
+                <div className="absolute z-40 h-screen w-screen border-red-400">
                     {/* // middle person */}
-                    <div className="h-full w-full flex justify-center absolute bottom-0 z-40 border-4 border-black signupManBgImg">
+                    <div className="h-full w-full flex justify-center absolute bottom-0 z-40  border-black">
                         <img src={SignUpMan} alt="sign up man" className="pl-20 pt-36 signupManBgImg" />
                     </div>
                 </div>
