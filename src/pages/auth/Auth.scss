@@ -30,7 +30,8 @@
     }
 
     .signupManBgImg {
-        height: 90%;
+        height: 80%;
+        width: 100%;
         position: absolute;
         bottom: 0;
         object-position: left bottom;
@@ -40,11 +41,19 @@
 @media only screen and (max-width: 900px) {
     .signupManBgImg {
         height: 80%;
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        object-position: left bottom;
     }
 }
 
 @media only screen and (max-width: 800px) {
     .loginManBgImg {
         height: 60%;
+    }
+
+    .signupManBgImg {
+        height: 70%;
     }
 }
