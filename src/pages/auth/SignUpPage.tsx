@@ -73,6 +73,8 @@ const SignUpPage: React.FC<{}> = () => {
         const passwordsMatch = password === confirmation;
         if (name && email && passwordsMatch) {
             runSignUp(name, email, password, confirmation);
+        } else {
+            setErr("One or more fields is empty");
         }
     }
 
