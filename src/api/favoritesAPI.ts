@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useServer } from "../context/ServerContext";
-import { IHousing } from "../interface/Housing.interface";
+import { IHousing, IHousingWithUrl } from "../interface/Housing.interface";
 import { AddFavorite } from "../interface/payload/AddFavorite.interface";
 import { GenericAcctId } from "../interface/payload/GenericAcctId.interface";
 import { GenericHousingIdPayload } from "../interface/payload/GenericHousingIdPayload.interface";
@@ -47,66 +47,32 @@ export function useAddFavoriteAPI(): { success: boolean; loaded: boolean; err: s
 export function useGetFavoritesAPI() {
     const [favorites, setFavorites] = useState<IHousing[]>([]);
     const [favoritesIsLoaded, setFavoritesIsLoaded] = useState(false);
-    const [err, setErr] = useState("");
+    const [getFavoritesErr, setGetFavoritesErr] = useState("");
 
     const server = useServer();
-    const { setAccessToken } = useAuth();
+    const { setAccessToken, accessToken } = useAuth();
 
     useEffect(() => {
-        (async () => {
-            try {
-                setErr(""); // clear old error
-                const response = await server!.get("/housing/real-url-list");
-                const { favorites } = response.data;
-                setFavorites(favorites);
-            } catch (error) {
-                console.warn("failed to refresh token");
-                const msg = handleError(error);
-                setErr(msg);
-            } finally {
-                setFavoritesIsLoaded(true);
-            }
-        })();
-    }, [setAccessToken, server]);
-
-    return { favorites, favoritesIsLoaded };
-}
-
-export function useGetRevealedURLsAPI(): { revealedURLs: IHousing[]; revealedURLsIsLoaded: boolean; err: string; runUpdateRevealedURLs: Function } {
-    const [revealedURLs, setRevealedURLs] = useState<IHousing[]>([]);
-    const [revealedURLsIsLoaded, setRevealedURLsIsLoaded] = useState(false);
-    const [err, setErr] = useState("");
-    // const [payload, setPayload]=useState<RevealedURLs | undefined>(undefined);
-
-    function runUpdateRevealedURLs() {
-        setRevealedURLsIsLoaded(false);
-        // setPayload({acctId})
-    }
-
-    const server = useServer();
-    const { setAccessToken } = useAuth();
-
-    useEffect(() => {
-        if (!revealedURLsIsLoaded) {
+        if (accessToken) {
             (async () => {
                 try {
-                    setErr(""); // clear old error
-                    const response = await server!.get("/housing/real-url-list");
-                    const { revealedURLs } = response.data;
-                    setRevealedURLs(revealedURLs);
+                    setGetFavoritesErr(""); // clear old error
+                    const response = await server!.get("/profile/all/picks/housing");
+                    const { favorites } = response.data;
+                    console.log(favorites, "61rm");
+                    setFavorites(favorites);
                 } catch (error) {
-                    console.warn("failed to refresh token");
                     const msg = handleError(error);
-                    setErr(msg);
+                    console.log(msg, "65rm");
+                    setGetFavoritesErr(msg);
                 } finally {
-                    setRevealedURLsIsLoaded(true);
-                    // setPayload(undefined)
+                    setFavoritesIsLoaded(true);
                 }
             })();
         }
-    }, [setAccessToken, server, revealedURLsIsLoaded]);
+    }, [setAccessToken, accessToken, server]);
 
-    return { revealedURLs, revealedURLsIsLoaded, err, runUpdateRevealedURLs };
+    return { favorites, getFavoritesErr, favoritesIsLoaded };
 }
 
 export function useRemoveFavoriteAPI(): { success: boolean; loaded: boolean; err: string; runRemoveFavorite: Function } {

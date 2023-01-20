@@ -7,7 +7,9 @@ const useAddInterceptor = () => {
     const { accessToken } = useAuth();
 
     useEffect(() => {
+        console.log(accessToken, "why isnt it setting 10rm");
         const injectHeaders = server.interceptors.request.use(config => {
+            console.warn(accessToken, "should be set 11rm");
             if (accessToken && config.headers) {
                 config.headers["Authorization"] = "Bearer " + accessToken;
             }
@@ -17,7 +19,7 @@ const useAddInterceptor = () => {
         return () => {
             server.interceptors.request.eject(injectHeaders);
         };
-    });
+    }, [accessToken]);
 };
 
 interface ServerContextProps {
@@ -34,6 +36,15 @@ export function useServer() {
 
 export const ServerProvider: React.FC<ServerContextProps> = ({ children }) => {
     useAddInterceptor();
+
+    const { accessToken } = useAuth();
+
+    useEffect(() => {
+        console.log(accessToken, "42rm");
+        if (accessToken) {
+            // useAddInterceptor();
+        }
+    }, [accessToken]);
 
     return <ServerContext.Provider value={server}>{children}</ServerContext.Provider>;
 };

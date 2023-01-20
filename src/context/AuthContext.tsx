@@ -12,6 +12,7 @@ type AuthContextType = {
     setAccessToken: Function;
     setProfile: Function;
     profile: UserProfile | undefined;
+    getDefaultCity: Function;
 };
 
 const authContextDefaultValues: AuthContextType = {
@@ -21,6 +22,7 @@ const authContextDefaultValues: AuthContextType = {
     setAccessToken: () => {},
     setProfile: () => {},
     profile: undefined,
+    getDefaultCity: () => {},
 };
 
 const AuthContext = createContext<AuthContextType>(authContextDefaultValues);
@@ -38,6 +40,11 @@ export function AuthProvider({ children }: AuthContextProps) {
     const [profile, setProfile] = useState<UserProfile | undefined>(undefined);
 
     const { runRefreshJwt } = useRefreshJwtAPI();
+
+    function getDefaultCity() {
+        // return profile?.favoriteCity;
+        return "Montreal"; // todo: enable user to set their default city
+    }
 
     useEffect(() => {
         // try get access token 1x on every page load.
@@ -90,6 +97,7 @@ export function AuthProvider({ children }: AuthContextProps) {
         profile,
         setProfile,
         isLoggedIn,
+        getDefaultCity,
     };
 
     return <AuthContext.Provider value={exportedValues}>{children}</AuthContext.Provider>;

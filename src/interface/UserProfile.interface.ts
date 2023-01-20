@@ -5,4 +5,5 @@ export interface UserProfile {
     isVerified: boolean;
     role: string;
     credits: number;
+    favoriteCity: string;
 }

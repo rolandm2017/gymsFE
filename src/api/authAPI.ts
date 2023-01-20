@@ -76,8 +76,8 @@ export function useLoginWithEmailAPI(): {
                 try {
                     setLoginErr(""); // remove old errors
                     const response = await server!.post("/auth/authenticate", { ...payload });
-                    const { acctId, email, name, isVerified, credits, role, jwtToken } = response.data;
-                    setLoginData({ acctId, email, name, isVerified, role, credits });
+                    const { acctId, email, name, isVerified, credits, role, favoriteCity, jwtToken } = response.data;
+                    setLoginData({ acctId, email, name, isVerified, role, credits, favoriteCity });
                     console.log(jwtToken, "storing jwt, 83rm");
                     setAccessToken(jwtToken);
                 } catch (error) {
@@ -121,10 +121,10 @@ export function useRefreshJwtAPI(): {
                 try {
                     setRefreshErr(""); // clear old error
                     const response = await server!.post("/auth/refresh-token");
-                    const { acctId, email, name, role, isVerified, credits, jwtToken } = response.data;
-                    console.log(response.data, jwtToken, "setting access token, 125rm");
-                    setAccessToken(jwtToken === undefined ? "" : jwtToken);
-                    setRefreshedUser({ acctId, email, name, role, isVerified, credits });
+                    const { acctId, email, name, role, isVerified, credits, favoriteCity, jwtToken } = response.data;
+                    console.log(jwtToken, "setting access token, 125rm");
+                    setAccessToken(jwtToken ? jwtToken : "");
+                    setRefreshedUser({ acctId, email, name, role, isVerified, credits, favoriteCity });
                 } catch (error) {
                     console.warn("failed to refresh token");
                     const msg = handleError(error);

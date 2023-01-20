@@ -1,14 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useGetFavoritesAPI, useRemoveFavoriteAPI } from "../../api/favoritesAPI";
-import { useRevealURLAPI } from "../../api/revealURLAPI";
+import { useAddRevealedURLAPI } from "../../api/revealURLAPI";
 import FavoritesItem from "./FavoritesItem";
 
 const FavoritesList: React.FC<{}> = ({}) => {
-    const { favorites, favoritesIsLoaded } = useGetFavoritesAPI();
+    const { favorites, getFavoritesErr, favoritesIsLoaded } = useGetFavoritesAPI();
     const { runRemoveFavorite } = useRemoveFavoriteAPI();
-    const { runRevealURL } = useRevealURLAPI();
+    const { runAddRevealedURL } = useAddRevealedURLAPI();
+    console.log(favorites, "10rm");
+
+    useEffect(() => {
+        console.log(favorites, getFavoritesErr, "13rm");
+    }, [favorites, getFavoritesErr]);
     return (
         <div>
+            <div>
+                <h3>Favorites</h3>
+            </div>
             {favorites.map(f => {
                 return (
                     <FavoritesItem
@@ -17,7 +25,7 @@ const FavoritesList: React.FC<{}> = ({}) => {
                             runRemoveFavorite(f.housingId);
                         }}
                         runRevealUrl={() => {
-                            runRevealURL(f.housingId); // todo: on reveal, put revealed url in revealed url list
+                            runAddRevealedURL(f.housingId); // todo: on reveal, put revealed url in revealed url list
                         }}
                     />
                 );

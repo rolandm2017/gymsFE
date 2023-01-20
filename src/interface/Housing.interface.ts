@@ -5,13 +5,12 @@ export interface IHousing {
     // it is known that the apartment is qualified at this point.
     buildingType?: "apartment" | "house";
     agreementType?: "rent" | "buy";
-    housingId?: number;
+    housingId: number;
     address?: string;
     city?: string;
     state?: string;
     price?: number;
     phone?: string;
-    url?: string;
     taskId: number;
     batchId: number;
     lat: number;
@@ -19,6 +18,11 @@ export interface IHousing {
     source: Provider;
     nearbyGyms: IAssociation[];
     isHighlighted?: boolean;
+    isFavorite?: boolean;
 
     // TODO: consider adding "availability"
+}
+
+export interface IHousingWithUrl extends IHousing {
+    url: string;
 }

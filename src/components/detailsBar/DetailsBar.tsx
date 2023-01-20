@@ -9,13 +9,13 @@ interface DeailsBarProps {
     pic?: any; // todo: how to say itll be a jpg/png?
     address: string | undefined;
     nearbyGyms: IAssociation[] | undefined;
-    url: string | undefined;
+    // url: string | undefined;
     activeIndex: number | null;
     detailNumber: number;
     setActive: Function;
 }
 //TODO: between 1200 and 390 px, show less details: only addr, gymName, walkTime, link (4 values, not 6)
-const DetailsBar: React.FC<DeailsBarProps> = ({ pic, address, nearbyGyms, url, activeIndex, detailNumber, setActive }) => {
+const DetailsBar: React.FC<DeailsBarProps> = ({ pic, address, nearbyGyms, activeIndex, detailNumber, setActive }) => {
     const closestGym = nearbyGyms ? nearbyGyms.sort(compare)[0] : { gym: { name: "Data missing", url: "Data missing" }, distanceInKM: 0 };
     const gymUrl = closestGym.gym?.url;
 
@@ -63,9 +63,9 @@ const DetailsBar: React.FC<DeailsBarProps> = ({ pic, address, nearbyGyms, url, a
             <div className="w-1/3 sm:w-1/6 mr-2 sm:mr-0 flex items-center">
                 <p className="grayText detailsBarText">{truncateDecimals(calculateWalkTimeInMinutes(closestGym.distanceInKM), 2)} minutes</p>
             </div>
-            <div className="w-1/3 sm:w-1/6 mr-2 sm:mr-0 flex items-center">
+            {/* <div className="w-1/3 sm:w-1/6 mr-2 sm:mr-0 flex items-center">
                 <p className="w-full grayText detailsBarText truncate text-left">{url}</p>
-            </div>
+            </div> */}
             {/* </div> */}
         </div>
     );

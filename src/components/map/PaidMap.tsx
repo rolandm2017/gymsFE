@@ -88,6 +88,7 @@ const PaidMap: React.FC<PaidMapProps> = ({ center, qualifiedFromCurrentPage, act
 
         // remove all old markers
         for (const marker of markers) {
+            console.log("removing marker 91rm");
             marker.remove();
         }
 
@@ -98,7 +99,7 @@ const PaidMap: React.FC<PaidMapProps> = ({ center, qualifiedFromCurrentPage, act
 
             addNewMarkers(allMarkers, markers, setMarkers, map.current);
             console.log("100 rm");
-            putAllMarkersIntoView(allMarkers, map.current);
+            // putAllMarkersIntoView(allMarkers, map.current);
         }
     }, [map, qualifiedFromCurrentPage]);
 

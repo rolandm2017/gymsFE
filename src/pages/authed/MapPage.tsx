@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 
 import PageBase from "./../PageBase";
 import SearchBar from "../../components/searchBar/SearchBar";
@@ -12,11 +12,29 @@ import { IAssociation } from "../../interface/Association.interface";
 import { IHousing } from "../../interface/Housing.interface";
 import { calcTotalPages } from "../../util/calcTotalPages";
 import WithAuthentication from "../../components/hoc/WithAuth";
+import { useNavigate, useRoutes, useSearchParams } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 const MapPage: React.FC<{}> = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [active, setActive] = useState<number | null>(null);
     const { qualified } = useContext(LocationsProviderContext) as ILocationContext;
+
+    const navigate = useNavigate();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const pageNum = searchParams.get("pageNum");
+    const city = searchParams.get("city");
+    console.log(pageNum, "24rm");
+
+    useEffect(() => {
+        // if mapPage, set as current page
+        console.log(pageNum, "31rm");
+        if (pageNum) {
+            const pageAsInteger = parseInt(pageNum, 10);
+            console.log("setting current pg as", pageAsInteger, "33rm");
+            setCurrentPage(pageAsInteger);
+        }
+    }, [setCurrentPage, pageNum]);
 
     function getCurrentPageResults(qualified: IHousing[], page: number): IHousing[] {
         // Function is placed early in the distribution of Qualified Apartments to components so
@@ -31,6 +49,16 @@ const MapPage: React.FC<{}> = () => {
     }
 
     const qualifiedFromCurrentPage = getCurrentPageResults(qualified, currentPage);
+
+    const { getDefaultCity } = useAuth();
+
+    const totalPages = calcTotalPages(qualified);
+
+    function changePages(cityName: string, pageNum: number) {
+        const newURL = "/map?city=" + cityName + "&pageNum=" + pageNum;
+        console.log("going to ", newURL, "49rm");
+        navigate(newURL);
+    }
 
     // TODO: make "page 1, page 2, page 3" in url (?) to show different pgs of qualified aps
     // TODO: make apartment cards use real data
@@ -48,7 +76,6 @@ const MapPage: React.FC<{}> = () => {
                             ? qualifiedFromCurrentPage.map((ap, i) => {
                                   const address = ap.address ? ap.address : "Placeholder St.";
                                   const associatedGymsWithDistances = ap.nearbyGyms as IAssociation[];
-                                  const apartmentURL = ap.url !== undefined ? ap.url : "No link found";
                                   //   console.log(ap, "52rm");
                                   return (
                                       <ApartmentCard
@@ -56,7 +83,6 @@ const MapPage: React.FC<{}> = () => {
                                           apartment={ap}
                                           addr={address}
                                           gyms={associatedGymsWithDistances}
-                                          apUrl={apartmentURL}
                                           activeNum={i}
                                           setActive={setActive}
                                       />
@@ -67,11 +93,12 @@ const MapPage: React.FC<{}> = () => {
                 </div>
 
                 <div id="pageNumberContainer" className="mb-3 flex justify-between items-center">
-                    <PageNumber currentPage={currentPage} totalPages={calcTotalPages(qualified)} />
+                    <PageNumber currentPage={currentPage} totalPages={totalPages} />
                     <NavigationBtns
+                        currentCity={city ? city : getDefaultCity()}
                         currentPage={currentPage}
-                        totalPages={calcTotalPages(qualified)}
-                        changePgHandler={setCurrentPage}
+                        totalPages={totalPages}
+                        changePgHandler={changePages}
                         // change active card to null when change page
                         resetActive={setActive}
                     />
