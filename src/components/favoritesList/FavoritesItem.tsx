@@ -3,9 +3,10 @@ import React from "react";
 interface FavoritesItemProps {
     distanceToGym: number; // pythagoras long, lat difference
     removeFavorite: Function;
+    runRevealUrl: Function;
 }
 
-const FavoritesItem: React.FC<FavoritesItemProps> = ({ distanceToGym, removeFavorite }: FavoritesItemProps) => {
+const FavoritesItem: React.FC<FavoritesItemProps> = ({ distanceToGym, removeFavorite, runRevealUrl }: FavoritesItemProps) => {
     return (
         <div>
             <div>
@@ -17,6 +18,13 @@ const FavoritesItem: React.FC<FavoritesItemProps> = ({ distanceToGym, removeFavo
                 }}
             >
                 <button>Remove</button>
+            </div>
+            <div
+                onClick={() => {
+                    runRevealUrl();
+                }}
+            >
+                <button>Reveal URL</button>
             </div>
         </div>
     );

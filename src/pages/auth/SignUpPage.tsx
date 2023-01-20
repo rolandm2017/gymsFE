@@ -89,15 +89,15 @@ const SignUpPage: React.FC<{}> = () => {
                     <BigQuote quote="Lorem ipsum doloret sit amet, consectur adipsing elit." author="Jason Bustamante" />
                     <div className="z-50 signupPageCurve"></div>
                 </div>
-                <div className="absolute z-40 h-screen w-screen border-2 border-red-400">
+                <div className="absolute z-40 h-screen w-screen ">
                     {/* // middle person */}
-                    <div className="h-full w-full flex justify-center absolute bottom-0 z-40 border-4 border-black signupManBgImg">
+                    <div className="h-full w-full flex justify-center absolute bottom-0 z-40 signupManBgImg">
                         {/* <div className="w-full ">// login man</div> */}
                     </div>
                 </div>
                 <div className="h-full w-1/2 bg-white flex justify-center items-center">
                     {/* // right hand side */}
-                    <div className="w-1/2">
+                    <div className="w-1/2 z-50">
                         <div className="mb-8 text-left">
                             <p className="text-4xl font-medium">Sign up</p>
                         </div>

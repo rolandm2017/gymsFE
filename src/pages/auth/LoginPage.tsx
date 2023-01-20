@@ -23,6 +23,7 @@ const LoginPage: React.FC<{}> = () => {
     const { loginData, loginErr, loginIsLoaded, runLogin } = useLoginWithEmailAPI();
 
     useEffect(() => {
+        console.log(loginErr, "26rm");
         setErr(loginErr);
     }, [loginErr]);
 
@@ -52,17 +53,17 @@ const LoginPage: React.FC<{}> = () => {
                 <div className="h-full w-1/2 shadow-2xl z-20 flex flex-col primaryBlueBg">
                     {/* // left hand side */}
                     <BigQuote quote="Lorem ipsum doloret sit amet, consectur adipsing elit." author="Jack Liu" />
-                    <div className="z-50 loginPageCurve border-4 border-purple-500"></div>
+                    <div className="z-50 loginPageCurve "></div>
                 </div>
-                <div className="absolute z-40 h-screen w-screen border-2 border-red-400">
+                <div className="absolute z-40 h-screen w-screen ">
                     {/* // middle person */}
                     <div className="h-full w-full flex justify-center absolute bottom-0 z-40 loginManBgImg">
                         {/* <div className="w-full ">// login man</div> */}
                     </div>
                 </div>
-                <div className="h-full w-1/2 bg-white flex justify-center items-center">
+                <div className="h-full w-1/2 bg-white flex justify-center items-center ">
                     {/* // right hand side */}
-                    <div className="w-1/2">
+                    <div className="w-1/2 z-50">
                         <div className="mb-8 text-left">
                             <p className="text-4xl font-medium">Log in</p>
                         </div>

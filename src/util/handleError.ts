@@ -5,6 +5,11 @@ export function handleError(error: unknown): string {
     const data = err.response?.data;
     if (err.name === "AxiosError") {
         console.log(err);
+        if (err?.response?.data) {
+            const withError = err.response.data as { error: { name: string; message: string } };
+            console.log("returning", withError.error.message, "10rm");
+            return withError.error.message;
+        }
         return "";
     }
     if (data && hasError(data)) {

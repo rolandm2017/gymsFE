@@ -81,7 +81,9 @@ export function useLoginWithEmailAPI(): {
                     console.log(jwtToken, "storing jwt, 83rm");
                     setAccessToken(jwtToken);
                 } catch (error) {
+                    console.log(error, "84rm");
                     const msg = handleError(error);
+                    console.log(msg, "86rm");
                     setLoginErr(msg);
                 } finally {
                     setLoginIsLoaded(true);
