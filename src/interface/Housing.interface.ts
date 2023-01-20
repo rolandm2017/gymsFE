@@ -2,6 +2,7 @@ import { Provider } from "../enum/provider.enum";
 import { IAssociation } from "./Association.interface";
 
 export interface IHousing {
+    // it is known that the apartment is qualified at this point.
     buildingType?: "apartment" | "house";
     agreementType?: "rent" | "buy";
     housingId?: number;
@@ -16,7 +17,7 @@ export interface IHousing {
     lat: number;
     long: number;
     source: Provider;
-    nearbyGyms?: IAssociation[];
+    nearbyGyms: IAssociation[];
     isHighlighted?: boolean;
 
     // TODO: consider adding "availability"

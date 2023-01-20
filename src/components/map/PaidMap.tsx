@@ -107,21 +107,22 @@ const PaidMap: React.FC<PaidMapProps> = ({ center, qualifiedFromCurrentPage, act
 
         for (let i = 0; i < apartments.length; i++) {
             const apartment = apartments[i];
-            const nearbyGyms: IAssociation[] | undefined = apartment.nearbyGyms;
-            const theApartmentHasNearbyGyms = nearbyGyms !== undefined && nearbyGyms.length > 0;
-            const theApartmentHasCoords = apartment.long && apartment.lat;
-            if (theApartmentHasCoords && theApartmentHasNearbyGyms) {
-                let markerForAp;
-                const currentApartmentIsActive = i === activeApartment;
-                if (currentApartmentIsActive) {
-                    markerForAp = new mapboxgl.Marker({ color: "#ffffff", scale: 1.4 }).setLngLat([apartment.long, apartment.lat]);
-                } else {
-                    markerForAp = new mapboxgl.Marker()
-                        .setLngLat([apartment.long, apartment.lat])
+            const nearbyGyms: IAssociation[] = apartment.nearbyGyms;
+            const theApartmentHasNearbyGyms = nearbyGyms && nearbyGyms.length > 0;
+            // const theApartmentHasCoords = apartment.long && apartment.lat;
+            // if (theApartmentHasCoords && theApartmentHasNearbyGyms) {
+            let markerForAp;
+            const currentApartmentIsActive = i === activeApartment;
+            if (currentApartmentIsActive) {
+                markerForAp = new mapboxgl.Marker({ color: "#ffffff", scale: 1.4 }).setLngLat([apartment.long, apartment.lat]);
+            } else {
+                markerForAp = new mapboxgl.Marker()
+                    .setLngLat([apartment.long, apartment.lat])
 
-                        .setPopup(new mapboxgl.Popup().setHTML(makePopupHTMLForApartment(apartment)));
-                }
-                apartmentMarkers.push(markerForAp);
+                    .setPopup(new mapboxgl.Popup().setHTML(makePopupHTMLForApartment(apartment)));
+            }
+            apartmentMarkers.push(markerForAp);
+            if (theApartmentHasNearbyGyms) {
                 for (const association of nearbyGyms) {
                     const gymThatDefinitelyExists: IGym | undefined = association.gym; // ts doesn't know it definitely exists, but I do
                     const gymWasActuallyUndefined = gymThatDefinitelyExists === undefined;

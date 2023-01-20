@@ -46,10 +46,10 @@ const MapPage: React.FC<{}> = () => {
                     <div id="apartmentCardContainer" className="">
                         {qualified
                             ? qualifiedFromCurrentPage.map((ap, i) => {
-                                  const address = ap.address ? ap.address : "Placeholder St."; // TODO: make sure address appears on all apartments
+                                  const address = ap.address ? ap.address : "Placeholder St.";
                                   const associatedGymsWithDistances = ap.nearbyGyms as IAssociation[];
                                   const apartmentURL = ap.url !== undefined ? ap.url : "No link found";
-
+                                  //   console.log(ap, "52rm");
                                   return (
                                       <ApartmentCard
                                           key={i}
