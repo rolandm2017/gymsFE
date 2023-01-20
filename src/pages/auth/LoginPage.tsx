@@ -79,7 +79,7 @@ const LoginPage: React.FC<{}> = () => {
                             <ExpanderButton type={"Opaque"} text="Log In" onClickHandler={submitLogIn} />
                         </div>
                         <div>
-                            <p>{err ? err : null}</p>
+                            <p className="mt-5 text-left text-red-500">{err ? "Error: " + err : null}</p>
                         </div>
                         <div className="flex flex-col items-start">
                             <div className="mt-4 h-8 mt-3 flex items-center">
