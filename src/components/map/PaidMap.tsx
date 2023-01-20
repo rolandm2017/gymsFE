@@ -97,6 +97,8 @@ const PaidMap: React.FC<PaidMapProps> = ({ center, qualifiedFromCurrentPage, act
             allMarkers = [apartmentMarkers, gymMarkers].flat();
 
             addNewMarkers(allMarkers, markers, setMarkers, map.current);
+            console.log("100 rm");
+            putAllMarkersIntoView(allMarkers, map.current);
         }
     }, [map, qualifiedFromCurrentPage]);
 
@@ -114,6 +116,7 @@ const PaidMap: React.FC<PaidMapProps> = ({ center, qualifiedFromCurrentPage, act
             let markerForAp;
             const currentApartmentIsActive = i === activeApartment;
             if (currentApartmentIsActive) {
+                // color the active marker a certain color.
                 markerForAp = new mapboxgl.Marker({ color: "#ffffff", scale: 1.4 }).setLngLat([apartment.long, apartment.lat]);
             } else {
                 markerForAp = new mapboxgl.Marker()
@@ -138,6 +141,24 @@ const PaidMap: React.FC<PaidMapProps> = ({ center, qualifiedFromCurrentPage, act
             }
         }
         return { apartmentMarkers, gymMarkers };
+    }
+
+    function putAllMarkersIntoView(markers: mapboxgl.Marker[], map: mapboxgl.Map): void {
+        // const allMarkersCoords = markers.map((m: mapboxgl.Marker) => m.getLngLat());
+        // const allLats = allMarkersCoords.map(coords => coords.lat);
+        // const allLongs = allMarkersCoords.map(coords => coords.lng);
+        // const minLat = Math.min(...allLats);
+        // const minLong = Math.min(...allLongs);
+        // const maxLat = Math.max(...allLats);
+        // const maxLong = Math.max(...allLongs);
+        // const southwestCorner = [minLat, minLong];
+        // const northeastCorner = [maxLat, maxLong];
+        var bounds = new mapboxgl.LngLatBounds();
+
+        markers.forEach(function (marker) {
+            bounds.extend(marker.getLngLat());
+        });
+        map.fitBounds(bounds);
     }
 
     function makePopupHTMLForApartment(apartment: IHousing): string {
