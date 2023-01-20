@@ -12,10 +12,14 @@ const DashboardPage: React.FC<{}> = props => {
                     Favorites List
                     <div>Search for More</div>
                     <div>Show URL</div>
+                    <FavoritesList />
                 </div>
-                <div>Credits Remaining</div>
-                <div>Budget</div>
-                <div>Send Feedback</div>
+                <div>
+                    <RevealedURLList />
+                </div>
+                <div>
+                    <CreditsCounter />
+                </div>
             </div>
         </PageBase>
     );
