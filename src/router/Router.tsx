@@ -1,10 +1,10 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 
-import SearchPage from "../pages/SearchPage";
-import MapPage from "../pages/MapPage";
-import FeedbackPage from "../pages/FeedbackPage";
-import DashboardPage from "../pages/DashboardPage";
+import SearchPage from "../pages/authed/SearchPage";
+import MapPage from "../pages/authed/MapPage";
+import FeedbackPage from "../pages/authed/FeedbackPage";
+import DashboardPage from "../pages/authed/DashboardPage";
 import UserActivityPage from "../pages/admin/UserActivityPage";
 import ScrapesPage from "../pages/admin/ScrapesPage";
 import TaskMarkerPage from "../pages/admin/TaskMarkerPage";
@@ -12,6 +12,7 @@ import LandingPage from "../pages/LandingPage";
 import LoginPage from "../pages/auth/LoginPage";
 import SignUpPage from "../pages/auth/SignUpPage";
 import ForgotPasswordPage from "../pages/auth/ForgotPasswordPage";
+import VerifyAccountPage from "../pages/auth/VerifyAccountPage";
 
 const PageRoutes = () => {
     return (
@@ -27,7 +28,8 @@ const PageRoutes = () => {
             {/* // auth */}
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignUpPage />} />
-            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+            <Route path="/account/forgot-password" element={<ForgotPasswordPage />} />
+            <Route path="/account/is-verified" element={<VerifyAccountPage />} />
             {/* // todo: wrap Private Route with admin privileges */}
             {/* //  */}
             {/* // admin */}

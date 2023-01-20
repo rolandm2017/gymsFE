@@ -148,9 +148,10 @@ export function useGetQualifiedApsAPI(): { qualifiedAps: IHousing[]; runGetQuali
             (async () => {
                 try {
                     setErr("");
-                    const path = "/housing/qualified";
+                    const path = "/housing/by-location";
                     const res = await server.get(path, { params: { ...payload } });
                     const { apartments } = res.data;
+                    console.log(apartments, "154rm");
                     setQualifiedAps(apartments);
                 } catch (err) {
                     console.log(err, "156rm");

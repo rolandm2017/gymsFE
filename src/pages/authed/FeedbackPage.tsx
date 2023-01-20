@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 
-import PageBase from "./PageBase";
-import CustomerSupport from "../components/review/CustomerSupport";
-import ThanksMessage from "../components/review/ThanksMessage";
-import Rating from "../components/review/Rating";
-import Testimonial from "../components/review/Testimonial";
-import FeatureRequest from "../components/review/FeatureRequest";
+import PageBase from "../PageBase";
+import CustomerSupport from "../../components/review/CustomerSupport";
+import ThanksMessage from "../../components/review/ThanksMessage";
+import Rating from "../../components/review/Rating";
+import Testimonial from "../../components/review/Testimonial";
+import FeatureRequest from "../../components/review/FeatureRequest";
 
 import "./FeedbackPage.scss";
+import WithAuthentication from "../../components/hoc/WithAuth";
 
 const FeedbackPage: React.FC<{}> = props => {
     const [feedbackReceived, setFeedbackReceived] = useState(false);
@@ -44,4 +45,4 @@ const FeedbackPage: React.FC<{}> = props => {
     );
 };
 
-export default FeedbackPage;
+export default WithAuthentication(FeedbackPage);

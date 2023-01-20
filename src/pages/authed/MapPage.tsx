@@ -1,17 +1,17 @@
 import React, { useState, useContext } from "react";
 
-import PageBase from "./PageBase";
-import SearchBar from "../components/searchBar/SearchBar";
-import ApartmentCard from "../components/apartmentCard/ApartmentCard";
+import PageBase from "./../PageBase";
+import SearchBar from "../../components/searchBar/SearchBar";
+import ApartmentCard from "../../components/apartmentCard/ApartmentCard";
 
-import PaidMap from "../components/map/PaidMap";
-import PageNumber from "../components/pageNumber/PageNumber";
-import NavigationBtns from "../components/navigationBtns/NavigationBtns";
-import { ILocationContext, LocationsProviderContext } from "../context/LocationsContext";
-import { IAssociation } from "../interface/Association.interface";
-import { IHousing } from "../interface/Housing.interface";
-import { calcTotalPages } from "../util/calcTotalPages";
-import WithAuthentication from "../components/hoc/WithAuth";
+import PaidMap from "../../components/map/PaidMap";
+import PageNumber from "../../components/pageNumber/PageNumber";
+import NavigationBtns from "../../components/navigationBtns/NavigationBtns";
+import { ILocationContext, LocationsProviderContext } from "../../context/LocationsContext";
+import { IAssociation } from "../../interface/Association.interface";
+import { IHousing } from "../../interface/Housing.interface";
+import { calcTotalPages } from "../../util/calcTotalPages";
+import WithAuthentication from "../../components/hoc/WithAuth";
 
 const MapPage: React.FC<{}> = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
