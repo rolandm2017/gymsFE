@@ -1,12 +1,11 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { IHousing, IHousingWithUrl } from "../interface/Housing.interface";
-import { AddFavorite } from "../interface/payload/AddFavorite.interface";
-import { GenericAcctId } from "../interface/payload/GenericAcctId.interface";
 import { GenericHousingIdPayload } from "../interface/payload/GenericHousingIdPayload.interface";
 import { getEndpoint } from "../util/getEndpoint";
 import { handleError } from "../util/handleError";
+import { makeHeaders } from "../util/makeHeaders";
 
 export function useAddRevealedURLAPI(): { revealedURL: IHousing | undefined; loaded: boolean; err: string; runAddRevealedURL: Function } {
     const [revealedURL, setRevealedURL] = useState<IHousing | undefined>(undefined);
@@ -18,15 +17,15 @@ export function useAddRevealedURLAPI(): { revealedURL: IHousing | undefined; loa
         setPayload({ housingId });
     }
 
-    const { setAccessToken, accessToken } = useAuth();
+    const { accessToken } = useAuth();
 
     useEffect(() => {
         if (payload && accessToken) {
             (async () => {
                 try {
                     setErr(""); // clear old error
-                    const response = await axios.delete(getEndpoint("/profile/pick/housing"), {
-                        headers: { Authorization: "Bearer " + accessToken },
+                    const response = await axios.get(getEndpoint("/housing/real-url/" + payload.housingId), {
+                        ...makeHeaders(accessToken),
                         data: { ...payload },
                     });
                     const { revealedURL } = response.data;
@@ -62,7 +61,7 @@ export function useGetRevealedURLsAPI(): {
         // setPayload({acctId})
     }
 
-    const { setAccessToken, accessToken } = useAuth();
+    const { accessToken } = useAuth();
 
     useEffect(() => {
         if (!revealedURLsIsLoaded && accessToken) {
@@ -71,6 +70,7 @@ export function useGetRevealedURLsAPI(): {
                     setErr(""); // clear old error
                     const response = await axios.get(getEndpoint("/housing/real-url-list"), { headers: { Authorization: "Bearer " + accessToken } });
                     const { revealedURLs } = response.data;
+                    console.log(revealedURLs, "73rm");
                     setRevealedURLs(revealedURLs);
                 } catch (error) {
                     console.warn("failed to refresh token");

@@ -13,9 +13,9 @@ const FavoritesItem: React.FC<FavoritesItemProps> = ({ address, distanceToGym, r
     const { decrementCredits } = useAuth();
     const isRevealed = false;
     return (
-        <div className="mt-3 py-2 grid grid-cols-6 bg-white rounded-lg">
+        <div className="mt-3 py-2 pl-2 h-12 grid grid-cols-6 bg-white rounded-lg">
             <div className="col-span-2 pl-3">
-                <p>{address}</p>
+                <p className="text-left">{address}</p>
             </div>
             <div className="col-span-2">
                 <p>{distanceToGym}</p>
