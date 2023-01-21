@@ -7,7 +7,6 @@ export function handleError(error: unknown): string {
         console.log(err);
         if (err?.response?.data) {
             const withError = err.response.data as { error: { name: string; message: string } };
-            console.log("returning", withError.error.message, "10rm");
             return withError.error.message;
         }
         return "";

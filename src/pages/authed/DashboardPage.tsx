@@ -16,9 +16,6 @@ const DashboardPage: React.FC<{}> = props => {
                     <div>Show URL</div> */}
                 <FavoritesList />
                 <RevealedURLList />
-                <div>
-                    <CreditsCounter />
-                </div>
             </div>
         </PageBase>
     );

@@ -10,6 +10,7 @@ import DropdownItemWithLink from "../dropdown/DropdownItemWithLink";
 import { useNavigate } from "react-router-dom";
 import { getMaxLeftDisplacement } from "../../util/getMaxLeftDisplacement";
 import { useAuth } from "../../context/AuthContext";
+import CreditsCounter from "../creditsCounter/CreditsCounter";
 
 function Profile() {
     const [isOpen, setIsOpen] = useState(false);
@@ -63,11 +64,10 @@ function Profile() {
                 <DropdownItem text="Log Out" onClickAction={runLogOut} />
             </DropdownContainer>
             <div className="flex">
-                <div className="flex justify-center items-center px-7">
-                    {/* // for notifications */}
-                    <img src={Cat} alt="bell" height={24} width={24} />
-                </div>
                 <div className="flex">
+                    <div>
+                        <CreditsCounter />
+                    </div>
                     <div>
                         <ProfilePic />
                     </div>

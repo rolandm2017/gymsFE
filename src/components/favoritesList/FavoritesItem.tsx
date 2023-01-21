@@ -1,4 +1,5 @@
 import React from "react";
+import { useAuth } from "../../context/AuthContext";
 import Button from "../button/Button";
 
 interface FavoritesItemProps {
@@ -9,6 +10,7 @@ interface FavoritesItemProps {
 }
 
 const FavoritesItem: React.FC<FavoritesItemProps> = ({ address, distanceToGym, removeFavorite, runRevealUrl }: FavoritesItemProps) => {
+    const { decrementCredits } = useAuth();
     const isRevealed = false;
     return (
         <div className="mt-3 py-2 grid grid-cols-6 bg-white rounded-lg">

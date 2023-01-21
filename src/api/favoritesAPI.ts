@@ -59,11 +59,9 @@ export function useGetFavoritesAPI() {
                     setGetFavoritesErr(""); // clear old error
                     const response = await axios.get(getEndpoint("/profile/all/picks/housing"), { ...makeHeaders(accessToken) });
                     const { favorites } = response.data;
-                    console.log(favorites, "61rm");
                     setFavorites(favorites);
                 } catch (error) {
                     const msg = handleError(error);
-                    console.log(msg, "65rm");
                     setGetFavoritesErr(msg);
                 } finally {
                     setFavoritesIsLoaded(true);

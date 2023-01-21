@@ -8,21 +8,21 @@ import { useRefreshJwtAPI } from "../api/authAPI";
 type AuthContextType = {
     accessToken: string;
     isLoggedIn: Function;
-    returnTest: Function;
     setAccessToken: Function;
     setProfile: Function;
     profile: UserProfile | undefined;
     getDefaultCity: Function;
+    decrementCredits: Function;
 };
 
 const authContextDefaultValues: AuthContextType = {
     accessToken: "",
     isLoggedIn: () => {},
-    returnTest: () => {},
     setAccessToken: () => {},
     setProfile: () => {},
     profile: undefined,
     getDefaultCity: () => {},
+    decrementCredits: () => {},
 };
 
 const AuthContext = createContext<AuthContextType>(authContextDefaultValues);
@@ -86,18 +86,22 @@ export function AuthProvider({ children }: AuthContextProps) {
         return !!accessToken;
     }
 
-    function returnTest() {
-        return 9;
+    function decrementCredits() {
+        // function is a client-side way to reflect a server-side change w/o extra work.
+        if (profile === undefined) return; // silence ts.
+        const update = { ...profile };
+        update.credits = profile?.credits ? profile.credits - 1 : 0;
+        setProfile(update);
     }
 
     const exportedValues = {
         accessToken,
         setAccessToken,
-        returnTest,
         profile,
         setProfile,
         isLoggedIn,
         getDefaultCity,
+        decrementCredits,
     };
 
     return <AuthContext.Provider value={exportedValues}>{children}</AuthContext.Provider>;

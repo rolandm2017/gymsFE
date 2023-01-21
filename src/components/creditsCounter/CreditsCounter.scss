@@ -1,0 +1,14 @@
+.changeCreditsAmountAnimation {
+    color: black;
+    // transition: colorChange 1s ease;
+    animation: colorChange 1.1s ease;
+}
+
+@keyframes colorChange {
+    0% {
+        color: white;
+    }
+    100% {
+        color: black;
+    }
+}

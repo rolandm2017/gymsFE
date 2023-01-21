@@ -95,17 +95,17 @@ export function useLoginWithEmailAPI(): {
 }
 
 export function useRefreshJwtAPI(): {
-    refreshedUser: UserProfile | undefined;
+    // refreshedUser: UserProfile | undefined;
     refreshErr: string;
     refreshIsLoaded: boolean;
     runRefreshJwt: Function;
 } {
-    const [refreshedUser, setRefreshedUser] = useState<UserProfile | undefined>(undefined);
+    // const [refreshedUser, setRefreshedUser] = useState<UserProfile | undefined>(undefined);
     const [refreshErr, setRefreshErr] = useState("");
     const [refreshIsLoaded, setRefreshIsLoaded] = useState(false);
     const [run, setRun] = useState(false);
 
-    const { setAccessToken } = useAuth();
+    const { setAccessToken, setProfile } = useAuth();
 
     function runRefreshJwt() {
         setRefreshIsLoaded(false);
@@ -123,7 +123,8 @@ export function useRefreshJwtAPI(): {
                     const { acctId, email, name, role, isVerified, credits, favoriteCity, jwtToken } = response.data;
                     console.log(jwtToken, "setting access token, 125rm");
                     setAccessToken(jwtToken ? jwtToken : "");
-                    setRefreshedUser({ acctId, email, name, role, isVerified, credits, favoriteCity });
+                    console.log({ acctId, email, name, role, isVerified, credits, favoriteCity }, "127rm");
+                    setProfile({ acctId, email, name, role, isVerified, credits, favoriteCity });
                 } catch (error) {
                     console.warn("failed to refresh token");
                     const msg = handleError(error);
@@ -136,7 +137,7 @@ export function useRefreshJwtAPI(): {
         }
     }, [run, setAccessToken]);
 
-    return { refreshedUser, refreshErr, refreshIsLoaded, runRefreshJwt };
+    return { refreshErr, refreshIsLoaded, runRefreshJwt };
 }
 
 export function useLogOutAPI(): { success: boolean; error: string; loaded: boolean; runLogOut: Function } {
