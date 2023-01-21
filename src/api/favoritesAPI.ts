@@ -1,5 +1,4 @@
-import { access } from "fs";
-import { accessToken } from "mapbox-gl";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { IHousing, IHousingWithUrl } from "../interface/Housing.interface";
@@ -7,6 +6,7 @@ import { AddFavorite } from "../interface/payload/AddFavorite.interface";
 import { GenericAcctId } from "../interface/payload/GenericAcctId.interface";
 import { GenericHousingIdPayload } from "../interface/payload/GenericHousingIdPayload.interface";
 import { handleError } from "../util/handleError";
+import { makeHeaders } from "../util/makeHeaders";
 
 export function useAddFavoriteAPI(): { success: boolean; loaded: boolean; err: string; runAddFavorite: Function } {
     //
@@ -27,7 +27,7 @@ export function useAddFavoriteAPI(): { success: boolean; loaded: boolean; err: s
             (async () => {
                 try {
                     setErr(""); // clear old error
-                    const response = await server!.post("/profile/authed-pick/housing", { ...payload });
+                    const response = await axios.post("/profile/authed-pick/housing", { ...payload }, { ...makeHeaders(accessToken) });
                     setSuccess(true);
                 } catch (error) {
                     console.warn("failed to refresh token");
@@ -56,7 +56,7 @@ export function useGetFavoritesAPI() {
             (async () => {
                 try {
                     setGetFavoritesErr(""); // clear old error
-                    const response = await server!.get("/profile/all/picks/housing");
+                    const response = await axios.get("/profile/all/picks/housing");
                     const { favorites } = response.data;
                     console.log(favorites, "61rm");
                     setFavorites(favorites);
@@ -88,11 +88,11 @@ export function useRemoveFavoriteAPI(): { success: boolean; loaded: boolean; err
     const { setAccessToken, accessToken } = useAuth();
 
     useEffect(() => {
-        if (payload) {
+        if (payload && accessToken) {
             (async () => {
                 try {
                     setErr(""); // clear old error
-                    const response = await server!.delete("/profile/pick/housing", { data: { ...payload } });
+                    const response = await axios!.delete("/profile/pick/housing", { data: { ...payload }, ...makeHeaders(accessToken) });
                     setSuccess(true);
                 } catch (error) {
                     console.warn("failed to refresh token");

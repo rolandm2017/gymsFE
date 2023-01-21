@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useMemo } from "react";
-import { useGetApartmentsAPI, useGetGymsAPI, useGetQualifiedApsAPI } from "../api/placesAPI";
+import { useGetQualifiedApsAPI } from "../api/placesAPI";
 import { IGym } from "../interface/Gym.interface";
 import { IHousing } from "../interface/Housing.interface";
 

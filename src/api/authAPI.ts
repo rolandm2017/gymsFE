@@ -5,6 +5,7 @@ import { LogInAuth } from "../interface/payload/LogInAuth.interface";
 import { SignUpAuth } from "../interface/payload/SignUpAuth.interface";
 import { UserProfile } from "../interface/UserProfile.interface";
 import axios from "axios";
+import { getEndpoint } from "../util/getEndpoint";
 
 export function useSignUpWithEmailAPI(): {
     signUpData: UserProfile | undefined;
@@ -29,7 +30,7 @@ export function useSignUpWithEmailAPI(): {
             (async () => {
                 try {
                     setSignUpErr(""); // remove old errors
-                    const response = await axios.post("/auth/register", {
+                    const response = await axios.post(getEndpoint("/auth/register"), {
                         ...payload,
                     });
                     const { message, accountDetails } = response.data;
@@ -72,7 +73,7 @@ export function useLoginWithEmailAPI(): {
             (async () => {
                 try {
                     setLoginErr(""); // remove old errors
-                    const response = await axios.post("/auth/authenticate", { ...payload });
+                    const response = await axios.post(getEndpoint("/auth/authenticate"), { ...payload });
                     const { acctId, email, name, isVerified, credits, role, favoriteCity, jwtToken } = response.data;
                     setLoginData({ acctId, email, name, isVerified, role, credits, favoriteCity });
                     console.log(jwtToken, "storing jwt, 83rm");
@@ -116,7 +117,7 @@ export function useRefreshJwtAPI(): {
             (async () => {
                 try {
                     setRefreshErr(""); // clear old error
-                    const response = await axios.post("/auth/refresh-token", {}, { withCredentials: true });
+                    const response = await axios.post(getEndpoint("/auth/refresh-token"), {}, { withCredentials: true });
                     const { acctId, email, name, role, isVerified, credits, favoriteCity, jwtToken } = response.data;
                     console.log(jwtToken, "setting access token, 125rm");
                     setAccessToken(jwtToken ? jwtToken : "");
@@ -153,7 +154,7 @@ export function useLogOutAPI(): { success: boolean; error: string; loaded: boole
             (async () => {
                 try {
                     // server has "withCredential: true" and the access token automatically attached.
-                    const response = await axios.get("/auth/logout", { withCredentials: true });
+                    const response = await axios.get(getEndpoint("/auth/logout"), { withCredentials: true });
                     setAccessToken("");
                     setSuccess(true);
                 } catch (error) {

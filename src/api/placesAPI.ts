@@ -8,6 +8,7 @@ import { GetApartments } from "../interface/payload/GetApartments.interface";
 import { GetGyms } from "../interface/payload/GetGyms.interface";
 import { GetQualifiedAps } from "../interface/payload/GetQualifiedAps.interface";
 import { MapViewportDimensions } from "../interface/payload/MapViewportDimensions.interface";
+import { getEndpoint } from "../util/getEndpoint";
 import { handleError } from "../util/handleError";
 
 export function useGetDemoApartmentsAPI(): {
@@ -34,8 +35,7 @@ export function useGetDemoApartmentsAPI(): {
                 try {
                     setErr("");
                     const path = "/housing/demo";
-
-                    const res = await server.get(path, { params: { ...payload } });
+                    const res = await axios.get(getEndpoint(path), { params: { ...payload } });
                     const { demoContent } = res.data;
                     setNewDemoHousing(demoContent);
                 } catch (err) {
@@ -71,7 +71,7 @@ export function useGetApartmentsAPI(): { apartments: IHousing[]; runGetApartment
                     setErr("");
                     const path = "/housing/hardcode";
 
-                    const res = await server.get(path, { params: { ...payload } });
+                    const res = await axios.get(getEndpoint(path), { params: { ...payload } });
                     const { apartments } = res.data;
                     setApartments(apartments);
                 } catch (err) {
@@ -105,7 +105,7 @@ export function useGetGymsAPI(): { gyms: IGym[]; runGetGyms: Function; err: stri
                 try {
                     setErr("");
                     const path = "/google/saved";
-                    const res = await server.get(path, { params: { ...payload } });
+                    const res = await axios.get(getEndpoint(path), { params: { ...payload } });
                     const { rows } = res.data;
                     setGyms(rows);
                 } catch (err) {
@@ -140,7 +140,7 @@ export function useGetQualifiedApsAPI(): { qualifiedAps: IHousing[]; runGetQuali
                 try {
                     setErr("");
                     const path = "/housing/by-location";
-                    const res = await server.get(path, { params: { ...payload } });
+                    const res = await axios.get(getEndpoint(path), { params: { ...payload } });
                     const { apartments } = res.data;
                     console.log(apartments, "154rm");
                     setQualifiedAps(apartments);

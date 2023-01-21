@@ -5,6 +5,7 @@ import { IHousing, IHousingWithUrl } from "../interface/Housing.interface";
 import { AddFavorite } from "../interface/payload/AddFavorite.interface";
 import { GenericAcctId } from "../interface/payload/GenericAcctId.interface";
 import { GenericHousingIdPayload } from "../interface/payload/GenericHousingIdPayload.interface";
+import { getEndpoint } from "../util/getEndpoint";
 import { handleError } from "../util/handleError";
 
 export function useAddRevealedURLAPI(): { revealedURL: IHousing | undefined; loaded: boolean; err: string; runAddRevealedURL: Function } {
@@ -24,7 +25,7 @@ export function useAddRevealedURLAPI(): { revealedURL: IHousing | undefined; loa
             (async () => {
                 try {
                     setErr(""); // clear old error
-                    const response = await axios.delete("/profile/pick/housing", {
+                    const response = await axios.delete(getEndpoint("/profile/pick/housing"), {
                         headers: { Authorization: "Bearer " + accessToken },
                         data: { ...payload },
                     });
@@ -68,7 +69,7 @@ export function useGetRevealedURLsAPI(): {
             (async () => {
                 try {
                     setErr(""); // clear old error
-                    const response = await axios.get("/housing/real-url-list", { headers: { Authorization: "Bearer " + accessToken } });
+                    const response = await axios.get(getEndpoint("/housing/real-url-list"), { headers: { Authorization: "Bearer " + accessToken } });
                     const { revealedURLs } = response.data;
                     setRevealedURLs(revealedURLs);
                 } catch (error) {
