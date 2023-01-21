@@ -10,17 +10,12 @@ import CreditsCounter from "../../components/creditsCounter/CreditsCounter";
 const DashboardPage: React.FC<{}> = props => {
     return (
         <PageBase>
-            <div>
-                <div>Dashboard</div>
-                <div>
-                    {/* Favorites List
+            <div className="flex">
+                {/* Favorites List
                     <div>Search for More</div>
                     <div>Show URL</div> */}
-                    <FavoritesList />
-                </div>
-                <div>
-                    <RevealedURLList />
-                </div>
+                <FavoritesList />
+                <RevealedURLList />
                 <div>
                     <CreditsCounter />
                 </div>

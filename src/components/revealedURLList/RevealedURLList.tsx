@@ -1,13 +1,13 @@
 import React from "react";
 import { useGetRevealedURLsAPI } from "../../api/revealURLAPI";
-import { IHousing, IHousingWithUrl } from "../../interface/Housing.interface";
+import { IHousingWithUrl } from "../../interface/Housing.interface";
 import RevealedURL from "./RevealedURL";
 
 const RevealedURLList: React.FC<{}> = ({}) => {
     const { revealedURLs, runUpdateRevealedURLs } = useGetRevealedURLsAPI();
     return (
-        <div>
-            <div>
+        <div className="w-full sm:w-1/2">
+            <div className="w-full">
                 <h3>Revealed URLs</h3>
             </div>
             {revealedURLs &&
