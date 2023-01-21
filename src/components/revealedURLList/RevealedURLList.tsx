@@ -7,12 +7,16 @@ const RevealedURLList: React.FC<{}> = ({}) => {
     const { revealedURLs, runUpdateRevealedURLs } = useGetRevealedURLsAPI();
     return (
         <div>
-            {revealedURLs.map((housing: IHousingWithUrl) => {
-                if (housing.address === undefined || housing.url === undefined) {
-                    throw Error("Failed to load crucial detail");
-                }
-                return <RevealedURL addr={housing.address} url={housing.url} />;
-            })}
+            <div>
+                <h3>Revealed URLs</h3>
+            </div>
+            {revealedURLs &&
+                revealedURLs.map((housing: IHousingWithUrl) => {
+                    if (housing.address === undefined || housing.url === undefined) {
+                        throw Error("Failed to load crucial detail");
+                    }
+                    return <RevealedURL addr={housing.address} url={housing.url} />;
+                })}
         </div>
     );
 };

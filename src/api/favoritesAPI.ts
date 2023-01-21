@@ -5,6 +5,7 @@ import { IHousing, IHousingWithUrl } from "../interface/Housing.interface";
 import { AddFavorite } from "../interface/payload/AddFavorite.interface";
 import { GenericAcctId } from "../interface/payload/GenericAcctId.interface";
 import { GenericHousingIdPayload } from "../interface/payload/GenericHousingIdPayload.interface";
+import { getEndpoint } from "../util/getEndpoint";
 import { handleError } from "../util/handleError";
 import { makeHeaders } from "../util/makeHeaders";
 
@@ -27,7 +28,7 @@ export function useAddFavoriteAPI(): { success: boolean; loaded: boolean; err: s
             (async () => {
                 try {
                     setErr(""); // clear old error
-                    const response = await axios.post("/profile/authed-pick/housing", { ...payload }, { ...makeHeaders(accessToken) });
+                    const response = await axios.post(getEndpoint("/profile/authed-pick/housing"), { ...payload }, { ...makeHeaders(accessToken) });
                     setSuccess(true);
                 } catch (error) {
                     console.warn("failed to refresh token");
@@ -56,7 +57,7 @@ export function useGetFavoritesAPI() {
             (async () => {
                 try {
                     setGetFavoritesErr(""); // clear old error
-                    const response = await axios.get("/profile/all/picks/housing");
+                    const response = await axios.get(getEndpoint("/profile/all/picks/housing"));
                     const { favorites } = response.data;
                     console.log(favorites, "61rm");
                     setFavorites(favorites);
@@ -92,7 +93,7 @@ export function useRemoveFavoriteAPI(): { success: boolean; loaded: boolean; err
             (async () => {
                 try {
                     setErr(""); // clear old error
-                    const response = await axios!.delete("/profile/pick/housing", { data: { ...payload }, ...makeHeaders(accessToken) });
+                    const response = await axios!.delete(getEndpoint("/profile/pick/housing"), { data: { ...payload }, ...makeHeaders(accessToken) });
                     setSuccess(true);
                 } catch (error) {
                     console.warn("failed to refresh token");
