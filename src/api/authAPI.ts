@@ -1,10 +1,10 @@
 import { useState, useEffect, useMemo } from "react";
-import { useServer } from "../context/ServerContext";
 import { handleError } from "../util/handleError";
 import { useAuth } from "../context/AuthContext";
 import { LogInAuth } from "../interface/payload/LogInAuth.interface";
 import { SignUpAuth } from "../interface/payload/SignUpAuth.interface";
 import { UserProfile } from "../interface/UserProfile.interface";
+import axios from "axios";
 
 export function useSignUpWithEmailAPI(): {
     signUpData: UserProfile | undefined;
@@ -19,8 +19,6 @@ export function useSignUpWithEmailAPI(): {
     const [signUpIsLoaded, setSignUpIsLoaded] = useState(false);
     const [payload, setPayload] = useState<SignUpAuth | undefined>(undefined);
 
-    const server = useServer();
-
     function runSignUp(name: string, email: string, password: string, confirmPassword: string) {
         setSignUpIsLoaded(false);
         setPayload({ name, email, password, confirmPassword, acceptsTerms: true });
@@ -31,7 +29,7 @@ export function useSignUpWithEmailAPI(): {
             (async () => {
                 try {
                     setSignUpErr(""); // remove old errors
-                    const response = await server!.post("/auth/register", {
+                    const response = await axios.post("/auth/register", {
                         ...payload,
                     });
                     const { message, accountDetails } = response.data;
@@ -46,7 +44,7 @@ export function useSignUpWithEmailAPI(): {
                 }
             })();
         }
-    }, [signUpIsLoaded, payload, server]);
+    }, [signUpIsLoaded, payload]);
 
     return { signUpData, signUpErr, signUpIsLoaded, runSignUp, backendMsg };
 }
@@ -62,7 +60,6 @@ export function useLoginWithEmailAPI(): {
     const [loginIsLoaded, setLoginIsLoaded] = useState(false);
     const [payload, setPayload] = useState<LogInAuth | undefined>(undefined);
 
-    const server = useServer();
     const { setAccessToken } = useAuth();
 
     function runLogin(email: string, password: string) {
@@ -75,7 +72,7 @@ export function useLoginWithEmailAPI(): {
             (async () => {
                 try {
                     setLoginErr(""); // remove old errors
-                    const response = await server!.post("/auth/authenticate", { ...payload });
+                    const response = await axios.post("/auth/authenticate", { ...payload });
                     const { acctId, email, name, isVerified, credits, role, favoriteCity, jwtToken } = response.data;
                     setLoginData({ acctId, email, name, isVerified, role, credits, favoriteCity });
                     console.log(jwtToken, "storing jwt, 83rm");
@@ -91,7 +88,7 @@ export function useLoginWithEmailAPI(): {
                 }
             })();
         }
-    }, [payload, server, setAccessToken]);
+    }, [payload, setAccessToken]);
 
     return { loginData, loginErr, loginIsLoaded, runLogin };
 }
@@ -107,7 +104,6 @@ export function useRefreshJwtAPI(): {
     const [refreshIsLoaded, setRefreshIsLoaded] = useState(false);
     const [run, setRun] = useState(false);
 
-    const server = useServer();
     const { setAccessToken } = useAuth();
 
     function runRefreshJwt() {
@@ -120,7 +116,7 @@ export function useRefreshJwtAPI(): {
             (async () => {
                 try {
                     setRefreshErr(""); // clear old error
-                    const response = await server!.post("/auth/refresh-token");
+                    const response = await axios.post("/auth/refresh-token", {}, { withCredentials: true });
                     const { acctId, email, name, role, isVerified, credits, favoriteCity, jwtToken } = response.data;
                     console.log(jwtToken, "setting access token, 125rm");
                     setAccessToken(jwtToken ? jwtToken : "");
@@ -135,7 +131,7 @@ export function useRefreshJwtAPI(): {
                 }
             })();
         }
-    }, [run, setAccessToken, server]);
+    }, [run, setAccessToken]);
 
     return { refreshedUser, refreshErr, refreshIsLoaded, runRefreshJwt };
 }
@@ -146,7 +142,6 @@ export function useLogOutAPI(): { success: boolean; error: string; loaded: boole
     const [loaded, setLoaded] = useState(false);
     const [run, setRun] = useState(false);
 
-    const server = useServer();
     const { setAccessToken } = useAuth();
 
     function runLogOut() {
@@ -158,7 +153,7 @@ export function useLogOutAPI(): { success: boolean; error: string; loaded: boole
             (async () => {
                 try {
                     // server has "withCredential: true" and the access token automatically attached.
-                    const response = await server!.get("/auth/logout");
+                    const response = await axios.get("/auth/logout", { withCredentials: true });
                     setAccessToken("");
                     setSuccess(true);
                 } catch (error) {
@@ -170,7 +165,7 @@ export function useLogOutAPI(): { success: boolean; error: string; loaded: boole
                 }
             })();
         }
-    }, [run, server, setAccessToken]);
+    }, [run, setAccessToken]);
 
     return { success, error, loaded, runLogOut };
 }

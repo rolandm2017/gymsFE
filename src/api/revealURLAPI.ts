@@ -1,6 +1,6 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import { useServer } from "../context/ServerContext";
 import { IHousing, IHousingWithUrl } from "../interface/Housing.interface";
 import { AddFavorite } from "../interface/payload/AddFavorite.interface";
 import { GenericAcctId } from "../interface/payload/GenericAcctId.interface";
@@ -17,15 +17,17 @@ export function useAddRevealedURLAPI(): { revealedURL: IHousing | undefined; loa
         setPayload({ housingId });
     }
 
-    const server = useServer();
-    const { setAccessToken } = useAuth();
+    const { setAccessToken, accessToken } = useAuth();
 
     useEffect(() => {
-        if (payload) {
+        if (payload && accessToken) {
             (async () => {
                 try {
                     setErr(""); // clear old error
-                    const response = await server!.delete("/profile/pick/housing", { data: { ...payload } });
+                    const response = await axios.delete("/profile/pick/housing", {
+                        headers: { Authorization: "Bearer " + accessToken },
+                        data: { ...payload },
+                    });
                     const { revealedURL } = response.data;
                     setRevealedURL(revealedURL);
                 } catch (error) {
@@ -38,7 +40,7 @@ export function useAddRevealedURLAPI(): { revealedURL: IHousing | undefined; loa
                 }
             })();
         }
-    }, [payload, setAccessToken, server]);
+    }, [payload, accessToken]);
 
     return { revealedURL, loaded, err, runAddRevealedURL };
 }
@@ -59,7 +61,6 @@ export function useGetRevealedURLsAPI(): {
         // setPayload({acctId})
     }
 
-    const server = useServer();
     const { setAccessToken, accessToken } = useAuth();
 
     useEffect(() => {
@@ -67,7 +68,7 @@ export function useGetRevealedURLsAPI(): {
             (async () => {
                 try {
                     setErr(""); // clear old error
-                    const response = await server!.get("/housing/real-url-list");
+                    const response = await axios.get("/housing/real-url-list", { headers: { Authorization: "Bearer " + accessToken } });
                     const { revealedURLs } = response.data;
                     setRevealedURLs(revealedURLs);
                 } catch (error) {
@@ -80,7 +81,7 @@ export function useGetRevealedURLsAPI(): {
                 }
             })();
         }
-    }, [setAccessToken, accessToken, server, revealedURLsIsLoaded]);
+    }, [accessToken, revealedURLsIsLoaded]);
 
     return { revealedURLs, revealedURLsIsLoaded, err, runUpdateRevealedURLs };
 }

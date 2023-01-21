@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-import { useServer } from "../context/ServerContext";
 import { handleError } from "../util/handleError";
 import { ITask } from "../interface/Task.interface";
 import { GetTaskMarkersByBatchNum } from "../interface/payload/GetTaskMarkersByBatchNum.interface";
@@ -24,8 +23,6 @@ export function useGetAllBatchNumsAPI(): { batchNums: number[]; getAllBatchNumsE
     const [batchNums, setBatchNums] = useState<number[]>([]);
     const [getAllBatchNumsErr, setGetAllBatchNumsErr] = useState<string>("");
     const [batchNumsIsLoaded, setLoaded] = useState<boolean>(false);
-
-    const server = useServer();
 
     useEffect(() => {
         (async () => {
@@ -53,8 +50,6 @@ export function useGetAllTasksAPI(): { allTasks: ITask[]; runGetAllTasks: Functi
     const [getAllTasksErr, setGetAllTasksErr] = useState("");
     const [loaded, setLoaded] = useState<boolean>(false);
     const [payload, setPayload] = useState<GetAllTasks | undefined>(undefined);
-
-    const server = useServer();
 
     function runGetAllTasks(provider: string, batchNum: number) {
         setPayload({ provider, batchNum });
@@ -97,8 +92,6 @@ export function useGetTaskMarkersByBatchNumAPI(): {
     const [payload, setPayload] = useState<GetTaskMarkersByBatchNum | undefined>(undefined);
     const [loadedBatchNum, setLoadedBatchNum] = useState<number | undefined>(undefined);
 
-    const server = useServer();
-
     function runGetTaskMarkersByBatchNum(batchNum: number) {
         setLoaded(false);
         setPayload({ batchNum });
@@ -139,8 +132,6 @@ export function useGetHousingByLocationAPI(): {
     const [loaded, setLoaded] = useState(false);
     const [payload, setPayload] = useState<GetHousingByCityName | undefined>(undefined);
 
-    const server = useServer();
-
     function runGetHousingByLocation(cityName: string) {
         setPayload({ cityName });
         setLoaded(false);
@@ -180,8 +171,6 @@ export function useGetHousingByCityIdAndBatchNumAPI(): {
     const [loaded, setLoaded] = useState(false);
     const [payload, setPayload] = useState<GetHousingByCityIdAndBatchNum | undefined>(undefined);
 
-    const server = useServer();
-
     function runGetHousingByCityIdAndBatchNum(cityId: number, batchNum: number) {
         setPayload({ cityId, batchNum });
         setLoaded(false);
@@ -219,8 +208,6 @@ export function useHealthCheckAPI(where: string): { healthCheckResponse: string;
     const [healthCheckResponse, setHealthCheckResponse] = useState("");
     const [err, setErr] = useState("");
     const [loaded, setLoaded] = useState(false);
-
-    const server = useServer();
 
     useEffect(() => {
         (async () => {

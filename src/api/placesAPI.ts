@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useServer } from "../context/ServerContext";
 import { Provider } from "../enum/provider.enum";
 import { IDemoHousing } from "../interface/DemoHousing.interface";
 import { IGym } from "../interface/Gym.interface";
@@ -23,8 +22,6 @@ export function useGetDemoApartmentsAPI(): {
     const [demoApartmentsAreLoaded, setLoaded] = useState(false);
     const [payload, setPayload] = useState<MapViewportDimensions | undefined>(undefined);
     const [recenteredViewportCounter, setRecenteredViewportCounter] = useState(0);
-
-    const server = useServer();
 
     function moveViewport(neLong: number, neLat: number, swLong: number, swLat: number) {
         setPayload({ neLong, neLat, swLong, swLat });
@@ -62,8 +59,6 @@ export function useGetApartmentsAPI(): { apartments: IHousing[]; runGetApartment
     const [loaded, setLoaded] = useState(false);
     const [payload, setPayload] = useState<GetApartments | undefined>(undefined);
 
-    const server = useServer();
-
     function runGetApartments(providers: Provider[]) {
         setPayload({ providers });
         setLoaded(false);
@@ -100,8 +95,6 @@ export function useGetGymsAPI(): { gyms: IGym[]; runGetGyms: Function; err: stri
     const [loaded, setLoaded] = useState(false);
     const [payload, setPayload] = useState<GetGyms | undefined>(undefined);
 
-    const server = useServer();
-
     function runGetGyms(cityName: string) {
         setPayload({ cityName });
     }
@@ -135,8 +128,6 @@ export function useGetQualifiedApsAPI(): { qualifiedAps: IHousing[]; runGetQuali
 
     const [qualifiedApsAreLoaded, setLoaded] = useState(false);
     const [payload, setPayload] = useState<GetQualifiedAps | undefined>(undefined);
-
-    const server = useServer();
 
     function runGetQualifiedAps(providers: Provider[], maxDistance: number) {
         setPayload({ providers, maxDistance });

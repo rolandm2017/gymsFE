@@ -1,6 +1,7 @@
+import { access } from "fs";
+import { accessToken } from "mapbox-gl";
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import { useServer } from "../context/ServerContext";
 import { IHousing, IHousingWithUrl } from "../interface/Housing.interface";
 import { AddFavorite } from "../interface/payload/AddFavorite.interface";
 import { GenericAcctId } from "../interface/payload/GenericAcctId.interface";
@@ -19,11 +20,10 @@ export function useAddFavoriteAPI(): { success: boolean; loaded: boolean; err: s
         setPayload({ housingId });
     }
 
-    const server = useServer();
-    const { setAccessToken } = useAuth();
+    const { setAccessToken, accessToken } = useAuth();
 
     useEffect(() => {
-        if (payload) {
+        if (payload && accessToken) {
             (async () => {
                 try {
                     setErr(""); // clear old error
@@ -39,7 +39,7 @@ export function useAddFavoriteAPI(): { success: boolean; loaded: boolean; err: s
                 }
             })();
         }
-    }, [setAccessToken, server]);
+    }, [accessToken, payload]);
 
     return { success, loaded, err, runAddFavorite };
 }
@@ -49,7 +49,6 @@ export function useGetFavoritesAPI() {
     const [favoritesIsLoaded, setFavoritesIsLoaded] = useState(false);
     const [getFavoritesErr, setGetFavoritesErr] = useState("");
 
-    const server = useServer();
     const { setAccessToken, accessToken } = useAuth();
 
     useEffect(() => {
@@ -70,7 +69,7 @@ export function useGetFavoritesAPI() {
                 }
             })();
         }
-    }, [setAccessToken, accessToken, server]);
+    }, [accessToken]);
 
     return { favorites, getFavoritesErr, favoritesIsLoaded };
 }
@@ -86,8 +85,7 @@ export function useRemoveFavoriteAPI(): { success: boolean; loaded: boolean; err
         setPayload({ housingId });
     }
 
-    const server = useServer();
-    const { setAccessToken } = useAuth();
+    const { setAccessToken, accessToken } = useAuth();
 
     useEffect(() => {
         if (payload) {
@@ -106,7 +104,7 @@ export function useRemoveFavoriteAPI(): { success: boolean; loaded: boolean; err
                 }
             })();
         }
-    }, [payload, setAccessToken, server]);
+    }, [payload, setAccessToken, accessToken]);
 
     return { success, loaded, err, runRemoveFavorite };
 }
