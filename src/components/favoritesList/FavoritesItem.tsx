@@ -6,12 +6,18 @@ interface FavoritesItemProps {
     address: string;
     distanceToGym: number; // pythagoras long, lat difference
     removeFavorite: Function;
+    hasBeenRevealed: boolean;
     runRevealUrl: Function;
 }
 
-const FavoritesItem: React.FC<FavoritesItemProps> = ({ address, distanceToGym, removeFavorite, runRevealUrl }: FavoritesItemProps) => {
+const FavoritesItem: React.FC<FavoritesItemProps> = ({
+    address,
+    distanceToGym,
+    removeFavorite,
+    hasBeenRevealed,
+    runRevealUrl,
+}: FavoritesItemProps) => {
     const { decrementCredits } = useAuth();
-    const isRevealed = false;
     return (
         <div className="mt-3 py-2 pl-2 h-12 grid grid-cols-6 bg-white rounded-lg">
             <div className="col-span-2 pl-3">
@@ -34,7 +40,7 @@ const FavoritesItem: React.FC<FavoritesItemProps> = ({ address, distanceToGym, r
                     runRevealUrl();
                 }}
             >
-                {isRevealed ? <div></div> : <Button type="Opaque" text="Get URL" size="Small" />}
+                {hasBeenRevealed ? <Button type="GreyedOut" text="Loaded" size="Small" /> : <Button type="Opaque" text="Get URL" size="Small" />}
             </div>
         </div>
     );

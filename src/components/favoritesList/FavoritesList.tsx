@@ -6,12 +6,14 @@ import { useRevealedURLs } from "../../context/RevealedURLContext";
 import FavoritesItem from "./FavoritesItem";
 
 const FavoritesList: React.FC<{}> = () => {
+    const { decrementCredits } = useAuth();
+
     const { favorites } = useGetFavoritesAPI();
     const { runRemoveFavorite } = useRemoveFavoriteAPI();
 
+    const { revealedURLsContext, revealedURLsIds } = useRevealedURLs();
     const { requestAddNewURL } = useRevealedURLs();
 
-    const { decrementCredits } = useAuth();
     return (
         <div className="w-full p-3 sm:w-1/2 flex flex-col">
             <div>
@@ -40,6 +42,8 @@ const FavoritesList: React.FC<{}> = () => {
                 </div>
             </div>
             {favorites.map(f => {
+                const isRevealed = revealedURLsIds.includes(f.housingId);
+                console.log(revealedURLsIds, f.housingId, isRevealed, "46rm");
                 return (
                     <FavoritesItem
                         key={f.housingId}
@@ -48,6 +52,7 @@ const FavoritesList: React.FC<{}> = () => {
                         removeFavorite={() => {
                             runRemoveFavorite(f.housingId);
                         }}
+                        hasBeenRevealed={isRevealed}
                         runRevealUrl={() => {
                             requestAddNewURL(f.housingId);
                             decrementCredits();

@@ -5,12 +5,14 @@ import { IHousing, IHousingWithUrl } from "../interface/Housing.interface";
 //
 
 type RevealedURLsContextType = {
+    revealedURLsIds: number[];
     revealedURLsContext: IHousingWithUrl[];
     setRevealedURLsContext: Function;
     requestAddNewURL: Function;
 };
 
 const RevealedURLsContextDefaultValues: RevealedURLsContextType = {
+    revealedURLsIds: [],
     revealedURLsContext: [],
     setRevealedURLsContext: () => {},
     requestAddNewURL: () => {},
@@ -28,10 +30,20 @@ type RevealedURLContextProps = {
 
 export function RevealedURLProvider({ children }: RevealedURLContextProps) {
     const [revealedURLsContext, setRevealedURLsContext] = useState<IHousingWithUrl[]>([]);
+    const [revealedURLsIds, setRevealedURLsIds] = useState<number[]>([]);
     const [targetIdToReveal, setTargetIdToReveal] = useState<number | undefined>(undefined);
 
     const { revealedURL, runAddRevealedURL, addRevealedUrlIsLoading } = useAddRevealedURLAPI();
     const { revealedURLs, runUpdateRevealedURLs } = useGetRevealedURLsAPI();
+
+    useEffect(() => {
+        // when they load, load them.
+        if (revealedURLs.length > 0) {
+            setRevealedURLsContext(revealedURLs);
+            const justIds = revealedURLs.map(url => url.housingId);
+            setRevealedURLsIds(justIds);
+        }
+    }, [revealedURLs]);
 
     // todo: get the housing entry of the housing id from  requestAddNewURL
     // then put that housing's url to be equal to the realURL returned from the backend.
@@ -46,6 +58,8 @@ export function RevealedURLProvider({ children }: RevealedURLContextProps) {
             console.log(targetItemIndex, updated[targetItemIndex], "42rm");
             updated[targetItemIndex].url = revealedURL;
             setRevealedURLsContext(updated);
+            const justIds = updated.map(housingWithUrl => housingWithUrl.housingId);
+            setRevealedURLsIds(justIds);
         }
     }, [addRevealedUrlIsLoading, revealedURL, runUpdateRevealedURLs, targetIdToReveal]);
 
@@ -56,6 +70,7 @@ export function RevealedURLProvider({ children }: RevealedURLContextProps) {
     }
 
     const exportedValues = {
+        revealedURLsIds,
         revealedURLsContext,
         setRevealedURLsContext,
         requestAddNewURL,
