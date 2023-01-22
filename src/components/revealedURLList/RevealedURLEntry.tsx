@@ -15,9 +15,11 @@ const RevealedURLEntry: React.FC<RevealedURLProps> = ({ addr, url }: RevealedURL
             </div>
             <div className="col-span-2">
                 <div className="w-full flex justify-center">
-                    <Link to={url}>
+                    {/* <Link to={url}> */}
+                    <a href={url} target="_blank" rel="noreferrer">
                         <Button type="Opaque" size="Small" text="Visit URL" />
-                    </Link>
+                    </a>
+                    {/* </Link> */}
                 </div>
             </div>
         </div>

@@ -27,7 +27,7 @@ const FavoritesList: React.FC<{}> = () => {
                 </div>
                 <div className="col-span-2">
                     <div className="h-full flex justify-center items-center">
-                        <h4 className="ml-0">Distance</h4>
+                        <h4 className="ml-0">Walk Time</h4>
                     </div>
                 </div>
                 <div className="col-span-1">

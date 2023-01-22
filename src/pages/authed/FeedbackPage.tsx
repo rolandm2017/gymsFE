@@ -9,6 +9,7 @@ import FeatureRequest from "../../components/review/FeatureRequest";
 
 import "./FeedbackPage.scss";
 import WithAuthentication from "../../components/hoc/WithAuth";
+import Button from "../../components/button/Button";
 
 const FeedbackPage: React.FC<{}> = props => {
     const [feedbackReceived, setFeedbackReceived] = useState(false);
@@ -16,18 +17,23 @@ const FeedbackPage: React.FC<{}> = props => {
         <PageBase>
             <div className="flex flex-col">
                 <div className="w-full flex flex-col md:flex-row">
-                    <div className="ratingContainer mr-4 py-4 flex flex-col bg-white">
+                    <div className="ratingContainer  py-4 flex flex-col bg-white">
                         <Rating text="This helped me start or keep up a gym habit." />
                         <Rating text="I was able to find several apartments near a gym." />
                         <Rating text="I would recommend this service to a friend." />
                         <Testimonial text="Leave a review for us!" />
-                    </div>
-                    <div className="customerSupportContainer bg-white">
-                        <CustomerSupport />
+
+                        <div className="pl-8 pt-2">
+                            <Button type="Opaque" text="Submit" />
+                        </div>
                     </div>
                 </div>
                 <div className="featureRequestContainer my-3.5 pb-4 bg-white">
                     <FeatureRequest />
+
+                    <div className="pl-8 pt-4">
+                        <Button type="Opaque" text="Submit" />
+                    </div>
                 </div>
                 <div className="thanksMessageContainer bg-white">{true ? <ThanksMessage /> : null}</div>
                 <div>
