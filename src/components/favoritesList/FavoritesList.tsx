@@ -16,8 +16,8 @@ const FavoritesList: React.FC<{}> = () => {
 
     return (
         <div className="w-full p-3 sm:w-1/2 flex flex-col">
-            <div>
-                <h3>Favorites</h3>
+            <div className="mb-4">
+                <h3 className="text-xl">Favorites</h3>
             </div>
             <div className="h-12 grid grid-cols-6 bg-blue-200 rounded-lg">
                 <div className="col-span-2">
@@ -43,7 +43,6 @@ const FavoritesList: React.FC<{}> = () => {
             </div>
             {favorites.map(f => {
                 const isRevealed = revealedURLsIds.includes(f.housingId);
-                console.log(revealedURLsIds, f.housingId, isRevealed, "46rm");
                 return (
                     <FavoritesItem
                         key={f.housingId}

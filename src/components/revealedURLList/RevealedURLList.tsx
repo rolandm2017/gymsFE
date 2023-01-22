@@ -22,23 +22,23 @@ const RevealedURLList: React.FC<{}> = ({}) => {
 
     return (
         <div className="w-full sm:w-1/2 p-3 ">
-            <button
+            {/* <button
                 onClick={() => {
                     console.log(revealedURLsContext, "38rm");
                 }}
             >
                 Inspect
-            </button>
-            <div className="w-full">
-                <h3>Revealed URLs</h3>
+            </button> */}
+            <div className="w-full mb-4">
+                <h3 className="text-xl">Revealed URLs</h3>
             </div>
             <div className="h-12 grid grid-cols-6 bg-blue-200 rounded-lg">
-                <div className="col-span-3">
+                <div className="col-span-4">
                     <div className="h-full flex justify-center items-center">
                         <h4>Address</h4>
                     </div>
                 </div>
-                <div className="col-span-3">
+                <div className="col-span-2">
                     <div className="h-full flex justify-center items-center">
                         <h4 className="ml-0">URL</h4>
                     </div>
