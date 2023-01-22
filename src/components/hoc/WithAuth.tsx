@@ -10,7 +10,7 @@ const WithAuthentication = (WrappedComponent: FunctionComponent) => {
         const { accessToken } = useAuth();
 
         useEffect(() => {
-            // console.log("problem", accessToken.length, accessToken, "13rm");
+            console.log("problem", refreshIsLoaded, accessToken.length, accessToken, "13rm");
             if (refreshIsLoaded) {
                 // console.log(refreshIsLoaded, accessToken.length, "16rm");
                 const stillNoAccessToken = accessToken.length === 0;

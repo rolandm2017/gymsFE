@@ -13,11 +13,6 @@ const RevealedURLList: React.FC<{}> = ({}) => {
     const { revealedURLsContext, setRevealedURLsContext, requestAddNewURL } = useRevealedURLs();
 
     useEffect(() => {
-        //
-        console.log("revealed url list", addRevealedUrlIsLoading, "15rm");
-    }, [addRevealedUrlIsLoading]);
-
-    useEffect(() => {
         // on load revealed urls list, populate state
         if (revealedURLs && revealedURLsIsLoaded) {
             console.log("setting", revealedURLs, "15rm");
@@ -25,15 +20,15 @@ const RevealedURLList: React.FC<{}> = ({}) => {
         }
     }, [revealedURLs, revealedURLsIsLoaded]);
 
-    useEffect(() => {
-        if (revealedURL) {
-            // runUpdateRevealedURLs();
-            setAllURLs(old => [...old, revealedURL]);
-        }
-    }, [revealedURL]);
-
     return (
         <div className="w-full sm:w-1/2 p-3 ">
+            <button
+                onClick={() => {
+                    console.log(revealedURLsContext, "38rm");
+                }}
+            >
+                Inspect
+            </button>
             <div className="w-full">
                 <h3>Revealed URLs</h3>
             </div>

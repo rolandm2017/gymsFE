@@ -28,19 +28,31 @@ type RevealedURLContextProps = {
 
 export function RevealedURLProvider({ children }: RevealedURLContextProps) {
     const [revealedURLsContext, setRevealedURLsContext] = useState<IHousingWithUrl[]>([]);
+    const [targetIdToReveal, setTargetIdToReveal] = useState<number | undefined>(undefined);
 
     const { revealedURL, runAddRevealedURL, addRevealedUrlIsLoading } = useAddRevealedURLAPI();
     const { revealedURLs, runUpdateRevealedURLs } = useGetRevealedURLsAPI();
 
+    // todo: get the housing entry of the housing id from  requestAddNewURL
+    // then put that housing's url to be equal to the realURL returned from the backend.
+    // then put that housing with the url added into the revealedURLsContext
+
     useEffect(() => {
+        console.log(addRevealedUrlIsLoading, revealedURL, "useEffect 36rm");
         if (addRevealedUrlIsLoading === false && revealedURL) {
-            // update list
-            runUpdateRevealedURLs();
+            // update list client side
+            const updated = [...revealedURLsContext];
+            const targetItemIndex = updated.findIndex(h => h.housingId === targetIdToReveal);
+            console.log(targetItemIndex, updated[targetItemIndex], "42rm");
+            updated[targetItemIndex].url = revealedURL;
+            setRevealedURLsContext(updated);
         }
-    }, [addRevealedUrlIsLoading, revealedURL, runUpdateRevealedURLs]);
+    }, [addRevealedUrlIsLoading, revealedURL, runUpdateRevealedURLs, targetIdToReveal]);
 
     function requestAddNewURL(housingId: number) {
+        console.log("geting url for", housingId, "43rm");
         runAddRevealedURL(housingId);
+        setTargetIdToReveal(housingId);
     }
 
     const exportedValues = {

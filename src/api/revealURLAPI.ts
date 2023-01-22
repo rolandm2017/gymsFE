@@ -8,19 +8,19 @@ import { handleError } from "../util/handleError";
 import { makeHeaders } from "../util/makeHeaders";
 
 export function useAddRevealedURLAPI(): {
-    revealedURL: IHousingWithUrl | undefined;
+    revealedURL: string;
     addRevealedUrlIsLoading: boolean;
     err: string;
     runAddRevealedURL: Function;
 } {
-    const [revealedURL, setRevealedURL] = useState<IHousingWithUrl | undefined>(undefined);
+    const [revealedURL, setRevealedURL] = useState<string>("");
     const [addRevealedUrlIsLoading, setAddRevealedUrlIsLoading] = useState(false);
     const [err, setErr] = useState("");
     const [payload, setPayload] = useState<GenericHousingIdPayload | undefined>(undefined);
 
     function runAddRevealedURL(housingId: number) {
+        setRevealedURL("");
         setPayload({ housingId });
-        setRevealedURL(undefined);
         setAddRevealedUrlIsLoading(true);
     }
 
@@ -31,12 +31,15 @@ export function useAddRevealedURLAPI(): {
             (async () => {
                 try {
                     setErr(""); // clear old error
+                    console.log(payload, "payload 34rm");
                     const response = await axios.get(getEndpoint("/housing/real-url/" + payload.housingId), {
                         ...makeHeaders(accessToken),
                         data: { ...payload },
                     });
-                    const { revealedURL } = response.data;
-                    setRevealedURL(revealedURL);
+                    const { apartmentId, realURL, success } = response.data;
+                    console.log(response.data, "40rm");
+                    console.log(revealedURL, "new url 41rm");
+                    setRevealedURL(realURL);
                 } catch (error) {
                     console.warn("failed to refresh token");
                     const msg = handleError(error);
