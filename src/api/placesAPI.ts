@@ -142,10 +142,8 @@ export function useGetQualifiedApsAPI(): { qualifiedAps: IHousing[]; runGetQuali
                     const path = "/housing/by-location";
                     const res = await axios.get(getEndpoint(path), { params: { ...payload } });
                     const { apartments } = res.data;
-                    console.log(apartments, "154rm");
                     setQualifiedAps(apartments);
                 } catch (err) {
-                    console.log(err, "156rm");
                     const msg = handleError(err);
                     setErr(msg);
                 } finally {

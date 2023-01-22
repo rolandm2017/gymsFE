@@ -2,17 +2,14 @@ import React, { useEffect } from "react";
 import { useGetFavoritesAPI, useRemoveFavoriteAPI } from "../../api/favoritesAPI";
 import { useAddRevealedURLAPI, useGetRevealedURLsAPI } from "../../api/revealURLAPI";
 import { useAuth } from "../../context/AuthContext";
+import { useRevealedURLs } from "../../context/RevealedURLContext";
 import FavoritesItem from "./FavoritesItem";
 
 const FavoritesList: React.FC<{}> = () => {
-    const { favorites, getFavoritesErr } = useGetFavoritesAPI();
+    const { favorites } = useGetFavoritesAPI();
     const { runRemoveFavorite } = useRemoveFavoriteAPI();
-    const { runAddRevealedURL } = useAddRevealedURLAPI();
-    const { runUpdateRevealedURLs } = useGetRevealedURLsAPI();
 
-    useEffect(() => {
-        console.log(favorites, getFavoritesErr, "13rm");
-    }, [favorites, getFavoritesErr]);
+    const { requestAddNewURL } = useRevealedURLs();
 
     const { decrementCredits } = useAuth();
     return (
@@ -52,9 +49,9 @@ const FavoritesList: React.FC<{}> = () => {
                             runRemoveFavorite(f.housingId);
                         }}
                         runRevealUrl={() => {
-                            runAddRevealedURL(f.housingId);
+                            requestAddNewURL(f.housingId);
                             decrementCredits();
-                            runUpdateRevealedURLs(); // update and notify other component.
+                            // runUpdateRevealedURLs(); // update and notify other component.
                         }}
                     />
                 );

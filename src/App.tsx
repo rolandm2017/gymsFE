@@ -6,6 +6,8 @@ import PageRoutes from "./router/Router";
 import SidebarStateProvider from "./context/SidebarContext";
 import LocationsProvider from "./context/LocationsContext";
 import { AuthProvider } from "./context/AuthContext";
+import { FavoritesProvider } from "./context/FavoritesContext";
+import { RevealedURLProvider } from "./context/RevealedURLContext";
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN || "";
 // TODO before production: put access token on server and retrieve it on page load
@@ -17,7 +19,11 @@ function App() {
             <AuthProvider>
                 <SidebarStateProvider>
                     <LocationsProvider>
-                        <PageRoutes />
+                        <FavoritesProvider>
+                            <RevealedURLProvider>
+                                <PageRoutes />
+                            </RevealedURLProvider>
+                        </FavoritesProvider>
                     </LocationsProvider>
                 </SidebarStateProvider>
             </AuthProvider>

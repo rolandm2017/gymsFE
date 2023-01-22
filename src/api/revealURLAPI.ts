@@ -7,14 +7,21 @@ import { getEndpoint } from "../util/getEndpoint";
 import { handleError } from "../util/handleError";
 import { makeHeaders } from "../util/makeHeaders";
 
-export function useAddRevealedURLAPI(): { revealedURL: IHousing | undefined; loaded: boolean; err: string; runAddRevealedURL: Function } {
-    const [revealedURL, setRevealedURL] = useState<IHousing | undefined>(undefined);
-    const [loaded, setLoaded] = useState(false);
+export function useAddRevealedURLAPI(): {
+    revealedURL: IHousingWithUrl | undefined;
+    addRevealedUrlIsLoading: boolean;
+    err: string;
+    runAddRevealedURL: Function;
+} {
+    const [revealedURL, setRevealedURL] = useState<IHousingWithUrl | undefined>(undefined);
+    const [addRevealedUrlIsLoading, setAddRevealedUrlIsLoading] = useState(false);
     const [err, setErr] = useState("");
     const [payload, setPayload] = useState<GenericHousingIdPayload | undefined>(undefined);
 
     function runAddRevealedURL(housingId: number) {
         setPayload({ housingId });
+        setRevealedURL(undefined);
+        setAddRevealedUrlIsLoading(true);
     }
 
     const { accessToken } = useAuth();
@@ -35,14 +42,14 @@ export function useAddRevealedURLAPI(): { revealedURL: IHousing | undefined; loa
                     const msg = handleError(error);
                     setErr(msg);
                 } finally {
-                    setLoaded(true);
+                    setAddRevealedUrlIsLoading(false);
                     setPayload(undefined);
                 }
             })();
         }
     }, [payload, accessToken]);
 
-    return { revealedURL, loaded, err, runAddRevealedURL };
+    return { revealedURL, addRevealedUrlIsLoading, err, runAddRevealedURL };
 }
 
 export function useGetRevealedURLsAPI(): {
