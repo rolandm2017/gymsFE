@@ -1,6 +1,6 @@
 import React, { useEffect, useState, MouseEvent } from "react";
 import NameAndEmail from "./NameAndEmail";
-import ProfilePic from "./ProfilePic";
+// import ProfilePic from "./ProfilePic";
 
 import Cat from "../../assets/cat.jpeg";
 import DropdownContainer from "../dropdown/DropdownContainer";
@@ -67,9 +67,6 @@ function Profile() {
                 <div className="flex">
                     <div>
                         <CreditsCounter />
-                    </div>
-                    <div>
-                        <ProfilePic />
                     </div>
                     <div>
                         <NameAndEmail

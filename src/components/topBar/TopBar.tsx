@@ -1,6 +1,6 @@
 import React from "react";
 import IconButton from "../button/IconButton";
-import ProfilePic from "../profile/ProfilePic";
+// import ProfilePic from "../profile/ProfilePic";
 
 function TopBar() {
     return (
@@ -11,9 +11,9 @@ function TopBar() {
                     <div>
                         <IconButton />
                     </div>
-                    <div>
+                    {/* <div>
                         <ProfilePic />
-                    </div>
+                    </div> */}
                     <div>
                         <h4>Sam Alexi</h4>
                         <p>s.alexi@gmail.com</p>
