@@ -86,12 +86,6 @@ const PaidMap: React.FC<PaidMapProps> = ({ center, qualifiedFromCurrentPage, act
     useEffect(() => {
         if (map === null) return;
 
-        // remove all old markers
-        for (const marker of markers) {
-            console.log("removing marker 91rm");
-            marker.remove();
-        }
-
         let allMarkers: mapboxgl.Marker[] = [];
         if (qualifiedFromCurrentPage.length !== 0 && map.current) {
             const { apartmentMarkers, gymMarkers } = unpackMarkers(qualifiedFromCurrentPage);
@@ -101,6 +95,13 @@ const PaidMap: React.FC<PaidMapProps> = ({ center, qualifiedFromCurrentPage, act
             console.log("100 rm");
             putAllMarkersIntoView(allMarkers, map.current);
         }
+        return () => {
+            // remove all old markers
+            for (const marker of allMarkers) {
+                console.log("removing marker 91rm");
+                marker.remove();
+            }
+        };
     }, [map, qualifiedFromCurrentPage]);
 
     function unpackMarkers(apartments: IHousing[]): { apartmentMarkers: mapboxgl.Marker[]; gymMarkers: mapboxgl.Marker[] } {
@@ -161,9 +162,6 @@ const PaidMap: React.FC<PaidMapProps> = ({ center, qualifiedFromCurrentPage, act
         const maxLong = Math.max(...longitudes);
         const fitBoundsPadding = 0.006;
         map.fitBounds([
-            // [45.5019 + 0.005, -73.5674 - 0.005],
-            // [-73.5674 - 0.005, 45.5019 + 0.005],
-            // [-73.5674 + 0.005, 45.5019 - 0.005],
             [minLong - fitBoundsPadding, minLat - fitBoundsPadding],
             [maxLong + fitBoundsPadding, maxLat + fitBoundsPadding],
         ]);
