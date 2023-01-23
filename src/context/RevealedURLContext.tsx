@@ -1,6 +1,7 @@
 import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { useAddRevealedURLAPI, useGetRevealedURLsAPI } from "../api/revealURLAPI";
 import { IHousing, IHousingWithUrl } from "../interface/Housing.interface";
+import { ILocationContext, LocationsProviderContext } from "./LocationsContext";
 
 //
 
@@ -9,6 +10,7 @@ type RevealedURLsContextType = {
     revealedURLsContext: IHousingWithUrl[];
     setRevealedURLsContext: Function;
     requestAddNewURL: Function;
+    getURLForId: Function;
 };
 
 const RevealedURLsContextDefaultValues: RevealedURLsContextType = {
@@ -16,6 +18,7 @@ const RevealedURLsContextDefaultValues: RevealedURLsContextType = {
     revealedURLsContext: [],
     setRevealedURLsContext: () => {},
     requestAddNewURL: () => {},
+    getURLForId: () => {},
 };
 
 const RevealedURLsContext = createContext<RevealedURLsContextType>(RevealedURLsContextDefaultValues);
@@ -36,6 +39,8 @@ export function RevealedURLProvider({ children }: RevealedURLContextProps) {
     const { revealedURL, runAddRevealedURL, addRevealedUrlIsLoading } = useAddRevealedURLAPI();
     const { revealedURLs, runUpdateRevealedURLs } = useGetRevealedURLsAPI();
 
+    const { qualified } = useContext(LocationsProviderContext) as ILocationContext;
+
     useEffect(() => {
         // when they load, load them.
         if (revealedURLs.length > 0) {
@@ -48,6 +53,18 @@ export function RevealedURLProvider({ children }: RevealedURLContextProps) {
     // todo: get the housing entry of the housing id from  requestAddNewURL
     // then put that housing's url to be equal to the realURL returned from the backend.
     // then put that housing with the url added into the revealedURLsContext
+    useEffect(() => {
+        // update list when revealed urls list changes
+        if (revealedURL) {
+            const correspondingAp = qualified.find((ap: IHousing) => ap.housingId === targetIdToReveal);
+            if (correspondingAp === undefined) {
+                throw Error("Couldn't find corresponding apartment in list");
+            }
+            const correspondingApWithURL = { ...correspondingAp, url: revealedURL };
+            const oldToUpdate = [...revealedURLsContext, correspondingApWithURL];
+            setRevealedURLsContext(oldToUpdate);
+        }
+    }, [revealedURL]);
 
     useEffect(() => {
         console.log(addRevealedUrlIsLoading, revealedURL, "useEffect 36rm");
@@ -69,11 +86,20 @@ export function RevealedURLProvider({ children }: RevealedURLContextProps) {
         setTargetIdToReveal(housingId);
     }
 
+    function getURLForId(housingId: number): string {
+        const apartment = revealedURLsContext.find((ap: IHousingWithUrl) => ap.housingId === housingId);
+        if (apartment === undefined) {
+            throw Error("Failed to find apartment with this housing id");
+        }
+        return apartment.url;
+    }
+
     const exportedValues = {
         revealedURLsIds,
         revealedURLsContext,
         setRevealedURLsContext,
         requestAddNewURL,
+        getURLForId,
     };
 
     return <RevealedURLsContext.Provider value={exportedValues}>{children}</RevealedURLsContext.Provider>;
