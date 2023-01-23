@@ -1,4 +1,4 @@
-import React, { MouseEvent, useState } from "react";
+import React, { createRef, MouseEvent, useEffect, useRef, useState } from "react";
 import { getMaxLeftDisplacement } from "../../util/getMaxLeftDisplacement";
 import { SEED_CITIES } from "../../util/cities";
 import { ICity } from "../../interface/City.interface";
@@ -10,6 +10,7 @@ import Input from "../input/Input";
 import "./SearchBar.scss";
 import { useNavigate } from "react-router-dom";
 import CityInput from "../input/CityInput";
+import { x } from "joi";
 
 const SearchBar: React.FC<{}> = () => {
     const [city, setCity] = useState("");
@@ -22,25 +23,30 @@ const SearchBar: React.FC<{}> = () => {
 
     const navigate = useNavigate();
 
-    function setDropdownPosition(e: MouseEvent<HTMLDivElement | globalThis.MouseEvent>) {
-        console.log(e, "search pg 26rm");
-        const viewportWidth = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
-        const maxDisplacement = getMaxLeftDisplacement(dropdownWidth, viewportWidth);
-        const xPos = e.pageX < maxDisplacement ? e.pageX : maxDisplacement;
-        const yPos = e.pageY;
-        // const xPos = e.clientX;
-        // const yPos = e.clientY;
-        console.log(dropdownWidth, viewportWidth, xPos, yPos, "search bar 30rm");
-        setTopDisplacement(yPos);
-        setLeftDisplacement(xPos);
-    }
+    const dropdownRef = useRef<HTMLDivElement>(null);
+    const [xOffset, setX] = useState<number | undefined>();
+    const [yOffset, setY] = useState<number | undefined>();
+    const getPosition = () => {
+        const x = dropdownRef.current?.offsetLeft;
+        setX(x);
+
+        const y = dropdownRef.current?.offsetTop;
+        const yWithHeightOfInputFactoredIn = y ? y + 31 : y;
+        setY(yWithHeightOfInputFactoredIn);
+    };
+    useEffect(() => {
+        getPosition();
+    }, []);
+    useEffect(() => {
+        window.addEventListener("resize", getPosition);
+    }, []);
 
     return (
-        <div className="searchBarContainer h-24 px-6 flex items-center">
+        <div className="searchBarContainer h-24 px-6 flex items-center relative">
             <DropdownContainer
                 isOpen={isOpen}
-                topDisplacement={50}
-                leftDisplacement={50}
+                topDisplacement={yOffset}
+                leftDisplacement={xOffset}
                 width={dropdownWidth}
                 closeDropdown={() => {
                     setIsOpen(false);
@@ -62,8 +68,8 @@ const SearchBar: React.FC<{}> = () => {
                     <div className="pr-9">
                         <Input type="text" placeholder={"Address"} changeReporter={() => {}} />
                     </div>
-                    <div>
-                        <CityInput type="text" placeholder={"City"} changeReporter={() => {}} onClickHandler={setDropdownPosition} />
+                    <div ref={dropdownRef}>
+                        <CityInput type="text" placeholder={"City"} changeReporter={() => {}} onClickHandler={() => setIsOpen(true)} />
                     </div>
                 </div>
                 <div className="inputContainerRight w-full flex justify-end">

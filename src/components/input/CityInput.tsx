@@ -1,4 +1,4 @@
-import React from "react";
+import React, { RefObject } from "react";
 
 import "./Input.scss";
 
@@ -7,12 +7,14 @@ interface CityInputProps {
     placeholder: string;
     changeReporter: Function;
     onClickHandler: Function;
+    inputRef?: RefObject<any>;
 }
 
-const CityInput: React.FC<CityInputProps> = ({ type, placeholder, changeReporter, onClickHandler }) => {
+const CityInput: React.FC<CityInputProps> = ({ type, placeholder, changeReporter, onClickHandler, inputRef }) => {
     return (
         <div className="">
             <input
+                ref={inputRef}
                 className={`inputText ${type === "text" ? "w-48 addrIcon" : "w-40 distanceIcon"}`}
                 type={type}
                 placeholder={placeholder}
