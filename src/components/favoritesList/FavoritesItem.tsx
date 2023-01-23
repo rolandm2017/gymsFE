@@ -20,8 +20,10 @@ const FavoritesItem: React.FC<FavoritesItemProps> = ({
     const { decrementCredits } = useAuth();
     return (
         <div className="mt-3 py-2 pl-2 h-12 grid grid-cols-6 bg-white rounded-lg">
-            <div className="col-span-2 pl-3">
-                <p className="text-left">{address}</p>
+            <div className="col-span-2 pl-1">
+                <div className="h-full flex items-center">
+                    <p className="text-left whitespace-nowrap text-ellipsis	overflow-hidden">{address}</p>
+                </div>
             </div>
             <div className="col-span-2">
                 <p>{distanceToGym}</p>

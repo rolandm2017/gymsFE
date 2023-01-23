@@ -11,7 +11,9 @@ const RevealedURLEntry: React.FC<RevealedURLProps> = ({ addr, url }: RevealedURL
     return (
         <div className="w-full mt-3 py-2 pl-3 h-12 grid grid-cols-6 bg-white rounded-lg">
             <div className="col-span-4">
-                <p className="text-left">{addr}</p>
+                <div className="flex items-center h-full">
+                    <p className="text-left  whitespace-nowrap text-ellipsis overflow-hidden">{addr}</p>
+                </div>
             </div>
             <div className="col-span-2">
                 <div className="w-full flex justify-center">
