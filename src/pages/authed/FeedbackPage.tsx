@@ -56,6 +56,7 @@ const FeedbackPage: React.FC<{}> = props => {
                                 type="Opaque"
                                 text="Submit"
                                 onClickHandler={() => {
+                                    console.log("submitting", featureReqAnswerOne, featureReqAnswerTwo, "59rm");
                                     sendFeatureReq(featureReqAnswerOne, featureReqAnswerTwo);
                                 }}
                             />
@@ -63,7 +64,7 @@ const FeedbackPage: React.FC<{}> = props => {
                         <div>{featureReqSuccess ? <p>Feature request received!</p> : null}</div>
                     </div>
                 </div>
-                <div className="thanksMessageContainer bg-white">{true ? <ThanksMessage /> : null}</div>
+                <div className="thanksMessageContainer bg-white">{feedbackSuccess || featureReqSuccess ? <ThanksMessage /> : null}</div>
                 <div>
                     {/* // TODO: stick this at the bottom of the page. */}
                     <a target="_blank" href="https://icons8.com/icon/104/star" rel="noreferrer">

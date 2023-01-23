@@ -19,7 +19,14 @@ function Button({ type, text, size, onClickHandler }: ButtonProps) {
         }
     }
     return (
-        <div className={`buttonShared ${size === "Small" ? "w-14 h-8" : "h-9 w-20 sm:w-36"} flex justify-center items-center ${getCSSForType(type)}`}>
+        <div
+            onClick={() => {
+                if (onClickHandler) {
+                    onClickHandler();
+                }
+            }}
+            className={`buttonShared ${size === "Small" ? "w-14 h-8" : "h-9 w-20 sm:w-36"} flex justify-center items-center ${getCSSForType(type)}`}
+        >
             <button>{text}</button>
         </div>
     );

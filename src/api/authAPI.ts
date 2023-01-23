@@ -6,6 +6,7 @@ import { SignUpAuth } from "../interface/payload/SignUpAuth.interface";
 import { UserProfile } from "../interface/UserProfile.interface";
 import axios from "axios";
 import { getEndpoint } from "../util/getEndpoint";
+import { makeHeaders } from "../util/makeHeaders";
 
 export function useSignUpWithEmailAPI(): {
     signUpData: UserProfile | undefined;
@@ -146,7 +147,7 @@ export function useLogOutAPI(): { success: boolean; error: string; loaded: boole
     const [loaded, setLoaded] = useState(false);
     const [run, setRun] = useState(false);
 
-    const { setAccessToken } = useAuth();
+    const { setAccessToken, accessToken } = useAuth();
 
     function runLogOut() {
         setRun(true);
@@ -157,7 +158,7 @@ export function useLogOutAPI(): { success: boolean; error: string; loaded: boole
             (async () => {
                 try {
                     // server has "withCredential: true" and the access token automatically attached.
-                    const response = await axios.get(getEndpoint("/auth/logout"), { withCredentials: true });
+                    const response = await axios.post(getEndpoint("/auth/revoke-token"), {}, { withCredentials: true, ...makeHeaders(accessToken) });
                     setAccessToken("");
                     setSuccess(true);
                 } catch (error) {
@@ -169,7 +170,7 @@ export function useLogOutAPI(): { success: boolean; error: string; loaded: boole
                 }
             })();
         }
-    }, [run, setAccessToken]);
+    }, [run, accessToken]);
 
     return { success, error, loaded, runLogOut };
 }
