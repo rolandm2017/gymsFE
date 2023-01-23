@@ -18,7 +18,7 @@ const AddCreditsModal: React.FC<{}> = ({}) => {
     }, [success]);
 
     return (
-        <div className="h-full w-full absolute bg-transparent z-40">
+        <div className={`h-full w-full absolute bg-transparent z-40 ${modalIsOpen ? "" : "hidden"}`}>
             {modalIsOpen ? (
                 <div className="w-full h-full flex justify-center items-center bg-zinc-300/50 z-40">
                     <div

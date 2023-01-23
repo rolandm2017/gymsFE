@@ -14,6 +14,7 @@ import { calcTotalPages } from "../../util/calcTotalPages";
 import WithAuthentication from "../../components/hoc/WithAuth";
 import { useNavigate, useRoutes, useSearchParams } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import NavigationBtnsWithNavLink from "../../components/navigationBtns/NavigationBtnWithNavLink";
 
 const MapPage: React.FC<{}> = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
@@ -54,10 +55,23 @@ const MapPage: React.FC<{}> = () => {
 
     const totalPages = calcTotalPages(qualified);
 
-    function changePages(cityName: string, pageNum: number) {
-        const newURL = "/map?city=" + cityName + "&pageNum=" + pageNum;
-        console.log("going to ", newURL, "49rm");
-        navigate(newURL);
+    function getNextPgURL(cityName: string, pageNum: string | null) {
+        if (pageNum === null) {
+            return "/map?city=" + cityName + "&pageNum=" + 1;
+        }
+        const asInteger = parseInt(pageNum, 10);
+        const minusOne = asInteger - 1;
+        const nextPgURL = "/map?city=" + cityName + "&pageNum=" + minusOne;
+        return nextPgURL;
+    }
+
+    function getPrevPgURL(cityName: string, pageNum: string | null) {
+        if (pageNum === null) {
+            return "/map?city=" + cityName + "&pageNum=" + 0;
+        }
+        const asInteger = parseInt(pageNum, 10);
+        const minusOne = asInteger - 1;
+        return "/map?city=" + cityName + "&pageNum=" + minusOne;
     }
 
     return (
@@ -92,13 +106,14 @@ const MapPage: React.FC<{}> = () => {
 
                 <div id="pageNumberContainer" className="mb-3 flex justify-between items-center">
                     <PageNumber currentPage={currentPage} totalPages={totalPages} />
-                    <NavigationBtns
+                    <NavigationBtnsWithNavLink
                         currentCity={city ? city : getDefaultCity()}
                         currentPage={currentPage}
                         totalPages={totalPages}
-                        changePgHandler={changePages}
                         // change active card to null when change page
                         resetActive={setActive}
+                        nextPgURL={getNextPgURL(city ? city : getDefaultCity(), pageNum)}
+                        prevPageURL={getPrevPgURL(city ? city : getDefaultCity(), pageNum)}
                     />
                 </div>
             </div>

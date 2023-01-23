@@ -99,7 +99,7 @@ const PaidMap: React.FC<PaidMapProps> = ({ center, qualifiedFromCurrentPage, act
 
             addNewMarkers(allMarkers, markers, setMarkers, map.current);
             console.log("100 rm");
-            // putAllMarkersIntoView(allMarkers, map.current);
+            putAllMarkersIntoView(allMarkers, map.current);
         }
     }, [map, qualifiedFromCurrentPage]);
 
@@ -145,21 +145,28 @@ const PaidMap: React.FC<PaidMapProps> = ({ center, qualifiedFromCurrentPage, act
     }
 
     function putAllMarkersIntoView(markers: mapboxgl.Marker[], map: mapboxgl.Map): void {
-        // const allMarkersCoords = markers.map((m: mapboxgl.Marker) => m.getLngLat());
-        // const allLats = allMarkersCoords.map(coords => coords.lat);
-        // const allLongs = allMarkersCoords.map(coords => coords.lng);
-        // const minLat = Math.min(...allLats);
-        // const minLong = Math.min(...allLongs);
-        // const maxLat = Math.max(...allLats);
-        // const maxLong = Math.max(...allLongs);
-        // const southwestCorner = [minLat, minLong];
-        // const northeastCorner = [maxLat, maxLong];
         var bounds = new mapboxgl.LngLatBounds();
 
+        const latitudes: number[] = [];
+        const longitudes: number[] = [];
         markers.forEach(function (marker) {
-            bounds.extend(marker.getLngLat());
+            const coords = marker.getLngLat();
+            latitudes.push(coords.lat);
+            longitudes.push(coords.lng);
+            bounds.extend(coords);
         });
-        map.fitBounds(bounds);
+        const minLat = Math.min(...latitudes);
+        const minLong = Math.min(...longitudes);
+        const maxLat = Math.max(...latitudes);
+        const maxLong = Math.max(...longitudes);
+        const fitBoundsPadding = 0.006;
+        map.fitBounds([
+            // [45.5019 + 0.005, -73.5674 - 0.005],
+            // [-73.5674 - 0.005, 45.5019 + 0.005],
+            // [-73.5674 + 0.005, 45.5019 - 0.005],
+            [minLong - fitBoundsPadding, minLat - fitBoundsPadding],
+            [maxLong + fitBoundsPadding, maxLat + fitBoundsPadding],
+        ]);
     }
 
     function makePopupHTMLForApartment(apartment: IHousing): string {
