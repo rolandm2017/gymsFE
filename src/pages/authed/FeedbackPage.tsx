@@ -76,7 +76,11 @@ const FeedbackPage: React.FC<{}> = props => {
                         <div className="ml-4 flex items-center">{featureReqSuccess ? <p>Feature request received!</p> : null}</div>
                     </div>
                 </div>
-                <div className="thanksMessageContainer bg-white">{feedbackSuccess || featureReqSuccess ? <ThanksMessage /> : null}</div>
+                {feedbackSuccess || featureReqSuccess ? (
+                    <div className="thanksMessageContainer bg-white">
+                        <ThanksMessage />
+                    </div>
+                ) : null}
                 <div className="mt-4">
                     {/* // TODO: stick this at the bottom of the page. */}
                     <a target="_blank" href="https://icons8.com/icon/104/star" rel="noreferrer">
