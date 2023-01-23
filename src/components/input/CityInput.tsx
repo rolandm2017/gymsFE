@@ -8,9 +8,10 @@ interface CityInputProps {
     changeReporter: Function;
     onClickHandler: Function;
     inputRef?: RefObject<any>;
+    currentValue: string;
 }
 
-const CityInput: React.FC<CityInputProps> = ({ type, placeholder, changeReporter, onClickHandler, inputRef }) => {
+const CityInput: React.FC<CityInputProps> = ({ type, placeholder, changeReporter, onClickHandler, inputRef, currentValue }) => {
     return (
         <div className="">
             <input
@@ -24,6 +25,7 @@ const CityInput: React.FC<CityInputProps> = ({ type, placeholder, changeReporter
                 onClick={e => {
                     onClickHandler(e);
                 }}
+                value={currentValue}
             ></input>
         </div>
     );

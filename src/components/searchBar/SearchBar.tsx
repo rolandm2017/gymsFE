@@ -11,7 +11,6 @@ import "./SearchBar.scss";
 import { useNavigate } from "react-router-dom";
 import CityInput from "../input/CityInput";
 import { x } from "joi";
-import CityDropdown from "../dropdown/CityDropdown";
 
 const SearchBar: React.FC<{}> = () => {
     const [city, setCity] = useState("");
@@ -44,7 +43,7 @@ const SearchBar: React.FC<{}> = () => {
 
     return (
         <div className="searchBarContainer h-24 px-6 flex items-center relative">
-            <CityDropdown
+            <DropdownContainer
                 isOpen={isOpen}
                 topDisplacement={yOffset}
                 leftDisplacement={xOffset}
@@ -52,10 +51,19 @@ const SearchBar: React.FC<{}> = () => {
                 closeDropdown={() => {
                     setIsOpen(false);
                 }}
-                cityNames={SEED_CITIES.map((city: ICity) => city.cityName)}
-                inputText={cityInput}
-                selectCity={setCity}
-            />
+            >
+                {SEED_CITIES.map((city: ICity) => {
+                    return (
+                        <DropdownItem
+                            text={city.cityName}
+                            onClickAction={() => {
+                                setCityInput(city.cityName);
+                                setIsOpen(false);
+                            }}
+                        />
+                    );
+                })}
+            </DropdownContainer>
 
             <div className="w-auto flex justify-between">
                 <div className="inputContainerLeft flex flex-col xl:flex-row">
@@ -70,6 +78,7 @@ const SearchBar: React.FC<{}> = () => {
                             onClickHandler={() => {
                                 setIsOpen(true);
                             }}
+                            currentValue={cityInput}
                         />
                     </div>
                 </div>

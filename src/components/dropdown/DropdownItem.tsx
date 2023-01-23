@@ -8,11 +8,12 @@ interface DropdownItemProps {
 const DropdownItem: React.FC<DropdownItemProps> = ({ text, onClickAction }: DropdownItemProps) => {
     return (
         <div
+            className="hover:bg-sky-100"
             onClick={() => {
                 onClickAction();
             }}
         >
-            <p>{text}</p>
+            <p className="text-left pl-1">{text}</p>
         </div>
     );
 };
