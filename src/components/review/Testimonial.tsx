@@ -5,9 +5,10 @@ import "./Review.scss";
 interface TestimonialProps {
     text: string;
     valueReporter: Function;
+    triggerSubmit: Function;
 }
 
-function Testimonial({ text, valueReporter }: TestimonialProps) {
+function Testimonial({ text, valueReporter, triggerSubmit }: TestimonialProps) {
     return (
         <div className="px-8 mt-3">
             <div className="mb-2">
@@ -18,6 +19,11 @@ function Testimonial({ text, valueReporter }: TestimonialProps) {
                     className="feedbackTextArea textAreaShared"
                     onChange={e => {
                         valueReporter(e.target.value);
+                    }}
+                    onKeyDown={e => {
+                        if (e.key === "Enter") {
+                            triggerSubmit();
+                        }
                     }}
                 />
             </div>

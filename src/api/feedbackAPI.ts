@@ -14,6 +14,7 @@ export function useSendCustomerFeedbackAPI() {
     const [payload, setPayload] = useState<CustomerFeedback | undefined>(undefined);
 
     function sendCustomerFeedback(questionOneAnswer: number, questionTwoAnswer: number, questionThreeAnswer: number, largeTextAnswer: string) {
+        setSuccess(false);
         setPayload({ questionOneAnswer, questionTwoAnswer, questionThreeAnswer, largeTextAnswer });
     }
 
@@ -30,7 +31,7 @@ export function useSendCustomerFeedbackAPI() {
                         { ...makeHeaders(accessToken) },
                     );
                     const { success } = response.data;
-                    setSuccess(success);
+                    setSuccess(true);
                 } catch (error) {
                     const msg = handleError(error);
                     setErr(msg);
@@ -47,13 +48,14 @@ export function useSendCustomerFeedbackAPI() {
 
 export function useSendFeatureRequestAPI() {
     //
-    const [featureReqSuccess, setSuccess] = useState("");
+    const [featureReqSuccess, setSuccess] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [err, setErr] = useState("");
 
     const [payload, setPayload] = useState<FeatureRequest | undefined>(undefined);
 
     function sendFeatureReq(featureReqOneAnswer: string, featureReqTwoAnswer: string) {
+        setSuccess(false);
         setPayload({ featureReqOneAnswer, featureReqTwoAnswer });
     }
 
@@ -66,7 +68,7 @@ export function useSendFeatureRequestAPI() {
                     setErr(""); // clear old error
                     const response = await axios.post(getEndpoint("/feedback/new/feature-req"), { ...payload }, { ...makeHeaders(accessToken) });
                     const { success } = response.data;
-                    setSuccess(success);
+                    setSuccess(true);
                 } catch (error) {
                     const msg = handleError(error);
                     setErr(msg);

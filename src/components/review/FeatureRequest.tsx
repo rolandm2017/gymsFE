@@ -3,9 +3,10 @@ import React from "react";
 interface FeatureRequestProps {
     answerOneReporter: Function;
     answerTwoReporter: Function;
+    triggerSubmit: Function;
 }
 
-const FeatureRequest: React.FC<FeatureRequestProps> = ({ answerOneReporter, answerTwoReporter }: FeatureRequestProps) => {
+const FeatureRequest: React.FC<FeatureRequestProps> = ({ answerOneReporter, answerTwoReporter, triggerSubmit }: FeatureRequestProps) => {
     return (
         <div className="px-8 pt-3">
             <div className="mb-2 mt-2">
@@ -21,6 +22,11 @@ const FeatureRequest: React.FC<FeatureRequestProps> = ({ answerOneReporter, answ
                         onChange={e => {
                             answerOneReporter(e.target.value);
                         }}
+                        onKeyDown={e => {
+                            if (e.key === "Enter") {
+                                triggerSubmit();
+                            }
+                        }}
                     />
                 </div>
             </div>
@@ -33,6 +39,11 @@ const FeatureRequest: React.FC<FeatureRequestProps> = ({ answerOneReporter, answ
                         className="textAreaShared h-20 w-3/5"
                         onChange={e => {
                             answerTwoReporter(e.target.value);
+                        }}
+                        onKeyDown={e => {
+                            if (e.key === "Enter") {
+                                triggerSubmit();
+                            }
                         }}
                     />
                 </div>
