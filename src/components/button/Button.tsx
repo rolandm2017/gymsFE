@@ -9,7 +9,7 @@ interface ButtonProps {
 }
 
 function Button({ type, text, size, onClickHandler }: ButtonProps) {
-    function getCSSForType(cssType: string) {
+    function getBackgroundForType(cssType: string) {
         if (cssType === "Transparent") {
             return "transparentBg";
         } else if (cssType === "Opaque") {
@@ -37,7 +37,7 @@ function Button({ type, text, size, onClickHandler }: ButtonProps) {
                     onClickHandler();
                 }
             }}
-            className={`buttonShared ${getSizeStyling(size)} flex justify-center items-center ${getCSSForType(type)}`}
+            className={`buttonShared ${getSizeStyling(size)} flex justify-center items-center ${getBackgroundForType(type)} cursor-pointer	`}
         >
             <button>{text}</button>
         </div>
