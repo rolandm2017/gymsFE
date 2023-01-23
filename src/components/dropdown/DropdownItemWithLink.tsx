@@ -1,12 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-interface DropdownItemProps {
+interface DropdownItemWithLinkProps {
     text: string;
     location: string;
 }
 
-const DropdownItemWithLink: React.FC<DropdownItemProps> = ({ text, location }: DropdownItemProps) => {
+const DropdownItemWithLink: React.FC<DropdownItemWithLinkProps> = ({ text, location }: DropdownItemWithLinkProps) => {
     return (
         <Link to={location}>
             <div>

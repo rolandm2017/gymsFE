@@ -11,13 +11,13 @@ import "./SearchBar.scss";
 import { useNavigate } from "react-router-dom";
 import CityInput from "../input/CityInput";
 import { x } from "joi";
+import CityDropdown from "../dropdown/CityDropdown";
 
 const SearchBar: React.FC<{}> = () => {
     const [city, setCity] = useState("");
+    const [cityInput, setCityInput] = useState("");
 
     const [isOpen, setIsOpen] = useState(false);
-    const [topDisplacement, setTopDisplacement] = useState<number | undefined>(undefined);
-    const [leftDisplacement, setLeftDisplacement] = useState<number | undefined>(undefined);
 
     const dropdownWidth = 120;
 
@@ -31,7 +31,8 @@ const SearchBar: React.FC<{}> = () => {
         setX(x);
 
         const y = dropdownRef.current?.offsetTop;
-        const yWithHeightOfInputFactoredIn = y ? y + 31 : y;
+        const approxInputHeight = 31;
+        const yWithHeightOfInputFactoredIn = y ? y + approxInputHeight : y;
         setY(yWithHeightOfInputFactoredIn);
     };
     useEffect(() => {
@@ -43,7 +44,7 @@ const SearchBar: React.FC<{}> = () => {
 
     return (
         <div className="searchBarContainer h-24 px-6 flex items-center relative">
-            <DropdownContainer
+            <CityDropdown
                 isOpen={isOpen}
                 topDisplacement={yOffset}
                 leftDisplacement={xOffset}
@@ -51,25 +52,25 @@ const SearchBar: React.FC<{}> = () => {
                 closeDropdown={() => {
                     setIsOpen(false);
                 }}
-            >
-                {SEED_CITIES.map((city: ICity) => {
-                    return (
-                        <DropdownItem
-                            text={city.cityName}
-                            onClickAction={() => {
-                                setCity(city.cityName);
-                            }}
-                        />
-                    );
-                })}
-            </DropdownContainer>
+                cityNames={SEED_CITIES.map((city: ICity) => city.cityName)}
+                inputText={cityInput}
+                selectCity={setCity}
+            />
+
             <div className="w-auto flex justify-between">
                 <div className="inputContainerLeft flex flex-col xl:flex-row">
                     <div className="pr-9">
                         <Input type="text" placeholder={"Address"} changeReporter={() => {}} />
                     </div>
                     <div ref={dropdownRef}>
-                        <CityInput type="text" placeholder={"City"} changeReporter={() => {}} onClickHandler={() => setIsOpen(true)} />
+                        <CityInput
+                            type="text"
+                            placeholder={"City"}
+                            changeReporter={setCityInput}
+                            onClickHandler={() => {
+                                setIsOpen(true);
+                            }}
+                        />
                     </div>
                 </div>
                 <div className="inputContainerRight w-full flex justify-end">
