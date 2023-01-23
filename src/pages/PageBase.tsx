@@ -1,10 +1,12 @@
 import React, { useState, useContext, useLayoutEffect } from "react";
 import { useLocation } from "react-router-dom";
+import AddCreditsModal from "../components/addCreditsModal/AddCreditsModal";
 
 import Profile from "../components/profile/Profile";
 import ProfileBar from "../components/profile/ProfileBar";
 import AdminSidebar from "../components/sidebar/AdminSidebar";
 import Sidebar from "../components/sidebar/Sidebar";
+import { CreditsModalContext, ICreditsModalContext } from "../context/CreditsModalContext";
 import SidebarStateProvider, { ISidebarContext, SidebarStateContext } from "../context/SidebarContext";
 
 import useWindowSize from "../util/useWindowSize";
@@ -27,6 +29,7 @@ const PageBase: React.FC<PageProps> = props => {
 
     return (
         <div id="pageBase" className="h-full w-full flex pageBg">
+            <AddCreditsModal />
             <div
                 className={`sidebarCover z-20 ${isOpen && isOnMobile ? "" : "hidden"}`}
                 onClick={() => {

@@ -48,7 +48,7 @@ const DetailsBar: React.FC<DeailsBarProps> = ({ pic, address, nearbyGyms, active
             </div>
             <div className="w-1/3 sm:w-1/6 mr-2 sm:mr-0 flex items-center">
                 <p className="blueText">$800</p>
-                {/* // TOOD: remove hardcode price, replace w/ scraped price */}
+                {/* // TOOD: remove  price */}
             </div>
             {/* </div> */}
             {/* <div className="w-1/3 flex"> */}
@@ -67,6 +67,7 @@ const DetailsBar: React.FC<DeailsBarProps> = ({ pic, address, nearbyGyms, active
                 <p className="w-full grayText detailsBarText truncate text-left">{url}</p>
             </div> */}
             {/* </div> */}
+            {/* // todo: add 'favorite' and 'get URL' buttons */}
         </div>
     );
 };

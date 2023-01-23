@@ -2,7 +2,7 @@ import jwt_decode, { JwtPayload } from "jwt-decode";
 import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
 
 //
-import { UserProfile } from "../interface/UserProfile.interface";
+import { UserAccount } from "../interface/UserAccount.interface";
 import { useRefreshJwtAPI } from "../api/authAPI";
 
 type AuthContextType = {
@@ -10,9 +10,11 @@ type AuthContextType = {
     isLoggedIn: Function;
     setAccessToken: Function;
     setProfile: Function;
-    profile: UserProfile | undefined;
+    profile: UserAccount | undefined;
     getDefaultCity: Function;
     decrementCredits: Function;
+    outOfCredits: boolean;
+    addMoreCredits: Function;
 };
 
 const authContextDefaultValues: AuthContextType = {
@@ -23,6 +25,8 @@ const authContextDefaultValues: AuthContextType = {
     profile: undefined,
     getDefaultCity: () => {},
     decrementCredits: () => {},
+    outOfCredits: false,
+    addMoreCredits: () => {},
 };
 
 const AuthContext = createContext<AuthContextType>(authContextDefaultValues);
@@ -37,7 +41,8 @@ type AuthContextProps = {
 
 export function AuthProvider({ children }: AuthContextProps) {
     const [accessToken, setAccessToken] = useState<string>("");
-    const [profile, setProfile] = useState<UserProfile | undefined>(undefined);
+    const [profile, setProfile] = useState<UserAccount | undefined>(undefined);
+    const [outOfCredits, setOutOfCredits] = useState(false);
 
     const { runRefreshJwt } = useRefreshJwtAPI();
 
@@ -45,6 +50,13 @@ export function AuthProvider({ children }: AuthContextProps) {
         // return profile?.favoriteCity;
         return "Montreal"; // todo: enable user to set their default city
     }
+
+    useEffect(() => {
+        // if out of credits, set out of credits
+        if (profile === undefined || profile.credits === 0) {
+            setOutOfCredits(true);
+        }
+    }, [profile]);
 
     useEffect(() => {
         // try get access token 1x on every page load.
@@ -88,10 +100,26 @@ export function AuthProvider({ children }: AuthContextProps) {
 
     function decrementCredits() {
         // function is a client-side way to reflect a server-side change w/o extra work.
-        if (profile === undefined) return; // silence ts.
+        if (profile === undefined) {
+            // silence ts.
+            throw Error("No profile found");
+        }
         const update = { ...profile };
         update.credits = profile?.credits ? profile.credits - 1 : 0;
         setProfile(update);
+        if (update.credits === 0) {
+            setOutOfCredits(true);
+        }
+    }
+
+    function addMoreCredits(newAmount: number) {
+        if (profile === undefined) {
+            // silence ts.
+            throw Error("No profile found");
+        }
+        const toUpdate = { ...profile };
+        toUpdate.credits = newAmount;
+        setProfile(toUpdate);
     }
 
     const exportedValues = {
@@ -102,6 +130,8 @@ export function AuthProvider({ children }: AuthContextProps) {
         isLoggedIn,
         getDefaultCity,
         decrementCredits,
+        outOfCredits,
+        addMoreCredits,
     };
 
     return <AuthContext.Provider value={exportedValues}>{children}</AuthContext.Provider>;

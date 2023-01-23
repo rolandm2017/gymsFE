@@ -63,22 +63,24 @@ export function RevealedURLProvider({ children }: RevealedURLContextProps) {
             const correspondingApWithURL = { ...correspondingAp, url: revealedURL };
             const oldToUpdate = [...revealedURLsContext, correspondingApWithURL];
             setRevealedURLsContext(oldToUpdate);
+            const justIds = oldToUpdate.map(housingWithUrl => housingWithUrl.housingId);
+            setRevealedURLsIds(justIds);
         }
     }, [revealedURL]);
 
-    useEffect(() => {
-        console.log(addRevealedUrlIsLoading, revealedURL, "useEffect 36rm");
-        if (addRevealedUrlIsLoading === false && revealedURL) {
-            // update list client side
-            const updated = [...revealedURLsContext];
-            const targetItemIndex = updated.findIndex(h => h.housingId === targetIdToReveal);
-            console.log(targetItemIndex, updated[targetItemIndex], "42rm");
-            updated[targetItemIndex].url = revealedURL;
-            setRevealedURLsContext(updated);
-            const justIds = updated.map(housingWithUrl => housingWithUrl.housingId);
-            setRevealedURLsIds(justIds);
-        }
-    }, [addRevealedUrlIsLoading, revealedURL, runUpdateRevealedURLs, targetIdToReveal]);
+    // useEffect(() => {
+    //     console.log(addRevealedUrlIsLoading, revealedURL, "useEffect 36rm");
+    //     if (addRevealedUrlIsLoading === false && revealedURL) {
+    //         // update list client side
+    //         const updated = [...revealedURLsContext];
+    //         const targetItemIndex = updated.findIndex(h => h.housingId === targetIdToReveal);
+    //         console.log(targetItemIndex, updated[targetItemIndex], "42rm");
+    //         updated[targetItemIndex].url = revealedURL;
+    //         setRevealedURLsContext(updated);
+    //         const justIds = updated.map(housingWithUrl => housingWithUrl.housingId);
+    //         setRevealedURLsIds(justIds);
+    //     }
+    // }, [addRevealedUrlIsLoading, revealedURL, runUpdateRevealedURLs, targetIdToReveal]);
 
     function requestAddNewURL(housingId: number) {
         console.log("geting url for", housingId, "43rm");

@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useAuth } from "../../context/AuthContext";
+import { CreditsModalContext, ICreditsModalContext } from "../../context/CreditsModalContext";
 import Button from "../button/Button";
 
 interface FavoritesItemProps {
@@ -17,7 +18,9 @@ const FavoritesItem: React.FC<FavoritesItemProps> = ({
     hasBeenRevealed,
     runRevealUrl,
 }: FavoritesItemProps) => {
-    const { decrementCredits } = useAuth();
+    const { outOfCredits } = useAuth();
+    const { openAddCreditsModal } = useContext(CreditsModalContext) as ICreditsModalContext;
+
     return (
         <div className="mt-3 py-2 pl-2 h-12 grid grid-cols-6 bg-white rounded-lg">
             <div className="col-span-2 pl-1">
@@ -39,6 +42,10 @@ const FavoritesItem: React.FC<FavoritesItemProps> = ({
             <div
                 className="col-span-1"
                 onClick={() => {
+                    if (outOfCredits) {
+                        openAddCreditsModal();
+                        return;
+                    }
                     runRevealUrl();
                 }}
             >

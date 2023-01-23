@@ -3,21 +3,21 @@ import { handleError } from "../util/handleError";
 import { useAuth } from "../context/AuthContext";
 import { LogInAuth } from "../interface/payload/LogInAuth.interface";
 import { SignUpAuth } from "../interface/payload/SignUpAuth.interface";
-import { UserProfile } from "../interface/UserProfile.interface";
+import { UserAccount } from "../interface/UserAccount.interface";
 import axios from "axios";
 import { getEndpoint } from "../util/getEndpoint";
 import { makeHeaders } from "../util/makeHeaders";
 import { ForgotPassword } from "../interface/payload/ForgotPassword.interface";
 
 export function useSignUpWithEmailAPI(): {
-    signUpData: UserProfile | undefined;
+    signUpData: UserAccount | undefined;
     signUpErr: string;
     signUpIsLoaded: boolean;
     runSignUp: Function;
     backendMsg: string;
 } {
     const [backendMsg, setBackendMsg] = useState("");
-    const [signUpData, setSignUpData] = useState<UserProfile | undefined>(undefined);
+    const [signUpData, setSignUpData] = useState<UserAccount | undefined>(undefined);
     const [signUpErr, setSignUpErr] = useState("");
     const [signUpIsLoaded, setSignUpIsLoaded] = useState(false);
     const [payload, setPayload] = useState<SignUpAuth | undefined>(undefined);
@@ -53,12 +53,12 @@ export function useSignUpWithEmailAPI(): {
 }
 
 export function useLoginWithEmailAPI(): {
-    loginData: UserProfile | undefined;
+    loginData: UserAccount | undefined;
     loginErr: string;
     loginIsLoaded: boolean;
     runLogin: Function;
 } {
-    const [loginData, setLoginData] = useState<UserProfile | undefined>(undefined);
+    const [loginData, setLoginData] = useState<UserAccount | undefined>(undefined);
     const [loginErr, setLoginErr] = useState("");
     const [loginIsLoaded, setLoginIsLoaded] = useState(false);
     const [payload, setPayload] = useState<LogInAuth | undefined>(undefined);
@@ -97,12 +97,12 @@ export function useLoginWithEmailAPI(): {
 }
 
 export function useRefreshJwtAPI(): {
-    // refreshedUser: UserProfile | undefined;
+    // refreshedUser: UserAccount | undefined;
     refreshErr: string;
     refreshIsLoaded: boolean;
     runRefreshJwt: Function;
 } {
-    // const [refreshedUser, setRefreshedUser] = useState<UserProfile | undefined>(undefined);
+    // const [refreshedUser, setRefreshedUser] = useState<UserAccount | undefined>(undefined);
     const [refreshErr, setRefreshErr] = useState("");
     const [refreshIsLoaded, setRefreshIsLoaded] = useState(false);
     const [run, setRun] = useState(false);
