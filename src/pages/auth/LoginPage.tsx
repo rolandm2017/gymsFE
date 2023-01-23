@@ -52,7 +52,7 @@ const LoginPage: React.FC<{}> = () => {
             <div className="h-full flex">
                 <div className="h-full w-1/2 shadow-2xl z-20 flex flex-col primaryBlueBg">
                     {/* // left hand side */}
-                    <BigQuote quote="Lorem ipsum doloret sit amet, consectur adipsing elit." author="Jack Liu" />
+                    <BigQuote quote="This site helped me keep on track with my lifting goals." author="Jack Liu" />
                     <div className="z-50 loginPageCurve "></div>
                 </div>
                 <div className="absolute z-40 h-screen w-screen ">

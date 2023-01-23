@@ -86,7 +86,7 @@ const SignUpPage: React.FC<{}> = () => {
                 <div className="h-full w-1/2 shadow-2xl z-20 primaryBlueBg">
                     {/* // left hand side */}
                     <div className="h-2/5"></div>
-                    <BigQuote quote="Lorem ipsum doloret sit amet, consectur adipsing elit." author="Jason Bustamante" />
+                    <BigQuote quote="Your site got me going to the gym six days a week." author="Jason Bustamante" />
                     <div className="z-50 signupPageCurve"></div>
                 </div>
                 <div className="absolute z-40 h-screen w-screen ">
