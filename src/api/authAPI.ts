@@ -7,6 +7,7 @@ import { UserProfile } from "../interface/UserProfile.interface";
 import axios from "axios";
 import { getEndpoint } from "../util/getEndpoint";
 import { makeHeaders } from "../util/makeHeaders";
+import { ForgotPassword } from "../interface/payload/ForgotPassword.interface";
 
 export function useSignUpWithEmailAPI(): {
     signUpData: UserProfile | undefined;
@@ -152,7 +153,7 @@ export function useLogOutAPI(): { success: boolean; error: string; loaded: boole
     function runLogOut() {
         setRun(true);
     }
-    // todo: what should this method return?
+
     useEffect(() => {
         if (run) {
             (async () => {
@@ -173,4 +174,35 @@ export function useLogOutAPI(): { success: boolean; error: string; loaded: boole
     }, [run, accessToken]);
 
     return { success, error, loaded, runLogOut };
+}
+
+export function useForgotPasswordEmailAPI() {
+    const [sent, setSent] = useState(false);
+    const [error, setError] = useState("");
+    const [loaded, setLoaded] = useState(false);
+    const [payload, setPayload] = useState<ForgotPassword | undefined>(undefined);
+
+    function runSendForgotPasswordEmail(email: string) {
+        setLoaded(false);
+        setPayload({ email });
+    }
+
+    useEffect(() => {
+        if (payload) {
+            (async () => {
+                try {
+                    const response = await axios.post(getEndpoint("/auth/forgot-password"), { ...payload });
+                    setSent(true);
+                } catch (error) {
+                    const msg = handleError(error);
+                    setError(msg);
+                } finally {
+                    setLoaded(true);
+                    setPayload(undefined);
+                }
+            })();
+        }
+    }, [payload]);
+
+    return { sent, error, loaded, runSendForgotPasswordEmail };
 }

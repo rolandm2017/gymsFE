@@ -12,15 +12,6 @@ import { useAuth } from "../context/AuthContext";
 import { makeHeaders } from "../util/makeHeaders";
 import { getEndpoint } from "../util/getEndpoint";
 
-// this.router.get("/batches/all", authorize([Role.Admin]), this.getAllBatchNumbers.bind(this));
-//this.router.get("/task-queue/all", authorize([Role.Admin]), this.getAllTasks.bind(this));
-//this.router.get("/housing/by-location", authorize([Role.Admin]), this.getApartmentsByLocation.bind(this));
-// /task-queue/markers-by-batch-num
-//this.router.get("/housing/by-city-id-and-batch-num", authorize([Role.Admin]), this.getApartmentsByCityIdAndBatchNum.bind(this));
-//// user stuff:
-//this.router.post("/user/ban", authorize([Role.Admin]), this.banUser.bind(this));
-//this.router.post("/user/make-admin", this.makeAdmin.bind(this));
-
 export function useGetAllBatchNumsAPI(): { batchNums: number[]; getAllBatchNumsErr: string; batchNumsIsLoaded: boolean } {
     // good
     const [batchNums, setBatchNums] = useState<number[]>([]);

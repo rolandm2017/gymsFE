@@ -10,10 +10,10 @@ const SearchBar: React.FC<{}> = () => {
             <div className="w-auto flex justify-between">
                 <div className="inputContainerLeft flex flex-col xl:flex-row">
                     <div className="pr-9">
-                        <Input type="text" placeholder={"Address"} />
+                        <Input type="text" placeholder={"Address"} changeReporter={() => {}} />
                     </div>
                     <div>
-                        <Input type="text" placeholder={"City"} />
+                        <Input type="text" placeholder={"City"} changeReporter={() => {}} />
                     </div>
                 </div>
                 <div className="inputContainerRight w-full flex justify-end">
@@ -22,7 +22,7 @@ const SearchBar: React.FC<{}> = () => {
                             <Input type="text" placeholder={"Min Distance"} />
                         </div> */}
                         <div>
-                            <Input type="text" placeholder={"Max Distance"} />
+                            <Input type="text" placeholder={"Max Distance"} changeReporter={() => {}} />
                         </div>
                     </div>
                     <Button type="Opaque" text="Search" />

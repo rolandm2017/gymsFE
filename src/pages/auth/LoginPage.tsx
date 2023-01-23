@@ -85,7 +85,7 @@ const LoginPage: React.FC<{}> = () => {
                             <div className="mt-4 h-8 mt-3 flex items-center">
                                 <p className="font-xl font-medium text-left">
                                     Forgot your password?{" "}
-                                    <Link to={"/forgot-password"}>
+                                    <Link to={"/account/forgot-password"}>
                                         <span className="linkBlue">Reset it</span>
                                     </Link>
                                     .
