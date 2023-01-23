@@ -37,6 +37,10 @@ export const SEED_CITIES: ICity[] = [
         centerLong: -79.3832,
         scanRadius: 25,
     },
+    { cityName: "Mississauga", centerLat: 43.589, centerLong: -79.6441, scanRadius: 25, country: "Canada" },
+    { cityName: "Brampton", centerLat: 43.7315, centerLong: -79.7624, scanRadius: 25, country: "Canada" },
+    { cityName: "Hamilton", centerLat: 43.2557, centerLong: -79.8711, scanRadius: 25, country: "Canada" },
+    { cityName: "Ottawa", centerLat: 45.4215, centerLong: 75.6972, scanRadius: 25, country: "Canada" },
     {
         cityName: "Montreal",
         country: "Canada",
@@ -45,3 +49,6 @@ export const SEED_CITIES: ICity[] = [
         scanRadius: 25,
     },
 ];
+
+// "Montreal", "Ottawa", "Hamilton", "Brampton", "Mississauga", "Toronto", "Winnipeg", "Edmonton", "Calgary", "Vancouver"
+//

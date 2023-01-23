@@ -60,8 +60,6 @@ const MapPage: React.FC<{}> = () => {
         navigate(newURL);
     }
 
-    // TODO: make "page 1, page 2, page 3" in url (?) to show different pgs of qualified aps
-    // TODO: make apartment cards use real data
     return (
         <PageBase>
             <div id="pageBaseInnerContainer">

@@ -2,7 +2,6 @@ import React, { useEffect, useState, MouseEvent } from "react";
 import NameAndEmail from "./NameAndEmail";
 // import ProfilePic from "./ProfilePic";
 
-import Cat from "../../assets/cat.jpeg";
 import DropdownContainer from "../dropdown/DropdownContainer";
 import DropdownItem from "../dropdown/DropdownItem";
 import { useLogOutAPI } from "../../api/authAPI";

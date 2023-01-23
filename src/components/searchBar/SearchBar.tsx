@@ -10,7 +10,6 @@ import Input from "../input/Input";
 import "./SearchBar.scss";
 import { useNavigate } from "react-router-dom";
 import CityInput from "../input/CityInput";
-import { x } from "joi";
 
 const SearchBar: React.FC<{}> = () => {
     const [city, setCity] = useState("");

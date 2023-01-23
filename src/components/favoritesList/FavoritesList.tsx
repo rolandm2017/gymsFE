@@ -2,14 +2,14 @@ import React, { useEffect } from "react";
 import { useGetFavoritesAPI, useRemoveFavoriteAPI } from "../../api/favoritesAPI";
 import { useAddRevealedURLAPI, useGetRevealedURLsAPI } from "../../api/revealURLAPI";
 import { useAuth } from "../../context/AuthContext";
+import { useFavorites } from "../../context/FavoritesContext";
 import { useRevealedURLs } from "../../context/RevealedURLContext";
 import FavoritesItem from "./FavoritesItem";
 
 const FavoritesList: React.FC<{}> = () => {
     const { decrementCredits } = useAuth();
 
-    const { favorites } = useGetFavoritesAPI();
-    const { runRemoveFavorite } = useRemoveFavoriteAPI();
+    const { favoritesContext, removeFavorite } = useFavorites();
 
     const { revealedURLsContext, revealedURLsIds } = useRevealedURLs();
     const { requestAddNewURL } = useRevealedURLs();
@@ -41,7 +41,7 @@ const FavoritesList: React.FC<{}> = () => {
                     </div>
                 </div>
             </div>
-            {favorites.map(f => {
+            {favoritesContext.map(f => {
                 const isRevealed = revealedURLsIds.includes(f.housingId);
                 return (
                     <FavoritesItem
@@ -49,7 +49,7 @@ const FavoritesList: React.FC<{}> = () => {
                         address={f.address ? f.address : "loading..."}
                         distanceToGym={f.nearbyGyms && f.nearbyGyms.length >= 1 ? f.nearbyGyms[0].distanceInKM : 0}
                         removeFavorite={() => {
-                            runRemoveFavorite(f.housingId);
+                            removeFavorite(f.housingId);
                         }}
                         hasBeenRevealed={isRevealed}
                         runRevealUrl={() => {
