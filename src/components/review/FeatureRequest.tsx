@@ -1,6 +1,11 @@
 import React from "react";
 
-const FeatureRequest: React.FC<{}> = () => {
+interface FeatureRequestProps {
+    answerOneReporter: Function;
+    answerTwoReporter: Function;
+}
+
+const FeatureRequest: React.FC<FeatureRequestProps> = ({ answerOneReporter, answerTwoReporter }: FeatureRequestProps) => {
     return (
         <div className="px-8 pt-3">
             <div className="mb-2 mt-2">
@@ -11,7 +16,12 @@ const FeatureRequest: React.FC<{}> = () => {
                     <h3 className="text-left">Which feature would you like to see on this site?</h3>
                 </div>
                 <div className="flex justify-start">
-                    <textarea className="textAreaShared h-20 w-3/5" />
+                    <textarea
+                        className="textAreaShared h-20 w-3/5"
+                        onChange={e => {
+                            answerOneReporter(e.target.value);
+                        }}
+                    />
                 </div>
             </div>
             <div>
@@ -19,7 +29,12 @@ const FeatureRequest: React.FC<{}> = () => {
                     <h3 className="text-left">What would that feature enable you to do that you can't do?</h3>
                 </div>
                 <div className="flex justify-start">
-                    <textarea className="textAreaShared h-20 w-3/5" />
+                    <textarea
+                        className="textAreaShared h-20 w-3/5"
+                        onChange={e => {
+                            answerTwoReporter(e.target.value);
+                        }}
+                    />
                 </div>
             </div>
         </div>

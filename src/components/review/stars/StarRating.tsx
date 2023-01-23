@@ -3,9 +3,11 @@ import React, { useState } from "react";
 import OrangeStar from "../../../assets/icons8-star-100-orange.png";
 import BlackStar from "../../../assets/icons8-star-100-black.png";
 
-interface StarRatingProps {}
+interface StarRatingProps {
+    valueReporter: Function;
+}
 
-const StarRating: React.FC<StarRatingProps> = ({}) => {
+const StarRating: React.FC<StarRatingProps> = ({ valueReporter }: StarRatingProps) => {
     const [rating, setRating] = useState(0);
     const [hover, setHover] = useState(0);
 
@@ -19,7 +21,10 @@ const StarRating: React.FC<StarRatingProps> = ({}) => {
                         type="button"
                         key={index}
                         className={`starButton`}
-                        onClick={() => setRating(index)}
+                        onClick={() => {
+                            setRating(index);
+                            valueReporter(index);
+                        }}
                         onMouseEnter={() => setHover(index)}
                         onMouseLeave={() => setHover(rating)}
                     >
