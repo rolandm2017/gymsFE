@@ -81,7 +81,7 @@ const LoginPage: React.FC<{}> = () => {
                 </div>
                 <div className="h-full w-full mt-12 sm:mt-0 sm:w-1/2 bg-white flex justify-center items-start sm:items-center">
                     {/* // right hand side */}
-                    <div className="w-1/2">
+                    <div className="w-1/2 z-50">
                         <div className="mb-8 text-left hidden sm:block">
                             <p className="text-4xl font-medium">Log in</p>
                         </div>

@@ -116,7 +116,7 @@ const SignUpPage: React.FC<{}> = () => {
                 </div>
                 <div className="h-full w-full sm:w-1/2 bg-white flex justify-center items-start sm:items-center">
                     {/* // right hand side */}
-                    <div className="w-1/2 mt-12 sm:mt-0">
+                    <div className="w-1/2 mt-12 sm:mt-0 z-50">
                         <div className="mb-8 text-left hidden sm:block">
                             <p className="text-4xl font-medium">Sign up</p>
                         </div>
