@@ -26,7 +26,9 @@ const SearchBar: React.FC<{}> = () => {
     const [yOffset, setY] = useState<number | undefined>();
     const getPosition = () => {
         const x = dropdownRef.current?.offsetLeft;
-        setX(x);
+        if (!x) return; // it'll always be there.
+        const xWithAdjustment = x + 255;
+        setX(xWithAdjustment);
 
         const y = dropdownRef.current?.offsetTop;
         const approxInputHeight = 31;
@@ -41,7 +43,7 @@ const SearchBar: React.FC<{}> = () => {
     }, []);
 
     return (
-        <div className="searchBarContainer h-24 px-6 flex items-center relative">
+        <div className="searchBarContainer h-24 px-6 flex items-center">
             <DropdownContainer
                 isOpen={isOpen}
                 topDisplacement={yOffset}

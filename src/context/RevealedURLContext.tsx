@@ -64,9 +64,6 @@ export function RevealedURLProvider({ children }: RevealedURLContextProps) {
         }
     }, [revealedURLs]);
 
-    // todo: get the housing entry of the housing id from  requestAddNewURL
-    // then put that housing's url to be equal to the realURL returned from the backend.
-    // then put that housing with the url added into the revealedURLsContext
     useEffect(() => {
         // update list when revealed urls list changes
         console.log("Revealing uRL: ", revealedURL, "58rm");
