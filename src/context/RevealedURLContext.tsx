@@ -55,6 +55,7 @@ export function RevealedURLProvider({ children }: RevealedURLContextProps) {
     // then put that housing with the url added into the revealedURLsContext
     useEffect(() => {
         // update list when revealed urls list changes
+        console.log("Revealing uRL: ", revealedURL, "58rm");
         if (revealedURL) {
             const correspondingAp = qualified.find((ap: IHousing) => ap.housingId === targetIdToReveal);
             if (correspondingAp === undefined) {
@@ -93,6 +94,7 @@ export function RevealedURLProvider({ children }: RevealedURLContextProps) {
         if (apartment === undefined) {
             throw Error("Failed to find apartment with this housing id");
         }
+        console.log(apartment.url, "96rm");
         return apartment.url;
     }
 

@@ -125,7 +125,7 @@ export function useRefreshJwtAPI(): {
                     const { acctId, email, name, role, isVerified, credits, favoriteCity, jwtToken } = response.data;
                     // console.log(jwtToken, "setting access token, 125rm");
                     setAccessToken(jwtToken ? jwtToken : "");
-                    // console.log({ acctId, email, name, role, isVerified, credits, favoriteCity }, "127rm");
+                    console.log({ acctId, email, name, role, isVerified, credits, favoriteCity }, "127rm");
                     setProfile({ acctId, email, name, role, isVerified, credits, favoriteCity });
                 } catch (error) {
                     console.warn("failed to refresh token");

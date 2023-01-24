@@ -53,7 +53,7 @@ export function AuthProvider({ children }: AuthContextProps) {
 
     useEffect(() => {
         // if out of credits, set out of credits
-        if (profile === undefined || profile.credits === 0) {
+        if (profile && profile.credits === 0) {
             setOutOfCredits(true);
         }
     }, [profile]);
@@ -119,6 +119,7 @@ export function AuthProvider({ children }: AuthContextProps) {
         }
         const toUpdate = { ...profile };
         toUpdate.credits = newAmount;
+        setOutOfCredits(false);
         setProfile(toUpdate);
     }
 

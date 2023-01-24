@@ -24,6 +24,7 @@ const AddCreditsModal: React.FC<{}> = ({}) => {
                     <div
                         className="w-full h-full absolute z-30 bg-transparent"
                         onClick={() => {
+                            setSuccessMsg(""); // reset
                             closeAddCreditsModal();
                         }}
                     >
@@ -37,6 +38,8 @@ const AddCreditsModal: React.FC<{}> = ({}) => {
                             className="w-36 h-10 flex justify-center z-50"
                             onClick={() => {
                                 runGetFreeCredits();
+                                setSuccessMsg(""); // reset
+
                                 closeAddCreditsModal();
                             }}
                         >
@@ -45,6 +48,7 @@ const AddCreditsModal: React.FC<{}> = ({}) => {
                         <div
                             className="mt-8 w-36 h-10 z-50"
                             onClick={() => {
+                                setSuccessMsg(""); // reset
                                 closeAddCreditsModal();
                             }}
                         >

@@ -13,6 +13,8 @@ interface ApartmentCardActionsProps {
 }
 
 const ApartmentCardActions: React.FC<ApartmentCardActionsProps> = ({ apartmentId }: ApartmentCardActionsProps) => {
+    const [isLoading, setIsLoading] = useState(false);
+
     const { pushNewClientSideFavorite, favoritesIds } = useFavorites();
     const { revealedURLsIds, getURLForId, requestAddNewURL } = useRevealedURLs();
     const { outOfCredits } = useAuth();
@@ -41,15 +43,21 @@ const ApartmentCardActions: React.FC<ApartmentCardActionsProps> = ({ apartmentId
                         <Button type="Opaque" text="Visit" size="Small" />
                     </a>
                 </div>
+            ) : isLoading ? (
+                <div className="ml-2 ">
+                    <Button text="Loading" type="GreyedOut" size="Small" />
+                </div>
             ) : (
                 <div
                     className="ml-2 "
                     onClick={() => {
+                        console.log(outOfCredits, "48rm");
                         if (outOfCredits) {
                             openAddCreditsModal();
                             return;
                         }
                         requestAddNewURL(apartmentId);
+                        setIsLoading(true);
                     }}
                 >
                     <Button type="Opaque" text="Get URL" size="Small" />
