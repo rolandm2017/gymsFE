@@ -36,10 +36,24 @@ export function RevealedURLProvider({ children }: RevealedURLContextProps) {
     const [revealedURLsIds, setRevealedURLsIds] = useState<number[]>([]);
     const [targetIdToReveal, setTargetIdToReveal] = useState<number | undefined>(undefined);
 
-    const { revealedURL, runAddRevealedURL, addRevealedUrlIsLoading } = useAddRevealedURLAPI();
+    const { revealedURL, runAddRevealedURL, revealURLErr, addRevealedUrlIsLoading } = useAddRevealedURLAPI();
     const { revealedURLs, runUpdateRevealedURLs } = useGetRevealedURLsAPI();
 
     const { qualified } = useContext(LocationsProviderContext) as ILocationContext;
+
+    useEffect(() => {
+        // handle failure of addRevealedURL
+        if (revealURLErr) {
+            const failedBecauseDeadLink = revealURLErr === "Dead link detected";
+            if (failedBecauseDeadLink) {
+                // todo: 1. inform the user
+                // todo: 2. remove it from the array
+                console.log("Dead link detected");
+            }
+            // const failedBecauseNoCredits = revealURLErr === "No credits available";
+            // throw Error("No credits available");
+        }
+    });
 
     useEffect(() => {
         // when they load, load them.

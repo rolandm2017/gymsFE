@@ -10,12 +10,12 @@ import { makeHeaders } from "../util/makeHeaders";
 export function useAddRevealedURLAPI(): {
     revealedURL: string;
     addRevealedUrlIsLoading: boolean;
-    err: string;
+    revealURLErr: string;
     runAddRevealedURL: Function;
 } {
     const [revealedURL, setRevealedURL] = useState<string>("");
     const [addRevealedUrlIsLoading, setAddRevealedUrlIsLoading] = useState(false);
-    const [err, setErr] = useState("");
+    const [revealURLErr, setRevealURLErr] = useState("");
     const [payload, setPayload] = useState<GenericHousingIdPayload | undefined>(undefined);
 
     function runAddRevealedURL(housingId: number) {
@@ -30,20 +30,24 @@ export function useAddRevealedURLAPI(): {
         if (payload && accessToken) {
             (async () => {
                 try {
-                    setErr(""); // clear old error
+                    setRevealURLErr(""); // clear old error
                     console.log(payload, "payload 34rm");
                     const response = await axios.get(getEndpoint("/housing/real-url/" + payload.housingId), {
                         ...makeHeaders(accessToken),
                         data: { ...payload },
                     });
-                    const { apartmentId, realURL, success } = response.data;
-                    console.log(response.data, "40rm");
-                    console.log(revealedURL, "new url 41rm");
-                    setRevealedURL(realURL);
+                    const { apartmentId, realURL, serviceResponse, success } = response.data;
+                    if (serviceResponse) {
+                        setRevealURLErr(serviceResponse);
+                    } else {
+                        console.log(response.data, "40rm");
+                        console.log(revealedURL, "new url 41rm");
+                        setRevealedURL(realURL);
+                    }
                 } catch (error) {
                     console.warn("failed to refresh token");
                     const msg = handleError(error);
-                    setErr(msg);
+                    setRevealURLErr(msg);
                 } finally {
                     setAddRevealedUrlIsLoading(false);
                     setPayload(undefined);
@@ -52,7 +56,7 @@ export function useAddRevealedURLAPI(): {
         }
     }, [payload, accessToken]);
 
-    return { revealedURL, addRevealedUrlIsLoading, err, runAddRevealedURL };
+    return { revealedURL, addRevealedUrlIsLoading, revealURLErr, runAddRevealedURL };
 }
 
 export function useGetRevealedURLsAPI(): {
