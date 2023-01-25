@@ -22,7 +22,9 @@ const TitledDropdownWithButtons: React.FC<TitledDropdownWithButtonsProps> = ({ t
     }
     return (
         <div>
-            <div>{title}</div>
+            <div>
+                <h4 className="text-xl">{title}</h4>
+            </div>
             <div className="flex mx-4 items-center">
                 <div
                     onClick={() => {

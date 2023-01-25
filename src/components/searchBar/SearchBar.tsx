@@ -11,9 +11,14 @@ import "./SearchBar.scss";
 import { useNavigate } from "react-router-dom";
 import CityInput from "../input/CityInput";
 
-const SearchBar: React.FC<{}> = () => {
-    const [city, setCity] = useState("");
+interface SearchBarProps {
+    runSearch: Function;
+}
+
+const SearchBar: React.FC<SearchBarProps> = ({ runSearch }: SearchBarProps) => {
     const [cityInput, setCityInput] = useState("");
+    const [minDistance, setMinDistance] = useState(0);
+    const [maxDistance, setMaxDistance] = useState(0);
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -69,7 +74,8 @@ const SearchBar: React.FC<{}> = () => {
             <div className="w-auto flex justify-between">
                 <div className="inputContainerLeft flex flex-col xl:flex-row">
                     <div className="pr-9">
-                        <Input type="text" placeholder={"Address"} changeReporter={() => {}} />
+                        {/* <Input type="text" placeholder={"Address"} changeReporter={() => {}} /> */}
+                        {/* // todo: use geolocating via google to convert addr => long,lat */}
                     </div>
                     <div ref={dropdownRef}>
                         <CityInput
@@ -89,10 +95,19 @@ const SearchBar: React.FC<{}> = () => {
                             <Input type="text" placeholder={"Min Distance"} />
                         </div> */}
                         <div>
-                            <Input type="text" placeholder={"Max Distance"} changeReporter={() => {}} />
+                            <Input type="text" placeholder={"Min Distance In Minutes"} changeReporter={setMinDistance} />
+                        </div>
+                        <div>
+                            <Input type="text" placeholder={"Max Distance In Minutes"} changeReporter={setMaxDistance} />
                         </div>
                     </div>
-                    <Button type="Opaque" text="Search" />
+                    <Button
+                        type="Opaque"
+                        text="Search"
+                        onClickHandler={() => {
+                            runSearch(cityInput, minDistance, maxDistance);
+                        }}
+                    />
                 </div>
             </div>
         </div>

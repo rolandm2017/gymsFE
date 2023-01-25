@@ -21,21 +21,26 @@ export function useGetAllBatchNumsAPI(): { batchNums: number[]; getAllBatchNumsE
     const { accessToken } = useAuth();
 
     useEffect(() => {
-        (async () => {
-            try {
-                setGetAllBatchNumsErr("");
-                const path = "/admin/batches/all";
-                const response = await axios.get(path, { ...makeHeaders(accessToken) });
-                const { batchNums } = response.data;
-                setBatchNums(batchNums);
-            } catch (err) {
-                const msg = handleError(err);
-                setGetAllBatchNumsErr(msg);
-            } finally {
-                setLoaded(true);
-            }
-        })();
-    }, []);
+        if (accessToken) {
+            (async () => {
+                try {
+                    setGetAllBatchNumsErr("");
+                    const path = "/admin/batches/all";
+                    const fullPath = getEndpoint(path);
+                    console.log(fullPath, "30rm");
+                    const response = await axios.get(fullPath, { ...makeHeaders(accessToken) });
+                    const { batchNums } = response.data;
+                    console.log(batchNums, "33rm");
+                    setBatchNums(batchNums);
+                } catch (err) {
+                    const msg = handleError(err);
+                    setGetAllBatchNumsErr(msg);
+                } finally {
+                    setLoaded(true);
+                }
+            })();
+        }
+    }, [accessToken]);
 
     return { batchNums, getAllBatchNumsErr, batchNumsIsLoaded };
 }
@@ -54,12 +59,14 @@ export function useGetAllTasksAPI(): { allTasks: ITask[]; runGetAllTasks: Functi
     const { accessToken } = useAuth();
 
     useEffect(() => {
-        if (payload && !loaded) {
+        if (payload && !loaded && accessToken) {
             (async () => {
                 try {
                     setGetAllTasksErr("");
                     const path = "/admin/task-queue/all";
-                    const response = await axios.get(path, { ...makeHeaders });
+                    const fullPath = getEndpoint(path);
+                    console.log(fullPath, "67rm");
+                    const response = await axios.get(fullPath, { ...makeHeaders });
                     const tasks = response.data;
                     setAllTasks(tasks);
                 } catch (err) {
@@ -71,7 +78,7 @@ export function useGetAllTasksAPI(): { allTasks: ITask[]; runGetAllTasks: Functi
                 }
             })();
         }
-    }, [payload, loaded]);
+    }, [payload, loaded, accessToken]);
 
     return { allTasks, runGetAllTasks, getAllTasksErr, loaded };
 }
@@ -97,13 +104,16 @@ export function useGetTaskMarkersByBatchNumAPI(): {
     const { accessToken } = useAuth();
 
     useEffect(() => {
-        if (payload && !getTaskMarkersIsLoaded) {
+        if (payload && !getTaskMarkersIsLoaded && accessToken) {
             (async () => {
                 try {
                     setGetTaskMarkerByBatchNumErr("");
                     const path = "/admin/task-queue/tasks-by-batch-num";
-                    const response = await axios.get(path, { ...makeHeaders(accessToken), params: { ...payload } });
-                    const tasks = response.data;
+                    const fullPath = getEndpoint(path);
+                    console.log(fullPath, "112rm");
+                    const response = await axios.get(fullPath, { ...makeHeaders(accessToken), params: { ...payload } });
+                    const { tasks } = response.data;
+                    console.log(tasks, "116rm");
                     setTaskMarkersForBatchNum(tasks);
                 } catch (err) {
                     const msg = handleError(err);
@@ -115,7 +125,7 @@ export function useGetTaskMarkersByBatchNumAPI(): {
                 }
             })();
         }
-    }, [payload, getTaskMarkersIsLoaded]);
+    }, [payload, getTaskMarkersIsLoaded, accessToken]);
 
     return { taskMarkersForBatchNum, runGetTaskMarkersByBatchNum, getTaskMarkerByBatchNumErr, getTaskMarkersIsLoaded, loadedBatchNum };
 }
@@ -139,12 +149,14 @@ export function useGetHousingByLocationAPI(): {
     const { accessToken } = useAuth();
 
     useEffect(() => {
-        if (payload && !loaded) {
+        if (payload && !loaded && accessToken) {
             (async () => {
                 try {
                     setGetHousingByLocationErr("");
-                    const path = "/admin/batches/all";
-                    const response = await axios.get(getEndpoint(path), { ...makeHeaders(accessToken) });
+                    const path = "/housing/by-location";
+                    const fullPath = getEndpoint(path);
+                    console.log(fullPath, "150rm");
+                    const response = await axios.get(fullPath, { ...makeHeaders(accessToken) });
                     const tasks = response.data;
                     setHousingByLocation(tasks);
                 } catch (err) {
@@ -156,7 +168,7 @@ export function useGetHousingByLocationAPI(): {
                 }
             })();
         }
-    }, [payload, loaded]);
+    }, [payload, loaded, accessToken]);
 
     return { housingByLocation, runGetHousingByLocation, getHousingByLocationErr, loaded };
 }
@@ -180,13 +192,16 @@ export function useGetHousingByCityIdAndBatchNumAPI(): {
     const { accessToken } = useAuth();
 
     useEffect(() => {
-        if (payload && !loaded) {
+        if (payload && !loaded && accessToken) {
             (async () => {
                 try {
                     setGetHousingByCityIdAndBatchNumErr("");
                     const path = "/admin/housing/by-city-id-and-batch-num";
                     //     const response = await axios.get(baseUrl + path, { params: { cityId, batchNum }, headers });
-                    const response = await axios.get(getEndpoint(path), { ...makeHeaders(accessToken), params: { payload } });
+                    const fullPath = getEndpoint(path);
+                    console.log(fullPath, "150rm");
+
+                    const response = await axios.get(fullPath, { ...makeHeaders(accessToken), params: { payload } });
                     const tasks = response.data;
                     setHousingByCityIdAndBatchNum(tasks);
                 } catch (err) {
@@ -198,7 +213,7 @@ export function useGetHousingByCityIdAndBatchNumAPI(): {
                 }
             })();
         }
-    }, [payload, loaded]);
+    }, [payload, loaded, accessToken]);
 
     return { housingByCityIdAndBatchNum, runGetHousingByCityIdAndBatchNum, getHousingByCityIdAndBatchNumErr, loaded };
 }

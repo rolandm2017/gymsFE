@@ -15,6 +15,7 @@ import WithAuthentication from "../../components/hoc/WithAuth";
 import { useNavigate, useRoutes, useSearchParams } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import NavigationBtnsWithNavLink from "../../components/navigationBtns/NavigationBtnWithNavLink";
+import { useSearchAPI } from "../../api/placesAPI";
 
 const MapPage: React.FC<{}> = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
@@ -74,11 +75,13 @@ const MapPage: React.FC<{}> = () => {
         return "/map?city=" + cityName + "&pageNum=" + minusOne;
     }
 
+    const { searchResults, runSearch } = useSearchAPI();
+
     return (
         <PageBase>
             <div id="pageBaseInnerContainer">
                 {/* Results */}
-                <SearchBar />
+                <SearchBar runSearch={runSearch} />
                 <div id="middleContainer" className="w-full mt-5 flex flex-col md2:flex-row">
                     {qualified && qualified.length > 0 ? (
                         <PaidMap center={[45, -73]} qualifiedFromCurrentPage={qualifiedFromCurrentPage} activeApartment={active} />

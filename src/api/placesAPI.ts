@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useAuth } from "../context/AuthContext";
 import { Provider } from "../enum/provider.enum";
 import { IDemoHousing } from "../interface/DemoHousing.interface";
 import { IGym } from "../interface/Gym.interface";
@@ -8,6 +9,7 @@ import { GetApartments } from "../interface/payload/GetApartments.interface";
 import { GetGyms } from "../interface/payload/GetGyms.interface";
 import { GetQualifiedAps } from "../interface/payload/GetQualifiedAps.interface";
 import { MapViewportDimensions } from "../interface/payload/MapViewportDimensions.interface";
+import { SearchQuery } from "../interface/payload/Search.interface";
 import { getEndpoint } from "../util/getEndpoint";
 import { handleError } from "../util/handleError";
 
@@ -155,4 +157,37 @@ export function useGetQualifiedApsAPI(): { qualifiedAps: IHousing[]; runGetQuali
     }, [payload, qualifiedApsAreLoaded]);
 
     return { qualifiedAps, runGetQualifiedAps, err, qualifiedApsAreLoaded };
+}
+
+export function useSearchAPI() {
+    const [searchResults, setSearchResults] = useState<IHousing[]>([]);
+    const [err, setErr] = useState("");
+    const [payload, setPayload] = useState<SearchQuery | undefined>(undefined);
+
+    const { accessToken } = useAuth();
+
+    function runSearch(cityName: string, minDistance: number, maxDistance: number) {
+        setPayload({ cityName, minDistance, maxDistance });
+    }
+
+    useEffect(() => {
+        if (payload) {
+            (async () => {
+                try {
+                    setErr("");
+                    const path = "/housing/search";
+                    const res = await axios.get(getEndpoint(path), { params: { ...payload } });
+                    const { apartments } = res.data;
+                    setSearchResults(apartments);
+                } catch (err) {
+                    const msg = handleError(err);
+                    setErr(msg);
+                } finally {
+                    setPayload(undefined);
+                }
+            })();
+        }
+    }, [payload]);
+
+    return { searchResults, runSearch };
 }

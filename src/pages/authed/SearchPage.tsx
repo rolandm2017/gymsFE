@@ -13,6 +13,7 @@ import { getCurrentPageResults } from "../../util/getCurrentPageResults";
 import WithAuthentication from "../../components/hoc/WithAuth";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { useSearchAPI } from "../../api/placesAPI";
 
 const SearchPage: React.FC<{}> = props => {
     const [currentPage, setCurrentPage] = useState<number>(1);
@@ -34,14 +35,16 @@ const SearchPage: React.FC<{}> = props => {
         navigate("/search?city=" + cityName + "&pageNum=" + pageNum);
     }
 
+    const { searchResults, runSearch } = useSearchAPI();
+
     return (
         <PageBase>
             <div id="searchPage">
                 {/* Results */}
-                <SearchBar />
+                <SearchBar runSearch={runSearch} />
                 <TitleBar />
                 <div className="pb-6">
-                    {qualifiedFromCurrentPage.map((ap, i) => (
+                    {searchResults.map((ap, i) => (
                         <DetailsBar
                             key={i}
                             address={ap.address}

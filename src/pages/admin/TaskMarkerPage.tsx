@@ -27,10 +27,21 @@ const TaskMarkerPage: React.FC<{}> = props => {
         useGetTaskMarkersByBatchNumAPI();
 
     useEffect(() => {
+        // load the batch markers for the start batch num
+        runGetTaskMarkersByBatchNum(1);
+    }, []);
+
+    useEffect(() => {
         if (batchNumsIsLoaded && batchNums.length !== 0) {
             setBatchNumbers(batchNums);
         }
     }, [batchNumsIsLoaded, batchNumbers.length, batchNums]);
+
+    useEffect(() => {
+        // load task markers for city onCityChange
+        if (activeCityIndex && activeBatchNum) {
+        }
+    });
 
     useEffect(() => {
         const activeBatchNumIsSet = activeBatchNum !== undefined;
@@ -40,6 +51,7 @@ const TaskMarkerPage: React.FC<{}> = props => {
         }
         const newTaskMarkersAreLoaded = activeBatchNum === loadedBatchNum;
         if (newTaskMarkersAreLoaded) {
+            console.log(taskMarkersForBatchNum, "50rm");
             setTasks(taskMarkersForBatchNum);
         }
     }, [activeBatchNum, loadedBatchNum, taskMarkersForBatchNum, runGetTaskMarkersByBatchNum]);

@@ -24,10 +24,11 @@ const TitledDropdown: React.FC<TitledDropdownProps> = ({ title, options, valueRe
         const asInteger = parseInt(e.target.value, 10);
         valueReporter(asInteger);
     }
-    console.log(activeOption, "activeOption 22rm");
     return (
         <div>
-            <div>{title}</div>
+            <div>
+                <h4 className="text-xl">{title}</h4>
+            </div>
             <div>
                 <select
                     onChange={e => {
