@@ -81,10 +81,21 @@ const AdminTasksMap: React.FC<AdminTasksMapboxProps> = ({ center, tasks }) => {
     }, [map, tasks]);
 
     function unpackMarkers(tasks: ITask[]): mapboxgl.Marker[] {
+        let errors = 0;
         const taskMarkers: mapboxgl.Marker[] = tasks.map(task => {
             const colorChoice = task.taskId % hexCodes.length;
-            return new mapboxgl.Marker({ color: hexCodes[colorChoice].colorCode, scale: 1.4 }).setLngLat([task.long, task.lat]);
+            try {
+                const marker = new mapboxgl.Marker({ color: hexCodes[colorChoice].colorCode, scale: 1.4 }).setLngLat([task.long, task.lat]);
+                return marker;
+            } catch (err) {
+                console.log(task, "91rm");
+                // console.log(err);
+                errors++;
+                const errorMarker = new mapboxgl.Marker({ color: hexCodes[colorChoice].colorCode, scale: 1.4 }).setLngLat([0, 0]);
+                return errorMarker;
+            }
         });
+        console.log(errors, "98rm");
 
         return taskMarkers;
     }

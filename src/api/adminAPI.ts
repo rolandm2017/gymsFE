@@ -83,22 +83,23 @@ export function useGetAllTasksAPI(): { allTasks: ITask[]; runGetAllTasks: Functi
     return { allTasks, runGetAllTasks, getAllTasksErr, loaded };
 }
 
-export function useGetTaskMarkersByBatchNumAPI(): {
-    taskMarkersForBatchNum: ITask[];
-    runGetTaskMarkersByBatchNum: Function;
+export function useGetTaskMarkersByBatchNumAndCityIdAPI(): {
+    taskMarkersForBatchNumAndCityId: ITask[];
+    runGetTaskMarkersByBatchNumAndCityId: Function;
     getTaskMarkerByBatchNumErr: string;
     getTaskMarkersIsLoaded: boolean;
     loadedBatchNum: number | undefined;
 } {
-    const [taskMarkersForBatchNum, setTaskMarkersForBatchNum] = useState<ITask[]>([]);
+    const [taskMarkersForBatchNumAndCityId, setTaskMarkersForBatchNumAndCityId] = useState<ITask[]>([]);
     const [getTaskMarkerByBatchNumErr, setGetTaskMarkerByBatchNumErr] = useState("");
     const [getTaskMarkersIsLoaded, setLoaded] = useState(false);
-    const [payload, setPayload] = useState<GetTaskMarkersByBatchNum | undefined>(undefined);
     const [loadedBatchNum, setLoadedBatchNum] = useState<number | undefined>(undefined);
+    const [payload, setPayload] = useState<GetTaskMarkersByBatchNum | undefined>(undefined);
 
-    function runGetTaskMarkersByBatchNum(batchNum: number) {
+    function runGetTaskMarkersByBatchNumAndCityId(batchNum: number, cityId: number) {
         setLoaded(false);
-        setPayload({ batchNum });
+        console.log(batchNum, cityId, "101rm");
+        setPayload({ batchNum, cityId });
     }
 
     const { accessToken } = useAuth();
@@ -108,13 +109,13 @@ export function useGetTaskMarkersByBatchNumAPI(): {
             (async () => {
                 try {
                     setGetTaskMarkerByBatchNumErr("");
-                    const path = "/admin/task-queue/tasks-by-batch-num";
+                    const path = "/admin/task-queue/tasks-by-batch-num-and-city-id";
                     const fullPath = getEndpoint(path);
-                    console.log(fullPath, "112rm");
+                    console.log(fullPath, payload, "112rm");
                     const response = await axios.get(fullPath, { ...makeHeaders(accessToken), params: { ...payload } });
                     const { tasks } = response.data;
                     console.log(tasks, "116rm");
-                    setTaskMarkersForBatchNum(tasks);
+                    setTaskMarkersForBatchNumAndCityId(tasks);
                 } catch (err) {
                     const msg = handleError(err);
                     setGetTaskMarkerByBatchNumErr(msg);
@@ -127,7 +128,13 @@ export function useGetTaskMarkersByBatchNumAPI(): {
         }
     }, [payload, getTaskMarkersIsLoaded, accessToken]);
 
-    return { taskMarkersForBatchNum, runGetTaskMarkersByBatchNum, getTaskMarkerByBatchNumErr, getTaskMarkersIsLoaded, loadedBatchNum };
+    return {
+        taskMarkersForBatchNumAndCityId,
+        runGetTaskMarkersByBatchNumAndCityId,
+        getTaskMarkerByBatchNumErr,
+        getTaskMarkersIsLoaded,
+        loadedBatchNum,
+    };
 }
 
 export function useGetHousingByLocationAPI(): {

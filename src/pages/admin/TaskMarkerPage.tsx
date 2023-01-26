@@ -2,33 +2,41 @@ import React, { useEffect, useState } from "react";
 //
 import PageBase from "../PageBase";
 import Button from "../../components/button/Button";
-import { useGetAllBatchNumsAPI, useGetTaskMarkersByBatchNumAPI } from "../../api/adminAPI";
+import { useGetAllBatchNumsAPI, useGetTaskMarkersByBatchNumAndCityIdAPI } from "../../api/adminAPI";
 import { ITask } from "../../interface/Task.interface";
 
 import "./TaskMarkerPage.scss";
 import TitledDropdown from "../../components/titledDropdown/TitledDropdown";
 import AdminTasksMap from "../../components/map/AdminTasksMap";
-import TitledDropdownWithButtons from "../../components/titledDropdownWithButtons/TitledDropdownWithButtons";
+import TitledDropdownWithButtons from "../../components/titledDropdown/TitledDropdownWithButtons";
 import { SEED_CITIES } from "../../util/cities";
 import AsAdmin from "../../components/hoc/AsAdmin";
 import WithAuthentication from "../../components/hoc/WithAuth";
+import TitledCityDropdown from "../../components/titledDropdown/TitledCitiesDropdown";
 
 const TaskMarkerPage: React.FC<{}> = props => {
     // responses from server
     const [tasks, setTasks] = useState<ITask[]>([]);
     const [batchNumbers, setBatchNumbers] = useState<number[]>([]);
     // inputs
-    const [cityId, setCityId] = useState<number>(6); // FIXME: city id should come from hardcoded enum or enum-esque thing
-    const [activeBatchNum, setActiveBatchNum] = useState<number | undefined>(undefined);
-    const [activeCityIndex, setActiveCityIndex] = useState<number | undefined>(undefined);
+    const [activeBatchNum, setActiveBatchNum] = useState<number>(1); // default 1st batch
+    const [activeCityId, setActiveCityId] = useState<number>(6); // default montreal
+    const [mapCenter, setMapCenter] = useState<number[]>([]);
+    const [activeProvider, setActiveProvider] = useState("all");
 
     const { batchNums, getAllBatchNumsErr, batchNumsIsLoaded } = useGetAllBatchNumsAPI();
-    const { taskMarkersForBatchNum, runGetTaskMarkersByBatchNum, getTaskMarkerByBatchNumErr, getTaskMarkersIsLoaded, loadedBatchNum } =
-        useGetTaskMarkersByBatchNumAPI();
+
+    const {
+        taskMarkersForBatchNumAndCityId,
+        runGetTaskMarkersByBatchNumAndCityId,
+        getTaskMarkerByBatchNumErr,
+        getTaskMarkersIsLoaded,
+        loadedBatchNum,
+    } = useGetTaskMarkersByBatchNumAndCityIdAPI();
 
     useEffect(() => {
         // load the batch markers for the start batch num
-        runGetTaskMarkersByBatchNum(1);
+        runGetTaskMarkersByBatchNumAndCityId(activeBatchNum, activeCityId);
     }, []);
 
     useEffect(() => {
@@ -39,22 +47,34 @@ const TaskMarkerPage: React.FC<{}> = props => {
 
     useEffect(() => {
         // load task markers for city onCityChange
-        if (activeCityIndex && activeBatchNum) {
+        if (activeCityId && activeBatchNum) {
         }
     });
+
+    useEffect(() => {
+        // re-center city on city when city changes
+        const longLatOfCity = [SEED_CITIES[activeCityId].centerLong, SEED_CITIES[activeCityId].centerLat];
+        setMapCenter(longLatOfCity);
+    }, [activeCityId]);
+
+    useEffect(() => {
+        // load task markers when the loaded batch num changes
+        const loadWhateverIsLoaded = activeBatchNum === undefined;
+        const newTaskMarkersAreLoaded = activeBatchNum === loadedBatchNum;
+        console.log(activeBatchNum, loadedBatchNum, "50rm");
+        console.log(taskMarkersForBatchNumAndCityId, "51rm");
+        if (newTaskMarkersAreLoaded || loadWhateverIsLoaded) {
+            setTasks(taskMarkersForBatchNumAndCityId);
+        }
+    }, [activeBatchNum, loadedBatchNum, taskMarkersForBatchNumAndCityId]);
 
     useEffect(() => {
         const activeBatchNumIsSet = activeBatchNum !== undefined;
         const timeToGetNewTaskMarkers = activeBatchNum !== loadedBatchNum;
         if (activeBatchNumIsSet && timeToGetNewTaskMarkers) {
-            runGetTaskMarkersByBatchNum(activeBatchNum);
+            runGetTaskMarkersByBatchNumAndCityId(activeBatchNum, activeCityId);
         }
-        const newTaskMarkersAreLoaded = activeBatchNum === loadedBatchNum;
-        if (newTaskMarkersAreLoaded) {
-            console.log(taskMarkersForBatchNum, "50rm");
-            setTasks(taskMarkersForBatchNum);
-        }
-    }, [activeBatchNum, loadedBatchNum, taskMarkersForBatchNum, runGetTaskMarkersByBatchNum]);
+    }, [activeBatchNum, loadedBatchNum, taskMarkersForBatchNumAndCityId, runGetTaskMarkersByBatchNumAndCityId, activeCityId]);
 
     return (
         <PageBase>
@@ -64,8 +84,10 @@ const TaskMarkerPage: React.FC<{}> = props => {
                         <AdminTasksMap
                             tasks={tasks}
                             center={[
-                                SEED_CITIES[activeCityIndex ? activeCityIndex : 0].centerLat,
-                                SEED_CITIES[activeCityIndex ? activeCityIndex : 0].centerLong,
+                                // SEED_CITIES[activeCityIndex ? activeCityIndex : 0].centerLat,
+                                // SEED_CITIES[activeCityIndex ? activeCityIndex : 0].centerLong,
+                                mapCenter[0],
+                                mapCenter[1],
                             ]}
                         />
                     </div>
@@ -76,12 +98,12 @@ const TaskMarkerPage: React.FC<{}> = props => {
                             valueReporter={setActiveBatchNum}
                             activeOption={activeBatchNum}
                         />
+                        <TitledCityDropdown title="City" options={SEED_CITIES} valueReporter={setActiveCityId} activeOption={activeCityId} />
                         <TitledDropdown
-                            title="City"
-                            options={SEED_CITIES}
-                            valueReporter={setActiveCityIndex}
-                            activeOption={activeCityIndex}
-                            usesCities={true}
+                            title="Provider"
+                            options={["all", "rentCanada", "rentFaster", "rentSeeker"]}
+                            valueReporter={setActiveProvider}
+                            activeOption={activeProvider}
                         />
                     </div>
                 </div>

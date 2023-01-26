@@ -3,17 +3,18 @@ import React, { useEffect, useState } from "react";
 import PageBase from "../PageBase";
 import { IHousing } from "../../interface/Housing.interface";
 import Button from "../../components/button/Button";
-import { useGetAllBatchNumsAPI, useGetHousingByLocationAPI, useGetTaskMarkersByBatchNumAPI, useHealthCheckAPI } from "../../api/adminAPI";
+import { useGetAllBatchNumsAPI, useGetHousingByLocationAPI, useGetTaskMarkersByBatchNumAndCityIdAPI, useHealthCheckAPI } from "../../api/adminAPI";
 import { ITask } from "../../interface/Task.interface";
 import AdminMap from "../../components/map/AdminApartmentsMap";
 
 import "./ScrapesPage.scss";
 import TitledDropdown from "../../components/titledDropdown/TitledDropdown";
 import AdminApartmentsMap from "../../components/map/AdminApartmentsMap";
-import TitledDropdownWithButtons from "../../components/titledDropdownWithButtons/TitledDropdownWithButtons";
+import TitledDropdownWithButtons from "../../components/titledDropdown/TitledDropdownWithButtons";
 import { SEED_CITIES } from "../../util/cities";
 import AsAdmin from "../../components/hoc/AsAdmin";
 import WithAuthentication from "../../components/hoc/WithAuth";
+import TitledCityDropdown from "../../components/titledDropdown/TitledCitiesDropdown";
 
 const ScrapesPage: React.FC<{}> = props => {
     // responses from server
@@ -25,7 +26,7 @@ const ScrapesPage: React.FC<{}> = props => {
     const [cityId, setCityId] = useState<number>(6);
     const [activeBatchNum, setActiveBatchNum] = useState<number | undefined>(undefined);
     const [activeTaskId, setActiveTaskId] = useState<number | undefined>(undefined);
-    const [activeCityIndex, setActiveCityIndex] = useState<number | undefined>(undefined);
+    const [activeCityIndex, setActiveCityIndex] = useState<number>(6); // 6 = montreal
     const [longitude, setLongitude] = useState<number>(0);
     const [latitude, setLatitude] = useState<number>(0);
     const [zoom, setZoom] = useState<number>(10);
@@ -33,17 +34,22 @@ const ScrapesPage: React.FC<{}> = props => {
     const [showApartments, setShowApartments] = useState<boolean>(false);
     const [showTaskMarkers, setShowTaskMarkers] = useState<boolean>(false);
 
-    const { taskMarkersForBatchNum, runGetTaskMarkersByBatchNum, getTaskMarkerByBatchNumErr, getTaskMarkersIsLoaded, loadedBatchNum } =
-        useGetTaskMarkersByBatchNumAPI();
+    const {
+        taskMarkersForBatchNumAndCityId,
+        runGetTaskMarkersByBatchNumAndCityId,
+        getTaskMarkerByBatchNumErr,
+        getTaskMarkersIsLoaded,
+        loadedBatchNum,
+    } = useGetTaskMarkersByBatchNumAndCityIdAPI();
 
     const { housingByLocation, runGetHousingByLocation, getHousingByLocationErr, loaded } = useGetHousingByLocationAPI();
 
     useEffect(() => {
         if (getTaskMarkersIsLoaded && loadedBatchNum === activeBatchNum) {
-            setTasks(taskMarkersForBatchNum);
+            setTasks(taskMarkersForBatchNumAndCityId);
         }
         if (activeBatchNum) {
-            runGetTaskMarkersByBatchNum(activeBatchNum);
+            runGetTaskMarkersByBatchNumAndCityId(activeBatchNum, cityId);
         }
     }, [activeBatchNum]);
 
@@ -115,13 +121,7 @@ const ScrapesPage: React.FC<{}> = props => {
                             valueReporter={setActiveBatchNum}
                             activeOption={activeBatchNum}
                         />
-                        <TitledDropdown
-                            title="City"
-                            options={SEED_CITIES}
-                            valueReporter={setActiveCityIndex}
-                            activeOption={activeCityIndex}
-                            usesCities={true}
-                        />
+                        <TitledCityDropdown title="City" options={SEED_CITIES} valueReporter={setActiveCityIndex} activeOption={activeCityIndex} />
                     </div>
                 </div>
                 <div id="underMapContainer" className="flex justify-between mt-3">

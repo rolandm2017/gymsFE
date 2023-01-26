@@ -66,7 +66,6 @@ export function RevealedURLProvider({ children }: RevealedURLContextProps) {
 
     useEffect(() => {
         // update list when revealed urls list changes
-        console.log("Revealing uRL: ", revealedURL, "58rm");
         if (revealedURL) {
             const correspondingAp = qualified.find((ap: IHousing) => ap.housingId === targetIdToReveal);
             if (correspondingAp === undefined) {
