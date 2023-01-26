@@ -13,12 +13,8 @@ const TitledDropdown: React.FC<TitledDropdownProps> = ({ title, options, valueRe
     function handleChange(e: ChangeEvent<HTMLSelectElement>) {
         e.preventDefault();
         console.log(e.target.value);
-        if (e.target.value === "all") {
-            valueReporter(undefined);
-            return;
-        }
-        const asInteger = parseInt(e.target.value, 10);
-        valueReporter(asInteger);
+        valueReporter(e.target.value);
+        return;
     }
     return (
         <div>

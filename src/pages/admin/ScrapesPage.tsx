@@ -34,13 +34,8 @@ const ScrapesPage: React.FC<{}> = props => {
     const [showApartments, setShowApartments] = useState<boolean>(false);
     const [showTaskMarkers, setShowTaskMarkers] = useState<boolean>(false);
 
-    const {
-        taskMarkersForBatchNumAndCityId,
-        runGetTaskMarkersByBatchNumAndCityId,
-        getTaskMarkerByBatchNumErr,
-        getTaskMarkersIsLoaded,
-        loadedBatchNum,
-    } = useGetTaskMarkersByBatchNumAndCityIdAPI();
+    const { taskMarkersForBatchNumAndCityId, runGetTaskMarkersByParameters, getTaskMarkerByBatchNumErr, getTaskMarkersIsLoaded, loadedBatchNum } =
+        useGetTaskMarkersByBatchNumAndCityIdAPI();
 
     const { housingByLocation, runGetHousingByLocation, getHousingByLocationErr, loaded } = useGetHousingByLocationAPI();
 
@@ -49,7 +44,7 @@ const ScrapesPage: React.FC<{}> = props => {
             setTasks(taskMarkersForBatchNumAndCityId);
         }
         if (activeBatchNum) {
-            runGetTaskMarkersByBatchNumAndCityId(activeBatchNum, cityId);
+            runGetTaskMarkersByParameters(activeBatchNum, cityId); // todo: add third arg
         }
     }, [activeBatchNum]);
 

@@ -11,6 +11,7 @@ import { GetAllTasks } from "../interface/payload/GetAllTasks.interface";
 import { useAuth } from "../context/AuthContext";
 import { makeHeaders } from "../util/makeHeaders";
 import { getEndpoint } from "../util/getEndpoint";
+import { ProviderOrAll } from "../enum/provider.enum";
 
 export function useGetAllBatchNumsAPI(): { batchNums: number[]; getAllBatchNumsErr: string; batchNumsIsLoaded: boolean } {
     // good
@@ -85,21 +86,26 @@ export function useGetAllTasksAPI(): { allTasks: ITask[]; runGetAllTasks: Functi
 
 export function useGetTaskMarkersByBatchNumAndCityIdAPI(): {
     taskMarkersForBatchNumAndCityId: ITask[];
-    runGetTaskMarkersByBatchNumAndCityId: Function;
+    runGetTaskMarkersByParameters: Function;
     getTaskMarkerByBatchNumErr: string;
     getTaskMarkersIsLoaded: boolean;
     loadedBatchNum: number | undefined;
+    loadedCityId: number;
+    loadedProvider: ProviderOrAll;
 } {
     const [taskMarkersForBatchNumAndCityId, setTaskMarkersForBatchNumAndCityId] = useState<ITask[]>([]);
     const [getTaskMarkerByBatchNumErr, setGetTaskMarkerByBatchNumErr] = useState("");
     const [getTaskMarkersIsLoaded, setLoaded] = useState(false);
+    // so the app knows when to reload stuff
     const [loadedBatchNum, setLoadedBatchNum] = useState<number | undefined>(undefined);
+    const [loadedCityId, setLoadedCityId] = useState<number>(0);
+    const [loadedProvider, setLoadedProvider] = useState<ProviderOrAll>(ProviderOrAll.all);
     const [payload, setPayload] = useState<GetTaskMarkersByBatchNum | undefined>(undefined);
 
-    function runGetTaskMarkersByBatchNumAndCityId(batchNum: number, cityId: number) {
+    function runGetTaskMarkersByParameters(batchNum: number, cityId: number, provider: ProviderOrAll) {
         setLoaded(false);
         console.log(batchNum, cityId, "101rm");
-        setPayload({ batchNum, cityId });
+        setPayload({ batchNum, cityId, provider });
     }
 
     const { accessToken } = useAuth();
@@ -120,7 +126,10 @@ export function useGetTaskMarkersByBatchNumAndCityIdAPI(): {
                     const msg = handleError(err);
                     setGetTaskMarkerByBatchNumErr(msg);
                 } finally {
+                    // todo: make into useReducer
                     setLoadedBatchNum(payload.batchNum);
+                    setLoadedCityId(payload.cityId);
+                    setLoadedProvider(payload.provider);
                     setLoaded(true);
                     setPayload(undefined);
                 }
@@ -130,10 +139,12 @@ export function useGetTaskMarkersByBatchNumAndCityIdAPI(): {
 
     return {
         taskMarkersForBatchNumAndCityId,
-        runGetTaskMarkersByBatchNumAndCityId,
+        runGetTaskMarkersByParameters,
         getTaskMarkerByBatchNumErr,
         getTaskMarkersIsLoaded,
         loadedBatchNum,
+        loadedCityId,
+        loadedProvider,
     };
 }
 

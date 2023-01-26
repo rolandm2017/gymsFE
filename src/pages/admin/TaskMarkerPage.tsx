@@ -28,15 +28,17 @@ const TaskMarkerPage: React.FC<{}> = props => {
 
     const {
         taskMarkersForBatchNumAndCityId,
-        runGetTaskMarkersByBatchNumAndCityId,
+        runGetTaskMarkersByParameters,
         getTaskMarkerByBatchNumErr,
         getTaskMarkersIsLoaded,
         loadedBatchNum,
+        loadedCityId,
+        loadedProvider,
     } = useGetTaskMarkersByBatchNumAndCityIdAPI();
 
     useEffect(() => {
         // load the batch markers for the start batch num
-        runGetTaskMarkersByBatchNumAndCityId(activeBatchNum, activeCityId);
+        runGetTaskMarkersByParameters(activeBatchNum, activeCityId, activeProvider);
     }, []);
 
     useEffect(() => {
@@ -60,7 +62,7 @@ const TaskMarkerPage: React.FC<{}> = props => {
     useEffect(() => {
         // load task markers when the loaded batch num changes
         const loadWhateverIsLoaded = activeBatchNum === undefined;
-        const newTaskMarkersAreLoaded = activeBatchNum === loadedBatchNum;
+        const newTaskMarkersAreLoaded = activeBatchNum === loadedBatchNum && activeCityId === loadedCityId && activeProvider === loadedProvider;
         console.log(activeBatchNum, loadedBatchNum, "50rm");
         console.log(taskMarkersForBatchNumAndCityId, "51rm");
         if (newTaskMarkersAreLoaded || loadWhateverIsLoaded) {
@@ -70,11 +72,13 @@ const TaskMarkerPage: React.FC<{}> = props => {
 
     useEffect(() => {
         const activeBatchNumIsSet = activeBatchNum !== undefined;
-        const timeToGetNewTaskMarkers = activeBatchNum !== loadedBatchNum;
+        // "if anything on the page doesn't match what's been loaded, update what is loaded to match the page"
+        const timeToGetNewTaskMarkers = activeBatchNum !== loadedBatchNum || activeCityId !== loadedCityId || activeProvider !== loadedProvider;
+        console.log(activeBatchNumIsSet, timeToGetNewTaskMarkers, "69rm");
         if (activeBatchNumIsSet && timeToGetNewTaskMarkers) {
-            runGetTaskMarkersByBatchNumAndCityId(activeBatchNum, activeCityId);
+            runGetTaskMarkersByParameters(activeBatchNum, activeCityId, activeProvider);
         }
-    }, [activeBatchNum, loadedBatchNum, taskMarkersForBatchNumAndCityId, runGetTaskMarkersByBatchNumAndCityId, activeCityId]);
+    }, [activeBatchNum, loadedBatchNum, taskMarkersForBatchNumAndCityId, runGetTaskMarkersByParameters, activeCityId, activeProvider]);
 
     return (
         <PageBase>

@@ -83,7 +83,7 @@ const AdminTasksMap: React.FC<AdminTasksMapboxProps> = ({ center, tasks }) => {
     function unpackMarkers(tasks: ITask[]): mapboxgl.Marker[] {
         let errors = 0;
         const taskMarkers: mapboxgl.Marker[] = tasks.map(task => {
-            const colorChoice = task.taskId % hexCodes.length;
+            const colorChoice = chooseColorByProvider(task.providerName);
             try {
                 const marker = new mapboxgl.Marker({ color: hexCodes[colorChoice].colorCode, scale: 1.4 }).setLngLat([task.long, task.lat]);
                 return marker;
@@ -98,6 +98,13 @@ const AdminTasksMap: React.FC<AdminTasksMapboxProps> = ({ center, tasks }) => {
         console.log(errors, "98rm");
 
         return taskMarkers;
+    }
+
+    function chooseColorByProvider(providerName: string) {
+        if (providerName === "rentCanada") return 1;
+        if (providerName === "rentFaster") return 2;
+        if (providerName === "rentSeeker") return 3;
+        throw Error("invalid provider name");
     }
 
     function addNewMarkers(newMarkers: mapboxgl.Marker[], oldMarkers: mapboxgl.Marker[], markerUpdater: Function, map: mapboxgl.Map) {
