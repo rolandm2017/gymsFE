@@ -24,7 +24,7 @@ const TaskMarkerPage: React.FC<{}> = props => {
     const [availableBatchNumbers, setAvailableBatchNumbers] = useState<number[]>([]);
     // inputs
     const [activeBatchNum, setActiveBatchNum] = useState<number>(1); // default 1st batch
-    const [activeCityId, setActiveCityId] = useState<number>(6); // default montreal
+    const [activeCityId, setActiveCityId] = useState<number>(9); // default montreal
     const [mapCenter, setMapCenter] = useState<number[]>([]);
     const [activeProvider, setActiveProvider] = useState("all");
 
@@ -32,15 +32,8 @@ const TaskMarkerPage: React.FC<{}> = props => {
 
     const { batchNums, getAllBatchNumsErr, batchNumsIsLoaded } = useGetAllBatchNumsAPI();
 
-    const {
-        taskMarkersForBatchNumAndCityId,
-        runGetTaskMarkersByParameters,
-        getTaskMarkerByBatchNumErr,
-        getTaskMarkersIsLoaded,
-        loadedBatchNum,
-        loadedCityName,
-        loadedProvider,
-    } = useGetTaskMarkersByBatchNumAndCityIdAPI();
+    const { taskMarkersForBatchNumAndCityId, runGetTaskMarkersByParameters, getTaskMarkerByBatchNumErr, getTaskMarkersIsLoaded } =
+        useGetTaskMarkersByBatchNumAndCityIdAPI();
 
     useEffect(() => {
         // load the batch markers for the start batch num
@@ -52,43 +45,30 @@ const TaskMarkerPage: React.FC<{}> = props => {
     }, []);
 
     useEffect(() => {
-        if (batchNumsIsLoaded && batchNums) {
+        if (batchNums) {
             setAvailableBatchNumbers(batchNums);
         }
-    }, [batchNumsIsLoaded, availableBatchNumbers.length, batchNums]);
+    }, [batchNums]);
 
     useEffect(() => {
         // re-center city on city when city changes
-        const longLatOfCity = [SEED_CITIES[activeCityId].centerLong, SEED_CITIES[activeCityId].centerLat];
+        const longLatOfCity = [adminCitiesDropdownOptions[activeCityId].centerLong, SEED_CITIES[activeCityId].centerLat];
+        console.log("centered map on", adminCitiesDropdownOptions[activeCityId].cityName);
         setMapCenter(longLatOfCity);
     }, [activeCityId]);
 
     useEffect(() => {
         // load task markers when the loaded batch num changes
-        const loadWhateverIsLoaded = activeBatchNum === undefined;
-        const newTaskMarkersAreLoaded =
-            activeBatchNum === loadedBatchNum && activeCityId === getCorrespondingIndex(loadedCityName) && activeProvider === loadedProvider;
-        console.log(activeBatchNum, loadedBatchNum, "50rm");
-        console.log(taskMarkersForBatchNumAndCityId, "51rm");
-        if (newTaskMarkersAreLoaded || loadWhateverIsLoaded) {
-            setTasks(taskMarkersForBatchNumAndCityId);
-        }
-    }, [activeBatchNum, loadedBatchNum, taskMarkersForBatchNumAndCityId]);
+        setTasks(taskMarkersForBatchNumAndCityId);
+    }, [taskMarkersForBatchNumAndCityId]);
 
     useEffect(() => {
-        const activeBatchNumIsSet = activeBatchNum !== undefined;
-        // "if anything on the page doesn't match what's been loaded, update what is loaded to match the page"
-        const timeToGetNewTaskMarkers =
-            activeBatchNum !== loadedBatchNum || activeCityId !== getCorrespondingIndex(loadedCityName) || activeProvider !== loadedProvider;
-        console.log(activeBatchNumIsSet, timeToGetNewTaskMarkers, "69rm");
-        if (activeBatchNumIsSet && timeToGetNewTaskMarkers) {
-            const correspondingCityOption: ICity = adminCitiesDropdownOptions[activeCityId];
-            // could be "all" also
-            const correspondingCityOptionTitle = correspondingCityOption.cityName;
+        const correspondingCityOption: ICity = adminCitiesDropdownOptions[activeCityId];
+        // could be "all" also
+        const correspondingCityOptionTitle = correspondingCityOption.cityName;
 
-            runGetTaskMarkersByParameters(activeBatchNum, correspondingCityOptionTitle, activeProvider);
-        }
-    }, [activeBatchNum, loadedBatchNum, taskMarkersForBatchNumAndCityId, runGetTaskMarkersByParameters, activeCityId, activeProvider]);
+        runGetTaskMarkersByParameters(activeBatchNum, correspondingCityOptionTitle, activeProvider);
+    }, [activeBatchNum, activeCityId, activeProvider, runGetTaskMarkersByParameters]);
 
     return (
         <PageBase>

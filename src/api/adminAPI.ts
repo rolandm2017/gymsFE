@@ -89,17 +89,11 @@ export function useGetTaskMarkersByBatchNumAndCityIdAPI(): {
     runGetTaskMarkersByParameters: Function;
     getTaskMarkerByBatchNumErr: string;
     getTaskMarkersIsLoaded: boolean;
-    loadedBatchNum: number | undefined;
-    loadedCityName: string;
-    loadedProvider: ProviderOrAll;
 } {
     const [taskMarkersForBatchNumAndCityId, setTaskMarkersForBatchNumAndCityId] = useState<ITask[]>([]);
     const [getTaskMarkerByBatchNumErr, setGetTaskMarkerByBatchNumErr] = useState("");
     const [getTaskMarkersIsLoaded, setLoaded] = useState(false);
     // so the app knows when to reload stuff
-    const [loadedBatchNum, setLoadedBatchNum] = useState<number | undefined>(undefined);
-    const [loadedCityName, setLoadedCityName] = useState<string>("");
-    const [loadedProvider, setLoadedProvider] = useState<ProviderOrAll>(ProviderOrAll.all);
     const [payload, setPayload] = useState<GetTaskMarkersByBatchNum | undefined>(undefined);
 
     function runGetTaskMarkersByParameters(batchNum: number, cityName: string, provider: ProviderOrAll) {
@@ -127,9 +121,6 @@ export function useGetTaskMarkersByBatchNumAndCityIdAPI(): {
                     setGetTaskMarkerByBatchNumErr(msg);
                 } finally {
                     // todo: make into useReducer
-                    setLoadedBatchNum(payload.batchNum);
-                    setLoadedCityName(payload.cityName);
-                    setLoadedProvider(payload.provider);
                     setLoaded(true);
                     setPayload(undefined);
                 }
@@ -142,9 +133,6 @@ export function useGetTaskMarkersByBatchNumAndCityIdAPI(): {
         runGetTaskMarkersByParameters,
         getTaskMarkerByBatchNumErr,
         getTaskMarkersIsLoaded,
-        loadedBatchNum,
-        loadedCityName,
-        loadedProvider,
     };
 }
 

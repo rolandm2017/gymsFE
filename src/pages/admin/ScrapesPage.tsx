@@ -34,13 +34,13 @@ const ScrapesPage: React.FC<{}> = props => {
     const [showApartments, setShowApartments] = useState<boolean>(false);
     const [showTaskMarkers, setShowTaskMarkers] = useState<boolean>(false);
 
-    const { taskMarkersForBatchNumAndCityId, runGetTaskMarkersByParameters, getTaskMarkerByBatchNumErr, getTaskMarkersIsLoaded, loadedBatchNum } =
+    const { taskMarkersForBatchNumAndCityId, runGetTaskMarkersByParameters, getTaskMarkerByBatchNumErr, getTaskMarkersIsLoaded } =
         useGetTaskMarkersByBatchNumAndCityIdAPI();
 
     const { housingByLocation, runGetHousingByLocation, getHousingByLocationErr, loaded } = useGetHousingByLocationAPI();
 
     useEffect(() => {
-        if (getTaskMarkersIsLoaded && loadedBatchNum === activeBatchNum) {
+        if (taskMarkersForBatchNumAndCityId) {
             setTasks(taskMarkersForBatchNumAndCityId);
         }
         if (activeBatchNum) {
