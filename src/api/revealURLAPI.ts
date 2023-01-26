@@ -31,7 +31,6 @@ export function useAddRevealedURLAPI(): {
             (async () => {
                 try {
                     setRevealURLErr(""); // clear old error
-                    console.log(payload, "payload 34rm");
                     const response = await axios.get(getEndpoint("/housing/real-url/" + payload.housingId), {
                         ...makeHeaders(accessToken),
                         data: { ...payload },
@@ -40,8 +39,6 @@ export function useAddRevealedURLAPI(): {
                     if (serviceResponse) {
                         setRevealURLErr(serviceResponse);
                     } else {
-                        console.log(response.data, "40rm");
-                        console.log(revealedURL, "new url 41rm");
                         setRevealedURL(realURL);
                     }
                 } catch (error) {
@@ -84,7 +81,6 @@ export function useGetRevealedURLsAPI(): {
                     setErr(""); // clear old error
                     const response = await axios.get(getEndpoint("/housing/real-url-list"), { headers: { Authorization: "Bearer " + accessToken } });
                     const { revealedURLs } = response.data;
-                    console.log(revealedURLs, "73rm");
                     setRevealedURLs(revealedURLs);
                 } catch (error) {
                     console.warn("failed to refresh token");

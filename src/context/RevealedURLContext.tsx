@@ -79,22 +79,7 @@ export function RevealedURLProvider({ children }: RevealedURLContextProps) {
         }
     }, [revealedURL]);
 
-    // useEffect(() => {
-    //     console.log(addRevealedUrlIsLoading, revealedURL, "useEffect 36rm");
-    //     if (addRevealedUrlIsLoading === false && revealedURL) {
-    //         // update list client side
-    //         const updated = [...revealedURLsContext];
-    //         const targetItemIndex = updated.findIndex(h => h.housingId === targetIdToReveal);
-    //         console.log(targetItemIndex, updated[targetItemIndex], "42rm");
-    //         updated[targetItemIndex].url = revealedURL;
-    //         setRevealedURLsContext(updated);
-    //         const justIds = updated.map(housingWithUrl => housingWithUrl.housingId);
-    //         setRevealedURLsIds(justIds);
-    //     }
-    // }, [addRevealedUrlIsLoading, revealedURL, runUpdateRevealedURLs, targetIdToReveal]);
-
     function requestAddNewURL(housingId: number) {
-        console.log("geting url for", housingId, "43rm");
         runAddRevealedURL(housingId);
         setTargetIdToReveal(housingId);
     }
@@ -104,7 +89,6 @@ export function RevealedURLProvider({ children }: RevealedURLContextProps) {
         if (apartment === undefined) {
             throw Error("Failed to find apartment with this housing id");
         }
-        console.log(apartment.url, "96rm");
         return apartment.url;
     }
 

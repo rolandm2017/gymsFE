@@ -88,14 +88,12 @@ const AdminTasksMap: React.FC<AdminTasksMapboxProps> = ({ center, tasks }) => {
                 const marker = new mapboxgl.Marker({ color: hexCodes[colorChoice].colorCode, scale: 1.4 }).setLngLat([task.long, task.lat]);
                 return marker;
             } catch (err) {
-                console.log(task, "91rm");
                 // console.log(err);
                 errors++;
                 const errorMarker = new mapboxgl.Marker({ color: hexCodes[colorChoice].colorCode, scale: 1.4 }).setLngLat([0, 0]);
                 return errorMarker;
             }
         });
-        console.log(errors, "98rm");
 
         return taskMarkers;
     }

@@ -16,6 +16,7 @@ const TitledCityDropdown: React.FC<TitledCityDropdownProps> = ({ title, options,
         // if (usesCities) {
         const indexOfCity = options.findIndex(city => city.cityName === e.target.value);
         valueReporter(indexOfCity); // city is selected by index
+        // + 1 because who knows, its just what worked
         return;
         // }
         // if (e.target.value === "all") {

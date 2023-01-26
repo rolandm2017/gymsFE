@@ -51,7 +51,6 @@ const ApartmentCardActions: React.FC<ApartmentCardActionsProps> = ({ apartmentId
                 <div
                     className="ml-2 "
                     onClick={() => {
-                        console.log(outOfCredits, "48rm");
                         if (outOfCredits) {
                             openAddCreditsModal();
                             return;

@@ -50,8 +50,6 @@ export function FavoritesProvider({ children }: FavoritesContextProps) {
     }, [favorites]);
 
     function pushNewClientSideFavorite(newFavoriteId: number) {
-        console.log(favoritesContext, newFavoriteId, "32rm");
-
         const newFavorite = qualified.find((housing: IHousing) => housing.housingId === newFavoriteId);
         if (newFavorite === undefined) {
             throw Error("Failed to find favorite in list of qualified");

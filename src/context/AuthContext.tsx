@@ -60,7 +60,6 @@ export function AuthProvider({ children }: AuthContextProps) {
 
     useEffect(() => {
         // try get access token 1x on every page load.
-        console.log("refresh token 41rm");
         // debugger;
         runRefreshJwt();
     }, []);
@@ -94,7 +93,6 @@ export function AuthProvider({ children }: AuthContextProps) {
     }, [accessToken, runRefreshJwt]);
 
     function isLoggedIn() {
-        console.log(!!accessToken, "75rm");
         return !!accessToken;
     }
 

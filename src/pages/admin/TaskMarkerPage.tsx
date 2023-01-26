@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 //
 import PageBase from "../PageBase";
 import Button from "../../components/button/Button";
-import { useGetAllBatchNumsAPI, useGetTaskMarkersByBatchNumAndCityIdAPI } from "../../api/adminAPI";
+import { useDeleteAllTasksAPI, useGetAllBatchNumsAPI, useGetTaskMarkersByBatchNumAndCityIdAPI } from "../../api/adminAPI";
 import { ITask } from "../../interface/Task.interface";
 
 import "./TaskMarkerPage.scss";
@@ -13,16 +13,22 @@ import { SEED_CITIES } from "../../util/cities";
 import AsAdmin from "../../components/hoc/AsAdmin";
 import WithAuthentication from "../../components/hoc/WithAuth";
 import TitledCityDropdown from "../../components/titledDropdown/TitledCitiesDropdown";
+import ExpanderButton from "../../components/button/ExpanderButton";
+import { adminCitiesDropdownOptions } from "../../util/adminCitiesDropdownOptions";
+import { ICity } from "../../interface/City.interface";
+import { getCorrespondingIndex } from "../../util/adminStuff/getCorrespondingIndex";
 
 const TaskMarkerPage: React.FC<{}> = props => {
     // responses from server
     const [tasks, setTasks] = useState<ITask[]>([]);
-    const [batchNumbers, setBatchNumbers] = useState<number[]>([]);
+    const [availableBatchNumbers, setAvailableBatchNumbers] = useState<number[]>([]);
     // inputs
     const [activeBatchNum, setActiveBatchNum] = useState<number>(1); // default 1st batch
     const [activeCityId, setActiveCityId] = useState<number>(6); // default montreal
     const [mapCenter, setMapCenter] = useState<number[]>([]);
     const [activeProvider, setActiveProvider] = useState("all");
+
+    const { runDeleteAllTasks } = useDeleteAllTasksAPI();
 
     const { batchNums, getAllBatchNumsErr, batchNumsIsLoaded } = useGetAllBatchNumsAPI();
 
@@ -32,26 +38,24 @@ const TaskMarkerPage: React.FC<{}> = props => {
         getTaskMarkerByBatchNumErr,
         getTaskMarkersIsLoaded,
         loadedBatchNum,
-        loadedCityId,
+        loadedCityName,
         loadedProvider,
     } = useGetTaskMarkersByBatchNumAndCityIdAPI();
 
     useEffect(() => {
         // load the batch markers for the start batch num
-        runGetTaskMarkersByParameters(activeBatchNum, activeCityId, activeProvider);
+        const correspondingCityOption: ICity = adminCitiesDropdownOptions[activeCityId];
+        // could be "all" also
+        const correspondingCityOptionTitle = correspondingCityOption.cityName;
+
+        runGetTaskMarkersByParameters(activeBatchNum, correspondingCityOptionTitle, activeProvider);
     }, []);
 
     useEffect(() => {
-        if (batchNumsIsLoaded && batchNums.length !== 0) {
-            setBatchNumbers(batchNums);
+        if (batchNumsIsLoaded && batchNums) {
+            setAvailableBatchNumbers(batchNums);
         }
-    }, [batchNumsIsLoaded, batchNumbers.length, batchNums]);
-
-    useEffect(() => {
-        // load task markers for city onCityChange
-        if (activeCityId && activeBatchNum) {
-        }
-    });
+    }, [batchNumsIsLoaded, availableBatchNumbers.length, batchNums]);
 
     useEffect(() => {
         // re-center city on city when city changes
@@ -62,7 +66,8 @@ const TaskMarkerPage: React.FC<{}> = props => {
     useEffect(() => {
         // load task markers when the loaded batch num changes
         const loadWhateverIsLoaded = activeBatchNum === undefined;
-        const newTaskMarkersAreLoaded = activeBatchNum === loadedBatchNum && activeCityId === loadedCityId && activeProvider === loadedProvider;
+        const newTaskMarkersAreLoaded =
+            activeBatchNum === loadedBatchNum && activeCityId === getCorrespondingIndex(loadedCityName) && activeProvider === loadedProvider;
         console.log(activeBatchNum, loadedBatchNum, "50rm");
         console.log(taskMarkersForBatchNumAndCityId, "51rm");
         if (newTaskMarkersAreLoaded || loadWhateverIsLoaded) {
@@ -73,10 +78,15 @@ const TaskMarkerPage: React.FC<{}> = props => {
     useEffect(() => {
         const activeBatchNumIsSet = activeBatchNum !== undefined;
         // "if anything on the page doesn't match what's been loaded, update what is loaded to match the page"
-        const timeToGetNewTaskMarkers = activeBatchNum !== loadedBatchNum || activeCityId !== loadedCityId || activeProvider !== loadedProvider;
+        const timeToGetNewTaskMarkers =
+            activeBatchNum !== loadedBatchNum || activeCityId !== getCorrespondingIndex(loadedCityName) || activeProvider !== loadedProvider;
         console.log(activeBatchNumIsSet, timeToGetNewTaskMarkers, "69rm");
         if (activeBatchNumIsSet && timeToGetNewTaskMarkers) {
-            runGetTaskMarkersByParameters(activeBatchNum, activeCityId, activeProvider);
+            const correspondingCityOption: ICity = adminCitiesDropdownOptions[activeCityId];
+            // could be "all" also
+            const correspondingCityOptionTitle = correspondingCityOption.cityName;
+
+            runGetTaskMarkersByParameters(activeBatchNum, correspondingCityOptionTitle, activeProvider);
         }
     }, [activeBatchNum, loadedBatchNum, taskMarkersForBatchNumAndCityId, runGetTaskMarkersByParameters, activeCityId, activeProvider]);
 
@@ -98,17 +108,25 @@ const TaskMarkerPage: React.FC<{}> = props => {
                     <div id="optionsDropdowns">
                         <TitledDropdownWithButtons
                             title="Batch Number"
-                            options={batchNumbers}
+                            options={availableBatchNumbers}
                             valueReporter={setActiveBatchNum}
                             activeOption={activeBatchNum}
                         />
-                        <TitledCityDropdown title="City" options={SEED_CITIES} valueReporter={setActiveCityId} activeOption={activeCityId} />
+                        <TitledCityDropdown
+                            title="City"
+                            options={adminCitiesDropdownOptions}
+                            valueReporter={setActiveCityId}
+                            activeOption={activeCityId}
+                        />
                         <TitledDropdown
                             title="Provider"
                             options={["all", "rentCanada", "rentFaster", "rentSeeker"]}
                             valueReporter={setActiveProvider}
                             activeOption={activeProvider}
                         />
+                        <div className="mt-24">
+                            <ExpanderButton text="Delete" type="Opaque" onClickHandler={runDeleteAllTasks} />
+                        </div>
                     </div>
                 </div>
                 <div id="underMapContainer" className="flex justify-between mt-3">

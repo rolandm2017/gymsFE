@@ -92,13 +92,11 @@ const PaidMap: React.FC<PaidMapProps> = ({ center, qualifiedFromCurrentPage, act
             allMarkers = [apartmentMarkers, gymMarkers].flat();
 
             addNewMarkers(allMarkers, markers, setMarkers, map.current);
-            console.log("100 rm");
             putAllMarkersIntoView(allMarkers, map.current);
         }
         return () => {
             // remove all old markers
             for (const marker of allMarkers) {
-                console.log("removing marker 91rm");
                 marker.remove();
             }
         };

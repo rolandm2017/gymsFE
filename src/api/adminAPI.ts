@@ -90,7 +90,7 @@ export function useGetTaskMarkersByBatchNumAndCityIdAPI(): {
     getTaskMarkerByBatchNumErr: string;
     getTaskMarkersIsLoaded: boolean;
     loadedBatchNum: number | undefined;
-    loadedCityId: number;
+    loadedCityName: string;
     loadedProvider: ProviderOrAll;
 } {
     const [taskMarkersForBatchNumAndCityId, setTaskMarkersForBatchNumAndCityId] = useState<ITask[]>([]);
@@ -98,14 +98,14 @@ export function useGetTaskMarkersByBatchNumAndCityIdAPI(): {
     const [getTaskMarkersIsLoaded, setLoaded] = useState(false);
     // so the app knows when to reload stuff
     const [loadedBatchNum, setLoadedBatchNum] = useState<number | undefined>(undefined);
-    const [loadedCityId, setLoadedCityId] = useState<number>(0);
+    const [loadedCityName, setLoadedCityName] = useState<string>("");
     const [loadedProvider, setLoadedProvider] = useState<ProviderOrAll>(ProviderOrAll.all);
     const [payload, setPayload] = useState<GetTaskMarkersByBatchNum | undefined>(undefined);
 
-    function runGetTaskMarkersByParameters(batchNum: number, cityId: number, provider: ProviderOrAll) {
+    function runGetTaskMarkersByParameters(batchNum: number, cityName: string, provider: ProviderOrAll) {
         setLoaded(false);
-        console.log(batchNum, cityId, "101rm");
-        setPayload({ batchNum, cityId, provider });
+        console.log(batchNum, cityName, "101rm");
+        setPayload({ batchNum, cityName, provider });
     }
 
     const { accessToken } = useAuth();
@@ -115,7 +115,7 @@ export function useGetTaskMarkersByBatchNumAndCityIdAPI(): {
             (async () => {
                 try {
                     setGetTaskMarkerByBatchNumErr("");
-                    const path = "/admin/task-queue/tasks-by-batch-num-and-city-id";
+                    const path = "/admin/task-queue/tasks-by-batch-num-and-city-name";
                     const fullPath = getEndpoint(path);
                     console.log(fullPath, payload, "112rm");
                     const response = await axios.get(fullPath, { ...makeHeaders(accessToken), params: { ...payload } });
@@ -128,7 +128,7 @@ export function useGetTaskMarkersByBatchNumAndCityIdAPI(): {
                 } finally {
                     // todo: make into useReducer
                     setLoadedBatchNum(payload.batchNum);
-                    setLoadedCityId(payload.cityId);
+                    setLoadedCityName(payload.cityName);
                     setLoadedProvider(payload.provider);
                     setLoaded(true);
                     setPayload(undefined);
@@ -143,7 +143,7 @@ export function useGetTaskMarkersByBatchNumAndCityIdAPI(): {
         getTaskMarkerByBatchNumErr,
         getTaskMarkersIsLoaded,
         loadedBatchNum,
-        loadedCityId,
+        loadedCityName,
         loadedProvider,
     };
 }
@@ -234,6 +234,36 @@ export function useGetHousingByCityIdAndBatchNumAPI(): {
     }, [payload, loaded, accessToken]);
 
     return { housingByCityIdAndBatchNum, runGetHousingByCityIdAndBatchNum, getHousingByCityIdAndBatchNumErr, loaded };
+}
+
+export function useDeleteAllTasksAPI() {
+    const [run, setRun] = useState(false);
+
+    function runDeleteAllTasks() {
+        setRun(true);
+    }
+
+    const { accessToken } = useAuth();
+
+    useEffect(() => {
+        if (run && accessToken) {
+            (async () => {
+                try {
+                    const path = "/task-queue/all";
+                    const response = await axios.delete(getEndpoint(path), { ...makeHeaders(accessToken) });
+                    const { data } = response;
+                    console.log(data);
+                } catch (err) {
+                    const msg = handleError(err);
+                    console.log(msg);
+                } finally {
+                    setRun(false);
+                }
+            })();
+        }
+    });
+
+    return { runDeleteAllTasks };
 }
 
 // this.router.get("/housing/by-location", authorize([Role.Admin]), this.getApartmentsByLocation.bind(this));

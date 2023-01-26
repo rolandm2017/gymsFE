@@ -24,7 +24,6 @@ const LoginPage: React.FC<{}> = () => {
     const { loginData, loginErr, loginIsLoaded, runLogin } = useLoginWithEmailAPI();
 
     useEffect(() => {
-        console.log(loginErr, "26rm");
         setErr(loginErr);
     }, [loginErr]);
 
@@ -32,13 +31,11 @@ const LoginPage: React.FC<{}> = () => {
         // redirect to dashboard if user credentials are returned
         if (loginData && loginIsLoaded) {
             setProfile(loginData);
-            console.log("going to dashboard 29rm");
             navigate("/dashboard");
         }
     }, [loginData, loginIsLoaded, navigate, setProfile]);
 
     function submitLogIn() {
-        console.log("submitting login 35rm");
         runLogin(email, password);
     }
 

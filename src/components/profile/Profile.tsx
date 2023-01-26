@@ -25,7 +25,6 @@ function Profile() {
         const maxDisplacement = getMaxLeftDisplacement(dropdownWidth, viewportWidth);
         const xPos = e.pageX < maxDisplacement ? e.pageX : maxDisplacement;
         const yPos = e.pageY;
-        console.log(dropdownWidth, viewportWidth, xPos, yPos, "20rm");
         setTopDisplacement(yPos);
         setLeftDisplacement(xPos);
     }
@@ -45,7 +44,6 @@ function Profile() {
             id="profile"
             className="pr-10"
             onClick={e => {
-                console.log(isOpen, "14rm");
                 setIsOpen(!isOpen);
                 setDropdownPosition(e, dropdownWidth);
             }}

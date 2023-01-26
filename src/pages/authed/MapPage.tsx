@@ -26,14 +26,11 @@ const MapPage: React.FC<{}> = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const pageNum = searchParams.get("pageNum");
     const city = searchParams.get("city");
-    console.log(pageNum, "24rm");
 
     useEffect(() => {
         // if mapPage, set as current page
-        console.log(pageNum, "31rm");
         if (pageNum) {
             const pageAsInteger = parseInt(pageNum, 10);
-            console.log("setting current pg as", pageAsInteger, "33rm");
             setCurrentPage(pageAsInteger);
         }
     }, [setCurrentPage, pageNum]);
@@ -91,7 +88,6 @@ const MapPage: React.FC<{}> = () => {
                             ? qualifiedFromCurrentPage.map((ap, i) => {
                                   const address = ap.address ? ap.address : "Placeholder St.";
                                   const associatedGymsWithDistances = ap.nearbyGyms as IAssociation[];
-                                  //   console.log(ap, "52rm");
                                   return (
                                       <ApartmentCard
                                           key={i}

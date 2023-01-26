@@ -128,7 +128,6 @@ const ScrapesPage: React.FC<{}> = props => {
                         className=""
                         onClick={() => {
                             console.log("foo");
-                            console.log(apartments, "67rm");
                         }}
                     >
                         <Button type={"Transparent"} text={"Inspect"} onClickHandler={() => {}} />

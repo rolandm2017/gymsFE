@@ -19,7 +19,6 @@ const SearchPage: React.FC<{}> = props => {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const { qualified } = useContext(LocationsProviderContext) as ILocationContext;
     const [active, setActive] = useState<number | null>(null);
-    // console.log(isOpen, "22rm");
 
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
