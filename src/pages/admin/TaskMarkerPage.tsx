@@ -21,7 +21,7 @@ import { getCorrespondingBatchNum, getCorrespondingCityName } from "../../util/a
 const TaskMarkerPage: React.FC<{}> = props => {
     // responses from server
     const [tasks, setTasks] = useState<ITask[]>([]);
-    // const [availableBatchNumbers, setAvailableBatchNumbers] = useState<number[]>([]);
+    const [availableBatchNumbers, setAvailableBatchNumbers] = useState<number[]>([]);
     // inputs
     const [activeBatchNumIndex, setActiveBatchNumIndex] = useState<number>(0); // default 1st batch
     const [activeCityId, setActiveCityId] = useState<number>(0); // default montreal
@@ -37,6 +37,11 @@ const TaskMarkerPage: React.FC<{}> = props => {
 
     // **
     // "on page load" stuff
+    useEffect(() => {
+        if (batchNums) {
+            setAvailableBatchNumbers(batchNums);
+        }
+    }, [batchNums]);
 
     // runs when task markers is updated by hook
     useEffect(() => {
@@ -46,28 +51,28 @@ const TaskMarkerPage: React.FC<{}> = props => {
 
     // re-center city on city when city changes
     useEffect(() => {
-        const longLatOfCity = [adminCitiesDropdownOptions[activeCityId].centerLong, SEED_CITIES[activeCityId].centerLat];
+        const longLatOfActiveCity = [adminCitiesDropdownOptions[activeCityId].centerLong, SEED_CITIES[activeCityId].centerLat];
         console.log("centered map on", adminCitiesDropdownOptions[activeCityId].cityName);
-        setMapCenter(longLatOfCity);
+        setMapCenter(longLatOfActiveCity);
     }, [activeCityId]);
 
     // runs when the availableBatchNumbers are loaded
     useEffect(() => {
         // run only if avail batch #s has loaded
-        if (batchNums && batchNums.length > 0) {
+        if (availableBatchNumbers && availableBatchNumbers.length > 0) {
             // ** this hook handles loading the page the first time.
             // ** hence there are no dependencies.
             // load the batch markers for the start batch num
             const correspondingCityOption: ICity = adminCitiesDropdownOptions[activeCityId];
             // could be "all" also
             const correspondingCityOptionTitle = correspondingCityOption.cityName;
-            console.log(batchNums, activeBatchNumIndex, "54rm");
-            const correspondingBatchNum = getCorrespondingBatchNum(activeBatchNumIndex, batchNums); //
-            console.log(activeBatchNumIndex, batchNums, correspondingBatchNum, "56rm");
+            console.log(availableBatchNumbers, activeBatchNumIndex, "54rm");
+            const correspondingBatchNum = getCorrespondingBatchNum(activeBatchNumIndex, availableBatchNumbers); //
+            console.log(activeBatchNumIndex, availableBatchNumbers, correspondingBatchNum, "56rm");
 
             runGetTaskMarkersByParameters(correspondingBatchNum, correspondingCityOptionTitle, activeProvider);
         }
-    }, [batchNums, activeBatchNumIndex, activeCityId, activeProvider, runGetTaskMarkersByParameters]);
+    }, [availableBatchNumbers, activeBatchNumIndex, activeCityId, activeProvider, runGetTaskMarkersByParameters]);
 
     // ** end "on page load" stuff
     // **
@@ -77,12 +82,12 @@ const TaskMarkerPage: React.FC<{}> = props => {
         const correspondingCityOption: ICity = adminCitiesDropdownOptions[activeCityId];
         // could be "all" also
         const correspondingCityOptionTitle = correspondingCityOption.cityName;
-        const activeBatchNumWasUpdated = getCorrespondingBatchNum(activeBatchNumIndex, batchNums) !== loadedBatchNum;
+        const activeBatchNumWasUpdated = getCorrespondingBatchNum(activeBatchNumIndex, availableBatchNumbers) !== loadedBatchNum;
         const activeCityWasUpdated = getCorrespondingCityName(activeCityId) !== loadedCityName;
         const activeProviderWasUpdated = activeProvider !== loadedProvider;
         if (activeBatchNumWasUpdated || activeCityWasUpdated || activeProviderWasUpdated) {
-            const correspondingBatchNum = getCorrespondingBatchNum(activeBatchNumIndex, batchNums); //
-            console.log(activeBatchNumIndex, batchNums, correspondingBatchNum, "87rm");
+            const correspondingBatchNum = getCorrespondingBatchNum(activeBatchNumIndex, availableBatchNumbers); //
+            console.log(activeBatchNumIndex, availableBatchNumbers, correspondingBatchNum, "87rm");
             runGetTaskMarkersByParameters(correspondingBatchNum, correspondingCityOptionTitle, activeProvider);
         }
     }, [activeBatchNumIndex, activeCityId, activeProvider, runGetTaskMarkersByParameters, loadedBatchNum, loadedCityName, loadedProvider]);
@@ -105,7 +110,7 @@ const TaskMarkerPage: React.FC<{}> = props => {
                     <div id="optionsDropdowns">
                         <TitledDropdownWithButtons
                             title="Batch Number"
-                            options={batchNums}
+                            options={availableBatchNumbers}
                             valueReporter={setActiveBatchNumIndex}
                             activeOption={activeBatchNumIndex}
                         />
