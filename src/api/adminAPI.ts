@@ -89,11 +89,17 @@ export function useGetTaskMarkersByBatchNumAndCityIdAPI(): {
     runGetTaskMarkersByParameters: Function;
     getTaskMarkerByBatchNumErr: string;
     getTaskMarkersIsLoaded: boolean;
+    loadedBatchNum: number | undefined;
+    loadedCityName: string;
+    loadedProvider: ProviderOrAll;
 } {
     const [taskMarkersForBatchNumAndCityId, setTaskMarkersForBatchNumAndCityId] = useState<ITask[]>([]);
     const [getTaskMarkerByBatchNumErr, setGetTaskMarkerByBatchNumErr] = useState("");
     const [getTaskMarkersIsLoaded, setLoaded] = useState(false);
     // so the app knows when to reload stuff
+    const [loadedBatchNum, setLoadedBatchNum] = useState<number | undefined>(undefined);
+    const [loadedCityName, setLoadedCityName] = useState<string>("");
+    const [loadedProvider, setLoadedProvider] = useState<ProviderOrAll>(ProviderOrAll.all);
     const [payload, setPayload] = useState<GetTaskMarkersByBatchNum | undefined>(undefined);
 
     function runGetTaskMarkersByParameters(batchNum: number, cityName: string, provider: ProviderOrAll) {
@@ -114,13 +120,16 @@ export function useGetTaskMarkersByBatchNumAndCityIdAPI(): {
                     console.log(fullPath, payload, "112rm");
                     const response = await axios.get(fullPath, { ...makeHeaders(accessToken), params: { ...payload } });
                     const { tasks } = response.data;
-                    console.log(tasks, "116rm");
+                    // console.log(payload, tasks, "116rm");
                     setTaskMarkersForBatchNumAndCityId(tasks);
                 } catch (err) {
                     const msg = handleError(err);
                     setGetTaskMarkerByBatchNumErr(msg);
                 } finally {
                     // todo: make into useReducer
+                    setLoadedBatchNum(payload.batchNum);
+                    setLoadedCityName(payload.cityName);
+                    setLoadedProvider(payload.provider);
                     setLoaded(true);
                     setPayload(undefined);
                 }
@@ -133,6 +142,9 @@ export function useGetTaskMarkersByBatchNumAndCityIdAPI(): {
         runGetTaskMarkersByParameters,
         getTaskMarkerByBatchNumErr,
         getTaskMarkersIsLoaded,
+        loadedBatchNum,
+        loadedCityName,
+        loadedProvider,
     };
 }
 

@@ -13,6 +13,7 @@ const WithAuthentication = (WrappedComponent: FunctionComponent) => {
             if (refreshIsLoaded) {
                 const stillNoAccessToken = accessToken.length === 0;
                 if (stillNoAccessToken) {
+                    console.warn(accessToken, "you are not logged in, redirecting...");
                     navigate("/");
                     return;
                 }

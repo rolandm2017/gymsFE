@@ -17,11 +17,13 @@ const TitledDropdownWithButtons: React.FC<TitledDropdownWithButtonsProps> = ({ t
             valueReporter(undefined);
             return;
         }
+        console.log(e.target.value, "eeeeeeeeeeee 46rm");
+
         const asInteger = parseInt(e.target.value, 10);
         valueReporter(asInteger);
     }
     return (
-        <div>
+        <div className="">
             <div>
                 <h4 className="text-xl">{title}</h4>
             </div>
@@ -41,7 +43,9 @@ const TitledDropdownWithButtons: React.FC<TitledDropdownWithButtonsProps> = ({ t
                 </div>
                 <div className="w-full">
                     <select
+                        className="w-full"
                         onChange={e => {
+                            console.log(e, "eeeeeeeeeeee 46rm");
                             handleChange(e);
                         }}
                         value={activeOption}
@@ -51,6 +55,7 @@ const TitledDropdownWithButtons: React.FC<TitledDropdownWithButtonsProps> = ({ t
                                 <option
                                     key={i}
                                     onClick={() => {
+                                        console.log("option", option, "oooooo 56rm");
                                         valueReporter(option);
                                     }}
                                     value={option}

@@ -1,5 +1,5 @@
-import { ICity } from "../interface/City.interface";
-import { SEED_CITIES } from "./cities";
+import { ICity } from "../../interface/City.interface";
+import { SEED_CITIES } from "../cities";
 
 const allCitiesOption: ICity = {
     cityName: "all",

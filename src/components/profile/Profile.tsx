@@ -32,6 +32,7 @@ function Profile() {
     const { success, loaded, runLogOut } = useLogOutAPI();
 
     useEffect(() => {
+        console.log(success, loaded, "35rm");
         if (success && loaded) {
             navigate("/");
         }
@@ -62,6 +63,7 @@ function Profile() {
             </DropdownContainer>
             <div className="flex">
                 <div className="flex">
+                    {profile?.role === "ADMIN" ? <div>admin</div> : null}
                     <div>
                         <CreditsCounter />
                     </div>

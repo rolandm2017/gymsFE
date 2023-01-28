@@ -13,7 +13,9 @@ const AsAdmin = (WrappedComponent: FunctionComponent) => {
             // todo: if admin, render. else, redirect.
             if (profile) {
                 const isAdmin = profile.role === Role.Admin;
+
                 if (!isAdmin) {
+                    console.warn(profile.role, "You are not an admin, redirecting");
                     navigate("/");
                 }
             }
