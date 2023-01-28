@@ -8,6 +8,7 @@ import useWindowSize from "../../util/useWindowSize";
 
 import "./Map.scss";
 import { hexCodes } from "../../util/hexCodes";
+import { putAllMarkersIntoView } from "../../util/mapTools/putAllMarkersIntoView";
 
 const MAPBOX_TOKEN: string = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN || "";
 mapboxgl.accessToken = MAPBOX_TOKEN;
@@ -77,6 +78,7 @@ const AdminTasksMap: React.FC<AdminTasksMapboxProps> = ({ center, tasks }) => {
             const taskMarkers = unpackMarkers(tasks);
 
             addNewMarkers(taskMarkers, markers, setMarkers, map.current);
+            putAllMarkersIntoView(taskMarkers, map.current);
         }
     }, [map, tasks]);
 

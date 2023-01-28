@@ -34,7 +34,7 @@ const ScrapesPage: React.FC<{}> = props => {
     const [showApartments, setShowApartments] = useState<boolean>(false);
     const [showTaskMarkers, setShowTaskMarkers] = useState<boolean>(false);
 
-    const { taskMarkersForBatchNumAndCityId, runGetTaskMarkersByParameters, getTaskMarkerByBatchNumErr, getTaskMarkersIsLoaded } =
+    const { taskMarkersForBatchNumAndCityId, runGetTaskMarkersByParameters, getTaskMarkerByBatchNumErr, getTaskMarkersIsLoading } =
         useGetTaskMarkersByBatchNumAndCityIdAPI();
 
     const { housingByLocation, runGetHousingByLocation, getHousingByLocationErr, loaded } = useGetHousingByLocationAPI();

@@ -1,6 +1,7 @@
 import { ICity } from "../../interface/City.interface";
 import { SEED_CITIES } from "../cities";
 
+// this was removed because loading all markers for all cities was a huge lag
 const allCitiesOption: ICity = {
     cityName: "all",
     country: "Canada",
@@ -9,4 +10,4 @@ const allCitiesOption: ICity = {
     scanRadius: 25,
 };
 
-export const adminCitiesDropdownOptions: ICity[] = [allCitiesOption, ...SEED_CITIES];
+export const adminCitiesDropdownOptions: ICity[] = [...SEED_CITIES];

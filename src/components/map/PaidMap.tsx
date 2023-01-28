@@ -7,6 +7,7 @@ import { IHousing } from "../../interface/Housing.interface";
 import { ILatLong } from "../../interface/LatLong.interface";
 import { IViewportBounds } from "../../interface/ViewportBounds.interface";
 import { calculateWalkTimeInMinutes } from "../../util/calcWalkTime";
+import { putAllMarkersIntoView } from "../../util/mapTools/putAllMarkersIntoView";
 import { truncateDecimals } from "../../util/truncateDecimals";
 
 import useWindowSize from "../../util/useWindowSize";
@@ -143,27 +144,27 @@ const PaidMap: React.FC<PaidMapProps> = ({ center, qualifiedFromCurrentPage, act
         return { apartmentMarkers, gymMarkers };
     }
 
-    function putAllMarkersIntoView(markers: mapboxgl.Marker[], map: mapboxgl.Map): void {
-        var bounds = new mapboxgl.LngLatBounds();
+    // function putAllMarkersIntoView(markers: mapboxgl.Marker[], map: mapboxgl.Map): void {
+    //     var bounds = new mapboxgl.LngLatBounds();
 
-        const latitudes: number[] = [];
-        const longitudes: number[] = [];
-        markers.forEach(function (marker) {
-            const coords = marker.getLngLat();
-            latitudes.push(coords.lat);
-            longitudes.push(coords.lng);
-            bounds.extend(coords);
-        });
-        const minLat = Math.min(...latitudes);
-        const minLong = Math.min(...longitudes);
-        const maxLat = Math.max(...latitudes);
-        const maxLong = Math.max(...longitudes);
-        const fitBoundsPadding = 0.006;
-        map.fitBounds([
-            [minLong - fitBoundsPadding, minLat - fitBoundsPadding],
-            [maxLong + fitBoundsPadding, maxLat + fitBoundsPadding],
-        ]);
-    }
+    //     const latitudes: number[] = [];
+    //     const longitudes: number[] = [];
+    //     markers.forEach(function (marker) {
+    //         const coords = marker.getLngLat();
+    //         latitudes.push(coords.lat);
+    //         longitudes.push(coords.lng);
+    //         bounds.extend(coords);
+    //     });
+    //     const minLat = Math.min(...latitudes);
+    //     const minLong = Math.min(...longitudes);
+    //     const maxLat = Math.max(...latitudes);
+    //     const maxLong = Math.max(...longitudes);
+    //     const fitBoundsPadding = 0.006;
+    //     map.fitBounds([
+    //         [minLong - fitBoundsPadding, minLat - fitBoundsPadding],
+    //         [maxLong + fitBoundsPadding, maxLat + fitBoundsPadding],
+    //     ]);
+    // }
 
     function makePopupHTMLForApartment(apartment: IHousing): string {
         const nearbyGym = apartment.nearbyGyms ? apartment.nearbyGyms[0].gym?.name : "No gyms found";

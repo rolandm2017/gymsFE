@@ -88,14 +88,14 @@ export function useGetTaskMarkersByBatchNumAndCityIdAPI(): {
     taskMarkersForBatchNumAndCityId: ITask[];
     runGetTaskMarkersByParameters: Function;
     getTaskMarkerByBatchNumErr: string;
-    getTaskMarkersIsLoaded: boolean;
+    getTaskMarkersIsLoading: boolean;
     loadedBatchNum: number | undefined;
     loadedCityName: string;
     loadedProvider: ProviderOrAll;
 } {
     const [taskMarkersForBatchNumAndCityId, setTaskMarkersForBatchNumAndCityId] = useState<ITask[]>([]);
     const [getTaskMarkerByBatchNumErr, setGetTaskMarkerByBatchNumErr] = useState("");
-    const [getTaskMarkersIsLoaded, setLoaded] = useState(false);
+    const [getTaskMarkersIsLoading, setIsLoading] = useState(false);
     // so the app knows when to reload stuff
     const [loadedBatchNum, setLoadedBatchNum] = useState<number | undefined>(undefined);
     const [loadedCityName, setLoadedCityName] = useState<string>("");
@@ -103,7 +103,7 @@ export function useGetTaskMarkersByBatchNumAndCityIdAPI(): {
     const [payload, setPayload] = useState<GetTaskMarkersByBatchNum | undefined>(undefined);
 
     function runGetTaskMarkersByParameters(batchNum: number, cityName: string, provider: ProviderOrAll) {
-        setLoaded(false);
+        setIsLoading(true);
         console.log(batchNum, cityName, "101rm");
         setPayload({ batchNum, cityName, provider });
     }
@@ -111,7 +111,7 @@ export function useGetTaskMarkersByBatchNumAndCityIdAPI(): {
     const { accessToken } = useAuth();
 
     useEffect(() => {
-        if (payload && !getTaskMarkersIsLoaded && accessToken) {
+        if (payload && getTaskMarkersIsLoading && accessToken) {
             (async () => {
                 try {
                     setGetTaskMarkerByBatchNumErr("");
@@ -130,18 +130,18 @@ export function useGetTaskMarkersByBatchNumAndCityIdAPI(): {
                     setLoadedBatchNum(payload.batchNum);
                     setLoadedCityName(payload.cityName);
                     setLoadedProvider(payload.provider);
-                    setLoaded(true);
+                    setIsLoading(true);
                     setPayload(undefined);
                 }
             })();
         }
-    }, [payload, getTaskMarkersIsLoaded, accessToken]);
+    }, [payload, getTaskMarkersIsLoading, accessToken]);
 
     return {
         taskMarkersForBatchNumAndCityId,
         runGetTaskMarkersByParameters,
         getTaskMarkerByBatchNumErr,
-        getTaskMarkersIsLoaded,
+        getTaskMarkersIsLoading,
         loadedBatchNum,
         loadedCityName,
         loadedProvider,
