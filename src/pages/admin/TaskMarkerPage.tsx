@@ -9,7 +9,6 @@ import "./TaskMarkerPage.scss";
 import TitledDropdown from "../../components/titledDropdown/TitledDropdown";
 import AdminTasksMap from "../../components/map/AdminTasksMap";
 import TitledDropdownWithButtons from "../../components/titledDropdown/TitledDropdownWithButtons";
-import { SEED_CITIES } from "../../util/cities";
 import AsAdmin from "../../components/hoc/AsAdmin";
 import WithAuthentication from "../../components/hoc/WithAuth";
 import TitledCityDropdown from "../../components/titledDropdown/TitledCitiesDropdown";
@@ -20,6 +19,7 @@ import { ICity } from "../../interface/City.interface";
 // import { getCorrespondingIndex } from "../../util/adminStuff/getCorrespondingIndex";
 import { getCorrespondingCityName } from "../../util/adminStuff/getCorresponding";
 import { getCorrespondingBatchNum } from "../../util/adminStuff/getCorresponding";
+import { SuccessFilterEnum } from "../../enum/successFilter.enum";
 
 const TaskMarkerPage: React.FC<{}> = props => {
     // responses from server
@@ -34,16 +34,16 @@ const TaskMarkerPage: React.FC<{}> = props => {
 
     const { runDeleteAllTasks } = useDeleteAllTasksAPI();
 
-    const { batchNums, getAllBatchNumsErr, batchNumsIsLoaded } = useGetAllBatchNumsAPI();
+    const { batchNums } = useGetAllBatchNumsAPI();
 
     const {
         taskMarkersForBatchNumAndCityId,
         runGetTaskMarkersByParameters,
-        getTaskMarkerByBatchNumErr,
         getTaskMarkersIsLoading,
         loadedBatchNum,
         loadedCityName,
         loadedProvider,
+        loadedSuccessFilter,
     } = useGetTaskMarkersByBatchNumAndCityIdAPI();
 
     useEffect(() => {
@@ -54,10 +54,11 @@ const TaskMarkerPage: React.FC<{}> = props => {
         const activeBatchNumWasUpdated = getCorrespondingBatchNum(activeBatchNumIndex, availableBatchNumbers) !== loadedBatchNum;
         const activeCityWasUpdated = getCorrespondingCityName(activeCityId) !== loadedCityName;
         const activeProviderWasUpdated = activeProvider !== loadedProvider;
-        if (activeBatchNumWasUpdated || activeCityWasUpdated || activeProviderWasUpdated) {
+        const activeSuccessFilterWasUpdated = successFilter !== loadedSuccessFilter;
+        if (activeBatchNumWasUpdated || activeCityWasUpdated || activeProviderWasUpdated || activeSuccessFilterWasUpdated) {
             const correspondingBatchNum = getCorrespondingBatchNum(activeBatchNumIndex, availableBatchNumbers); //
             console.log(activeBatchNumIndex, availableBatchNumbers, correspondingBatchNum, "87rm");
-            runGetTaskMarkersByParameters(correspondingBatchNum, correspondingCityOptionTitle, activeProvider);
+            runGetTaskMarkersByParameters(correspondingBatchNum, correspondingCityOptionTitle, activeProvider, successFilter);
         }
     }, [
         activeBatchNumIndex,
@@ -69,6 +70,8 @@ const TaskMarkerPage: React.FC<{}> = props => {
         loadedCityName,
         loadedProvider,
         availableBatchNumbers,
+        successFilter,
+        loadedSuccessFilter,
     ]);
 
     useEffect(() => {
@@ -127,7 +130,7 @@ const TaskMarkerPage: React.FC<{}> = props => {
                         />
                         <TitledDropdown
                             title="Success"
-                            options={["ignored", "successful", "all"]}
+                            options={[SuccessFilterEnum.ignored, SuccessFilterEnum.success, SuccessFilterEnum.all]}
                             valueReporter={setSuccessFilter}
                             activeOption={successFilter}
                         />

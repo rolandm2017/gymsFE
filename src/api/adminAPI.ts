@@ -12,6 +12,7 @@ import { useAuth } from "../context/AuthContext";
 import { makeHeaders } from "../util/makeHeaders";
 import { getEndpoint } from "../util/getEndpoint";
 import { ProviderOrAll } from "../enum/provider.enum";
+import { SuccessFilterEnum } from "../enum/successFilter.enum";
 
 export function useGetAllBatchNumsAPI(): { batchNums: number[]; getAllBatchNumsErr: string; batchNumsIsLoaded: boolean } {
     // good
@@ -92,6 +93,7 @@ export function useGetTaskMarkersByBatchNumAndCityIdAPI(): {
     loadedBatchNum: number | undefined;
     loadedCityName: string;
     loadedProvider: ProviderOrAll;
+    loadedSuccessFilter: SuccessFilterEnum;
 } {
     const [taskMarkersForBatchNumAndCityId, setTaskMarkersForBatchNumAndCityId] = useState<ITask[]>([]);
     const [getTaskMarkerByBatchNumErr, setGetTaskMarkerByBatchNumErr] = useState("");
@@ -100,12 +102,13 @@ export function useGetTaskMarkersByBatchNumAndCityIdAPI(): {
     const [loadedBatchNum, setLoadedBatchNum] = useState<number | undefined>(undefined);
     const [loadedCityName, setLoadedCityName] = useState<string>("");
     const [loadedProvider, setLoadedProvider] = useState<ProviderOrAll>(ProviderOrAll.all);
+    const [loadedSuccessFilter, setLoadedSuccessFilter] = useState<SuccessFilterEnum>(SuccessFilterEnum.all);
     const [payload, setPayload] = useState<GetTaskMarkersByBatchNum | undefined>(undefined);
 
-    function runGetTaskMarkersByParameters(batchNum: number, cityName: string, provider: ProviderOrAll) {
+    function runGetTaskMarkersByParameters(batchNum: number, cityName: string, provider: ProviderOrAll, successFilter: SuccessFilterEnum) {
         setIsLoading(true);
         console.log(batchNum, cityName, "101rm");
-        setPayload({ batchNum, cityName, provider });
+        setPayload({ batchNum, cityName, provider, successFilter });
     }
 
     const { accessToken } = useAuth();
@@ -130,6 +133,7 @@ export function useGetTaskMarkersByBatchNumAndCityIdAPI(): {
                     setLoadedBatchNum(payload.batchNum);
                     setLoadedCityName(payload.cityName);
                     setLoadedProvider(payload.provider);
+                    setLoadedSuccessFilter(payload.successFilter);
                     setIsLoading(true);
                     setPayload(undefined);
                 }
@@ -145,6 +149,7 @@ export function useGetTaskMarkersByBatchNumAndCityIdAPI(): {
         loadedBatchNum,
         loadedCityName,
         loadedProvider,
+        loadedSuccessFilter,
     };
 }
 
