@@ -30,6 +30,7 @@ const TaskMarkerPage: React.FC<{}> = props => {
     const [activeCityId, setActiveCityId] = useState<number>(0); // default montreal
     const [mapCenter, setMapCenter] = useState<number[]>([]);
     const [activeProvider, setActiveProvider] = useState("all");
+    const [successFilter, setSuccessFilter] = useState("all");
 
     const { runDeleteAllTasks } = useDeleteAllTasksAPI();
 
@@ -123,6 +124,12 @@ const TaskMarkerPage: React.FC<{}> = props => {
                             options={["all", "rentCanada", "rentFaster", "rentSeeker"]}
                             valueReporter={setActiveProvider}
                             activeOption={activeProvider}
+                        />
+                        <TitledDropdown
+                            title="Success"
+                            options={["ignored", "successful", "all"]}
+                            valueReporter={setSuccessFilter}
+                            activeOption={successFilter}
                         />
                         <div className="mt-24">
                             <ExpanderButton text="Delete" type="Opaque" onClickHandler={runDeleteAllTasks} />
