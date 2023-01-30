@@ -78,7 +78,7 @@ const MapPage: React.FC<{}> = () => {
         <PageBase>
             <div id="pageBaseInnerContainer">
                 {/* Results */}
-                <SearchBar runSearch={runSearch} />
+                {/* <SearchBar runSearch={runSearch} /> */}
                 <div id="middleContainer" className="w-full mt-5 flex flex-col md2:flex-row">
                     {qualified && qualified.length > 0 ? (
                         <PaidMap center={[45, -73]} qualifiedFromCurrentPage={qualifiedFromCurrentPage} activeApartment={active} />

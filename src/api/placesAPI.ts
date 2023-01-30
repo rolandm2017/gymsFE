@@ -12,6 +12,7 @@ import { MapViewportDimensions } from "../interface/payload/MapViewportDimension
 import { SearchQuery } from "../interface/payload/Search.interface";
 import { getEndpoint } from "../util/getEndpoint";
 import { handleError } from "../util/handleError";
+import { makeHeaders } from "../util/makeHeaders";
 
 export function useGetDemoApartmentsAPI(): {
     newDemoHousing: IDemoHousing[];
@@ -136,13 +137,15 @@ export function useGetQualifiedApsAPI(): { qualifiedAps: IHousing[]; runGetQuali
         setLoaded(false);
     }
 
+    const { accessToken } = useAuth();
+
     useEffect(() => {
-        if (payload && !qualifiedApsAreLoaded) {
+        if (payload && !qualifiedApsAreLoaded && accessToken) {
             (async () => {
                 try {
                     setErr("");
                     const path = "/housing/by-location";
-                    const res = await axios.get(getEndpoint(path), { params: { ...payload } });
+                    const res = await axios.get(getEndpoint(path), { ...makeHeaders(accessToken), params: { ...payload } });
                     const { apartments } = res.data;
                     setQualifiedAps(apartments);
                 } catch (err) {
@@ -154,7 +157,7 @@ export function useGetQualifiedApsAPI(): { qualifiedAps: IHousing[]; runGetQuali
                 }
             })();
         }
-    }, [payload, qualifiedApsAreLoaded]);
+    }, [payload, qualifiedApsAreLoaded, accessToken]);
 
     return { qualifiedAps, runGetQualifiedAps, err, qualifiedApsAreLoaded };
 }
@@ -171,12 +174,13 @@ export function useSearchAPI() {
     }
 
     useEffect(() => {
-        if (payload) {
+        console.log(payload, accessToken, "177rm");
+        if (payload && accessToken) {
             (async () => {
                 try {
                     setErr("");
                     const path = "/housing/search";
-                    const res = await axios.get(getEndpoint(path), { params: { ...payload } });
+                    const res = await axios.get(getEndpoint(path), { ...makeHeaders(accessToken), params: { ...payload } });
                     const { apartments } = res.data;
                     setSearchResults(apartments);
                 } catch (err) {
@@ -187,7 +191,7 @@ export function useSearchAPI() {
                 }
             })();
         }
-    }, [payload]);
+    }, [payload, accessToken]);
 
     return { searchResults, runSearch };
 }

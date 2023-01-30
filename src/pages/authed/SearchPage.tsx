@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import PageBase from "../PageBase";
 import DetailsBar from "../../components/detailsBar/DetailsBar";
@@ -22,9 +22,10 @@ const SearchPage: React.FC<{}> = props => {
 
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
-    const mapPage = searchParams.get("mapPage");
-    const city = searchParams.get("city");
-    const maxDistance = searchParams.get("maxDistance");
+    const mapPageFromParams = searchParams.get("mapPage");
+    const cityFromParams = searchParams.get("city");
+    const minDistanceFromParams = searchParams.get("minDistance");
+    const maxDistanceFromParams = searchParams.get("maxDistance");
 
     const { getDefaultCity } = useAuth();
 
@@ -35,6 +36,24 @@ const SearchPage: React.FC<{}> = props => {
     }
 
     const { searchResults, runSearch } = useSearchAPI();
+
+    useEffect(() => {
+        // load some data the first time user gets to the page.
+        // confirm its a blank url without params, so its REALLY the first time they're here, not them navigating "back"
+        console.log([mapPageFromParams, cityFromParams, minDistanceFromParams, maxDistanceFromParams], "43rm");
+        const noSearchPgParams = [mapPageFromParams, cityFromParams, minDistanceFromParams, maxDistanceFromParams].some(param => param === null);
+        console.log(noSearchPgParams, "45rm");
+        if (noSearchPgParams) {
+            console.log("running search 47rm");
+            runSearch("Montreal", 0, 2);
+        } else {
+            // next 3 lines is satisfying ts.
+            const cityThatDefinitelyExists = cityFromParams ? cityFromParams : "Placeholder";
+            const minDistThatDefinitelyExists = minDistanceFromParams ? parseInt(minDistanceFromParams, 10) : 0;
+            const maxDistThatDefinitelyExists = maxDistanceFromParams ? parseInt(maxDistanceFromParams, 10) : 5;
+            runSearch(cityThatDefinitelyExists, minDistThatDefinitelyExists, maxDistThatDefinitelyExists);
+        }
+    }, []);
 
     return (
         <PageBase>
@@ -58,7 +77,7 @@ const SearchPage: React.FC<{}> = props => {
                 <div className="mb-3 flex justify-between">
                     <PageNumber currentPage={currentPage} totalPages={calcTotalPages(qualified)} />
                     <NavigationBtns
-                        currentCity={city ? city : getDefaultCity()}
+                        currentCity={cityFromParams ? cityFromParams : getDefaultCity()}
                         currentPage={currentPage}
                         totalPages={calcTotalPages(qualified)}
                         changePgHandler={setCurrentPage}
