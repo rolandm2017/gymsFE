@@ -13,6 +13,7 @@ import LoginPage from "../pages/auth/LoginPage";
 import SignUpPage from "../pages/auth/SignUpPage";
 import ForgotPasswordPage from "../pages/auth/ForgotPasswordPage";
 import VerifyAccountPage from "../pages/auth/VerifyAccountPage";
+import ResetPasswordPage from "../pages/auth/ResetPasswordPage";
 
 const PageRoutes = () => {
     return (
@@ -30,6 +31,7 @@ const PageRoutes = () => {
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/account/forgot-password" element={<ForgotPasswordPage />} />
             <Route path="/account/is-verified" element={<VerifyAccountPage />} />
+            <Route path="/account/reset-password" element={<ResetPasswordPage />} />
             {/* // todo: wrap Private Route with admin privileges */}
             {/* //  */}
             {/* // admin */}

@@ -8,6 +8,7 @@ import axios from "axios";
 import { getEndpoint } from "../util/getEndpoint";
 import { makeHeaders } from "../util/makeHeaders";
 import { ForgotPassword } from "../interface/payload/ForgotPassword.interface";
+import { ResetPassword } from "../interface/payload/ResetPassword.interface";
 
 export function useSignUpWithEmailAPI(): {
     signUpData: UserAccount | undefined;
@@ -203,4 +204,35 @@ export function useForgotPasswordEmailAPI() {
     }, [payload]);
 
     return { sent, error, loaded, runSendForgotPasswordEmail };
+}
+
+export function useResetPasswordAPI() {
+    //
+    const [isReset, setIsReset] = useState(false);
+    const [err, setError] = useState("");
+    const [loaded, setLoaded] = useState(false);
+    const [payload, setPayload] = useState<ResetPassword | undefined>(undefined);
+
+    function runResetPassword(newPassword: string, confirmed: string, token: string) {
+        setPayload({ newPassword, conirmPassword: confirmed, token });
+    }
+
+    useEffect(() => {
+        if (payload) {
+            (async () => {
+                try {
+                    const response = await axios.post(getEndpoint("/auth/reset-password"), { ...payload });
+                    setIsReset(true);
+                } catch (error) {
+                    const msg = handleError(error);
+                    setError(msg);
+                } finally {
+                    setLoaded(true);
+                    setPayload(undefined);
+                }
+            })();
+        }
+    }, [payload]);
+
+    return { isReset, err, loaded, runResetPassword };
 }
