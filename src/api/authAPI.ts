@@ -213,8 +213,8 @@ export function useResetPasswordAPI() {
     const [loaded, setLoaded] = useState(false);
     const [payload, setPayload] = useState<ResetPassword | undefined>(undefined);
 
-    function runResetPassword(newPassword: string, confirmed: string, token: string) {
-        setPayload({ newPassword, conirmPassword: confirmed, token });
+    function runResetPassword(password: string, confirmPassword: string, token: string) {
+        setPayload({ password, confirmPassword, token });
     }
 
     useEffect(() => {

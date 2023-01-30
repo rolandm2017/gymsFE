@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, KeyboardEvent } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import { useResetPasswordAPI } from "../../api/authAPI";
 
 import Button from "../../components/button/Button";
+import AuthInput from "../../components/input/AuthInput";
 import Input from "../../components/input/Input";
 
 const ResetPasswordPage: React.FC<{}> = () => {
@@ -37,6 +38,12 @@ const ResetPasswordPage: React.FC<{}> = () => {
         runResetPassword(newPassword, confirmed, tokenDefinitelyExists);
     }
 
+    function submitIfEnter(event: KeyboardEvent<HTMLInputElement>) {
+        if (event.key === "Enter") {
+            handleRunReset();
+        }
+    }
+
     return (
         <div className="h-full w-full flex justify-center items-center">
             <div className="w-2/3 sm:w-1/3 h-1/2 px-5 border-2 border-zinc-300 rounded-md">
@@ -44,8 +51,8 @@ const ResetPasswordPage: React.FC<{}> = () => {
                     <p className="mt-3">Reset Your Password</p>
                 </div>
                 <div className="my-4">
-                    <Input type="password" placeholder="Password" changeReporter={setNewPassword} />
-                    <Input type="password" placeholder="Confirm password" changeReporter={setConfirmed} />
+                    <AuthInput type="password" placeholder="Password" changeHandler={setNewPassword} keyDownHandler={submitIfEnter} />
+                    <AuthInput type="password" placeholder="Confirm password" changeHandler={setConfirmed} keyDownHandler={submitIfEnter} />
                 </div>
                 <div>
                     <Button text="Reset password" type="Opaque" size="Large" onClickHandler={handleRunReset} />
