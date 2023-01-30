@@ -59,8 +59,12 @@ const ResetPasswordPage: React.FC<{}> = () => {
                 </div>
                 {isReset ? (
                     <div>
-                        <p>
-                            Password reset! You can now <Link to={"/login"}>log in</Link>.{" "}
+                        <p className="mt-3">
+                            Password reset! You can now{" "}
+                            <Link className="poppins font-medium linkBlue underline" to={"/login"}>
+                                log in
+                            </Link>
+                            .{" "}
                         </p>
                     </div>
                 ) : null}
