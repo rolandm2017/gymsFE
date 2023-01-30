@@ -79,6 +79,7 @@ export function useLoginWithEmailAPI(): {
                     const response = await axios.post(getEndpoint("/auth/authenticate"), { ...payload }, { withCredentials: true });
                     const { acctId, email, name, isVerified, credits, role, favoriteCity, jwtToken } = response.data;
                     setLoginData({ acctId, email, name, isVerified, role, credits, favoriteCity });
+                    console.log("setting jwt...");
                     console.log(jwtToken, "storing jwt, 83rm");
                     setAccessToken(jwtToken);
                 } catch (error) {

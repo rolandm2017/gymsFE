@@ -20,7 +20,7 @@ const LoginPage: React.FC<{}> = () => {
 
     const navigate = useNavigate();
 
-    const { setProfile } = useAuth();
+    const { setProfile, accessToken } = useAuth();
     const { loginData, loginErr, loginIsLoaded, runLogin } = useLoginWithEmailAPI();
 
     useEffect(() => {
@@ -29,11 +29,13 @@ const LoginPage: React.FC<{}> = () => {
 
     useEffect(() => {
         // redirect to dashboard if user credentials are returned
-        if (loginData && loginIsLoaded) {
+        if (loginData && loginIsLoaded && accessToken) {
+            // must wait for access token to be loaded.
+            console.log(accessToken, "redireting to dashboard, 34rm");
             setProfile(loginData);
             navigate("/dashboard");
         }
-    }, [loginData, loginIsLoaded, navigate, setProfile]);
+    }, [loginData, loginIsLoaded, navigate, setProfile, accessToken]);
 
     function submitLogIn() {
         runLogin(email, password);
