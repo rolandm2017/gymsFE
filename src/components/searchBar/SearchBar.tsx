@@ -58,9 +58,10 @@ const SearchBar: React.FC<SearchBarProps> = ({ runSearch }: SearchBarProps) => {
                     setIsOpen(false);
                 }}
             >
-                {SEED_CITIES.map((city: ICity) => {
+                {SEED_CITIES.map((city: ICity, i: number) => {
                     return (
                         <DropdownItem
+                            key={i}
                             text={city.cityName}
                             onClickAction={() => {
                                 setCityInput(city.cityName);

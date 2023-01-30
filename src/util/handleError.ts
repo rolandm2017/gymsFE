@@ -6,8 +6,9 @@ export function handleError(error: unknown): string {
     if (err.name === "AxiosError") {
         console.log(err);
         if (err?.response?.data) {
-            const withError = err.response.data as { error: { name: string; message: string } };
-            return withError.error.message;
+            // this works in some cases.
+            const withError = err.response.data as { message: string };
+            return withError.message;
         }
         return "";
     }
