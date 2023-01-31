@@ -16,7 +16,7 @@ import { useAuth } from "../../context/AuthContext";
 import { useSearchAPI } from "../../api/placesAPI";
 import { IHousing } from "../../interface/Housing.interface";
 import DetailsBarContainer from "../../components/detailsBar/DetailsBarContainer";
-import NavigationBtnsWithNavLink from "../../components/navigationBtns/NavigationBtnWithNavLink";
+import SearchPgNavigationBtnsWithNavLink from "../../components/navigationBtns/SearchPgNavigationBtnWithNavLink";
 
 const SearchPage: React.FC<{}> = props => {
     const [currentPage, setCurrentPage] = useState<number>(1);
@@ -94,11 +94,11 @@ const SearchPage: React.FC<{}> = props => {
         }
     }, []);
 
-    function changePgHandler(currentCity: string, newPg: number) {
-        // need to involve currentCity so ... ???
-        // fixme: currentCity is needed why?
-        setCurrentPage(newPg);
-    }
+    // function changePgHandler(currentCity: string, newPg: number) {
+    //     // need to involve currentCity so ... ???
+    //     // fixme: currentCity is needed why?
+    //     setCurrentPage(newPg);
+    // }
 
     return (
         <PageBase>
@@ -107,6 +107,8 @@ const SearchPage: React.FC<{}> = props => {
                 <SearchBar
                     runSearch={runSearch}
                     cityNameReporter={setActiveCityName}
+                    minDistanceReporter={setActiveMinDist}
+                    maxDistanceReporter={setActiveMaxDist}
                     chosenCityName={cityNameFromParams}
                     chosenMinDist={minDistanceFromParams}
                     chosenMaxDist={maxDistanceFromParams}
@@ -135,7 +137,7 @@ const SearchPage: React.FC<{}> = props => {
                 </div>
                 <div className="mb-3 flex justify-between">
                     <PageNumber currentPage={currentPage} totalPages={calcTotalPages(qualified)} />
-                    <NavigationBtnsWithNavLink
+                    <SearchPgNavigationBtnsWithNavLink
                         currentPage={currentPage}
                         nextPgURL={makeNextPageURL(currentPage, activeCityName, activeMinDist, activeMaxDist)}
                         prevPageURL={makePrevPageURL(currentPage, activeCityName, activeMinDist, activeMaxDist)}

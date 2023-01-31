@@ -6,10 +6,15 @@ interface DetailsBarContainerProps {
     currentPage: number;
     apartments: IHousing[];
     activeIndex: number | null;
-    setActive: Function;
+    setActiveIndex: Function;
 }
 
-const DetailsBarContainer: React.FC<DetailsBarContainerProps> = ({ apartments, currentPage, activeIndex, setActive }: DetailsBarContainerProps) => {
+const DetailsBarContainer: React.FC<DetailsBarContainerProps> = ({
+    apartments,
+    currentPage,
+    activeIndex,
+    setActiveIndex,
+}: DetailsBarContainerProps) => {
     const [currentlyDisplayed, setCurrentlyDisplayed] = useState<IHousing[]>([]);
 
     useEffect(() => {
@@ -34,7 +39,7 @@ const DetailsBarContainer: React.FC<DetailsBarContainerProps> = ({ apartments, c
                     // url={ap.url}
                     detailNumber={i}
                     activeIndex={activeIndex}
-                    setActive={setActive}
+                    setActiveIndex={setActiveIndex}
                 />
             ))}
         </div>
