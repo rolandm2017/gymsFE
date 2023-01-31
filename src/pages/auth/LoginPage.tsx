@@ -31,6 +31,7 @@ const LoginPage: React.FC<{}> = () => {
         // redirect to dashboard if user credentials are returned
         if (loginData && loginIsLoaded && accessToken) {
             // must wait for access token to be loaded before redirecting.
+            console.log(accessToken, "redirecting to dahsbord 34rm");
             setProfile(loginData);
             navigate("/dashboard");
         }
