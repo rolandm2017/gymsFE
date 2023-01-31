@@ -10,6 +10,7 @@ import Input from "../input/Input";
 import "./SearchBar.scss";
 import { useNavigate } from "react-router-dom";
 import CityInput from "../input/CityInput";
+import ExpanderButton from "../button/ExpanderButton";
 
 interface SearchBarProps {
     runSearch: Function;
@@ -113,12 +114,12 @@ const SearchBar: React.FC<SearchBarProps> = ({
                 })}
             </DropdownContainer>
 
-            <div className="w-auto flex justify-between">
-                <div className="inputContainerLeft flex flex-col xl:flex-row">
-                    <div className="pr-9">
-                        {/* // todo: use geolocating via google to convert addr => long,lat & then put this back */}
-                        {/* <Input type="text" placeholder={"Address"} changeReporter={() => {}} /> */}
-                    </div>
+            <div className="w-auto grid sm:grid-cols-12 flex justify-between">
+                <div className="col-span-12 sm:col-span-3 flex flex-col xl:flex-row">
+                    {/* <div className="pr-9"> */}
+                    {/* // todo: use geolocating via google to convert addr => long,lat & then put this back */}
+                    {/* <Input type="text" placeholder={"Address"} changeReporter={() => {}} /> */}
+                    {/* </div> */}
                     <div ref={dropdownRef}>
                         <CityInput
                             type="text"
@@ -131,31 +132,33 @@ const SearchBar: React.FC<SearchBarProps> = ({
                         />
                     </div>
                 </div>
-                <div className="inputContainerRight w-full flex justify-end">
-                    <div className=" pr-8 flex flex-col xl:flex-row">
+                <div className="inputContainerRight w-full col-span-9 flex flex-col sm:flex-row">
+                    <div className="pr-8 w-full sm:w-2/3 flex flex-row">
                         <div>
                             <Input
                                 type="text"
-                                placeholder={minDistFromURL ? minDistFromURL : "Min Distance In Minutes"}
+                                placeholder={minDistFromURL ? minDistFromURL : "Min Minute Walk"}
                                 changeReporter={reportAndSetMinDist}
                             />
                         </div>
                         <div>
                             <Input
                                 type="text"
-                                placeholder={maxDistFromURL ? maxDistFromURL : "Max Distance In Minutes"}
+                                placeholder={maxDistFromURL ? maxDistFromURL : "Max Minute Walk"}
                                 changeReporter={reportAndSetMaxDist}
                             />
                         </div>
                     </div>
-                    <Button
-                        type="Opaque"
-                        text="Search"
-                        onClickHandler={() => {
-                            const startPage = 1;
-                            runSearch(cityInput, minDistance, maxDistance, startPage);
-                        }}
-                    />
+                    <div className="w-full sm:w-1/3">
+                        <ExpanderButton
+                            type="Opaque"
+                            text="Search"
+                            onClickHandler={() => {
+                                const startPage = 1;
+                                runSearch(cityInput, minDistance, maxDistance, startPage);
+                            }}
+                        />
+                    </div>
                 </div>
             </div>
         </div>
