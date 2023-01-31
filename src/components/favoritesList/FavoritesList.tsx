@@ -4,7 +4,6 @@ import { useAddRevealedURLAPI, useGetRevealedURLsAPI } from "../../api/revealURL
 import { useAuth } from "../../context/AuthContext";
 import { useFavorites } from "../../context/FavoritesContext";
 import { useRevealedURLs } from "../../context/RevealedURLContext";
-import FavoritesItem from "./FavoritesItem";
 import FavoritesListContent from "./FavoritesListContent";
 
 const FavoritesList: React.FC<{}> = () => {

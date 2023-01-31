@@ -1,6 +1,6 @@
 import React from "react";
 import { IAssociation } from "../../interface/Association.interface";
-import { calculateWalkTimeInMinutes } from "../../util/calcWalkTime";
+import { calculateWalkTimeInMinutes, getMetersFromKM, walkTimeInMinutes, walkTimeInSeconds } from "../../util/calcWalkTime";
 import ApartmentCardActions from "../apartmentCard/ApartmentCardActions";
 
 import "./DetailsBar.scss";
@@ -45,31 +45,6 @@ const DetailsBar: React.FC<DeailsBarProps> = ({
 
     const viewportWidth = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
 
-    function walkTimeInMinutes(walkTimeFraction: number) {
-        let minOrMinute = viewportWidth < 600 ? "min" : "minute";
-        // presumes values < 1 will be converted into seconds.
-        const truncated = Math.trunc(walkTimeFraction);
-        if (walkTimeFraction > 2) return `${truncated} ${minOrMinute}s`;
-        else if (walkTimeFraction >= 1) return `1 ${minOrMinute}`;
-        else if (walkTimeFraction <= 1) return `0 ${minOrMinute}`;
-        else {
-            console.log(walkTimeFraction, "55rm");
-            throw Error("You aren't supposed to be able to get here");
-        }
-    }
-
-    function walkTimeInSeconds(walkTimeFraction: number) {
-        const asSeconds = walkTimeFraction * 60;
-        const truncated = Math.trunc(asSeconds);
-        return `${truncated} sec`;
-    }
-
-    function getMetersFromKM(km: number): number {
-        const asMeters = km * 1000;
-        const justMeters = Math.trunc(asMeters);
-        return justMeters;
-    }
-
     return (
         <div
             onClick={() => {
@@ -88,7 +63,7 @@ const DetailsBar: React.FC<DeailsBarProps> = ({
             </div>
             <div className="col-span-3 flex justify-center items-center">
                 <p className="grayText detailsBarText">
-                    {walkTimeFraction > 1 ? walkTimeInMinutes(walkTimeFraction) : walkTimeInSeconds(walkTimeFraction)}
+                    {walkTimeFraction > 1 ? walkTimeInMinutes(walkTimeFraction, viewportWidth) : walkTimeInSeconds(walkTimeFraction)}
                 </p>
             </div>
 

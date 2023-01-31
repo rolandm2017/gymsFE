@@ -4,7 +4,8 @@ import { useAddRevealedURLAPI, useGetRevealedURLsAPI } from "../../api/revealURL
 import { useAuth } from "../../context/AuthContext";
 import { useFavorites } from "../../context/FavoritesContext";
 import { useRevealedURLs } from "../../context/RevealedURLContext";
-import FavoritesItem from "./FavoritesItem";
+import FavoritesItemDesktop from "./FavoritesItemDesktop";
+import FavoritesItemMobile from "./FavoritesItemMobile";
 
 const FavoritesListContent: React.FC<{}> = () => {
     const { decrementCredits } = useAuth();
@@ -49,7 +50,26 @@ const FavoritesListContent: React.FC<{}> = () => {
             {favoritesContext.map(f => {
                 const isRevealed = revealedURLsIds.includes(f.housingId);
                 return (
-                    <FavoritesItem
+                    <FavoritesItemDesktop
+                        key={f.housingId}
+                        address={f.address ? f.address : "loading..."}
+                        distanceToGym={f.nearbyGyms && f.nearbyGyms.length >= 1 ? f.nearbyGyms[0].distanceInKM : 0}
+                        removeFavorite={() => {
+                            removeFavorite(f.housingId);
+                        }}
+                        hasBeenRevealed={isRevealed}
+                        runRevealUrl={() => {
+                            requestAddNewURL(f.housingId);
+                            decrementCredits();
+                            // runUpdateRevealedURLs(); // update and notify other component.
+                        }}
+                    />
+                );
+            })}
+            {favoritesContext.map(f => {
+                const isRevealed = revealedURLsIds.includes(f.housingId);
+                return (
+                    <FavoritesItemMobile
                         key={f.housingId}
                         address={f.address ? f.address : "loading..."}
                         distanceToGym={f.nearbyGyms && f.nearbyGyms.length >= 1 ? f.nearbyGyms[0].distanceInKM : 0}
