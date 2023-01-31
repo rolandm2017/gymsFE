@@ -133,15 +133,15 @@ const SearchBar: React.FC<SearchBarProps> = ({
                     </div>
                 </div>
                 <div className="inputContainerRight w-full col-span-9 flex flex-col sm:flex-row">
-                    <div className="pr-8 mb-2 sm:mb-0 w-full sm:w-2/3 flex flex-row">
-                        <div>
+                    <div className="pr-0 sm:pr-8 mb-2 sm:mb-0 w-full sm:w-2/3 flex flex-row">
+                        <div className="w-1/2 sm:w-auto mr-2 sm:mr-0">
                             <Input
                                 type="text"
                                 placeholder={minDistFromURL ? minDistFromURL : "Min Minute Walk"}
                                 changeReporter={reportAndSetMinDist}
                             />
                         </div>
-                        <div>
+                        <div className="w-1/2 sm:w-auto">
                             <Input
                                 type="text"
                                 placeholder={maxDistFromURL ? maxDistFromURL : "Max Minute Walk"}

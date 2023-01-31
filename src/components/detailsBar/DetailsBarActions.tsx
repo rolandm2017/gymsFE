@@ -8,11 +8,11 @@ import { useFavorites } from "../../context/FavoritesContext";
 import { useRevealedURLs } from "../../context/RevealedURLContext";
 import Button from "../button/Button";
 
-interface ApartmentCardActionsProps {
+interface DetailsBarActionsProps {
     apartmentId: number;
 }
 
-const ApartmentCardActions: React.FC<ApartmentCardActionsProps> = ({ apartmentId }: ApartmentCardActionsProps) => {
+const DetailsBarActions: React.FC<DetailsBarActionsProps> = ({ apartmentId }: DetailsBarActionsProps) => {
     const [isLoading, setIsLoading] = useState(false);
 
     const { pushNewClientSideFavorite, favoritesIds } = useFavorites();
@@ -38,18 +38,18 @@ const ApartmentCardActions: React.FC<ApartmentCardActionsProps> = ({ apartmentId
                 {isFavorited ? <Button type="GreyedOut" text="Saved!" size="Small" /> : <Button type="Opaque" text="Favorite" size="Small" />}
             </div>
             {isRevealed ? (
-                <div className="ml-2 ">
+                <div className="ml-2 hidden sm:block">
                     <a href={getURLForId(apartmentId)} target="_blank" rel="noreferrer">
                         <Button type="Opaque" text="Visit" size="Small" />
                     </a>
                 </div>
             ) : isLoading ? (
-                <div className="ml-2 ">
+                <div className="ml-2 hidden sm:block">
                     <Button text="Loading" type="GreyedOut" size="Small" />
                 </div>
             ) : (
                 <div
-                    className="ml-2 "
+                    className="ml-2 hidden sm:block"
                     onClick={() => {
                         if (outOfCredits) {
                             openAddCreditsModal();
@@ -65,4 +65,4 @@ const ApartmentCardActions: React.FC<ApartmentCardActionsProps> = ({ apartmentId
         </div>
     );
 };
-export default ApartmentCardActions;
+export default DetailsBarActions;

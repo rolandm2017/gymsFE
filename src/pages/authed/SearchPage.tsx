@@ -103,6 +103,7 @@ const SearchPage: React.FC<{}> = props => {
     }, []);
 
     function pageChangeUpdater(newPage: number) {
+        setActiveIndexForHighlight(null);
         setCurrentPage(newPage);
         // run search again to update contents; it is based on current state
         const minimumMinDistance = 0;

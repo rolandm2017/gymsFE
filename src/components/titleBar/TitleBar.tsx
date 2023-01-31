@@ -14,11 +14,11 @@ const TitleBar: React.FC<{}> = () => {
                 <div className="col-span-3 w-full hidden md:flex justify-center">
                     <h5>Distance To Gym</h5>
                 </div>
-                <div className="col-span-3 w-full flex justify-center">
+                <div className="col-span-3 w-full flex justify-center items-center">
                     <h5>Walk Duration</h5>
                 </div>
-                <div className="col-span-3 w-full flex justify-center">
-                    <h5 className="hidden sm:block">Actions</h5>
+                <div className="col-span-3 w-full flex justify-center items-center">
+                    <h5 className="">Actions</h5>
                 </div>
             </div>
         </div>

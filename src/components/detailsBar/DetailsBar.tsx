@@ -4,6 +4,7 @@ import { calculateWalkTimeInMinutes } from "../../util/calcWalkTime";
 import ApartmentCardActions from "../apartmentCard/ApartmentCardActions";
 
 import "./DetailsBar.scss";
+import DetailsBarActions from "./DetailsBarActions";
 
 interface DeailsBarProps {
     pic?: any; // todo: how to say itll be a jpg/png?
@@ -80,7 +81,7 @@ const DetailsBar: React.FC<DeailsBarProps> = ({
         >
             <div className="col-span-3 flex justify-center items-center">
                 {/* <p className="grayText detailsBarText">{address}</p> */}
-                <p className="grayText detailsBarText">{address}</p>
+                <p className="grayText detailsBarText whitespace-nowrap overflow-hidden text-ellipsis">{address}</p>
             </div>
             <div className="col-span-3 hidden md:flex justify-center items-center">
                 <p className="grayText detailsBarText">{getMetersFromKM(distanceToNearestGym)} meters</p>
@@ -93,7 +94,7 @@ const DetailsBar: React.FC<DeailsBarProps> = ({
 
             {/* // todo: add 'favorite' and 'get URL' buttons */}
             <div className="col-span-3 flex justify-center">
-                <ApartmentCardActions apartmentId={apartmentId} />
+                <DetailsBarActions apartmentId={apartmentId} />
             </div>
         </div>
     );
