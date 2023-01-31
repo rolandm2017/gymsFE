@@ -28,7 +28,7 @@ const SearchPgNavigationBtns: React.FC<SearchPgNavigationBtnProps> = ({
                 <div
                     onClick={() => {
                         console.log("navigating to " + prevPageURL + " 22rm");
-                        reportGoForward();
+                        reportGoBack();
                         navigate(prevPageURL);
                     }}
                     className="mr-4"
@@ -46,7 +46,7 @@ const SearchPgNavigationBtns: React.FC<SearchPgNavigationBtnProps> = ({
             <div
                 onClick={() => {
                     console.log("navigating to " + nextPgURL + " 39rm");
-                    reportGoBack();
+                    reportGoForward();
                     navigate(nextPgURL);
                 }}
             >

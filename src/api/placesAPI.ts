@@ -191,6 +191,7 @@ export function useSearchAPI() {
                     console.log(payload, "payload payload payload payload  183rm");
                     const res = await axios.get(getEndpoint(path), { ...makeHeaders(accessToken), params: { ...payload } });
                     const { results, totalPages } = res.data;
+                    console.log("loading results for page ", payload.pageNum, " and youre here 194rm");
                     setTotalPagesForThisQuery(totalPages);
 
                     setSearchResults(results);
