@@ -69,34 +69,27 @@ const DetailsBar: React.FC<DeailsBarProps> = ({
             onClick={() => {
                 setActive(detailNumber);
             }}
-            className={`w-auto sm:w-full flex justify-between bg-white mt-2.5 px-5 sm:px-7 ${
+            className={`grid grid-cols-12 flex justify-between bg-white mt-2.5 px-5 sm:px-7 ${
                 activeIndex === detailNumber ? "detailsBarHighlighted h-20" : "h-9"
             }`}
         >
-            <div className="w-1/6">
+            <div className="col-span-3">
                 {/* <p className="grayText detailsBarText">{address}</p> */}
-                <p className="grayText detailsBarText">333 Placeholder St</p>
+                <p className="grayText detailsBarText">{address}</p>
             </div>
-            {/* 
-            <div className="w-1/6 hidden sm:flex items-center">
-                <p className="grayText detailsBarText">{closestGym.gym!.name}</p>
-            </div> */}
-            <div className="w-1/6 flex items-center">
+            <div className="col-span-3 flex justify-center items-center">
                 <p className="grayText detailsBarText">{getMetersFromKM(distanceToNearestGym)} meters</p>
             </div>
-            {/* </div> */}
-            {/* <div className="w-1/3 flex"> */}
-            <div className="w-1/3 sm:w-1/6 mr-2 sm:mr-0 flex items-center">
+            <div className="col-span-3 flex justify-center items-center">
                 <p className="grayText detailsBarText">
                     {walkTimeFraction > 1 ? walkTimeInMinutes(walkTimeFraction) : walkTimeInSeconds(walkTimeFraction)}
                 </p>
             </div>
-            {/* <div className="w-1/3 sm:w-1/6 mr-2 sm:mr-0 flex items-center">
-                <p className="w-full grayText detailsBarText truncate text-left">{url}</p>
-            </div> */}
-            {/* </div> */}
+
             {/* // todo: add 'favorite' and 'get URL' buttons */}
-            <ApartmentCardActions apartmentId={apartmentId} />
+            <div className="col-span-3 flex justify-center">
+                <ApartmentCardActions apartmentId={apartmentId} />
+            </div>
         </div>
     );
 };
