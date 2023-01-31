@@ -90,7 +90,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
     }
 
     return (
-        <div className="searchBarContainer h-24 px-6 flex items-center">
+        <div className="searchBarContainer h-30 sm:h-24 px-6 flex items-center">
             <DropdownContainer
                 isOpen={isOpen}
                 topDisplacement={yOffset}
@@ -114,8 +114,8 @@ const SearchBar: React.FC<SearchBarProps> = ({
                 })}
             </DropdownContainer>
 
-            <div className="w-auto grid sm:grid-cols-12 flex justify-between">
-                <div className="col-span-12 sm:col-span-3 flex flex-col xl:flex-row">
+            <div className="w-auto  my-3 grid sm:grid-cols-12 flex justify-between">
+                <div className="mb-2 sm:mb-0 col-span-12 sm:col-span-3 flex flex-col xl:flex-row">
                     {/* <div className="pr-9"> */}
                     {/* // todo: use geolocating via google to convert addr => long,lat & then put this back */}
                     {/* <Input type="text" placeholder={"Address"} changeReporter={() => {}} /> */}
@@ -133,7 +133,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
                     </div>
                 </div>
                 <div className="inputContainerRight w-full col-span-9 flex flex-col sm:flex-row">
-                    <div className="pr-8 w-full sm:w-2/3 flex flex-row">
+                    <div className="pr-8 mb-2 sm:mb-0 w-full sm:w-2/3 flex flex-row">
                         <div>
                             <Input
                                 type="text"
