@@ -27,9 +27,7 @@ const DetailsBar: React.FC<DeailsBarProps> = ({
     setActive,
     distanceToNearestGym,
 }) => {
-    console.log(nearbyGyms, "19rm");
     const closestGym = nearbyGyms ? nearbyGyms.sort(compare)[0] : { gym: { name: "Data missing", url: "Data missing" }, distanceInKM: 0 };
-    console.log(closestGym, "20rm");
     const gymUrl = closestGym.gym?.url;
 
     function compare(a: IAssociation, b: IAssociation): number {
@@ -76,7 +74,7 @@ const DetailsBar: React.FC<DeailsBarProps> = ({
                 activeIndex === detailNumber ? "detailsBarHighlighted h-20" : "h-12"
             }`}
         >
-            <div className="col-span-3 flex items-center">
+            <div className="col-span-3 flex justify-center items-center">
                 {/* <p className="grayText detailsBarText">{address}</p> */}
                 <p className="grayText detailsBarText">{address}</p>
             </div>

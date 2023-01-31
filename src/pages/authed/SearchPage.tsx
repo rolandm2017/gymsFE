@@ -15,6 +15,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { useSearchAPI } from "../../api/placesAPI";
 import { IHousing } from "../../interface/Housing.interface";
+import DetailsBarContainer from "../../components/detailsBar/DetailsBarContainer";
 
 const SearchPage: React.FC<{}> = props => {
     const [currentPage, setCurrentPage] = useState<number>(1);
@@ -78,6 +79,12 @@ const SearchPage: React.FC<{}> = props => {
         }
     }, []);
 
+    function changePgHandler(currentCity: string, newPg: number) {
+        // need to involve currentCity so ... ???
+        // fixme: currentCity is needed why?
+        setCurrentPage(newPg);
+    }
+
     return (
         <PageBase>
             <div id="searchPage">
@@ -85,7 +92,8 @@ const SearchPage: React.FC<{}> = props => {
                 <SearchBar runSearch={runSearch} />
                 <TitleBar />
                 <div className="pb-6">
-                    {resultsFromSearch.map((ap, i) => (
+                    <DetailsBarContainer apartments={resultsFromSearch} currentPage={currentPage} activeIndex={active} setActive={setActive} />
+                    {/* {resultsFromSearch.slice(0, 15 * currentPage).map((ap, i) => (
                         <DetailsBar
                             key={i}
                             apartmentId={ap.housingId}
@@ -97,7 +105,7 @@ const SearchPage: React.FC<{}> = props => {
                             activeIndex={active}
                             setActive={setActive}
                         />
-                    ))}
+                    ))} */}
                 </div>
                 <div className="mb-3 flex justify-between">
                     <PageNumber currentPage={currentPage} totalPages={calcTotalPages(qualified)} />
@@ -105,7 +113,7 @@ const SearchPage: React.FC<{}> = props => {
                         currentCity={cityFromParams ? cityFromParams : getDefaultCity()}
                         currentPage={currentPage}
                         totalPages={calcTotalPages(qualified)}
-                        changePgHandler={setCurrentPage}
+                        changePgHandler={changePgHandler}
                         // change active card to null when change page
                         resetActive={setActive}
                     />
