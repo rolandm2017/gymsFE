@@ -51,8 +51,6 @@ const SearchBar: React.FC<SearchBarProps> = ({
 
     const dropdownWidth = 120;
 
-    const navigate = useNavigate();
-
     const dropdownRef = useRef<HTMLDivElement>(null);
     const [xOffset, setX] = useState<number | undefined>();
     const [yOffset, setY] = useState<number | undefined>();
@@ -154,7 +152,8 @@ const SearchBar: React.FC<SearchBarProps> = ({
                         type="Opaque"
                         text="Search"
                         onClickHandler={() => {
-                            runSearch(cityInput, minDistance, maxDistance);
+                            const startPage = 1;
+                            runSearch(cityInput, minDistance, maxDistance, startPage);
                         }}
                     />
                 </div>

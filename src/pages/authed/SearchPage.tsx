@@ -1,22 +1,16 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 import PageBase from "../PageBase";
-import DetailsBar from "../../components/detailsBar/DetailsBar";
 import SearchBar from "../../components/searchBar/SearchBar";
 import TitleBar from "../../components/titleBar/TitleBar";
 
 import PageNumber from "../../components/pageNumber/PageNumber";
-import NavigationBtns from "../../components/navigationBtns/NavigationBtns";
-import { calcTotalPages } from "../../util/calcTotalPages";
-import { ILocationContext, LocationsProviderContext } from "../../context/LocationsContext";
-import { getCurrentPageResults } from "../../util/getCurrentPageResults";
 import WithAuthentication from "../../components/hoc/WithAuth";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
 import { useSearchAPI } from "../../api/placesAPI";
 import { IHousing } from "../../interface/Housing.interface";
 import DetailsBarContainer from "../../components/detailsBar/DetailsBarContainer";
-import SearchPgNavigationBtnsWithNavLink from "../../components/navigationBtns/SearchPgNavigationBtnWithNavLink";
+import SearchPgNavigationBtns from "../../components/navigationBtns/SearchPgNavigationBtns";
 
 const SearchPage: React.FC<{}> = props => {
     const [currentPage, setCurrentPage] = useState<number>(1);
@@ -28,6 +22,7 @@ const SearchPage: React.FC<{}> = props => {
     const [activeMaxDist, setActiveMaxDist] = useState<null | number>(null);
     // we don't need the qualified list
     // const { qualified } = useContext(LocationsProviderContext) as ILocationContext;
+    const { searchResults, totalPagesForThisQuery, runSearch } = useSearchAPI();
 
     const [searchParams, setSearchParams] = useSearchParams();
     const mapPageFromParams = searchParams.get("mapPage");
@@ -48,8 +43,6 @@ const SearchPage: React.FC<{}> = props => {
             setCurrentPage(asInteger);
         }
     }, []);
-
-    const { searchResults, runSearch, totalPagesForThisQuery } = useSearchAPI();
 
     function makeNextPageURL(currentPage: number, cityName: string, minDistance: number | null, maxDistance: number | null) {
         if (minDistance === null && maxDistance === null) {
@@ -109,11 +102,21 @@ const SearchPage: React.FC<{}> = props => {
         }
     }, []);
 
-    // function changePgHandler(currentCity: string, newPg: number) {
-    //     // need to involve currentCity so ... ???
-    //     // fixme: currentCity is needed why?
-    //     setCurrentPage(newPg);
-    // }
+    function pageChangeUpdater(newPage: number) {
+        setCurrentPage(newPage);
+        // run search again to update contents; it is based on current state
+        const minimumMinDistance = 0;
+        const maximumMaxDistance = 10;
+        if (activeMinDist === null && activeMaxDist === null) {
+            runSearch(activeCityName, minimumMinDistance, maximumMaxDistance, newPage);
+        } else if (activeMinDist !== null && activeMaxDist === null) {
+            runSearch(activeCityName, activeMinDist, maximumMaxDistance, newPage);
+        } else if (activeMinDist === null && activeMaxDist !== null) {
+            runSearch(activeCityName, minimumMinDistance, activeMaxDist, newPage);
+        } else {
+            runSearch(activeCityName, minimumMinDistance, maximumMaxDistance, newPage);
+        }
+    }
 
     return (
         <PageBase>
@@ -138,11 +141,17 @@ const SearchPage: React.FC<{}> = props => {
                     />
                 </div>
                 <div className="mb-3 flex justify-between">
-                    <PageNumber currentPage={currentPage} totalPages={totalPagesForThisQuery} />
-                    <SearchPgNavigationBtnsWithNavLink
+                    <PageNumber currentPage={currentPage} totalPages={totalPagesForThisQuery ? totalPagesForThisQuery : 1} />
+                    <SearchPgNavigationBtns
                         currentPage={currentPage}
                         nextPgURL={makeNextPageURL(currentPage, activeCityName, activeMinDist, activeMaxDist)}
                         prevPageURL={makePrevPageURL(currentPage, activeCityName, activeMinDist, activeMaxDist)}
+                        reportGoForward={() => {
+                            pageChangeUpdater(currentPage + 1);
+                        }}
+                        reportGoBack={() => {
+                            pageChangeUpdater(currentPage - 1);
+                        }}
                     />
                 </div>
             </div>
