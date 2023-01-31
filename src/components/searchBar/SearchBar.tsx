@@ -14,12 +14,22 @@ import CityInput from "../input/CityInput";
 interface SearchBarProps {
     runSearch: Function;
     cityNameReporter: Function;
+    minDistanceReporter: Function;
+    maxDistanceReporter: Function;
     chosenCityName: string | null; // null will be when the param isn't set.
     chosenMinDist: string | null;
     chosenMaxDist: string | null;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ runSearch, cityNameReporter, chosenCityName, chosenMinDist, chosenMaxDist }: SearchBarProps) => {
+const SearchBar: React.FC<SearchBarProps> = ({
+    runSearch,
+    cityNameReporter,
+    minDistanceReporter,
+    maxDistanceReporter,
+    chosenCityName,
+    chosenMinDist,
+    chosenMaxDist,
+}: SearchBarProps) => {
     const [cityInput, setCityInput] = useState("");
     const [minDistance, setMinDistance] = useState(0);
     const [maxDistance, setMaxDistance] = useState(0);
@@ -68,6 +78,16 @@ const SearchBar: React.FC<SearchBarProps> = ({ runSearch, cityNameReporter, chos
     function reportAndSetCity(cityName: string) {
         setCityInput(cityName);
         cityNameReporter(cityName);
+    }
+
+    function reportAndSetMinDist(minDist: number) {
+        setMinDistance(minDist);
+        minDistanceReporter(minDist);
+    }
+
+    function reportAndSetMaxDist(maxDist: number) {
+        setMaxDistance(maxDist);
+        maxDistanceReporter(maxDist);
     }
 
     return (
@@ -119,14 +139,14 @@ const SearchBar: React.FC<SearchBarProps> = ({ runSearch, cityNameReporter, chos
                             <Input
                                 type="text"
                                 placeholder={minDistFromURL ? minDistFromURL : "Min Distance In Minutes"}
-                                changeReporter={setMinDistance}
+                                changeReporter={reportAndSetMinDist}
                             />
                         </div>
                         <div>
                             <Input
                                 type="text"
                                 placeholder={maxDistFromURL ? maxDistFromURL : "Max Distance In Minutes"}
-                                changeReporter={setMaxDistance}
+                                changeReporter={reportAndSetMaxDist}
                             />
                         </div>
                     </div>

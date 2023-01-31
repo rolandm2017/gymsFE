@@ -45,14 +45,6 @@ const SearchPage: React.FC<{}> = props => {
         }
     }, []);
 
-    // const { getDefaultCity } = useAuth();
-
-    // const qualifiedFromCurrentPage = getCurrentPageResults(qualified, currentPage);
-
-    // function changePages(cityName: string, pageNum: number) {
-    //     navigate("/search?city=" + cityName + "&pageNum=" + pageNum);
-    // }
-
     function makeNextPageURL(currentPage: number, cityName: string, minDistance: number | null, maxDistance: number | null) {
         if (minDistance === null && maxDistance === null) {
             return `/search?cityName=${cityName}&mapPage=${currentPage + 1}`;
@@ -124,7 +116,7 @@ const SearchPage: React.FC<{}> = props => {
                     <DetailsBarContainer
                         apartments={resultsFromSearch}
                         currentPage={currentPage}
-                        activeIndex={active}
+                        activeIndex={activeIndex}
                         setActiveIndex={setActiveIndex}
                     />
                     {/* {resultsFromSearch.slice(0, 15 * currentPage).map((ap, i) => (
