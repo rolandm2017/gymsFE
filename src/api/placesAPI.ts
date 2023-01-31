@@ -127,13 +127,11 @@ export function useGetGymsAPI(): { gyms: IGym[]; runGetGyms: Function; err: stri
 
 export function useGetQualifiedApsAPI(): {
     qualifiedAps: IHousing[];
-    totalPagesForThisQuery: number | undefined;
     runGetQualifiedAps: Function;
     err: string;
     qualifiedApsAreLoaded: boolean;
 } {
     const [qualifiedAps, setQualifiedAps] = useState<IHousing[]>([]);
-    const [totalPagesForThisQuery, setTotalPagesForThisQuery] = useState<number | undefined>(undefined);
     const [err, setErr] = useState("");
 
     const [qualifiedApsAreLoaded, setLoaded] = useState(false);
@@ -154,7 +152,6 @@ export function useGetQualifiedApsAPI(): {
                     const path = "/housing/by-location";
                     const res = await axios.get(getEndpoint(path), { ...makeHeaders(accessToken), params: { ...payload } });
                     const { apartments, totalPages } = res.data;
-                    setTotalPagesForThisQuery(totalPages);
                     setQualifiedAps(apartments);
                 } catch (err) {
                     const msg = handleError(err);
@@ -167,11 +164,14 @@ export function useGetQualifiedApsAPI(): {
         }
     }, [payload, qualifiedApsAreLoaded, accessToken]);
 
-    return { qualifiedAps, totalPagesForThisQuery, runGetQualifiedAps, err, qualifiedApsAreLoaded };
+    return { qualifiedAps, runGetQualifiedAps, err, qualifiedApsAreLoaded };
 }
 
 export function useSearchAPI() {
     const [searchResults, setSearchResults] = useState<IHousing[]>([]);
+
+    const [totalPagesForThisQuery, setTotalPagesForThisQuery] = useState<number | undefined>(undefined);
+
     const [err, setErr] = useState("");
     const [payload, setPayload] = useState<SearchQuery | undefined>(undefined);
 
@@ -190,7 +190,9 @@ export function useSearchAPI() {
                     const path = "/housing/search";
                     console.log(payload, "payload payload payload payload  183rm");
                     const res = await axios.get(getEndpoint(path), { ...makeHeaders(accessToken), params: { ...payload } });
-                    const { results } = res.data;
+                    const { results, totalPages } = res.data;
+                    setTotalPagesForThisQuery(totalPages);
+
                     setSearchResults(results);
                 } catch (err) {
                     const msg = handleError(err);
@@ -202,5 +204,5 @@ export function useSearchAPI() {
         }
     }, [payload, accessToken]);
 
-    return { searchResults, runSearch };
+    return { searchResults, totalPagesForThisQuery, runSearch };
 }
