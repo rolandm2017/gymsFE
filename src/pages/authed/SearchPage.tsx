@@ -90,6 +90,7 @@ const SearchPage: React.FC<{}> = props => {
                             key={i}
                             address={ap.address}
                             nearbyGyms={ap.nearbyGyms}
+                            distanceToNearestGym={ap.distanceToNearestGym}
                             // url={ap.url}
                             detailNumber={i}
                             activeIndex={active}

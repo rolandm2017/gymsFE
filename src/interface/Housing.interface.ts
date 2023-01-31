@@ -19,6 +19,7 @@ export interface IHousing {
     nearbyGyms: IAssociation[];
     isHighlighted?: boolean;
     isFavorite?: boolean;
+    distanceToNearestGym: number;
 
     // TODO: consider adding "availability"
 }
