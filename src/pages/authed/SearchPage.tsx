@@ -88,6 +88,7 @@ const SearchPage: React.FC<{}> = props => {
                     {resultsFromSearch.map((ap, i) => (
                         <DetailsBar
                             key={i}
+                            apartmentId={ap.housingId}
                             address={ap.address}
                             nearbyGyms={ap.nearbyGyms}
                             distanceToNearestGym={ap.distanceToNearestGym}
