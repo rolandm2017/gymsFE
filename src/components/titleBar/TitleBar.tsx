@@ -3,7 +3,7 @@ import React from "react";
 const TitleBar: React.FC<{}> = () => {
     return (
         <div className="h-12 mt-5 flex items-center bg-white">
-            <div className="w-full px-3 sm:px-7 grid grid-cols-12">
+            <div className="w-full px-3 sm:px-7 grid grid-cols-9 md:grid-cols-12">
                 <div className="col-span-3 w-full flex justify-center">
                     <h5 className="mx-0 px-0 w-fit">Apartment Address</h5>
                 </div>
@@ -11,7 +11,7 @@ const TitleBar: React.FC<{}> = () => {
                 {/* <div className="w-1/6 hidden sm:flex flex justify-start">
                     <h5>Nearest Gym</h5>
                 </div> */}
-                <div className="col-span-3 w-full flex justify-center">
+                <div className="col-span-3 w-full hidden md:flex justify-center">
                     <h5>Distance To Gym</h5>
                 </div>
                 <div className="col-span-3 w-full flex justify-center">

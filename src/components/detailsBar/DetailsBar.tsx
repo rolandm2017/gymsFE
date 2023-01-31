@@ -44,18 +44,21 @@ const DetailsBar: React.FC<DeailsBarProps> = ({
 
     const walkTimeFraction = calculateWalkTimeInMinutes(distanceToNearestGym);
 
+    const viewportWidth = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+
     function walkTimeInMinutes(walkTimeFraction: number) {
+        let minOrMins = viewportWidth < 600 ? "min" : "minute";
         // presumes values < 1 will be converted into seconds.
         const truncated = Math.trunc(walkTimeFraction);
-        if (walkTimeFraction > 2) return `${truncated} minutes`;
-        else if (walkTimeFraction === 1) return "1 minute";
+        if (walkTimeFraction > 2) return `${truncated} ${minOrMins}s`;
+        else if (walkTimeFraction === 1) return `1 ${minOrMins}`;
         else throw Error("You aren't supposed to be able to get here");
     }
 
     function walkTimeInSeconds(walkTimeFraction: number) {
         const asSeconds = walkTimeFraction * 60;
         const truncated = Math.trunc(asSeconds);
-        return `${truncated} seconds`;
+        return `${truncated} sec`;
     }
 
     function getMetersFromKM(km: number): number {
@@ -69,15 +72,15 @@ const DetailsBar: React.FC<DeailsBarProps> = ({
             onClick={() => {
                 setActive(detailNumber);
             }}
-            className={`grid grid-cols-12 flex justify-between bg-white mt-2.5 px-5 sm:px-7 ${
-                activeIndex === detailNumber ? "detailsBarHighlighted h-20" : "h-9"
+            className={`grid grid-cols-9 md:grid-cols-12 flex justify-between bg-white mt-2.5 px-5 sm:px-7 ${
+                activeIndex === detailNumber ? "detailsBarHighlighted h-20" : "h-12"
             }`}
         >
-            <div className="col-span-3">
+            <div className="col-span-3 flex items-center">
                 {/* <p className="grayText detailsBarText">{address}</p> */}
                 <p className="grayText detailsBarText">{address}</p>
             </div>
-            <div className="col-span-3 flex justify-center items-center">
+            <div className="col-span-3 hidden md:flex justify-center items-center">
                 <p className="grayText detailsBarText">{getMetersFromKM(distanceToNearestGym)} meters</p>
             </div>
             <div className="col-span-3 flex justify-center items-center">
