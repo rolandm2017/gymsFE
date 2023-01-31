@@ -5,7 +5,7 @@ import PageBase from "../PageBase";
 import WithAuthentication from "../../components/hoc/WithAuth";
 import FavoritesList from "../../components/favoritesList/FavoritesList";
 import RevealedURLList from "../../components/revealedURLList/RevealedURLList";
-import CreditsCounter from "../../components/creditsCounter/CreditsCounter";
+import ToggleList from "../../components/toggleList/ToggleList";
 
 const DashboardPage: React.FC<{}> = props => {
     return (
@@ -18,7 +18,7 @@ const DashboardPage: React.FC<{}> = props => {
                     <FavoritesList />
                     <RevealedURLList />
                 </div>
-                <div className="block md:hidden">
+                <div className="w-full flex md:hidden justify-center">
                     {/* // for tablets and mobile */}
                     <ToggleList />
                 </div>

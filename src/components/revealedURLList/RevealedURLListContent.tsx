@@ -4,21 +4,21 @@ import { useRevealedURLs } from "../../context/RevealedURLContext";
 import { IHousingWithUrl } from "../../interface/Housing.interface";
 import RevealedURLEntry from "./RevealedURLEntry";
 
-const RevealedURLListContainer: React.FC<{}> = ({}) => {
-    const [allURLs, setAllURLs] = useState<IHousingWithUrl[]>([]);
+const RevealedURLListContent: React.FC<{}> = ({}) => {
+    // const [allURLs, setAllURLs] = useState<IHousingWithUrl[]>([]);
 
-    const { revealedURL, runAddRevealedURL, addRevealedUrlIsLoading } = useAddRevealedURLAPI();
-    const { revealedURLs, runUpdateRevealedURLs, revealedURLsIsLoaded } = useGetRevealedURLsAPI();
+    const { addRevealedUrlIsLoading } = useAddRevealedURLAPI();
+    // const { revealedURLs, revealedURLsIsLoaded } = useGetRevealedURLsAPI();
 
-    const { revealedURLsContext, setRevealedURLsContext, requestAddNewURL } = useRevealedURLs();
+    const { revealedURLsContext } = useRevealedURLs();
 
-    useEffect(() => {
-        // on load revealed urls list, populate state
-        if (revealedURLs && revealedURLsIsLoaded) {
-            console.log("setting", revealedURLs, "15rm");
-            setAllURLs(revealedURLs);
-        }
-    }, [revealedURLs, revealedURLsIsLoaded]);
+    // useEffect(() => {
+    //     // on load revealed urls list, populate state
+    //     if (revealedURLs && revealedURLsIsLoaded) {
+    //         console.log("setting", revealedURLs, "15rm");
+    //         setAllURLs(revealedURLs);
+    //     }
+    // }, [revealedURLs, revealedURLsIsLoaded]);
 
     return (
         <div className="w-full sm:w-1/2 p-3 ">
@@ -56,4 +56,4 @@ const RevealedURLListContainer: React.FC<{}> = ({}) => {
         </div>
     );
 };
-export default RevealedURLListContainer;
+export default RevealedURLListContent;
