@@ -13,7 +13,7 @@ interface DeailsBarProps {
     // url: string | undefined;
     activeIndex: number | null;
     detailNumber: number;
-    setActive: Function;
+    setActiveIndex: Function;
     distanceToNearestGym: number;
 }
 //TODO: between 1200 and 390 px, show less details: only addr, gymName, walkTime, link (4 values, not 6)
@@ -24,7 +24,7 @@ const DetailsBar: React.FC<DeailsBarProps> = ({
     nearbyGyms,
     activeIndex,
     detailNumber,
-    setActive,
+    setActiveIndex,
     distanceToNearestGym,
 }) => {
     const closestGym = nearbyGyms ? nearbyGyms.sort(compare)[0] : { gym: { name: "Data missing", url: "Data missing" }, distanceInKM: 0 };
@@ -68,7 +68,7 @@ const DetailsBar: React.FC<DeailsBarProps> = ({
     return (
         <div
             onClick={() => {
-                setActive(detailNumber);
+                setActiveIndex(detailNumber);
             }}
             className={`grid grid-cols-9 md:grid-cols-12 flex justify-between bg-white mt-2.5 px-5 sm:px-7 ${
                 activeIndex === detailNumber ? "detailsBarHighlighted h-20" : "h-12"

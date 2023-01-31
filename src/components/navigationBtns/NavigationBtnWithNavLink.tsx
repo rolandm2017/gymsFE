@@ -4,20 +4,20 @@ import Button from "../button/Button";
 
 interface NavigationBtnWithNavLinkProps {
     currentPage: number;
-    currentCity: string;
-    totalPages: number;
+    // currentCity: string;
+    // totalPages: number;
     nextPgURL: string;
     prevPageURL: string;
-    resetActive: Function;
+    // resetActive: Function;
 }
 
 const NavigationBtnsWithNavLink: React.FC<NavigationBtnWithNavLinkProps> = ({
     currentPage,
-    currentCity,
-    totalPages,
+    // currentCity,
+    // totalPages,
     nextPgURL,
     prevPageURL,
-    resetActive,
+    // resetActive,
 }) => {
     return (
         <div className="flex">

@@ -13,12 +13,29 @@ import CityInput from "../input/CityInput";
 
 interface SearchBarProps {
     runSearch: Function;
+    cityNameReporter: Function;
+    chosenCityName: string | null; // null will be when the param isn't set.
+    chosenMinDist: string | null;
+    chosenMaxDist: string | null;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ runSearch }: SearchBarProps) => {
+const SearchBar: React.FC<SearchBarProps> = ({ runSearch, cityNameReporter, chosenCityName, chosenMinDist, chosenMaxDist }: SearchBarProps) => {
     const [cityInput, setCityInput] = useState("");
     const [minDistance, setMinDistance] = useState(0);
     const [maxDistance, setMaxDistance] = useState(0);
+    const [cityFromURL, setCityFromURL] = useState<string>("");
+    const [minDistFromURL, setMinDistFromURL] = useState<string>("");
+    const [maxDistFromURL, setMaxDistFromURL] = useState<string>("");
+
+    useEffect(() => {
+        // These defaults will be set based on query params in the page's URL.
+        // If they are present, use them until the user changes them.
+        // If they are missing, do not set them into the search values.
+        // The point of setting them into state is that the user will be able to overwrite them.
+        if (chosenCityName) setCityFromURL(chosenCityName);
+        if (chosenMinDist) setMinDistFromURL(chosenMinDist);
+        if (chosenMaxDist) setMaxDistFromURL(chosenMaxDist);
+    }, []);
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -40,12 +57,18 @@ const SearchBar: React.FC<SearchBarProps> = ({ runSearch }: SearchBarProps) => {
         const yWithHeightOfInputFactoredIn = y ? y + approxInputHeight : y;
         setY(yWithHeightOfInputFactoredIn);
     };
+
     useEffect(() => {
         getPosition();
     }, []);
     useEffect(() => {
         window.addEventListener("resize", getPosition);
     }, []);
+
+    function reportAndSetCity(cityName: string) {
+        setCityInput(cityName);
+        cityNameReporter(cityName);
+    }
 
     return (
         <div className="searchBarContainer h-24 px-6 flex items-center">
@@ -64,7 +87,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ runSearch }: SearchBarProps) => {
                             key={i}
                             text={city.cityName}
                             onClickAction={() => {
-                                setCityInput(city.cityName);
+                                reportAndSetCity(city.cityName);
                                 setIsOpen(false);
                             }}
                         />
@@ -75,31 +98,36 @@ const SearchBar: React.FC<SearchBarProps> = ({ runSearch }: SearchBarProps) => {
             <div className="w-auto flex justify-between">
                 <div className="inputContainerLeft flex flex-col xl:flex-row">
                     <div className="pr-9">
+                        {/* // todo: use geolocating via google to convert addr => long,lat & then put this back */}
                         {/* <Input type="text" placeholder={"Address"} changeReporter={() => {}} /> */}
-                        {/* // todo: use geolocating via google to convert addr => long,lat */}
                     </div>
                     <div ref={dropdownRef}>
                         <CityInput
                             type="text"
                             placeholder={"City"}
-                            changeReporter={setCityInput}
+                            changeReporter={reportAndSetCity}
                             onClickHandler={() => {
                                 setIsOpen(true);
                             }}
-                            currentValue={cityInput}
+                            currentValue={cityInput ? cityInput : cityFromURL}
                         />
                     </div>
                 </div>
                 <div className="inputContainerRight w-full flex justify-end">
                     <div className=" pr-8 flex flex-col xl:flex-row">
-                        {/* <div className="pr-8">
-                            <Input type="text" placeholder={"Min Distance"} />
-                        </div> */}
                         <div>
-                            <Input type="text" placeholder={"Min Distance In Minutes"} changeReporter={setMinDistance} />
+                            <Input
+                                type="text"
+                                placeholder={minDistFromURL ? minDistFromURL : "Min Distance In Minutes"}
+                                changeReporter={setMinDistance}
+                            />
                         </div>
                         <div>
-                            <Input type="text" placeholder={"Max Distance In Minutes"} changeReporter={setMaxDistance} />
+                            <Input
+                                type="text"
+                                placeholder={maxDistFromURL ? maxDistFromURL : "Max Distance In Minutes"}
+                                changeReporter={setMaxDistance}
+                            />
                         </div>
                     </div>
                     <Button
