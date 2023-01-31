@@ -5,8 +5,8 @@ import { IHousing } from "../interface/Housing.interface";
 
 export interface ILocationContext {
     city: string;
-    apartments: IHousing[];
-    gyms: IGym[];
+    // apartments: IHousing[];
+    // gyms: IGym[];
     qualified: IHousing[];
 }
 
@@ -21,19 +21,19 @@ interface ChildrenProps {
 export const LocationsProviderContext = createContext<ILocationContext | null>(null);
 
 const LocationsProvider: React.FC<ChildrenProps> = ({ children }) => {
-    const [apartments, setApartments] = React.useState<IHousing[]>([]);
-    const [gyms, setGyms] = React.useState<IGym[]>([]);
+    // const [apartments, setApartments] = React.useState<IHousing[]>([]);
+    // const [gyms, setGyms] = React.useState<IGym[]>([]);
     const [qualified, setQualified] = React.useState<IHousing[]>([]);
 
     const { qualifiedAps, qualifiedApsAreLoaded, runGetQualifiedAps } = useGetQualifiedApsAPI();
 
-    useEffect(() => {
-        if (apartments.length !== 0) return;
-    }, [apartments]);
+    // useEffect(() => {
+    //     if (apartments.length !== 0) return;
+    // }, [apartments]);
 
-    useEffect(() => {
-        if (gyms.length !== 0) return;
-    }, [gyms]);
+    // useEffect(() => {
+    //     if (gyms.length !== 0) return;
+    // }, [gyms]);
 
     useEffect(() => {
         if (qualifiedApsAreLoaded) {
@@ -46,11 +46,11 @@ const LocationsProvider: React.FC<ChildrenProps> = ({ children }) => {
 
     const memoedValue = useMemo(
         () => ({
-            gyms,
-            apartments,
+            // gyms,
+            // apartments,
             qualified,
         }),
-        [gyms, apartments, qualified],
+        [qualified],
     );
 
     return <LocationsProviderContext.Provider value={{ city: "Montreal", ...memoedValue }}>{children}</LocationsProviderContext.Provider>;

@@ -4,54 +4,30 @@ import Button from "../button/Button";
 
 interface SearchPgNavigationBtnWithNavLinkProps {
     currentPage: number;
-    // currentCity: string;
-    // totalPages: number;
     nextPgURL: string;
     prevPageURL: string;
-    // resetActive: Function;
 }
 
-const SearchPgNavigationBtnsWithNavLink: React.FC<SearchPgNavigationBtnWithNavLinkProps> = ({
-    currentPage,
-    // currentCity,
-    // totalPages,
-    nextPgURL,
-    prevPageURL,
-    // resetActive,
-}) => {
+const SearchPgNavigationBtnsWithNavLink: React.FC<SearchPgNavigationBtnWithNavLinkProps> = ({ currentPage, nextPgURL, prevPageURL }) => {
+    console.log(currentPage, nextPgURL, prevPageURL, "urls 12rm");
     return (
         <div className="flex">
-            <div
-                onClick={() => {
-                    // console.log("new pg:", currentPage - 1);
-                    // if (currentPage > 1) {
-                    //     changePgHandler(currentCity, currentPage - 1);
-                    //     resetActive(null);
-                    // }
-                }}
-                className="mr-4"
-            >
-                {currentPage === 1 ? (
+            {currentPage === 1 ? (
+                <div onClick={() => {}} className="mr-4">
                     <Button type={"Transparent"} text={"Back"} />
-                ) : (
-                    <Link to={prevPageURL}>
+                </div>
+            ) : (
+                <Link to={prevPageURL}>
+                    <div onClick={() => {}} className="mr-4">
                         <Button type={"Opaque"} text={"Back"} />
-                    </Link>
-                )}
-            </div>
-            <div
-            // onClick={() => {
-            //     console.log("new pg:", currentPage + 1);
-            //     if (currentPage < totalPages) {
-            //         changePgHandler(currentCity, currentPage + 1);
-            //         resetActive(null);
-            //     }
-            // }}
-            >
-                <Link to={nextPgURL}>
-                    <Button type={"Opaque"} text={"Next"} />
+                    </div>
                 </Link>
-            </div>
+            )}
+            <Link to={nextPgURL}>
+                <div>
+                    <Button type={"Opaque"} text={"Next"} />
+                </div>
+            </Link>
         </div>
     );
 };

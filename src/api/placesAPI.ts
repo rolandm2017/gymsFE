@@ -125,8 +125,15 @@ export function useGetGymsAPI(): { gyms: IGym[]; runGetGyms: Function; err: stri
     return { gyms, runGetGyms, err, loaded };
 }
 
-export function useGetQualifiedApsAPI(): { qualifiedAps: IHousing[]; runGetQualifiedAps: Function; err: string; qualifiedApsAreLoaded: boolean } {
+export function useGetQualifiedApsAPI(): {
+    qualifiedAps: IHousing[];
+    totalPagesForThisQuery: number | undefined;
+    runGetQualifiedAps: Function;
+    err: string;
+    qualifiedApsAreLoaded: boolean;
+} {
     const [qualifiedAps, setQualifiedAps] = useState<IHousing[]>([]);
+    const [totalPagesForThisQuery, setTotalPagesForThisQuery] = useState<number | undefined>(undefined);
     const [err, setErr] = useState("");
 
     const [qualifiedApsAreLoaded, setLoaded] = useState(false);
@@ -146,7 +153,8 @@ export function useGetQualifiedApsAPI(): { qualifiedAps: IHousing[]; runGetQuali
                     setErr("");
                     const path = "/housing/by-location";
                     const res = await axios.get(getEndpoint(path), { ...makeHeaders(accessToken), params: { ...payload } });
-                    const { apartments } = res.data;
+                    const { apartments, totalPages } = res.data;
+                    setTotalPagesForThisQuery(totalPages);
                     setQualifiedAps(apartments);
                 } catch (err) {
                     const msg = handleError(err);
@@ -159,7 +167,7 @@ export function useGetQualifiedApsAPI(): { qualifiedAps: IHousing[]; runGetQuali
         }
     }, [payload, qualifiedApsAreLoaded, accessToken]);
 
-    return { qualifiedAps, runGetQualifiedAps, err, qualifiedApsAreLoaded };
+    return { qualifiedAps, totalPagesForThisQuery, runGetQualifiedAps, err, qualifiedApsAreLoaded };
 }
 
 export function useSearchAPI() {
@@ -174,13 +182,13 @@ export function useSearchAPI() {
     }
 
     useEffect(() => {
-        console.log(payload, accessToken, "177rm");
+        console.log(payload, accessToken, "will it go 177rm");
         if (payload && accessToken) {
             (async () => {
                 try {
                     setErr("");
                     const path = "/housing/search";
-                    console.log(payload, "183rm");
+                    console.log(payload, "payload payload payload payload  183rm");
                     const res = await axios.get(getEndpoint(path), { ...makeHeaders(accessToken), params: { ...payload } });
                     const { results } = res.data;
                     setSearchResults(results);

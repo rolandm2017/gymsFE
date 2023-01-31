@@ -21,16 +21,14 @@ import SearchPgNavigationBtnsWithNavLink from "../../components/navigationBtns/S
 const SearchPage: React.FC<{}> = props => {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [resultsFromSearch, setResultsFromSearch] = useState<IHousing[]>([]);
-    const [pageNum, setPageNum] = useState(1);
-    const [activeIndex, setActiveIndex] = useState<number | null>(null);
+    const [activeIndexForHighlight, setActiveIndexForHighlight] = useState<number | null>(null);
     // values from search bar
     const [activeCityName, setActiveCityName] = useState("");
     const [activeMinDist, setActiveMinDist] = useState<null | number>(null);
     const [activeMaxDist, setActiveMaxDist] = useState<null | number>(null);
-    // add context
-    const { qualified } = useContext(LocationsProviderContext) as ILocationContext;
+    // we don't need the qualified list
+    // const { qualified } = useContext(LocationsProviderContext) as ILocationContext;
 
-    const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
     const mapPageFromParams = searchParams.get("mapPage");
     const cityNameFromParams = searchParams.get("cityName");
@@ -41,9 +39,17 @@ const SearchPage: React.FC<{}> = props => {
         // runs once on page load
         if (mapPageFromParams) {
             const integerPageNum = parseInt(mapPageFromParams, 10);
-            setPageNum(integerPageNum);
+            setCurrentPage(integerPageNum);
+        }
+        // sets current page on page load
+        console.log("HERE IS MAP PAGE", mapPageFromParams, "47m");
+        if (mapPageFromParams) {
+            const asInteger = parseInt(mapPageFromParams, 10);
+            setCurrentPage(asInteger);
         }
     }, []);
+
+    const { searchResults, runSearch, totalPagesForThisQuery } = useSearchAPI();
 
     function makeNextPageURL(currentPage: number, cityName: string, minDistance: number | null, maxDistance: number | null) {
         if (minDistance === null && maxDistance === null) {
@@ -60,10 +66,18 @@ const SearchPage: React.FC<{}> = props => {
     }
 
     function makePrevPageURL(currentPage: number, cityName: string, minDistance: number | null, maxDistance: number | null) {
-        return `/search?cityName=${cityName}&mapPage=${currentPage - 1}&minDistance=${minDistance}&maxDistance=${maxDistance}`;
+        if (minDistance === null && maxDistance === null) {
+            return `/search?cityName=${cityName}&mapPage=${currentPage - 1}`;
+        } else if (maxDistance === null) {
+            // &maxDistance=${maxDistance} has been removed.
+            return `/search?cityName=${cityName}&mapPage=${currentPage - 1}&minDistance=${minDistance}`;
+        } else if (minDistance === null) {
+            // &minDistance=${minDistance} has been removed.
+            return `/search?cityName=${cityName}&mapPage=${currentPage - 1}&maxDistance=${maxDistance}`;
+        } else {
+            return `/search?cityName=${cityName}&mapPage=${currentPage - 1}&minDistance=${minDistance}&maxDistance=${maxDistance}`;
+        }
     }
-
-    const { searchResults, runSearch } = useSearchAPI();
 
     useEffect(() => {
         console.log(searchResults, "42rm");
@@ -83,6 +97,7 @@ const SearchPage: React.FC<{}> = props => {
             const minDist = 0;
             const maxDist = 2;
             const pg = 1;
+            setActiveCityName("Montreal"); // so "next pg" gets you where you want to go
             runSearch("Montreal", minDist, maxDist, pg);
         } else {
             // next 4 lines is satisfying ts.
@@ -118,38 +133,17 @@ const SearchPage: React.FC<{}> = props => {
                     <DetailsBarContainer
                         apartments={resultsFromSearch}
                         currentPage={currentPage}
-                        activeIndex={activeIndex}
-                        setActiveIndex={setActiveIndex}
+                        activeIndexForHighlight={activeIndexForHighlight}
+                        setActiveIndexForHighlight={setActiveIndexForHighlight}
                     />
-                    {/* {resultsFromSearch.slice(0, 15 * currentPage).map((ap, i) => (
-                        <DetailsBar
-                            key={i}
-                            apartmentId={ap.housingId}
-                            address={ap.address}
-                            nearbyGyms={ap.nearbyGyms}
-                            distanceToNearestGym={ap.distanceToNearestGym}
-                            // url={ap.url}
-                            detailNumber={i}
-                            activeIndex={active}
-                            setActive={setActive}
-                        />
-                    ))} */}
                 </div>
                 <div className="mb-3 flex justify-between">
-                    <PageNumber currentPage={currentPage} totalPages={calcTotalPages(qualified)} />
+                    <PageNumber currentPage={currentPage} totalPages={totalPagesForThisQuery} />
                     <SearchPgNavigationBtnsWithNavLink
                         currentPage={currentPage}
                         nextPgURL={makeNextPageURL(currentPage, activeCityName, activeMinDist, activeMaxDist)}
                         prevPageURL={makePrevPageURL(currentPage, activeCityName, activeMinDist, activeMaxDist)}
                     />
-                    {/* <NavigationBtns
-                        currentCity={cityFromParams ? cityFromParams : getDefaultCity()}
-                        currentPage={currentPage}
-                        totalPages={calcTotalPages(qualified)}
-                        changePgHandler={changePgHandler}
-                        // change active card to null when change page
-                        resetActive={setActive}
-                    /> */}
                 </div>
             </div>
         </PageBase>

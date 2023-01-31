@@ -7,7 +7,6 @@ interface PageNumberProps {
 }
 
 const PageNumber: React.FC<PageNumberProps> = ({ currentPage, totalPages }) => {
-    console.log(currentPage, "10rm");
     return (
         <div>
             <p>
