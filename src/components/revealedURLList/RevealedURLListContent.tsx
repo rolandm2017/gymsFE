@@ -21,7 +21,7 @@ const RevealedURLListContent: React.FC<{}> = ({}) => {
     // }, [revealedURLs, revealedURLsIsLoaded]);
 
     return (
-        <div className="w-full sm:w-1/2 p-3 ">
+        <div className="w-full p-3">
             <div className="h-12 grid grid-cols-6 bg-blue-200 rounded-lg">
                 <div className="col-span-4">
                     <div className="h-full flex justify-center items-center">

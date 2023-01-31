@@ -10,7 +10,7 @@ const ToggleList: React.FC<{}> = ({}) => {
         <div className="w-full flex flex-col items-center relative">
             <div className="h-8 bg-black">{/* // spacer div */}</div>
             <ToggleListHeader favesOrRevealedURLs={favoritesOrRevealedURLs} toggleHandler={setFavoritesOrRevealedURLs} />
-            <div className="pt-8 flex justify-center bg-zinc-200 rounded-lg">
+            <div className="w-full pt-8 flex justify-center bg-zinc-200 rounded-lg">
                 {favoritesOrRevealedURLs === "favorites" ? <FavoritesListContent /> : null}
                 {favoritesOrRevealedURLs === "revealedURLs" ? <RevealedURLListContent /> : null}
             </div>

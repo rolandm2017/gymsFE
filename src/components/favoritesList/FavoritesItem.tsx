@@ -2,6 +2,8 @@ import React, { useContext } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { CreditsModalContext, ICreditsModalContext } from "../../context/CreditsModalContext";
 import Button from "../button/Button";
+import Garbage from "../../assets/waste.png";
+import Visit from "../../assets/visit.png";
 
 interface FavoritesItemProps {
     address: string;
@@ -22,34 +24,44 @@ const FavoritesItem: React.FC<FavoritesItemProps> = ({
     const { openAddCreditsModal } = useContext(CreditsModalContext) as ICreditsModalContext;
 
     return (
-        <div className="mt-3 py-2 pl-2 h-12 grid grid-cols-6 bg-white rounded-lg">
-            <div className="col-span-2 pl-1">
-                <div className="h-full flex items-center">
-                    <p className="text-left whitespace-nowrap text-ellipsis	overflow-hidden">{address}</p>
+        <div className="mt-3 py-2 pl-2 h-24 md:h-12 grid grid-cols-8 md:grid-cols-6 bg-white rounded-lg">
+            <div className="col-span-6 flex flex-col md:flex-row border-2 border-black">
+                <div className="w-full h-1/2 md:h-full pl-1 border-2 border-red-400">
+                    <div className="h-full flex items-center">
+                        <p className="text-left whitespace-nowrap text-ellipsis	overflow-hidden">{address}</p>
+                    </div>
+                </div>
+                <div className="h-1/2 md:h-full flex justify-center items-center border-2 border-red-400">
+                    <p>{distanceToGym}</p>
                 </div>
             </div>
-            <div className="col-span-2">
-                <p>{distanceToGym}</p>
-            </div>
-            <div
-                className="col-span-1"
-                onClick={() => {
-                    removeFavorite();
-                }}
-            >
-                <Button type="Opaque" text="Remove" size="Small" />
-            </div>
-            <div
-                className="col-span-1"
-                onClick={() => {
-                    if (outOfCredits) {
-                        openAddCreditsModal();
-                        return;
-                    }
-                    runRevealUrl();
-                }}
-            >
-                {hasBeenRevealed ? <Button type="GreyedOut" text="Loaded" size="Small" /> : <Button type="Opaque" text="Get URL" size="Small" />}
+            <div className="col-span-2 flex flex-col md:flex-row border-2 border-green-600">
+                <div
+                    className="col-span-1"
+                    onClick={() => {
+                        removeFavorite();
+                    }}
+                >
+                    <div className="hidden sm:block">
+                        <Button type="Opaque" text="Remove" size="Small" />
+                    </div>
+                    <div className="h-full block sm:hidden flex items-center">
+                        {/* // show trash icon on mobile to save space */}
+                        <img src={Garbage} alt="trash" width={15} height={15} />
+                    </div>
+                </div>
+                <div
+                    className="col-span-1"
+                    onClick={() => {
+                        if (outOfCredits) {
+                            openAddCreditsModal();
+                            return;
+                        }
+                        runRevealUrl();
+                    }}
+                >
+                    {hasBeenRevealed ? <Button type="GreyedOut" text="Loaded" size="Small" /> : <Button type="Opaque" text="Get URL" size="Small" />}
+                </div>
             </div>
         </div>
     );

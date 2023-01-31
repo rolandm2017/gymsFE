@@ -11,12 +11,12 @@ const FavoritesListContent: React.FC<{}> = () => {
 
     const { favoritesContext, removeFavorite } = useFavorites();
 
-    const { revealedURLsContext, revealedURLsIds } = useRevealedURLs();
+    const { revealedURLsIds } = useRevealedURLs();
     const { requestAddNewURL } = useRevealedURLs();
 
     return (
-        <div className="w-full p-3 sm:w-1/2 flex flex-col">
-            <div className="h-12 grid grid-cols-6 bg-blue-200 rounded-lg">
+        <div className="w-full p-3 flex flex-col">
+            <div className="h-12 hidden md:grid grid-cols-6 bg-blue-200 rounded-lg">
                 <div className="col-span-2">
                     <div className="h-full flex justify-center items-center">
                         <h4>Address</h4>
@@ -27,12 +27,20 @@ const FavoritesListContent: React.FC<{}> = () => {
                         <h4 className="ml-0">Walk Time</h4>
                     </div>
                 </div>
-                <div className="col-span-1">
+                <div className="col-span-2 block md:hidden">
+                    {/* // mobile only */}
+                    <div className="h-full w-full flex justify-center items-center">
+                        <h4 className="ml-0 text-left">Actions</h4>
+                    </div>
+                </div>
+                <div className="col-span-1 hidden md:block">
+                    {/* // desktop only */}
                     <div className="h-full flex items-center">
                         <h4 className="ml-0 text-left">Remove</h4>
                     </div>
                 </div>
-                <div className="col-span-1">
+                <div className="col-span-1 hidden md:block">
+                    {/* // desktop only */}
                     <div className="h-full flex items-center">
                         <h4 className="ml-0">Show URL</h4>
                     </div>
