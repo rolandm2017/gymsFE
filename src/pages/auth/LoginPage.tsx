@@ -30,8 +30,7 @@ const LoginPage: React.FC<{}> = () => {
     useEffect(() => {
         // redirect to dashboard if user credentials are returned
         if (loginData && loginIsLoaded && accessToken) {
-            // must wait for access token to be loaded.
-            console.log(accessToken, "redireting to dashboard, 34rm");
+            // must wait for access token to be loaded before redirecting.
             setProfile(loginData);
             navigate("/dashboard");
         }

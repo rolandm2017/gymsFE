@@ -169,8 +169,8 @@ export function useSearchAPI() {
 
     const { accessToken } = useAuth();
 
-    function runSearch(cityName: string, minDistance: number, maxDistance: number) {
-        setPayload({ cityName, minDistance, maxDistance });
+    function runSearch(cityName: string, minDistance: number, maxDistance: number, pageNum: number) {
+        setPayload({ cityName, minDistance, maxDistance, pageNum });
     }
 
     useEffect(() => {
@@ -180,9 +180,10 @@ export function useSearchAPI() {
                 try {
                     setErr("");
                     const path = "/housing/search";
+                    console.log(payload, "183rm");
                     const res = await axios.get(getEndpoint(path), { ...makeHeaders(accessToken), params: { ...payload } });
-                    const { apartments } = res.data;
-                    setSearchResults(apartments);
+                    const { results } = res.data;
+                    setSearchResults(results);
                 } catch (err) {
                     const msg = handleError(err);
                     setErr(msg);

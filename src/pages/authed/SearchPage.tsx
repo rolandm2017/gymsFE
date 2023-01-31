@@ -14,9 +14,13 @@ import WithAuthentication from "../../components/hoc/WithAuth";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { useSearchAPI } from "../../api/placesAPI";
+import { IHousing } from "../../interface/Housing.interface";
 
 const SearchPage: React.FC<{}> = props => {
     const [currentPage, setCurrentPage] = useState<number>(1);
+    const [resultsFromSearch, setResultsFromSearch] = useState<IHousing[]>([]);
+    const [pageNum, setPageNum] = useState(1);
+    // add context
     const { qualified } = useContext(LocationsProviderContext) as ILocationContext;
     const [active, setActive] = useState<number | null>(null);
 
@@ -26,6 +30,14 @@ const SearchPage: React.FC<{}> = props => {
     const cityFromParams = searchParams.get("city");
     const minDistanceFromParams = searchParams.get("minDistance");
     const maxDistanceFromParams = searchParams.get("maxDistance");
+
+    useEffect(() => {
+        // runs once on page load
+        if (mapPageFromParams) {
+            const integerPageNum = parseInt(mapPageFromParams, 10);
+            setPageNum(integerPageNum);
+        }
+    }, []);
 
     const { getDefaultCity } = useAuth();
 
@@ -38,6 +50,13 @@ const SearchPage: React.FC<{}> = props => {
     const { searchResults, runSearch } = useSearchAPI();
 
     useEffect(() => {
+        console.log(searchResults, "42rm");
+        if (searchResults) {
+            setResultsFromSearch(searchResults);
+        }
+    }, [searchResults]);
+
+    useEffect(() => {
         // load some data the first time user gets to the page.
         // confirm its a blank url without params, so its REALLY the first time they're here, not them navigating "back"
         console.log([mapPageFromParams, cityFromParams, minDistanceFromParams, maxDistanceFromParams], "43rm");
@@ -45,13 +64,17 @@ const SearchPage: React.FC<{}> = props => {
         console.log(noSearchPgParams, "45rm");
         if (noSearchPgParams) {
             console.log("running search 47rm");
-            runSearch("Montreal", 0, 2);
+            const minDist = 0;
+            const maxDist = 2;
+            const pg = 1;
+            runSearch("Montreal", minDist, maxDist, pg);
         } else {
-            // next 3 lines is satisfying ts.
+            // next 4 lines is satisfying ts.
             const cityThatDefinitelyExists = cityFromParams ? cityFromParams : "Placeholder";
             const minDistThatDefinitelyExists = minDistanceFromParams ? parseInt(minDistanceFromParams, 10) : 0;
             const maxDistThatDefinitelyExists = maxDistanceFromParams ? parseInt(maxDistanceFromParams, 10) : 5;
-            runSearch(cityThatDefinitelyExists, minDistThatDefinitelyExists, maxDistThatDefinitelyExists);
+            const pgDefExists = mapPageFromParams ? parseInt(mapPageFromParams, 10) : 0;
+            runSearch(cityThatDefinitelyExists, minDistThatDefinitelyExists, maxDistThatDefinitelyExists, pgDefExists);
         }
     }, []);
 
@@ -62,7 +85,7 @@ const SearchPage: React.FC<{}> = props => {
                 <SearchBar runSearch={runSearch} />
                 <TitleBar />
                 <div className="pb-6">
-                    {searchResults.map((ap, i) => (
+                    {resultsFromSearch.map((ap, i) => (
                         <DetailsBar
                             key={i}
                             address={ap.address}
