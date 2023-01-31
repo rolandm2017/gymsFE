@@ -45,12 +45,16 @@ const DetailsBar: React.FC<DeailsBarProps> = ({
     const viewportWidth = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
 
     function walkTimeInMinutes(walkTimeFraction: number) {
-        let minOrMins = viewportWidth < 600 ? "min" : "minute";
+        let minOrMinute = viewportWidth < 600 ? "min" : "minute";
         // presumes values < 1 will be converted into seconds.
         const truncated = Math.trunc(walkTimeFraction);
-        if (walkTimeFraction > 2) return `${truncated} ${minOrMins}s`;
-        else if (walkTimeFraction === 1) return `1 ${minOrMins}`;
-        else throw Error("You aren't supposed to be able to get here");
+        if (walkTimeFraction > 2) return `${truncated} ${minOrMinute}s`;
+        else if (walkTimeFraction >= 1) return `1 ${minOrMinute}`;
+        else if (walkTimeFraction <= 1) return `0 ${minOrMinute}`;
+        else {
+            console.log(walkTimeFraction, "55rm");
+            throw Error("You aren't supposed to be able to get here");
+        }
     }
 
     function walkTimeInSeconds(walkTimeFraction: number) {

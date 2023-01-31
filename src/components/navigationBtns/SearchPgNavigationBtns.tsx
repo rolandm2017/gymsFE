@@ -25,6 +25,11 @@ const SearchPgNavigationBtns: React.FC<SearchPgNavigationBtnProps> = ({
     return (
         <div className="flex">
             {currentPage === 1 ? (
+                <div onClick={() => {}} className="mr-4">
+                    {/* // note how this one does nothing -- we are on page 1, "back" is the void! */}
+                    <Button type={"Transparent"} text={"Back"} />
+                </div>
+            ) : (
                 <div
                     onClick={() => {
                         console.log("navigating to " + prevPageURL + " 22rm");
@@ -33,16 +38,9 @@ const SearchPgNavigationBtns: React.FC<SearchPgNavigationBtnProps> = ({
                     }}
                     className="mr-4"
                 >
-                    <Button type={"Transparent"} text={"Back"} />
-                </div>
-            ) : (
-                // <Link to={prevPageURL}>
-                <div onClick={() => {}} className="mr-4">
                     <Button type={"Opaque"} text={"Back"} />
                 </div>
-                // </Link>
             )}
-            {/* <Link to={nextPgURL}> */}
             <div
                 onClick={() => {
                     console.log("navigating to " + nextPgURL + " 39rm");
@@ -52,7 +50,6 @@ const SearchPgNavigationBtns: React.FC<SearchPgNavigationBtnProps> = ({
             >
                 <Button type={"Opaque"} text={"Next"} />
             </div>
-            {/* </Link> */}
         </div>
     );
 };
