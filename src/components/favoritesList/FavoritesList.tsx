@@ -15,7 +15,7 @@ const FavoritesList: React.FC<{}> = () => {
     const { requestAddNewURL } = useRevealedURLs();
 
     return (
-        <div className="w-full p-3 w-1/2 flex flex-col">
+        <div className="w-full w-1/2 flex flex-col">
             <div className="mb-4">
                 <h3 className="text-xl bg-zinc-200 px-6 py-2 inline-block rounded-lg">Favorites</h3>
             </div>

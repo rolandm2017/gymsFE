@@ -21,7 +21,7 @@ const RevealedURLList: React.FC<{}> = ({}) => {
     }, [revealedURLs, revealedURLsIsLoaded]);
 
     return (
-        <div className="w-1/2 p-3">
+        <div className="w-1/2">
             {/* <button
                 onClick={() => {
                     console.log(revealedURLsContext, "38rm");

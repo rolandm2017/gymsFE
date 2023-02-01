@@ -63,7 +63,7 @@ const DetailsBar: React.FC<DeailsBarProps> = ({
             </div>
             <div className="col-span-3 flex justify-center items-center">
                 <p className="grayText detailsBarText">
-                    {walkTimeFraction > 1 ? walkTimeInMinutes(walkTimeFraction, viewportWidth) : walkTimeInSeconds(walkTimeFraction)}
+                    {walkTimeFraction > 1 ? walkTimeInMinutes(walkTimeFraction, viewportWidth, 600) : walkTimeInSeconds(walkTimeFraction)}
                 </p>
             </div>
 

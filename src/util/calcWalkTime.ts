@@ -7,8 +7,9 @@ export function calculateWalkTimeInMinutes(d: number): number {
     return minutes;
 }
 
-export function walkTimeInMinutes(walkTimeFraction: number, viewportWidth: number) {
-    let minOrMinute = viewportWidth < 600 ? "min" : "minute";
+export function walkTimeInMinutes(walkTimeFraction: number, viewportWidth: number, threshold: number) {
+    // standard threshold is 600, but can be 900 in some situations
+    let minOrMinute = viewportWidth < threshold ? "min" : "minute";
     // presumes values < 1 will be converted into seconds.
     const truncated = Math.trunc(walkTimeFraction);
     if (walkTimeFraction > 2) return `${truncated} ${minOrMinute}s`;

@@ -32,17 +32,17 @@ const FavoritesItemDesktop: React.FC<FavoritesItemProps> = ({
 
     // hidden md:grid
     return (
-        <div className="mt-3 py-2 pl-2 h-24 md:h-12 hidden md:grid grid-cols-6 bg-white rounded-lg">
-            <div className="w-full h-1/2 md:h-full pl-1 col-span-2 ">
+        <div className="mt-3 py-2 pl-2 h-24 md:h-12 hidden md:grid grid-cols-9 bg-white rounded-lg">
+            <div className="w-full h-1/2 md:h-full pl-1 col-span-3">
                 <div className="h-full flex items-center">
                     <p className="text-left whitespace-nowrap text-ellipsis	overflow-hidden">{address}</p>
                 </div>
             </div>
             <div className="h-1/2 md:h-full col-span-2 flex justify-center items-center ">
-                <p> {walkTimeFraction > 1 ? walkTimeInMinutes(walkTimeFraction, viewportWidth) : walkTimeInSeconds(walkTimeFraction)} </p>
+                <p> {walkTimeFraction > 1 ? walkTimeInMinutes(walkTimeFraction, viewportWidth, 1100) : walkTimeInSeconds(walkTimeFraction)} </p>
             </div>
             <div
-                className="col-span-1"
+                className="col-span-2"
                 onClick={() => {
                     removeFavorite();
                 }}
@@ -56,7 +56,7 @@ const FavoritesItemDesktop: React.FC<FavoritesItemProps> = ({
                 </div>
             </div>
             <div
-                className="col-span-1"
+                className="col-span-2"
                 onClick={() => {
                     if (outOfCredits) {
                         openAddCreditsModal();
