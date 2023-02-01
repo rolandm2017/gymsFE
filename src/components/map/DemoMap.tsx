@@ -118,8 +118,8 @@ const DemoMap: React.FC<DemoMapProps> = ({ center, qualifiedFromCurrentPage, act
 
         for (let i = 0; i < apartments.length; i++) {
             const apartment = apartments[i];
-            const nearbyGyms: IAssociation[] | undefined = apartment.nearbyGyms;
-            const theApartmentHasNearbyGyms = nearbyGyms !== undefined && nearbyGyms.length > 0;
+            const nearbyGym: IGym = apartment.nearbyGym;
+            const theApartmentHasNearbyGyms = true;
             const theApartmentHasCoords = apartment.long && apartment.lat;
             if (theApartmentHasCoords && theApartmentHasNearbyGyms) {
                 let markerForAp;
@@ -130,29 +130,25 @@ const DemoMap: React.FC<DemoMapProps> = ({ center, qualifiedFromCurrentPage, act
                     markerForAp = new mapboxgl.Marker()
                         .setLngLat([apartment.long, apartment.lat])
 
-                        .setPopup(new mapboxgl.Popup().setHTML(makePopupHTMLForApartment(apartment)));
+                        .setPopup(new mapboxgl.Popup().setHTML(makePopupHTMLForApartment(apartment, apartment.distanceToNearestGym)));
                 }
                 apartmentMarkers.push(markerForAp);
-                for (const association of nearbyGyms) {
-                    const gymThatDefinitelyExists: IGym | undefined = association.gym; // ts doesn't know it definitely exists, but I do
-                    const gymWasActuallyUndefined = gymThatDefinitelyExists === undefined;
-                    if (gymWasActuallyUndefined) continue;
-                    const gymWasAlreadyAdded = duplicateGymDetectorArray.includes(gymThatDefinitelyExists.long);
-                    if (gymWasAlreadyAdded) continue;
-                    const markerForGym = new mapboxgl.Marker({ color: "#f7685b" })
-                        .setLngLat([gymThatDefinitelyExists.long, gymThatDefinitelyExists.lat])
-                        .setPopup(new mapboxgl.Popup().setHTML(makePopupHTMLForGym(association)));
-                    duplicateGymDetectorArray.push(gymThatDefinitelyExists.long);
-                    gymMarkers.push(markerForGym);
-                }
+                // add marker for gym
+
+                const markerForGym = new mapboxgl.Marker({ color: "#f7685b" })
+                    .setLngLat([nearbyGym.long, nearbyGym.lat])
+                    .setPopup(new mapboxgl.Popup().setHTML(makePopupHTMLForGym(nearbyGym, apartment.distanceToNearestGym)));
+                duplicateGymDetectorArray.push(nearbyGym.long);
+                gymMarkers.push(markerForGym);
+                // }
             }
         }
         return { apartmentMarkers, gymMarkers };
     }
 
-    function makePopupHTMLForApartment(apartment: IDemoHousing): string {
-        const nearbyGym = apartment.nearbyGyms ? apartment.nearbyGyms[0].gym?.name : "No gyms found";
-        const distance = apartment.nearbyGyms ? truncateDecimals(apartment.nearbyGyms[0].distanceInKM, 2) : "No data";
+    function makePopupHTMLForApartment(apartment: IDemoHousing, distanceToGym: number): string {
+        const nearbyGym = apartment.nearbyGym ? apartment.nearbyGym.name : "No gyms found";
+        const distance = apartment.nearbyGym ? truncateDecimals(distanceToGym, 2) : "No data";
         return `<div>
                 <h4>Address available with a subscription</h4>
                 <p>Near: ${nearbyGym}</p>
@@ -160,12 +156,11 @@ const DemoMap: React.FC<DemoMapProps> = ({ center, qualifiedFromCurrentPage, act
             </div>`;
     }
 
-    function makePopupHTMLForGym(association: IAssociation): string {
+    function makePopupHTMLForGym(gym: IGym, distanceToGym: number): string {
         // gym: addr, distance to ap
-        const gym = association.gym;
         const name = gym ? gym.name : "name MIA";
         const addr = gym ? gym.formatted_address : "addr mia";
-        const distance = truncateDecimals(calculateWalkTimeInMinutes(association.distanceInKM), 2);
+        const distance = truncateDecimals(calculateWalkTimeInMinutes(distanceToGym), 2);
         return `<div>
                 <h4>${name}</h4>
                 <p>${addr}</p>

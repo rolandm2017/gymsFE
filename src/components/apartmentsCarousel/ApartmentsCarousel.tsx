@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 import { IHousing } from "../../interface/Housing.interface";
+import { IDemoHousing } from "../../interface/DemoHousing.interface";
+import ApartmentSlide from "./ApartmentSlide";
+import Dot from "../cityPicker/Dot";
 
 interface ApartmentsCarouselProps {
-    apartments: IHousing[];
+    apartments: IDemoHousing[];
     choiceReporter: Function;
 }
 
 const ApartmentsCarousel: React.FC<ApartmentsCarouselProps> = ({ apartments, choiceReporter }: ApartmentsCarouselProps) => {
-    const availableIndexes = apartments.length < 20 ? apartments.length : 20;
-    const [selectedApartmentIndex, setSelectedApartmentIndex] = useState<number>(0);
+    const availableIndexes = [...Array(apartments.length < 20 ? apartments.length : 20).keys()];
+    const [selectedApartmentIndex, setSelectedApartmentIndex] = useState<number>(1);
 
     function plusSlides(n: number) {
         const newselectedCityIndex = selectedApartmentIndex + n;
@@ -21,7 +24,7 @@ const ApartmentsCarousel: React.FC<ApartmentsCarouselProps> = ({ apartments, cho
     }
 
     function showSlides(n: number) {
-        const numberOfIndexes = availableIndexes;
+        const numberOfIndexes = availableIndexes.length;
         const nIsGreaterThanNumberOfSlides = n > numberOfIndexes;
         if (nIsGreaterThanNumberOfSlides) {
             setSelectedApartmentIndex(0);
@@ -40,10 +43,42 @@ const ApartmentsCarousel: React.FC<ApartmentsCarouselProps> = ({ apartments, cho
     }
 
     return (
-        <div>
-            {apartments.map((ap: IHousing) => {
-                return <div>1</div>;
-            })}
+        <div className="w-72 h-40 border-2 border-red-400">
+            {/* <!-- Slideshow container --> */}
+            <div className="slideshow-container">
+                <span
+                    className="prev"
+                    onClick={() => {
+                        plusSlides(-1);
+                    }}
+                >
+                    &#10094;
+                </span>
+                {/* //   <!-- Full-width slides --> */}
+
+                {apartments.map((apartment: IDemoHousing, index: number) => {
+                    return (
+                        <ApartmentSlide
+                            key={index}
+                            slideIndex={index}
+                            activeIndex={selectedApartmentIndex}
+                            nearbyGym={apartment.nearbyGym}
+                            distanceToGym={apartment.distanceToNearestGym}
+                        />
+                    );
+                })}
+
+                {/* <!-- Next/prev buttons --> */}
+
+                <span
+                    className="next"
+                    onClick={() => {
+                        plusSlides(1);
+                    }}
+                >
+                    &#10095;
+                </span>
+            </div>
         </div>
     );
 };

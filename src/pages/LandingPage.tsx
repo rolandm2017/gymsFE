@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useRefreshJwtAPI } from "../api/authAPI";
 //
 import { useGetDemoApartmentsAPI } from "../api/placesAPI";
-import AuthPrompt from "../components/auth/AuthPrompt";
 import SignUpPrompt from "../components/auth/SignUpPrompt";
 import Button from "../components/button/Button";
 import ExpanderButton from "../components/button/ExpanderButton";
 import CityPicker from "../components/cityPicker/CityPicker";
-import GoogleLogin from "../components/googleSSO/GoogleLogin";
 import DemoMap from "../components/map/DemoMap";
 import { ICity } from "../interface/City.interface";
 import { IDemoHousing } from "../interface/DemoHousing.interface";
@@ -19,14 +16,17 @@ import Brand2 from "../assets/brand2.png";
 import Brand3 from "../assets/brand3.png";
 import Brand4 from "../assets/brand4.png";
 import Brand5 from "../assets/brand5.png";
-import Brand6 from "../assets/brand6.png";
 import NiceMan from "../assets/NiceMan.png";
 import "./LandingPage.scss";
+import ApartmentsCarousel from "../components/apartmentsCarousel/ApartmentsCarousel";
 
 const LandingPage: React.FC<{}> = () => {
     const [apartments, setApartments] = useState<IDemoHousing[]>([]);
+    // city picker
     const [selectedCityIndex, setSelectedCityIndex] = useState<number>(0);
     const [selectedCity, setSelectedCity] = useState<ICity>(SEED_CITIES[0]);
+    // apartment carousel picker
+    const [selectedApartmentIndex, setSelectedApartmentIndex] = useState(0);
     const [centerCoords, setCenterCoords] = useState<IViewportBounds | undefined>(undefined);
     const [neLat, setNeLat] = useState<number>(0);
     const [swLat, setSwLat] = useState<number>(0);
@@ -40,9 +40,11 @@ const LandingPage: React.FC<{}> = () => {
 
     useEffect(() => {
         // add housings whenever there are new loaded housings from moving the viewport.
-        const updated = [...apartments, ...newDemoHousing];
+        // const updated = [...apartments, ...newDemoHousing];
+        const updated = [...newDemoHousing];
         setApartments(updated);
-    }, [recenteredViewportCounter]);
+        console.log(updated, "49rm");
+    }, [recenteredViewportCounter, newDemoHousing]);
 
     useEffect(() => {
         const fetchDemoApartments = async () => {
@@ -68,7 +70,6 @@ const LandingPage: React.FC<{}> = () => {
     }
 
     // todo: when map is moved, get coords of new location, load apartments for that location.
-    const { runRefreshJwt } = useRefreshJwtAPI();
 
     return (
         <div>
@@ -154,7 +155,9 @@ const LandingPage: React.FC<{}> = () => {
                         <CityPicker choiceReporter={setSelectedCityIndex} />
                     </div>
                 </div>
-                <div>{/* <ApartmentsCarousel /> */}</div>
+                <div>
+                    <ApartmentsCarousel apartments={apartments} choiceReporter={setSelectedApartmentIndex} />
+                </div>
                 <div className="border-2 border-black">
                     <DemoMap
                         center={[selectedCity.centerLat, selectedCity.centerLong]}

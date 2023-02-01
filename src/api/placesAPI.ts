@@ -14,6 +14,10 @@ import { getEndpoint } from "../util/getEndpoint";
 import { handleError } from "../util/handleError";
 import { makeHeaders } from "../util/makeHeaders";
 
+export function useReportPublicFavoriteAPI() {
+    // todo
+}
+
 export function useGetDemoApartmentsAPI(): {
     newDemoHousing: IDemoHousing[];
     moveViewport: Function;
