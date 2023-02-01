@@ -43,9 +43,9 @@ const ApartmentsCarousel: React.FC<ApartmentsCarouselProps> = ({ apartments, cho
     }
 
     return (
-        <div className="w-full h-40 flex justify-center items-center border-2 border-red-400">
+        <div className="w-full h-40  relative flex justify-center items-center border-2 border-red-400">
             {/* <!-- Slideshow container --> */}
-            <div className="h-full relative bg-white">
+            <div>
                 <span
                     className="prev z-30"
                     onClick={() => {
@@ -54,6 +54,8 @@ const ApartmentsCarousel: React.FC<ApartmentsCarouselProps> = ({ apartments, cho
                 >
                     &#10094;
                 </span>
+            </div>
+            <div className="h-full mx-14 w-full relative bg-white">
                 {/* //   <!-- Full-width slides --> */}
 
                 {apartments.map((apartment: IDemoHousing, index: number) => {
@@ -67,7 +69,8 @@ const ApartmentsCarousel: React.FC<ApartmentsCarouselProps> = ({ apartments, cho
                         />
                     );
                 })}
-
+            </div>
+            <div>
                 {/* <!-- Next/prev buttons --> */}
 
                 <span

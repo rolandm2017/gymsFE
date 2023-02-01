@@ -16,7 +16,6 @@ export function walkTimeInMinutes(walkTimeFraction: number, viewportWidth: numbe
     else if (walkTimeFraction >= 1) return `1 ${minOrMinute}`;
     else if (walkTimeFraction <= 1) return `0 ${minOrMinute}`;
     else {
-        console.log(walkTimeFraction, "55rm");
         throw Error("You aren't supposed to be able to get here");
     }
 }
@@ -29,7 +28,6 @@ export function walkTimeInMinutesWithWalkText(walkTimeFraction: number, viewport
     else if (walkTimeFraction >= 1) return `1 ${minOrMinute} walk`;
     else if (walkTimeFraction <= 1) return `0 ${minOrMinute} walk`;
     else {
-        console.log(walkTimeFraction, "55rm");
         throw Error("You aren't supposed to be able to get here");
     }
 }

@@ -1,6 +1,7 @@
 import React from "react";
 import { IAssociation } from "../../interface/Association.interface";
 import { IGym } from "../../interface/Gym.interface";
+import { walkTimeInMinutes, walkTimeInSeconds, calculateWalkTimeInMinutes } from "../../util/calcWalkTime";
 
 interface ApartmentSlideProps {
     distanceToGym: number;
@@ -17,16 +18,20 @@ const ApartmentSlide: React.FC<ApartmentSlideProps> = ({ distanceToGym, nearbyGy
 
     const nearestGymName = nearbyGym.name;
 
+    const walkTimeFraction = calculateWalkTimeInMinutes(distanceToGym);
+
     return (
         <div className={` ${determineClasses()} h-full w-full flex items-center`}>
-            <div className="h-5/6 shadow-xl border-2 border-purple-400">
-                <div className="h-full border-2 border-black">
+            <div className="h-5/6 w-full shadow-xl border-2 border-purple-400">
+                <div className="h-full w-full text-left  border-2 border-black">
                     <p>
                         Address: <span className="blueText">Hidden</span>
                     </p>
                     {/* // todo: calculate walk time */}
-                    <p className="">{distanceToGym} walk to a gym</p>
-                    <p>Nearest Gym: {nearestGymName}</p>
+                    <p className="">{walkTimeInSeconds(distanceToGym)}ond walk to a gym</p>
+                    {/* <p className="">{distanceToGym} walk to a gym</p> */}
+                    <p>Nearest Gym:</p>
+                    <p> {nearestGymName}</p>
                 </div>
             </div>
         </div>
