@@ -20,6 +20,19 @@ export function walkTimeInMinutes(walkTimeFraction: number, viewportWidth: numbe
     }
 }
 
+export function walkTimeInMinutesWithWalkText(walkTimeFraction: number, viewportWidth: number) {
+    let minOrMinute = viewportWidth < 600 ? "min" : "minute";
+    // presumes values < 1 will be converted into seconds.
+    const truncated = Math.trunc(walkTimeFraction);
+    if (walkTimeFraction > 2) return `${truncated} ${minOrMinute} walk`;
+    else if (walkTimeFraction >= 1) return `1 ${minOrMinute} walk`;
+    else if (walkTimeFraction <= 1) return `0 ${minOrMinute} walk`;
+    else {
+        console.log(walkTimeFraction, "55rm");
+        throw Error("You aren't supposed to be able to get here");
+    }
+}
+
 export function walkTimeInSeconds(walkTimeFraction: number) {
     const asSeconds = walkTimeFraction * 60;
     const truncated = Math.trunc(asSeconds);

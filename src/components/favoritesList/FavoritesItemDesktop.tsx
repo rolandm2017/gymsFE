@@ -4,7 +4,7 @@ import { CreditsModalContext, ICreditsModalContext } from "../../context/Credits
 import Button from "../button/Button";
 import Garbage from "../../assets/waste.png";
 import Visit from "../../assets/visit.png";
-import { calculateWalkTimeInMinutes, getMetersFromKM } from "../../util/calcWalkTime";
+import { calculateWalkTimeInMinutes, getMetersFromKM, walkTimeInMinutes, walkTimeInSeconds } from "../../util/calcWalkTime";
 
 interface FavoritesItemProps {
     address: string;
@@ -24,6 +24,8 @@ const FavoritesItemDesktop: React.FC<FavoritesItemProps> = ({
     const { outOfCredits } = useAuth();
     const { openAddCreditsModal } = useContext(CreditsModalContext) as ICreditsModalContext;
 
+    console.log(distanceToGym, "27rm");
+
     const walkTimeFraction = calculateWalkTimeInMinutes(distanceToGym);
 
     const viewportWidth = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
@@ -31,13 +33,13 @@ const FavoritesItemDesktop: React.FC<FavoritesItemProps> = ({
     // hidden md:grid
     return (
         <div className="mt-3 py-2 pl-2 h-24 md:h-12 hidden md:grid grid-cols-6 bg-white rounded-lg">
-            <div className="w-full h-1/2 md:h-full pl-1 col-span-2 border-2 border-red-400">
+            <div className="w-full h-1/2 md:h-full pl-1 col-span-2 ">
                 <div className="h-full flex items-center">
                     <p className="text-left whitespace-nowrap text-ellipsis	overflow-hidden">{address}</p>
                 </div>
             </div>
-            <div className="h-1/2 md:h-full col-span-2 flex justify-center items-center border-2 border-red-400">
-                <p>{getMetersFromKM(distanceToGym)} minute walk </p>
+            <div className="h-1/2 md:h-full col-span-2 flex justify-center items-center ">
+                <p> {walkTimeFraction > 1 ? walkTimeInMinutes(walkTimeFraction, viewportWidth) : walkTimeInSeconds(walkTimeFraction)} </p>
             </div>
             <div
                 className="col-span-1"

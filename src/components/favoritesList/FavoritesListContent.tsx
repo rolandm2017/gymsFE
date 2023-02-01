@@ -49,11 +49,12 @@ const FavoritesListContent: React.FC<{}> = () => {
             </div>
             {favoritesContext.map(f => {
                 const isRevealed = revealedURLsIds.includes(f.housingId);
+                console.log(f, "52rm");
                 return (
                     <FavoritesItemDesktop
                         key={f.housingId}
                         address={f.address ? f.address : "loading..."}
-                        distanceToGym={f.nearbyGyms && f.nearbyGyms.length >= 1 ? f.nearbyGyms[0].distanceInKM : 0}
+                        distanceToGym={f.distanceToNearestGym}
                         removeFavorite={() => {
                             removeFavorite(f.housingId);
                         }}
@@ -72,7 +73,7 @@ const FavoritesListContent: React.FC<{}> = () => {
                     <FavoritesItemMobile
                         key={f.housingId}
                         address={f.address ? f.address : "loading..."}
-                        distanceToGym={f.nearbyGyms && f.nearbyGyms.length >= 1 ? f.nearbyGyms[0].distanceInKM : 0}
+                        distanceToGym={f.distanceToNearestGym}
                         removeFavorite={() => {
                             removeFavorite(f.housingId);
                         }}
