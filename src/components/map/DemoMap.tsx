@@ -185,7 +185,7 @@ const DemoMap: React.FC<DemoMapProps> = ({ center, qualifiedFromCurrentPage, act
     }
 
     return (
-        <div id="mapContainerOuter" className={`${decideWidth(isOpen, isOnMobile)} w-full mapHeight mr-2`}>
+        <div id="mapContainerOuter" className={` w-full mapHeight mr-2`}>
             <div id="mapContainer" ref={mapContainer}></div>
         </div>
     );
