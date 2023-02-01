@@ -43,11 +43,11 @@ const ApartmentsCarousel: React.FC<ApartmentsCarouselProps> = ({ apartments, cho
     }
 
     return (
-        <div className="w-72 h-40 border-2 border-red-400">
+        <div className="w-full h-40 flex justify-center items-center border-2 border-red-400">
             {/* <!-- Slideshow container --> */}
-            <div className="slideshow-container">
+            <div className="h-full relative bg-white">
                 <span
-                    className="prev"
+                    className="prev z-30"
                     onClick={() => {
                         plusSlides(-1);
                     }}
@@ -71,7 +71,7 @@ const ApartmentsCarousel: React.FC<ApartmentsCarouselProps> = ({ apartments, cho
                 {/* <!-- Next/prev buttons --> */}
 
                 <span
-                    className="next"
+                    className="next z-30"
                     onClick={() => {
                         plusSlides(1);
                     }}

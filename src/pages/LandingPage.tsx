@@ -34,6 +34,11 @@ const LandingPage: React.FC<{}> = () => {
     const { newDemoHousing, moveViewport, err, demoApartmentsAreLoaded, recenteredViewportCounter } = useGetDemoApartmentsAPI();
 
     useEffect(() => {
+        // on page load, get gyms
+        moveViewport(centerCoords?.ne.long, centerCoords);
+    }, []);
+
+    useEffect(() => {
         centerMapOnLocation(SEED_CITIES[selectedCityIndex]);
         setSelectedCity(SEED_CITIES[selectedCityIndex]);
     }, [selectedCityIndex]);

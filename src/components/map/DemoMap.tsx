@@ -11,6 +11,7 @@ import { calculateWalkTimeInMinutes } from "../../util/calcWalkTime";
 import { truncateDecimals } from "../../util/truncateDecimals";
 
 import useWindowSize from "../../util/useWindowSize";
+import ApartmentCard from "../apartmentCard/ApartmentCard";
 
 import "./Map.scss";
 
@@ -27,6 +28,7 @@ interface DemoMapProps {
 
 const DemoMap: React.FC<DemoMapProps> = ({ center, qualifiedFromCurrentPage, activeApartment, adjustedCenterReporter }: DemoMapProps) => {
     // initialization
+    console.log(qualifiedFromCurrentPage, "31rm");
     const mapContainer = useRef(null);
     const map = useRef<mapboxgl.Map | null>(null);
     const [long, setLong] = useState(-73.554);
