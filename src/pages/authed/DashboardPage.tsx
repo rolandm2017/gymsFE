@@ -11,14 +11,14 @@ const DashboardPage: React.FC<{}> = props => {
     return (
         <PageBase>
             <div>
-                <div className="hidden md:flex">
+                <div className="hidden lg:flex">
                     {/* Favorites List
                         <div>Search for More</div>
                         <div>Show URL</div> */}
                     <FavoritesList />
                     <RevealedURLList />
                 </div>
-                <div className="w-full flex md:hidden justify-center">
+                <div className="w-full flex lg:hidden justify-center">
                     {/* // for tablets and mobile */}
                     <ToggleList />
                 </div>

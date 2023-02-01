@@ -50,7 +50,7 @@ const FavoritesItemDesktop: React.FC<FavoritesItemProps> = ({
                 <div className="hidden lg:block">
                     <Button type="Opaque" text="Remove" size="Small" />
                 </div>
-                <div className="h-full block lg:hidden flex justify-center items-center">
+                <div className="ml-12 h-full block lg:hidden flex justify-center items-center">
                     {/* // show trash icon on mobile to save space */}
                     <img src={Garbage} alt="trash" width={15} height={15} />
                 </div>
