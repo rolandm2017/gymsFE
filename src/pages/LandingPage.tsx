@@ -227,22 +227,23 @@ const LandingPage: React.FC<{}> = () => {
             <div className="px-8 mt-12">
                 <div>
                     <h3 className="text-xl font-bold poppins">
-                        Preview our apartment finder service for free <span className="blueText">right now.</span>{" "}
+                        Use a preview of our apartment finder service for free <span className="blueText">right now.</span>{" "}
                     </h3>
                 </div>
                 <div className="mt-4">
                     <p className="poppins">
-                        Stop making excuses and falling short of your goals. If you want to become a true success in the long term,{" "}
+                        Stop making excuses and falling short of your goals. If you want to become a true success in the long term, signing up for
+                        this is the first step to taking control of your health and fitness.
                     </p>
                 </div>
             </div>
-            <div>
+            <div className="mt-12">
                 <div>
                     <div className="w-full mt-5 flex justify-center">
                         <CityPicker choiceReporter={setSelectedCityIndex} />
                     </div>
                 </div>
-                <div>
+                <div className="w-full flex justify-center">
                     <ApartmentsCarousel apartments={apartments} activeMapMarkerApartmentIdSetter={setSelectedApartmentId} />
                 </div>
                 <div>

@@ -57,7 +57,7 @@ const ApartmentsCarousel: React.FC<ApartmentsCarouselProps> = ({ apartments, act
                     &#10094;
                 </span>
             </div>
-            <div className="h-full mx-14 w-full relative bg-white">
+            <div className="h-full mx-14 w-full relative bg-white flex">
                 {/* //   <!-- Full-width slides --> */}
 
                 {apartments.map((apartment: IDemoHousing, index: number) => {
