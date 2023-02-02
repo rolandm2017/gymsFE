@@ -73,11 +73,21 @@ const LandingPage: React.FC<{}> = () => {
     const mobileCurveImgRef = useRef<HTMLDivElement>(null);
     const desktopCurveImgRef = useRef<HTMLDivElement>(null);
     useEffect(() => {
-        if (mobileCurveImgRef.current) {
-            const divHeight = mobileCurveImgRef.current.clientHeight;
-            console.log(divHeight, "77rm");
-            setHeight(divHeight);
+        function reportNewWidth() {
+            // run again on resize
+            if (mobileCurveImgRef.current) {
+                const divHeight = mobileCurveImgRef.current.clientHeight;
+                console.log(divHeight, "77rm");
+                setHeight(divHeight);
+            }
         }
+        reportNewWidth(); // run once on load
+
+        window.addEventListener("resize", reportNewWidth);
+
+        return () => {
+            window.removeEventListener("resize", reportNewWidth);
+        };
     }, []);
 
     return (
@@ -105,8 +115,8 @@ const LandingPage: React.FC<{}> = () => {
                         <img src={LandingPageCurve} className=" z-0 h-72 w-72 " alt="lower left quadrant of three stacked circles" />
                     </div>
                 </div>
-                <div className=" h-72  w-full  flex justify-end  absolute top-0 right-0 border-2 border-black">
-                    <div className="mt-24 w-2/5 flex justify-start border-2 border-red-500">
+                <div className=" h-72  w-full  flex justify-end  absolute top-0 right-0 ">
+                    <div className="mt-24 w-2/5 flex justify-start ">
                         <div className="h-80 w-[355px]   z-20">
                             <img src={NiceMan} className="niceManImg mt-6 z-30" alt="a fit person meditating" />
                         </div>
@@ -158,8 +168,8 @@ const LandingPage: React.FC<{}> = () => {
             <div className="block sm:hidden">
                 {/* // mobile pre-fold */}
                 <div className="relative h-72    flex justify-end ">
-                    <div ref={mobileCurveImgRef} className={`h-full `} style={{ width: height }}>
-                        <img src={LandingPageCurve} className=" z-10" />
+                    <div id="landingCurveMobile" ref={mobileCurveImgRef} className={`h-full `} style={{ width: height }}>
+                        <img src={LandingPageCurve} className=" z-10" alt="three consecutively smaller quarter-circles" />
                     </div>
                     <div className="w-full absolute top-0 flex justify-center">
                         <div className="h-72 w-80  flex justify-center z-20">
@@ -181,8 +191,8 @@ const LandingPage: React.FC<{}> = () => {
                             can view available apartments and gyms in your desired location.
                         </p>
                     </div>
-                    <div className="">
-                        <div className="px-24 py-8">
+                    <div className="w-full flex justify-center">
+                        <div className="px-24 py-8 w-96">
                             <ExpanderButton
                                 type="Opaque"
                                 text="Try Now For Free"
