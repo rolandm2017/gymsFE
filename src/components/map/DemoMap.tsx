@@ -29,8 +29,8 @@ const DemoMap: React.FC<DemoMapProps> = ({ center, viewportContents, adjustedCen
     // initialization
     const mapContainer = useRef(null);
     const map = useRef<mapboxgl.Map | null>(null);
-    const [long, setLong] = useState(-73.554);
-    const [lat, setLat] = useState(45.5);
+    const [long, setLong] = useState(center[1]);
+    const [lat, setLat] = useState(center[0]);
     const [zoom, setZoom] = useState(12);
     const [markers, setMarkers] = useState<mapboxgl.Marker[]>([]);
     const { isOpen } = useContext(SidebarStateContext) as ISidebarContext;

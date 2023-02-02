@@ -40,6 +40,7 @@ const LandingPage: React.FC<{}> = () => {
 
     useEffect(() => {
         centerMapOnLocation(SEED_CITIES[selectedCityIndex]);
+        console.log("Selecting:", SEED_CITIES[selectedCityIndex], "43rm");
         setSelectedCity(SEED_CITIES[selectedCityIndex]);
     }, [selectedCityIndex]);
 
@@ -48,7 +49,6 @@ const LandingPage: React.FC<{}> = () => {
         // add housings whenever there are new loaded housings from moving the viewport.
         const updated = [...newDemoHousing];
         setApartments(updated);
-        console.log(updated, "49rm");
         // set default highlight id for demo map
         const firstApartment = updated[0];
         setSelectedApartmentId(firstApartment.housingId);
