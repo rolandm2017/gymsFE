@@ -1,17 +1,11 @@
 import mapboxgl, { LngLatBounds } from "mapbox-gl";
 import React, { useRef, useEffect, useState, useContext } from "react";
 import { ISidebarContext, SidebarStateContext } from "../../context/SidebarContext";
-import { IAssociation } from "../../interface/Association.interface";
 import { IDemoHousing } from "../../interface/DemoHousing.interface";
 import { IGym } from "../../interface/Gym.interface";
-import { IHousing } from "../../interface/Housing.interface";
-import { ILatLong } from "../../interface/LatLong.interface";
 import { IViewportBounds } from "../../interface/ViewportBounds.interface";
 import { calculateWalkTimeInMinutes } from "../../util/calcWalkTime";
 import { truncateDecimals } from "../../util/truncateDecimals";
-
-import useWindowSize from "../../util/useWindowSize";
-import ApartmentCard from "../apartmentCard/ApartmentCard";
 
 import "./Map.scss";
 
@@ -27,7 +21,6 @@ interface DemoMapProps {
 
 const DemoMap: React.FC<DemoMapProps> = ({ center, viewportContents, adjustedCenterReporter, highlightedApartmentId }: DemoMapProps) => {
     // initialization
-    console.log(center, "repeat 2 30rm");
     const mapContainer = useRef(null);
     const map = useRef<mapboxgl.Map | null>(null);
     const [long, setLong] = useState(center[1]);
@@ -36,8 +29,7 @@ const DemoMap: React.FC<DemoMapProps> = ({ center, viewportContents, adjustedCen
     const [markers, setMarkers] = useState<mapboxgl.Marker[]>([]);
     const { isOpen } = useContext(SidebarStateContext) as ISidebarContext;
 
-    const [width, height] = useWindowSize();
-    const isOnMobile = width < 768;
+    // const [width, height] = useWindowSize();
 
     useEffect(() => {
         if (map === null || map.current === null) return;
@@ -48,7 +40,6 @@ const DemoMap: React.FC<DemoMapProps> = ({ center, viewportContents, adjustedCen
         const boundsOfNewlyCenteredMap: LngLatBounds = map.current.getBounds();
         const neCornerCoords = boundsOfNewlyCenteredMap.getNorthEast();
         const swCornerCoords = boundsOfNewlyCenteredMap.getSouthWest();
-        console.log(neCornerCoords, swCornerCoords, "repeat 1 50rm");
         const newBounds: IViewportBounds = {
             sw: { lat: swCornerCoords.lat, long: swCornerCoords.lng },
             ne: { lat: neCornerCoords.lat, long: neCornerCoords.lng },
@@ -68,16 +59,16 @@ const DemoMap: React.FC<DemoMapProps> = ({ center, viewportContents, adjustedCen
         resizeMap();
     }, [isOpen]);
 
-    function decideWidth(isOpen: boolean, isOnMobile: boolean): string {
-        if (isOnMobile) {
-            // because on mobile, the map is in a fixed position regardless if the sidebar is open or not
-            return "mapWidthSidebarClosed";
-        } else if (isOpen) {
-            return "mapWidthSidebarOpen";
-        } else {
-            return "mapWidthSidebarClosed";
-        }
-    }
+    // function decideWidth(isOpen: boolean, isOnMobile: boolean): string {
+    //     if (isOnMobile) {
+    //         // because on mobile, the map is in a fixed position regardless if the sidebar is open or not
+    //         return "mapWidthSidebarClosed";
+    //     } else if (isOpen) {
+    //         return "mapWidthSidebarOpen";
+    //     } else {
+    //         return "mapWidthSidebarClosed";
+    //     }
+    // }
 
     function getCoordsFromMap(map: mapboxgl.Map) {
         const coords: mapboxgl.LngLatBounds = map.getBounds();
