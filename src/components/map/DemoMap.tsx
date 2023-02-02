@@ -20,15 +20,14 @@ mapboxgl.accessToken = MAPBOX_TOKEN;
 
 interface DemoMapProps {
     center: [number, number];
-    qualifiedFromCurrentPage: IDemoHousing[];
-    activeApartment: number | null;
+    viewportContents: IDemoHousing[];
     adjustedCenterReporter?: Function;
-    // zoom: number;
+    highlightedApartmentId: number;
 }
 
-const DemoMap: React.FC<DemoMapProps> = ({ center, qualifiedFromCurrentPage, activeApartment, adjustedCenterReporter }: DemoMapProps) => {
+const DemoMap: React.FC<DemoMapProps> = ({ center, viewportContents, adjustedCenterReporter, highlightedApartmentId }: DemoMapProps) => {
     // initialization
-    console.log(qualifiedFromCurrentPage, "31rm");
+    console.log(highlightedApartmentId, "31rm");
     const mapContainer = useRef(null);
     const map = useRef<mapboxgl.Map | null>(null);
     const [long, setLong] = useState(-73.554);
@@ -105,13 +104,13 @@ const DemoMap: React.FC<DemoMapProps> = ({ center, qualifiedFromCurrentPage, act
         }
 
         let allMarkers: mapboxgl.Marker[] = [];
-        if (qualifiedFromCurrentPage.length !== 0 && map.current) {
-            const { apartmentMarkers, gymMarkers } = unpackMarkers(qualifiedFromCurrentPage);
+        if (viewportContents.length !== 0 && map.current) {
+            const { apartmentMarkers, gymMarkers } = unpackMarkers(viewportContents);
             allMarkers = [apartmentMarkers, gymMarkers].flat();
 
             addNewMarkers(allMarkers, markers, setMarkers, map.current);
         }
-    }, [map, qualifiedFromCurrentPage]);
+    }, [map, viewportContents]);
 
     function unpackMarkers(apartments: IDemoHousing[]): { apartmentMarkers: mapboxgl.Marker[]; gymMarkers: mapboxgl.Marker[] } {
         const apartmentMarkers: mapboxgl.Marker[] = [];
@@ -121,29 +120,25 @@ const DemoMap: React.FC<DemoMapProps> = ({ center, qualifiedFromCurrentPage, act
         for (let i = 0; i < apartments.length; i++) {
             const apartment = apartments[i];
             const nearbyGym: IGym = apartment.nearbyGym;
-            const theApartmentHasNearbyGyms = true;
-            const theApartmentHasCoords = apartment.long && apartment.lat;
-            if (theApartmentHasCoords && theApartmentHasNearbyGyms) {
-                let markerForAp;
-                const currentApartmentIsActive = i === activeApartment;
-                if (currentApartmentIsActive) {
-                    markerForAp = new mapboxgl.Marker({ color: "#ffffff", scale: 1.4 }).setLngLat([apartment.long, apartment.lat]);
-                } else {
-                    markerForAp = new mapboxgl.Marker()
-                        .setLngLat([apartment.long, apartment.lat])
+            let markerForAp;
+            const currentApartmentIsActive = apartment.housingId === highlightedApartmentId;
+            if (currentApartmentIsActive) {
+                console.log(apartment, "highlighted 129rm");
+                markerForAp = new mapboxgl.Marker({ color: "#ffffff", scale: 1.4 }).setLngLat([apartment.long, apartment.lat]);
+            } else {
+                markerForAp = new mapboxgl.Marker()
+                    .setLngLat([apartment.long, apartment.lat])
 
-                        .setPopup(new mapboxgl.Popup().setHTML(makePopupHTMLForApartment(apartment, apartment.distanceToNearestGym)));
-                }
-                apartmentMarkers.push(markerForAp);
-                // add marker for gym
-
-                const markerForGym = new mapboxgl.Marker({ color: "#f7685b" })
-                    .setLngLat([nearbyGym.long, nearbyGym.lat])
-                    .setPopup(new mapboxgl.Popup().setHTML(makePopupHTMLForGym(nearbyGym, apartment.distanceToNearestGym)));
-                duplicateGymDetectorArray.push(nearbyGym.long);
-                gymMarkers.push(markerForGym);
-                // }
+                    .setPopup(new mapboxgl.Popup().setHTML(makePopupHTMLForApartment(apartment, apartment.distanceToNearestGym)));
             }
+            apartmentMarkers.push(markerForAp);
+            // add marker for gym
+
+            const markerForGym = new mapboxgl.Marker({ color: "#f7685b" })
+                .setLngLat([nearbyGym.long, nearbyGym.lat])
+                .setPopup(new mapboxgl.Popup().setHTML(makePopupHTMLForGym(nearbyGym, apartment.distanceToNearestGym)));
+            duplicateGymDetectorArray.push(nearbyGym.long);
+            gymMarkers.push(markerForGym);
         }
         return { apartmentMarkers, gymMarkers };
     }

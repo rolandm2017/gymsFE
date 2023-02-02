@@ -24,7 +24,7 @@ const ApartmentSlide: React.FC<ApartmentSlideProps> = ({ distanceToGym, nearbyGy
     return (
         <div className={` ${determineClasses()} h-full w-full flex items-center`}>
             <div className="h-5/6 w-full shadow-xl rounded-xl border-4 border-zinc-100">
-                <div className="h-full w-full pl-3 pt-3 text-left ">
+                <div className="h-full w-full pl-3 pt-2 pb-2 text-left ">
                     <p>
                         Address: <span className="blueText">Hidden</span>
                     </p>
@@ -38,7 +38,9 @@ const ApartmentSlide: React.FC<ApartmentSlideProps> = ({ distanceToGym, nearbyGy
                         <span className="underline">Nearest Gym</span>:
                     </p>
                     <p className="text-base"> {nearestGymName}</p>
-                    <Button type="Opaque" text="Favorite" />
+                    <div className="mt-2">
+                        <Button type="Opaque" text="Favorite" />
+                    </div>
                 </div>
             </div>
         </div>

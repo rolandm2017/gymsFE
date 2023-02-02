@@ -6,10 +6,10 @@ import Dot from "../cityPicker/Dot";
 
 interface ApartmentsCarouselProps {
     apartments: IDemoHousing[];
-    choiceReporter: Function;
+    activeMapMarkerApartmentIdSetter: Function;
 }
 
-const ApartmentsCarousel: React.FC<ApartmentsCarouselProps> = ({ apartments, choiceReporter }: ApartmentsCarouselProps) => {
+const ApartmentsCarousel: React.FC<ApartmentsCarouselProps> = ({ apartments, activeMapMarkerApartmentIdSetter }: ApartmentsCarouselProps) => {
     const availableIndexes = [...Array(apartments.length < 20 ? apartments.length : 20).keys()];
     const [selectedApartmentIndex, setSelectedApartmentIndex] = useState<number>(1);
 
@@ -26,20 +26,22 @@ const ApartmentsCarousel: React.FC<ApartmentsCarouselProps> = ({ apartments, cho
     function showSlides(n: number) {
         const numberOfIndexes = availableIndexes.length;
         const nIsGreaterThanNumberOfSlides = n > numberOfIndexes;
+        const newHightlightId = apartments[selectedApartmentIndex].housingId;
+        console.log("New highlight id:", newHightlightId, "30rm");
         if (nIsGreaterThanNumberOfSlides) {
             setSelectedApartmentIndex(0);
-            choiceReporter(0);
+            activeMapMarkerApartmentIdSetter(newHightlightId);
             return;
         }
         const nIsBeforeFirstIndex = n < 0;
         if (nIsBeforeFirstIndex) {
             // reset to final slide
             setSelectedApartmentIndex(numberOfIndexes);
-            choiceReporter(numberOfIndexes);
+            activeMapMarkerApartmentIdSetter(newHightlightId);
             return;
         }
         setSelectedApartmentIndex(n);
-        choiceReporter(n);
+        activeMapMarkerApartmentIdSetter(newHightlightId);
     }
 
     return (

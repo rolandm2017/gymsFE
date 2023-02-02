@@ -26,7 +26,7 @@ const LandingPage: React.FC<{}> = () => {
     const [selectedCityIndex, setSelectedCityIndex] = useState<number>(0);
     const [selectedCity, setSelectedCity] = useState<ICity>(SEED_CITIES[0]);
     // apartment carousel picker
-    const [selectedApartmentIndex, setSelectedApartmentIndex] = useState(0);
+    const [selectedApartmentId, setSelectedApartmentId] = useState(0);
     const [centerCoords, setCenterCoords] = useState<IViewportBounds | undefined>(undefined);
     const [neLat, setNeLat] = useState<number>(0);
     const [swLat, setSwLat] = useState<number>(0);
@@ -44,11 +44,14 @@ const LandingPage: React.FC<{}> = () => {
     }, [selectedCityIndex]);
 
     useEffect(() => {
+        if (newDemoHousing.length === 0) return;
         // add housings whenever there are new loaded housings from moving the viewport.
-        // const updated = [...apartments, ...newDemoHousing];
         const updated = [...newDemoHousing];
         setApartments(updated);
         console.log(updated, "49rm");
+        // set default highlight id for demo map
+        const firstApartment = updated[0];
+        setSelectedApartmentId(firstApartment.housingId);
     }, [recenteredViewportCounter, newDemoHousing]);
 
     useEffect(() => {
@@ -161,14 +164,14 @@ const LandingPage: React.FC<{}> = () => {
                     </div>
                 </div>
                 <div>
-                    <ApartmentsCarousel apartments={apartments} choiceReporter={setSelectedApartmentIndex} />
+                    <ApartmentsCarousel apartments={apartments} activeMapMarkerApartmentIdSetter={setSelectedApartmentId} />
                 </div>
                 <div className="border-2 border-black">
                     <DemoMap
                         center={[selectedCity.centerLat, selectedCity.centerLong]}
-                        qualifiedFromCurrentPage={apartments}
-                        activeApartment={null}
+                        viewportContents={apartments}
                         adjustedCenterReporter={updateCenterCoordsHandler}
+                        highlightedApartmentId={selectedApartmentId}
                     />
                 </div>
             </div>

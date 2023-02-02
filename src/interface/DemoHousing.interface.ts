@@ -2,7 +2,7 @@ import { IAssociation } from "./Association.interface";
 import { IGym } from "./Gym.interface";
 
 export interface IDemoHousing {
-    housingId?: number; // same property name as in db
+    housingId: number; // same property name as in db
     buildingType: "apartment" | "house";
     agreementType: "rent" | "buy";
     // address?: string; // not included in demo!
