@@ -70,10 +70,11 @@ const LandingPage: React.FC<{}> = () => {
 
     // stuff to help the curve img stay square
     const [height, setHeight] = useState(0);
-    const curveImgRef = useRef<HTMLDivElement>(null);
+    const mobileCurveImgRef = useRef<HTMLDivElement>(null);
+    const desktopCurveImgRef = useRef<HTMLDivElement>(null);
     useEffect(() => {
-        if (curveImgRef.current) {
-            const divHeight = curveImgRef.current.clientHeight;
+        if (mobileCurveImgRef.current) {
+            const divHeight = mobileCurveImgRef.current.clientHeight;
             console.log(divHeight, "77rm");
             setHeight(divHeight);
         }
@@ -100,7 +101,7 @@ const LandingPage: React.FC<{}> = () => {
                 {/* // desktop pre-fold */}
                 {/* style={{ width: height }} */}
                 <div id="landingPageCurveDesktop" className="w-full h-72 absolute flex justify-end z-0 ">
-                    <div ref={curveImgRef} className={`h-72 w-72 w-full `} style={{}}>
+                    <div ref={desktopCurveImgRef} className={`h-72 w-72 w-full `} style={{}}>
                         <img src={LandingPageCurve} className=" z-0 h-72 w-72 " alt="lower left quadrant of three stacked circles" />
                     </div>
                 </div>
@@ -111,7 +112,7 @@ const LandingPage: React.FC<{}> = () => {
                         </div>
                     </div>
                 </div>
-                <div className="mb-8 w-full flex justify-center z-20">
+                <div className="mb-8 h-auto lg:h-[450px] w-full flex justify-center z-20">
                     <div className="w-3/5 flex flex-col items-start">
                         <div className="w-full mt-6 flex justify-between ">
                             <div>
@@ -157,7 +158,7 @@ const LandingPage: React.FC<{}> = () => {
             <div className="block sm:hidden">
                 {/* // mobile pre-fold */}
                 <div className="relative h-72    flex justify-end ">
-                    <div ref={curveImgRef} className={`h-full `} style={{ width: height }}>
+                    <div ref={mobileCurveImgRef} className={`h-full `} style={{ width: height }}>
                         <img src={LandingPageCurve} className=" z-10" />
                     </div>
                     <div className="w-full absolute top-0 flex justify-center">
