@@ -21,10 +21,16 @@ const ApartmentSlide: React.FC<ApartmentSlideProps> = ({ distanceToGym, nearbyGy
 
     const walkTimeFraction = calculateWalkTimeInMinutes(distanceToGym);
 
+    function clipIfLongerThanNChars(text: string, chars: number): string {
+        // Function Health Club Downtown Vancouver => Function Health Club Downt...
+        if (text.length < chars) return text;
+        return text.slice(0, chars) + "...";
+    }
+
     return (
         <div className={` ${determineClasses()} h-full w-full flex items-center`}>
             <div className="h-5/6 w-full shadow-xl rounded-xl border-4 border-zinc-100">
-                <div className="h-full w-full pl-3 pt-2 pb-2 text-left ">
+                <div className="h-full w-full pl-3 pr-3 pt-2 pb-2 text-left ">
                     <p>
                         Address: <span className="blueText">Hidden</span>
                     </p>
@@ -37,7 +43,7 @@ const ApartmentSlide: React.FC<ApartmentSlideProps> = ({ distanceToGym, nearbyGy
                     <p className="text-base mt-1">
                         <span className="underline">Nearest Gym</span>:
                     </p>
-                    <p className="text-base"> {nearestGymName}</p>
+                    <p className="text-base whitespace-nowrap text-ellipsis	overflow-hidden">{clipIfLongerThanNChars(nearestGymName, 30)}</p>
                     <div className="mt-2">
                         <Button type="Opaque" text="Favorite" />
                     </div>
