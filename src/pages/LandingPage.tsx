@@ -161,7 +161,7 @@ const LandingPage: React.FC<{}> = () => {
                     />
                 </div>
             </div>
-            <div>
+            <div className="px-4">
                 <div className="mt-12">
                     <p>Stop making excuses and falling short of your goals. If you want to become a true success in the long term, </p>
                 </div>
@@ -174,9 +174,9 @@ const LandingPage: React.FC<{}> = () => {
             </div>
 
             <div>
-                <h3 className="mt-4 text-2xl">Sign Up</h3>
+                <h3 className="mt-8 text-2xl font-semibold">Sign Up</h3>
             </div>
-            <div className="border-2 border-black flex justify-center">
+            <div className="flex justify-center">
                 <SignUpPrompt />
             </div>
             <div className="h-24">{/* // spacer div */}</div>

@@ -28,7 +28,7 @@ const TestimonialCarousel: React.FC<{}> = () => {
     }
 
     return (
-        <div className="w-full h-72 relative flex border-2 border-black">
+        <div className="w-full h-72 relative flex ">
             {/* <!-- Slideshow container --> */}
             <div className="w-24">
                 <span
@@ -40,7 +40,7 @@ const TestimonialCarousel: React.FC<{}> = () => {
                     &#10094;
                 </span>
             </div>
-            <div className="slideshow-container relative w-full border-2 border-black">
+            <div className="slideshow-container h-72 relative w-full ">
                 {/* //   <!-- Full-width slides --> */}
 
                 {TESTIMONIALS.map((testimonial, index) => (

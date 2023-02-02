@@ -18,18 +18,17 @@ const Testimonial: React.FC<TestimonialProps> = ({ name, content, rating, imgPat
 
     return (
         <div className={` ${determineClasses()} h-full w-full flex items-center relative`}>
-            <div className="mt-8 shadow-xl border-2 border-red-600">
+            <div className="mt-6 block h-64 shadow-2xl rounded-sm">
                 <div className="w-full flex justify-center absolute top-0">
                     <img src={imgPath} alt="a person's face" />
                 </div>
-                <div className="mt-20">
+                <div className="mt-20 px-4">
                     <h4 className="text-xl mb-4">{name}</h4>
                 </div>
-                <div>
+                <div className="px-4">
                     <p className="text-sm">{content}</p>
                 </div>
-                <div className="mt-4">
-                    {/* // rating  - todo */}
+                <div className="mt-4 mb-4   ">
                     <StarRating valueReporter={() => {}} fixedRating={rating} />
                 </div>
             </div>

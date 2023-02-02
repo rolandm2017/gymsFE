@@ -18,7 +18,7 @@ export const TESTIMONIALS: ITestimonial[] = [
     },
     {
         name: "Benjamin Linus",
-        content: "Your team got me going to the gym six days a week. I used to skip the gym. Never since using the site!",
+        content: "Your team got me going to the gym six days a week. I used to skip the gym. Not anymore!",
         rating: 5,
         imgPath: Person3,
     },
