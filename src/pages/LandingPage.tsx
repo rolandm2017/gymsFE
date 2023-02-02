@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 //
 import { useGetDemoApartmentsAPI } from "../api/placesAPI";
 import SignUpPrompt from "../components/auth/SignUpPrompt";
@@ -68,10 +68,19 @@ const LandingPage: React.FC<{}> = () => {
         fetchDemoApartments();
     }, [centerCoords]);
 
+    // stuff to help the curve img stay square
+    const [height, setHeight] = useState(0);
+    const curveImgRef = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+        if (curveImgRef.current) {
+            setHeight(curveImgRef.current.clientHeight);
+        }
+    }, []);
+
     return (
         <div>
             {/* // mobile header */}
-            <div className="px-4 flex justify-between items-center bg-black h-16">
+            <div className="px-4 w-full  flex justify-between sm:justify-around items-center bg-black sm:bg-transparent h-16">
                 <div>
                     <h1 className="poppins blueText text-xl">Apartments Near Gyms</h1>
                 </div>
@@ -85,41 +94,87 @@ const LandingPage: React.FC<{}> = () => {
                     />
                 </div>
             </div>
-            <div className="relative flex justify-center">
-                <div className="absolute right-0 w-full h-full">
-                    <img src={LandingPageCurve} className="w-44 h-44 sm:w-full sm:h-full z-10 absolute right-0" />
+            <div className="hidden sm:block relative">
+                {/* // desktop pre-fold */}
+                <div ref={curveImgRef} className={`h-72 w-72 absolute right-0 top-0`} style={{ width: height }}>
+                    <img src={LandingPageCurve} className=" z-10 h-72 w-72 " />
                 </div>
-                <div className="h-80 w-80  flex justify-center z-20">
-                    <img src={NiceMan} className="niceManImg mt-6 z-30" alt="a fit person meditating" />
-                </div>
-            </div>
-
-            <div className="mt-12">
-                <div className="mt-8">
-                    <h2 className="text-2xl font-bold">
-                        Don't Let <span className="blueText"> Your Commute</span>
-                    </h2>
-                    <h2 className="text-2xl font-bold">To The Gym</h2>
-                    <h2 className="text-2xl font-bold">Hold You Back</h2>
-                </div>
-                <div className="mt-5">
-                    <p className="px-6 text-base">
-                        Our apartment finder service is specifically designed for weightlifters like you. With our easy-to-use map feature, you can
-                        view available apartments and gyms in your desired location.
-                    </p>
-                </div>
-                <div className="">
-                    <div className="px-24 py-8">
-                        <ExpanderButton
-                            type="Opaque"
-                            text="Try Now For Free"
-                            onClickHandler={() => {
-                                // zoomToSignUp()
-                            }}
-                        />
+                {/* <div className=" h-72    flex justify-end ">
+                    <div className="w-full flex justify-end absolute top-0 right-0 ">
+                        <div className="h-72 w-80   z-20">
+                            <img src={NiceMan} className="niceManImg mt-6 z-30" alt="a fit person meditating" />
+                        </div>
+                    </div>
+                </div> */}
+                <div className="mt-12 mb-8 w-full flex justify-center">
+                    <div className="w-3/5 flex flex-col items-start">
+                        <div className="w-3/5 flex flex-col items-start">
+                            <div className="mt-8 text-left">
+                                <h2 className="text-4xl font-bold">
+                                    Don't Let <span className="blueText"> Your Commute To The Gym</span> Hold You Back
+                                </h2>
+                            </div>
+                            <div className="mt-5">
+                                <p className="text-base text-left">
+                                    Our apartment finder service is specifically designed for weightlifters like you. With our easy-to-use map
+                                    feature, you can view available apartments and gyms in your desired location.
+                                </p>
+                            </div>
+                            <div className="">
+                                <div className="w-48 py-8">
+                                    <ExpanderButton
+                                        type="Opaque"
+                                        text="Try Now For Free"
+                                        onClickHandler={() => {
+                                            // zoomToSignUp()
+                                        }}
+                                    />
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+            <div className="block sm:hidden">
+                {/* // mobile pre-fold */}
+                <div className="relative h-72    flex justify-end ">
+                    <div ref={curveImgRef} className={`h-full `} style={{ width: height }}>
+                        <img src={LandingPageCurve} className=" z-10" />
+                    </div>
+                    <div className="w-full absolute top-0 flex justify-center">
+                        <div className="h-72 w-80  flex justify-center z-20">
+                            <img src={NiceMan} className="niceManImg mt-6 z-30" alt="a fit person meditating" />
+                        </div>
+                    </div>
+                </div>
+                <div className="mt-12">
+                    <div className="mt-8">
+                        <h2 className="text-2xl font-bold">
+                            Don't Let <span className="blueText"> Your Commute</span>
+                        </h2>
+                        <h2 className="text-2xl font-bold">To The Gym</h2>
+                        <h2 className="text-2xl font-bold">Hold You Back</h2>
+                    </div>
+                    <div className="mt-5">
+                        <p className="px-6 text-base">
+                            Our apartment finder service is specifically designed for weightlifters like you. With our easy-to-use map feature, you
+                            can view available apartments and gyms in your desired location.
+                        </p>
+                    </div>
+                    <div className="">
+                        <div className="px-24 py-8">
+                            <ExpanderButton
+                                type="Opaque"
+                                text="Try Now For Free"
+                                onClickHandler={() => {
+                                    // zoomToSignUp()
+                                }}
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div>
                 <div className="bg-zinc-100 h-24 px-2 flex justify-around items-center">
                     <div className="h-14 w-16 mx-2 flex items-center">
