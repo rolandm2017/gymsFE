@@ -99,18 +99,18 @@ const LandingPage: React.FC<{}> = () => {
             <div className="hidden sm:block relative">
                 {/* // desktop pre-fold */}
                 {/* style={{ width: height }} */}
-                <div id="landingPageCurveDesktop" className="w-full h-72 absolute flex justify-end z-0 border-2 border-green-500">
-                    <div ref={curveImgRef} className={`h-72 w-72 w-full border-4 border-black`} style={{}}>
-                        <img src={LandingPageCurve} className=" z-0 h-72 w-72 border-2 border-red-500" />
+                <div id="landingPageCurveDesktop" className="w-full h-72 absolute flex justify-end z-0 ">
+                    <div ref={curveImgRef} className={`h-72 w-72 w-full `} style={{}}>
+                        <img src={LandingPageCurve} className=" z-0 h-72 w-72 " alt="lower left quadrant of three stacked circles" />
                     </div>
                 </div>
-                {/* <div className=" h-72    flex justify-end ">
-                    <div className="w-full flex justify-end absolute top-0 right-0 ">
-                        <div className="h-72 w-80   z-20">
+                <div className=" h-72  w-full  flex justify-end  absolute top-0 right-0 border-2 border-black">
+                    <div className="mt-24 w-2/5 flex justify-start border-2 border-red-500">
+                        <div className="h-80 w-[355px]   z-20">
                             <img src={NiceMan} className="niceManImg mt-6 z-30" alt="a fit person meditating" />
                         </div>
                     </div>
-                </div> */}
+                </div>
                 <div className="mb-8 w-full flex justify-center z-20">
                     <div className="w-3/5 flex flex-col items-start">
                         <div className="w-full mt-6 flex justify-between ">
