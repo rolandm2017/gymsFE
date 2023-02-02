@@ -27,7 +27,6 @@ interface DemoMapProps {
 
 const DemoMap: React.FC<DemoMapProps> = ({ center, viewportContents, adjustedCenterReporter, highlightedApartmentId }: DemoMapProps) => {
     // initialization
-    console.log(highlightedApartmentId, "31rm");
     const mapContainer = useRef(null);
     const map = useRef<mapboxgl.Map | null>(null);
     const [long, setLong] = useState(-73.554);
@@ -110,18 +109,19 @@ const DemoMap: React.FC<DemoMapProps> = ({ center, viewportContents, adjustedCen
 
             addNewMarkers(allMarkers, markers, setMarkers, map.current);
         }
-    }, [map, viewportContents]);
+    }, [map, viewportContents, highlightedApartmentId]);
 
     function unpackMarkers(apartments: IDemoHousing[]): { apartmentMarkers: mapboxgl.Marker[]; gymMarkers: mapboxgl.Marker[] } {
         const apartmentMarkers: mapboxgl.Marker[] = [];
         const gymMarkers: mapboxgl.Marker[] = [];
         const duplicateGymDetectorArray: number[] = []; // holds unique longitudes.
-
+        console.log("in unpack markers 123rm");
         for (let i = 0; i < apartments.length; i++) {
             const apartment = apartments[i];
             const nearbyGym: IGym = apartment.nearbyGym;
             let markerForAp;
             const currentApartmentIsActive = apartment.housingId === highlightedApartmentId;
+            console.log(apartment.housingId, "129rm");
             if (currentApartmentIsActive) {
                 console.log(apartment, "highlighted 129rm");
                 markerForAp = new mapboxgl.Marker({ color: "#ffffff", scale: 1.4 }).setLngLat([apartment.long, apartment.lat]);
