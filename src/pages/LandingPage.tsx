@@ -256,10 +256,17 @@ const LandingPage: React.FC<{}> = () => {
                 </div>
             </div>
             <div className="px-4">
-                <div className="mt-12">
-                    <p>Stop making excuses and falling short of your goals. If you want to become a true success in the long term, </p>
+                <div className="mt-10 px-6">
+                    <h3 className="text-xl mb-4">Become the type of person who:</h3>
+
+                    <div className="text-left">
+                        <li>Never lets bad weather or a busy schedule keep them from hitting the gym</li>
+                        <li>Turns heads at the beach and receives compliments on their toned physique</li>
+                        <li>Boasts boundless energy and drive to tackle each day</li>
+                        <li>Can look back with pride and satisfaction at all the progress with a dazzling smile</li>
+                    </div>
                 </div>
-                <div className="mt-3.5 mb-10">
+                <div className="mt-6 mb-10">
                     <h2 className="text-xl font-bold">What Lifters Say About Us</h2>
                 </div>
             </div>

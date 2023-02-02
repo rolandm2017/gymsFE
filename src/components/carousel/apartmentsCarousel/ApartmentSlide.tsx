@@ -37,7 +37,7 @@ const ApartmentSlide: React.FC<ApartmentSlideProps> = ({ distanceToGym, apartmen
     }
 
     return (
-        <div className={` ${determineClasses()} h-full w-1/3 flex items-center`}>
+        <div className={` ${determineClasses()} h-full w-full sm:w-1/3 flex items-center`}>
             <div className="h-5/6 w-full shadow-xl rounded-xl border-4 border-zinc-100">
                 <div className="h-full w-full pl-3 pr-3 pt-2 pb-2 text-left ">
                     <p>
@@ -46,7 +46,7 @@ const ApartmentSlide: React.FC<ApartmentSlideProps> = ({ distanceToGym, apartmen
                     {/* // todo: calculate walk time */}
                     <p className="text-sm">
                         {" "}
-                        <span className="font-bold">{walkTimeInMinutesForDemo(walkTimeFraction)} walk</span> to a gym
+                        <span className="font-bold">{walkTimeInMinutesForDemo(walkTimeFraction)} walk</span> {width > 640 ? "to a gym" : ""}
                     </p>
                     {/* <p className="">{distanceToGym} walk to a gym</p> */}
                     <p className="text-base mt-1">
