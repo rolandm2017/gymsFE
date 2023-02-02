@@ -28,9 +28,9 @@ const TestimonialCarousel: React.FC<{}> = () => {
     }
 
     return (
-        <div className="w-72">
+        <div className="w-full h-64 relative flex border-2 border-black">
             {/* <!-- Slideshow container --> */}
-            <div className="slideshow-container">
+            <div className="w-24">
                 <span
                     className="prev"
                     onClick={() => {
@@ -39,14 +39,17 @@ const TestimonialCarousel: React.FC<{}> = () => {
                 >
                     &#10094;
                 </span>
+            </div>
+            <div className="slideshow-container relative w-full border-2 border-black">
                 {/* //   <!-- Full-width slides --> */}
 
                 {TESTIMONIALS.map((testimonial, index) => (
-                    <Testimonial />
+                    <Testimonial {...testimonial} slideIndex={index} activeIndex={selectedTestimonialIndex} />
                 ))}
 
                 {/* <!-- Next/prev buttons --> */}
-
+            </div>
+            <div className="w-24">
                 <span
                     className="next"
                     onClick={() => {

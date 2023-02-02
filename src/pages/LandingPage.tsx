@@ -19,6 +19,7 @@ import Brand5 from "../assets/brand5.png";
 import NiceMan from "../assets/NiceMan.png";
 import "./LandingPage.scss";
 import ApartmentsCarousel from "../components/carousel/apartmentsCarousel/ApartmentsCarousel";
+import TestimonialCarousel from "../components/carousel/testimonial/TestimonialCarousel";
 
 const LandingPage: React.FC<{}> = () => {
     const [apartments, setApartments] = useState<IDemoHousing[]>([]);
@@ -168,7 +169,9 @@ const LandingPage: React.FC<{}> = () => {
                     <h2 className="text-xl font-bold">What Lifters Say About Us</h2>
                 </div>
             </div>
-            <div></div>
+            <div>
+                <TestimonialCarousel />
+            </div>
 
             <div className="border-2 border-black flex justify-center   ">
                 <SignUpPrompt />
