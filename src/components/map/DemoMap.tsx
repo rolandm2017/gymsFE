@@ -1,4 +1,4 @@
-import mapboxgl from "mapbox-gl";
+import mapboxgl, { LngLatBounds } from "mapbox-gl";
 import React, { useRef, useEffect, useState, useContext } from "react";
 import { ISidebarContext, SidebarStateContext } from "../../context/SidebarContext";
 import { IAssociation } from "../../interface/Association.interface";
@@ -21,12 +21,13 @@ mapboxgl.accessToken = MAPBOX_TOKEN;
 interface DemoMapProps {
     center: [number, number];
     viewportContents: IDemoHousing[];
-    adjustedCenterReporter?: Function;
+    adjustedCenterReporter: Function;
     highlightedApartmentId: number;
 }
 
 const DemoMap: React.FC<DemoMapProps> = ({ center, viewportContents, adjustedCenterReporter, highlightedApartmentId }: DemoMapProps) => {
     // initialization
+    console.log(center, "repeat 2 30rm");
     const mapContainer = useRef(null);
     const map = useRef<mapboxgl.Map | null>(null);
     const [long, setLong] = useState(center[1]);
@@ -39,8 +40,22 @@ const DemoMap: React.FC<DemoMapProps> = ({ center, viewportContents, adjustedCen
     const isOnMobile = width < 768;
 
     useEffect(() => {
-        // on load, report viewport
-    });
+        if (map === null || map.current === null) return;
+        const centerMarker = new mapboxgl.LngLat(center[1], center[0]);
+
+        map.current.setCenter(centerMarker);
+        // report new dimensions to parent
+        const boundsOfNewlyCenteredMap: LngLatBounds = map.current.getBounds();
+        const neCornerCoords = boundsOfNewlyCenteredMap.getNorthEast();
+        const swCornerCoords = boundsOfNewlyCenteredMap.getSouthWest();
+        console.log(neCornerCoords, swCornerCoords, "repeat 1 50rm");
+        const newBounds: IViewportBounds = {
+            sw: { lat: swCornerCoords.lat, long: swCornerCoords.lng },
+            ne: { lat: neCornerCoords.lat, long: neCornerCoords.lng },
+        };
+        adjustedCenterReporter(newBounds);
+        // i dont care what es-line says, the correct dependency is the primitive values center[0] & center[1]
+    }, [center[0], center[1]]);
 
     function resizeMap() {
         if (map === null || map.current === null) return;

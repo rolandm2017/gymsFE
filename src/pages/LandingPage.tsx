@@ -28,8 +28,6 @@ const LandingPage: React.FC<{}> = () => {
     // apartment carousel picker
     const [selectedApartmentId, setSelectedApartmentId] = useState(0);
     const [centerCoords, setCenterCoords] = useState<IViewportBounds | undefined>(undefined);
-    const [neLat, setNeLat] = useState<number>(0);
-    const [swLat, setSwLat] = useState<number>(0);
 
     const { newDemoHousing, moveViewport, err, demoApartmentsAreLoaded, recenteredViewportCounter } = useGetDemoApartmentsAPI();
 
@@ -39,9 +37,10 @@ const LandingPage: React.FC<{}> = () => {
     }, []);
 
     useEffect(() => {
-        centerMapOnLocation(SEED_CITIES[selectedCityIndex]);
+        // updating the selected city will re-center the map.
         console.log("Selecting:", SEED_CITIES[selectedCityIndex], "43rm");
-        setSelectedCity(SEED_CITIES[selectedCityIndex]);
+        const newCity = SEED_CITIES[selectedCityIndex];
+        setSelectedCity(newCity);
     }, [selectedCityIndex]);
 
     useEffect(() => {
@@ -57,27 +56,13 @@ const LandingPage: React.FC<{}> = () => {
     useEffect(() => {
         const fetchDemoApartments = async () => {
             if (centerCoords === undefined) {
-                // const apartmentsToAdd = await getDemoApartments(centerCoords.ne.long, centerCoords.ne.lat, centerCoords.sw.long, centerCoords.sw.lat);
-                // setApartments(prevApartments => [...prevApartments, apartmentsToAdd]);
                 return;
             }
+            console.log("moivng viewport 63rm");
             moveViewport(centerCoords.ne.long, centerCoords.ne.lat, centerCoords.sw.long, centerCoords.sw.lat);
         };
         fetchDemoApartments();
-    }, [neLat, swLat]);
-
-    function updateCenterCoordsHandler(newCoords: IViewportBounds) {
-        // because apparently dependency arrays should only contain primitives!
-        setSwLat(newCoords.sw.lat);
-        setNeLat(newCoords.ne.lat);
-        setCenterCoords(newCoords);
-    }
-
-    function centerMapOnLocation(city: ICity) {
-        //
-    }
-
-    // todo: when map is moved, get coords of new location, load apartments for that location.
+    }, [centerCoords]);
 
     return (
         <div>
@@ -170,7 +155,7 @@ const LandingPage: React.FC<{}> = () => {
                     <DemoMap
                         center={[selectedCity.centerLat, selectedCity.centerLong]}
                         viewportContents={apartments}
-                        adjustedCenterReporter={updateCenterCoordsHandler}
+                        adjustedCenterReporter={setCenterCoords}
                         highlightedApartmentId={selectedApartmentId}
                     />
                 </div>
