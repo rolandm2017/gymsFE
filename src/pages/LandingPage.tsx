@@ -256,7 +256,7 @@ const LandingPage: React.FC<{}> = () => {
                 </div>
             </div>
             <div className="px-4">
-                <div className="mt-10 px-6">
+                <div className="mt-10 px-6 w-full flex flex-col items-center">
                     <h3 className="text-xl mb-4">Become the type of person who:</h3>
 
                     <div className="text-left">

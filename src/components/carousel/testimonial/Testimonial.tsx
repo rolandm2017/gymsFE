@@ -1,5 +1,6 @@
 import React from "react";
-import StarRating from "../../review/stars/StarRating";
+import useWindowSize from "../../../util/useWindowSize";
+import FixedStarRating from "./FixedStarRating";
 
 interface TestimonialProps {
     name: string;
@@ -11,7 +12,10 @@ interface TestimonialProps {
 }
 
 const Testimonial: React.FC<TestimonialProps> = ({ name, content, rating, imgPath, slideIndex, activeIndex }: TestimonialProps) => {
+    // const [width, height] = useWindowSize();
+
     function determineClasses() {
+        // if (width > 840) return "slide block bg-white";
         if (slideIndex === activeIndex) return "slide block bg-white";
         else return "slide hidden"; // tailwind classnames;
     }
@@ -29,7 +33,7 @@ const Testimonial: React.FC<TestimonialProps> = ({ name, content, rating, imgPat
                     <p className="text-sm">{content}</p>
                 </div>
                 <div className="mt-4 mb-4   ">
-                    <StarRating valueReporter={() => {}} fixedRating={rating} />
+                    <FixedStarRating fixedRating={rating} />
                 </div>
             </div>
         </div>
