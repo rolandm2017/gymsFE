@@ -1,7 +1,7 @@
 import React from "react";
 import { IAssociation } from "../../interface/Association.interface";
 import { IGym } from "../../interface/Gym.interface";
-import { walkTimeInMinutes, walkTimeInSeconds, calculateWalkTimeInMinutes } from "../../util/calcWalkTime";
+import { walkTimeInMinutes, walkTimeInSeconds, calculateWalkTimeInMinutes, walkTimeInMinutesForDemo } from "../../util/calcWalkTime";
 import Button from "../button/Button";
 
 interface ApartmentSlideProps {
@@ -31,7 +31,7 @@ const ApartmentSlide: React.FC<ApartmentSlideProps> = ({ distanceToGym, nearbyGy
                     {/* // todo: calculate walk time */}
                     <p className="text-sm">
                         {" "}
-                        <span className="font-bold">{walkTimeInSeconds(distanceToGym)}ond walk</span> to a gym
+                        <span className="font-bold">{walkTimeInMinutesForDemo(walkTimeFraction)} walk</span> to a gym
                     </p>
                     {/* <p className="">{distanceToGym} walk to a gym</p> */}
                     <p className="text-base mt-1">

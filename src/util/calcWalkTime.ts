@@ -20,6 +20,11 @@ export function walkTimeInMinutes(walkTimeFraction: number, viewportWidth: numbe
     }
 }
 
+export function walkTimeInMinutesForDemo(walkTimeFraction: number) {
+    const truncated = Math.trunc(walkTimeFraction);
+    return `${truncated} minute`;
+}
+
 export function walkTimeInMinutesWithWalkText(walkTimeFraction: number, viewportWidth: number) {
     let minOrMinute = viewportWidth < 600 ? "min" : "minute";
     // presumes values < 1 will be converted into seconds.

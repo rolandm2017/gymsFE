@@ -115,15 +115,12 @@ const DemoMap: React.FC<DemoMapProps> = ({ center, viewportContents, adjustedCen
         const apartmentMarkers: mapboxgl.Marker[] = [];
         const gymMarkers: mapboxgl.Marker[] = [];
         const duplicateGymDetectorArray: number[] = []; // holds unique longitudes.
-        console.log("in unpack markers 123rm");
         for (let i = 0; i < apartments.length; i++) {
             const apartment = apartments[i];
             const nearbyGym: IGym = apartment.nearbyGym;
             let markerForAp;
             const currentApartmentIsActive = apartment.housingId === highlightedApartmentId;
-            console.log(apartment.housingId, "129rm");
             if (currentApartmentIsActive) {
-                console.log(apartment, "highlighted 129rm");
                 markerForAp = new mapboxgl.Marker({ color: "#ffffff", scale: 1.4 }).setLngLat([apartment.long, apartment.lat]);
             } else {
                 markerForAp = new mapboxgl.Marker()
