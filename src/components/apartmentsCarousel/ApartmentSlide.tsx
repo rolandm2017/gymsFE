@@ -1,4 +1,5 @@
 import React from "react";
+import { useDemoAddFavoriteAPI } from "../../api/favoritesAPI";
 import { IAssociation } from "../../interface/Association.interface";
 import { IGym } from "../../interface/Gym.interface";
 import { walkTimeInMinutes, walkTimeInSeconds, calculateWalkTimeInMinutes, walkTimeInMinutesForDemo } from "../../util/calcWalkTime";
@@ -6,16 +7,19 @@ import Button from "../button/Button";
 
 interface ApartmentSlideProps {
     distanceToGym: number;
+    apartmentId: number;
     nearbyGym: IGym;
     slideIndex: number;
     activeIndex: number;
 }
 
-const ApartmentSlide: React.FC<ApartmentSlideProps> = ({ distanceToGym, nearbyGym, slideIndex, activeIndex }: ApartmentSlideProps) => {
+const ApartmentSlide: React.FC<ApartmentSlideProps> = ({ distanceToGym, apartmentId, nearbyGym, slideIndex, activeIndex }: ApartmentSlideProps) => {
     function determineClasses() {
         if (slideIndex === activeIndex) return "slide block bg-white";
         else return "slide hidden"; // tailwind classnames;
     }
+
+    const { runAddDemoFavorite, success } = useDemoAddFavoriteAPI();
 
     const nearestGymName = nearbyGym.name;
 
@@ -45,7 +49,17 @@ const ApartmentSlide: React.FC<ApartmentSlideProps> = ({ distanceToGym, nearbyGy
                     </p>
                     <p className="text-base whitespace-nowrap text-ellipsis	overflow-hidden">{clipIfLongerThanNChars(nearestGymName, 30)}</p>
                     <div className="mt-2">
-                        <Button type="Opaque" text="Favorite" />
+                        {success ? (
+                            <Button type="GreyedOut" text="Saved!" />
+                        ) : (
+                            <Button
+                                type="Opaque"
+                                text="Favorite"
+                                onClickHandler={() => {
+                                    runAddDemoFavorite(apartmentId);
+                                }}
+                            />
+                        )}
                     </div>
                 </div>
             </div>

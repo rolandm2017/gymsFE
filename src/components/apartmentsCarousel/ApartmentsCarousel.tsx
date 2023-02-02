@@ -64,6 +64,7 @@ const ApartmentsCarousel: React.FC<ApartmentsCarouselProps> = ({ apartments, act
                     return (
                         <ApartmentSlide
                             key={index}
+                            apartmentId={apartment.housingId}
                             slideIndex={index}
                             activeIndex={selectedApartmentIndex}
                             nearbyGym={apartment.nearbyGym}

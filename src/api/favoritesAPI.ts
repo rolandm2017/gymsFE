@@ -9,6 +9,42 @@ import { getEndpoint } from "../util/getEndpoint";
 import { handleError } from "../util/handleError";
 import { makeHeaders } from "../util/makeHeaders";
 
+export function useDemoAddFavoriteAPI(): { success: boolean; loaded: boolean; err: string; runAddDemoFavorite: Function } {
+    //
+    const [success, setSuccess] = useState<boolean>(false);
+    const [loaded, setLoaded] = useState(false);
+
+    const [err, setErr] = useState("");
+    const [payload, setPayload] = useState<AddFavorite | undefined>(undefined);
+
+    function runAddDemoFavorite(housingId: number) {
+        setSuccess(false);
+        setPayload({ housingId });
+    }
+
+    useEffect(() => {
+        if (payload) {
+            (async () => {
+                try {
+                    setErr(""); // clear old error
+                    const response = await axios.post(getEndpoint("/profile/pick-public/housing"), { ...payload });
+                    const { message } = response.data;
+                    setSuccess(message === "Success");
+                } catch (error) {
+                    console.warn("failed to refresh token");
+                    const msg = handleError(error);
+                    setErr(msg);
+                } finally {
+                    setLoaded(true);
+                    setPayload(undefined);
+                }
+            })();
+        }
+    }, [payload]);
+
+    return { success, loaded, err, runAddDemoFavorite };
+}
+
 export function useAddFavoriteAPI(): { success: boolean; loaded: boolean; err: string; runAddFavorite: Function } {
     //
     const [success, setSuccess] = useState<boolean>(false);
