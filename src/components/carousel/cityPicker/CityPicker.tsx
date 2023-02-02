@@ -1,6 +1,6 @@
 // https://www.w3schools.com/howto/howto_js_quotes_slideshow.asp
 import React, { useState } from "react";
-import { SEED_CITIES } from "../../util/cities";
+import { SEED_CITIES } from "../../../util/cities";
 import Dot from "./Dot";
 import Slide from "./Slide";
 

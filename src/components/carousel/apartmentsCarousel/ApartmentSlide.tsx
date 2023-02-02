@@ -1,9 +1,9 @@
 import React from "react";
-import { useDemoAddFavoriteAPI } from "../../api/favoritesAPI";
-import { IAssociation } from "../../interface/Association.interface";
-import { IGym } from "../../interface/Gym.interface";
-import { walkTimeInMinutes, walkTimeInSeconds, calculateWalkTimeInMinutes, walkTimeInMinutesForDemo } from "../../util/calcWalkTime";
-import Button from "../button/Button";
+import { useDemoAddFavoriteAPI } from "../../../api/favoritesAPI";
+import { IAssociation } from "../../../interface/Association.interface";
+import { IGym } from "../../../interface/Gym.interface";
+import { walkTimeInMinutes, walkTimeInSeconds, calculateWalkTimeInMinutes, walkTimeInMinutesForDemo } from "../../../util/calcWalkTime";
+import Button from "../../button/Button";
 
 interface ApartmentSlideProps {
     distanceToGym: number;

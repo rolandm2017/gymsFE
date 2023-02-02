@@ -4,7 +4,7 @@ import { useGetDemoApartmentsAPI } from "../api/placesAPI";
 import SignUpPrompt from "../components/auth/SignUpPrompt";
 import Button from "../components/button/Button";
 import ExpanderButton from "../components/button/ExpanderButton";
-import CityPicker from "../components/cityPicker/CityPicker";
+import CityPicker from "../components/carousel/cityPicker/CityPicker";
 import DemoMap from "../components/map/DemoMap";
 import { ICity } from "../interface/City.interface";
 import { IDemoHousing } from "../interface/DemoHousing.interface";
@@ -18,7 +18,7 @@ import Brand4 from "../assets/brand4.png";
 import Brand5 from "../assets/brand5.png";
 import NiceMan from "../assets/NiceMan.png";
 import "./LandingPage.scss";
-import ApartmentsCarousel from "../components/apartmentsCarousel/ApartmentsCarousel";
+import ApartmentsCarousel from "../components/carousel/apartmentsCarousel/ApartmentsCarousel";
 
 const LandingPage: React.FC<{}> = () => {
     const [apartments, setApartments] = useState<IDemoHousing[]>([]);
@@ -143,7 +143,7 @@ const LandingPage: React.FC<{}> = () => {
                 </div>
             </div>
             <div>
-                <div className="">
+                <div>
                     <div className="w-full mt-5 flex justify-center">
                         <CityPicker choiceReporter={setSelectedCityIndex} />
                     </div>
@@ -151,7 +151,7 @@ const LandingPage: React.FC<{}> = () => {
                 <div>
                     <ApartmentsCarousel apartments={apartments} activeMapMarkerApartmentIdSetter={setSelectedApartmentId} />
                 </div>
-                <div className="border-2 border-black">
+                <div>
                     <DemoMap
                         center={[selectedCity.centerLat, selectedCity.centerLong]}
                         viewportContents={apartments}
@@ -168,7 +168,7 @@ const LandingPage: React.FC<{}> = () => {
                     <h2 className="text-xl font-bold">What Lifters Say About Us</h2>
                 </div>
             </div>
-            <div>{/* // testimonial carousel */}</div>
+            <div></div>
 
             <div className="border-2 border-black flex justify-center   ">
                 <SignUpPrompt />

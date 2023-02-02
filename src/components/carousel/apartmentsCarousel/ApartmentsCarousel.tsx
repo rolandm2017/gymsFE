@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { IHousing } from "../../interface/Housing.interface";
-import { IDemoHousing } from "../../interface/DemoHousing.interface";
+import { IHousing } from "../../../interface/Housing.interface";
+import { IDemoHousing } from "../../../interface/DemoHousing.interface";
 import ApartmentSlide from "./ApartmentSlide";
 import Dot from "../cityPicker/Dot";
 
