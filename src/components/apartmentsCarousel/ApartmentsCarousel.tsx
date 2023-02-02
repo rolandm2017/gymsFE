@@ -43,7 +43,7 @@ const ApartmentsCarousel: React.FC<ApartmentsCarouselProps> = ({ apartments, cho
     }
 
     return (
-        <div className="w-full h-40  relative flex justify-center items-center border-2 border-red-400">
+        <div className="w-full h-48  relative flex justify-center items-center ">
             {/* <!-- Slideshow container --> */}
             <div>
                 <span

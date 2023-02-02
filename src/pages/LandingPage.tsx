@@ -93,16 +93,16 @@ const LandingPage: React.FC<{}> = () => {
                     />
                 </div>
             </div>
-            <div className="h-80 mt-8 border-2 border-black flex justify-center">
-                <img src={NiceMan} className=" niceManImg border-4 border-red-400" alt="a fit person meditating" />
+            <div className="h-80 mt-8  flex justify-center">
+                <img src={NiceMan} className=" niceManImg " alt="a fit person meditating" />
             </div>
 
             <div>
                 <div className="mt-8">
-                    <h2 className="text-2xl font-bold">Don't Let Your Commute</h2>
                     <h2 className="text-2xl font-bold">
-                        To <span className="blueText">The Gym</span>
+                        Don't Let <span className="blueText"> Your Commute</span>
                     </h2>
+                    <h2 className="text-2xl font-bold">To The Gym</h2>
                     <h2 className="text-2xl font-bold">Hold You Back</h2>
                 </div>
                 <div className="mt-5">
@@ -173,11 +173,11 @@ const LandingPage: React.FC<{}> = () => {
                 </div>
             </div>
             <div>
-                <div>
+                <div className="mt-12">
                     <p>Stop making excuses and falling short of your goals. If you want to become a true success in the long term, </p>
                 </div>
-                <div>
-                    <h2>What Lifters Say About Us</h2>
+                <div className="mt-3.5 mb-10">
+                    <h2 className="text-xl font-bold">What Lifters Say About Us</h2>
                 </div>
             </div>
             <div>{/* // testimonial carousel */}</div>
