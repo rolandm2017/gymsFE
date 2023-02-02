@@ -17,9 +17,12 @@ import Brand3 from "../assets/brand3.png";
 import Brand4 from "../assets/brand4.png";
 import Brand5 from "../assets/brand5.png";
 import NiceMan from "../assets/NiceMan.png";
-import "./LandingPage.scss";
+import LandingPageCurve from "../assets/signup-pg-curve.png";
+
 import ApartmentsCarousel from "../components/carousel/apartmentsCarousel/ApartmentsCarousel";
 import TestimonialCarousel from "../components/carousel/testimonial/TestimonialCarousel";
+
+import "./LandingPage.scss";
 
 const LandingPage: React.FC<{}> = () => {
     const [apartments, setApartments] = useState<IDemoHousing[]>([]);
@@ -68,7 +71,7 @@ const LandingPage: React.FC<{}> = () => {
     return (
         <div>
             {/* // mobile header */}
-            <div className="px-3 flex justify-between items-center bg-black h-16">
+            <div className="px-4 flex justify-between items-center bg-black h-16">
                 <div>
                     <h1 className="poppins blueText text-xl">Apartments Near Gyms</h1>
                 </div>
@@ -82,11 +85,16 @@ const LandingPage: React.FC<{}> = () => {
                     />
                 </div>
             </div>
-            <div className="h-80 mt-8  flex justify-center">
-                <img src={NiceMan} className=" niceManImg " alt="a fit person meditating" />
+            <div className="relative flex justify-center">
+                <div className="absolute right-0 w-full h-full">
+                    <img src={LandingPageCurve} className="w-44 h-44 sm:w-full sm:h-full z-10 absolute right-0" />
+                </div>
+                <div className="h-80 w-80  flex justify-center z-20">
+                    <img src={NiceMan} className="niceManImg mt-6 z-30" alt="a fit person meditating" />
+                </div>
             </div>
 
-            <div>
+            <div className="mt-12">
                 <div className="mt-8">
                     <h2 className="text-2xl font-bold">
                         Don't Let <span className="blueText"> Your Commute</span>
