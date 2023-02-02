@@ -28,7 +28,7 @@ const TestimonialCarousel: React.FC<{}> = () => {
     }
 
     return (
-        <div className="w-full h-64 relative flex border-2 border-black">
+        <div className="w-full h-72 relative flex border-2 border-black">
             {/* <!-- Slideshow container --> */}
             <div className="w-24">
                 <span

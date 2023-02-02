@@ -1,4 +1,5 @@
 import React from "react";
+import StarRating from "../../review/stars/StarRating";
 
 interface TestimonialProps {
     name: string;
@@ -16,18 +17,20 @@ const Testimonial: React.FC<TestimonialProps> = ({ name, content, rating, imgPat
     }
 
     return (
-        <div className={` ${determineClasses()} h-full w-full flex items-center`}>
-            <div className="mt-16">
-                <div className="">{/* <img src={imgPath} alt="a person's face" /> */}</div>
-                <div>
+        <div className={` ${determineClasses()} h-full w-full flex items-center relative`}>
+            <div className="mt-8 shadow-xl border-2 border-red-600">
+                <div className="w-full flex justify-center absolute top-0">
+                    <img src={imgPath} alt="a person's face" />
+                </div>
+                <div className="mt-20">
                     <h4 className="text-xl mb-4">{name}</h4>
                 </div>
                 <div>
                     <p className="text-sm">{content}</p>
                 </div>
-                <div className="mt-6">
+                <div className="mt-4">
                     {/* // rating  - todo */}
-                    {rating}
+                    <StarRating valueReporter={() => {}} fixedRating={rating} />
                 </div>
             </div>
         </div>

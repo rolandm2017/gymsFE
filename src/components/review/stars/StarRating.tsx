@@ -5,10 +5,11 @@ import BlackStar from "../../../assets/icons8-star-100-black.png";
 
 interface StarRatingProps {
     valueReporter: Function;
+    fixedRating?: number;
 }
 
-const StarRating: React.FC<StarRatingProps> = ({ valueReporter }: StarRatingProps) => {
-    const [rating, setRating] = useState(0);
+const StarRating: React.FC<StarRatingProps> = ({ valueReporter, fixedRating }: StarRatingProps) => {
+    const [rating, setRating] = useState(fixedRating ? fixedRating : 0);
     const [hover, setHover] = useState(0);
 
     return (

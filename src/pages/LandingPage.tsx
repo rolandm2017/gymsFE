@@ -173,15 +173,13 @@ const LandingPage: React.FC<{}> = () => {
                 <TestimonialCarousel />
             </div>
 
-            <div className="border-2 border-black flex justify-center   ">
+            <div>
+                <h3 className="mt-4 text-2xl">Sign Up</h3>
+            </div>
+            <div className="border-2 border-black flex justify-center">
                 <SignUpPrompt />
             </div>
-            {/* <div>
-                <GoogleLogin />
-            </div>
-            <div>
-                <AuthPrompt />
-            </div> */}
+            <div className="h-24">{/* // spacer div */}</div>
         </div>
     );
 };
