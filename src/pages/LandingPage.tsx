@@ -73,14 +73,16 @@ const LandingPage: React.FC<{}> = () => {
     const curveImgRef = useRef<HTMLDivElement>(null);
     useEffect(() => {
         if (curveImgRef.current) {
-            setHeight(curveImgRef.current.clientHeight);
+            const divHeight = curveImgRef.current.clientHeight;
+            console.log(divHeight, "77rm");
+            setHeight(divHeight);
         }
     }, []);
 
     return (
         <div>
             {/* // mobile header */}
-            <div className="px-4 w-full  flex justify-between sm:justify-around items-center bg-black sm:bg-transparent h-16">
+            <div className="px-4 w-full  flex sm:hidden justify-between items-center bg-black h-16">
                 <div>
                     <h1 className="poppins blueText text-xl">Apartments Near Gyms</h1>
                 </div>
@@ -96,8 +98,11 @@ const LandingPage: React.FC<{}> = () => {
             </div>
             <div className="hidden sm:block relative">
                 {/* // desktop pre-fold */}
-                <div ref={curveImgRef} className={`h-72 w-72 absolute right-0 top-0`} style={{ width: height }}>
-                    <img src={LandingPageCurve} className=" z-10 h-72 w-72 " />
+                {/* style={{ width: height }} */}
+                <div id="landingPageCurveDesktop" className="w-full h-72 absolute flex justify-end z-0 border-2 border-green-500">
+                    <div ref={curveImgRef} className={`h-72 w-72 w-full border-4 border-black`} style={{}}>
+                        <img src={LandingPageCurve} className=" z-0 h-72 w-72 border-2 border-red-500" />
+                    </div>
                 </div>
                 {/* <div className=" h-72    flex justify-end ">
                     <div className="w-full flex justify-end absolute top-0 right-0 ">
@@ -106,8 +111,22 @@ const LandingPage: React.FC<{}> = () => {
                         </div>
                     </div>
                 </div> */}
-                <div className="mt-12 mb-8 w-full flex justify-center">
+                <div className="mb-8 w-full flex justify-center z-20">
                     <div className="w-3/5 flex flex-col items-start">
+                        <div className="w-full mt-6 flex justify-between ">
+                            <div>
+                                <h1 className="poppins blueText text-xl z-20">Apartments Near Gyms</h1>
+                            </div>
+                            <div className="z-20">
+                                <Button
+                                    type="Opaque"
+                                    text="Try Now"
+                                    onClickHandler={() => {
+                                        // zoomToSignUp
+                                    }}
+                                />
+                            </div>
+                        </div>
                         <div className="w-3/5 flex flex-col items-start">
                             <div className="mt-8 text-left">
                                 <h2 className="text-4xl font-bold">

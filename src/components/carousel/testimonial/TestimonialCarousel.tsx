@@ -44,7 +44,7 @@ const TestimonialCarousel: React.FC<{}> = () => {
                 {/* //   <!-- Full-width slides --> */}
 
                 {TESTIMONIALS.map((testimonial, index) => (
-                    <Testimonial {...testimonial} slideIndex={index} activeIndex={selectedTestimonialIndex} />
+                    <Testimonial key={index} {...testimonial} slideIndex={index} activeIndex={selectedTestimonialIndex} />
                 ))}
 
                 {/* <!-- Next/prev buttons --> */}
