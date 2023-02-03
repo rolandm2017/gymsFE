@@ -1,4 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
+import { HashLink } from "react-router-hash-link";
+import { useNavigate } from "react-router-dom";
 //
 import { useGetDemoApartmentsAPI } from "../api/placesAPI";
 import SignUpPrompt from "../components/auth/SignUpPrompt";
@@ -35,6 +37,7 @@ const LandingPage: React.FC<{}> = () => {
     const [selectedApartmentId, setSelectedApartmentId] = useState(0);
     const [centerCoords, setCenterCoords] = useState<IViewportBounds | undefined>(undefined);
 
+    const navigater = useNavigate();
     const { newDemoHousing, moveViewport, err, demoApartmentsAreLoaded, recenteredViewportCounter } = useGetDemoApartmentsAPI();
 
     useEffect(() => {
@@ -102,9 +105,16 @@ const LandingPage: React.FC<{}> = () => {
                 <div>
                     <Button
                         type="Opaque"
-                        text="Try Now"
+                        text="Sign Up"
                         onClickHandler={() => {
-                            // zoomToSignUp
+                            navigater("/signup");
+                        }}
+                    />
+                    <Button
+                        type="Opaque"
+                        text="Log In"
+                        onClickHandler={() => {
+                            navigater("/login");
                         }}
                     />
                 </div>
@@ -130,12 +140,21 @@ const LandingPage: React.FC<{}> = () => {
                             <div>
                                 <h1 className="poppins blueText text-xl z-20">Apartments Near Gyms</h1>
                             </div>
-                            <div className="z-20">
+                            <div className="z-20 flex">
+                                <div className="mr-3">
+                                    <Button
+                                        type="Opaque"
+                                        text="Sign Up"
+                                        onClickHandler={() => {
+                                            navigater("/signup");
+                                        }}
+                                    />
+                                </div>
                                 <Button
                                     type="Opaque"
-                                    text="Try Now"
+                                    text="Log In"
                                     onClickHandler={() => {
-                                        // zoomToSignUp
+                                        navigater("/login");
                                     }}
                                 />
                             </div>
@@ -154,13 +173,9 @@ const LandingPage: React.FC<{}> = () => {
                             </div>
                             <div className="">
                                 <div className="w-48 py-8">
-                                    <ExpanderButton
-                                        type="Opaque"
-                                        text="Try Now For Free"
-                                        onClickHandler={() => {
-                                            // zoomToSignUp()
-                                        }}
-                                    />
+                                    <HashLink smooth to="/#try-now">
+                                        <ExpanderButton type="Opaque" text="Try Now For Free" onClickHandler={() => {}} />
+                                    </HashLink>
                                 </div>
                             </div>
                         </div>
@@ -195,13 +210,9 @@ const LandingPage: React.FC<{}> = () => {
                     </div>
                     <div className="w-full flex justify-center">
                         <div className="px-24 py-8 w-96">
-                            <ExpanderButton
-                                type="Opaque"
-                                text="Try Now For Free"
-                                onClickHandler={() => {
-                                    // zoomToSignUp()
-                                }}
-                            />
+                            <HashLink smooth to="/#try-now">
+                                <ExpanderButton type="Opaque" text="Try Now For Free" onClickHandler={() => {}} />
+                            </HashLink>
                         </div>
                     </div>
                 </div>
@@ -239,7 +250,7 @@ const LandingPage: React.FC<{}> = () => {
                     </p>
                 </div>
             </div>
-            <div className="mt-12">
+            <div id="try-now" className="mt-12">
                 <div>
                     <div className="w-full mt-5 flex justify-center">
                         <CityPicker choiceReporter={setSelectedCityIndex} />
@@ -255,6 +266,13 @@ const LandingPage: React.FC<{}> = () => {
                         adjustedCenterReporter={setCenterCoords}
                         highlightedApartmentId={selectedApartmentId}
                     />
+                </div>
+            </div>
+            <div className="mt-10 flex justify-center">
+                <div className="w-72">
+                    <HashLink smooth to="/#sign-up">
+                        <ExpanderButton type="Opaque" text="Sign Up" onClickHandler={() => {}} />
+                    </HashLink>
                 </div>
             </div>
             <div className="px-4">
@@ -280,7 +298,7 @@ const LandingPage: React.FC<{}> = () => {
                 <TestimonialCarouselDesktop />
             </div>
 
-            <div>
+            <div id="sign-up">
                 <h3 className="mt-16 text-3xl font-semibold">Sign Up</h3>
             </div>
             <div className="mt-8 w-full  flex justify-center ">
