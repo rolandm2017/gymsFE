@@ -38,7 +38,7 @@ const LandingPage: React.FC<{}> = () => {
     const [centerCoords, setCenterCoords] = useState<IViewportBounds | undefined>(undefined);
 
     const navigater = useNavigate();
-    const { newDemoHousing, moveViewport, err, demoApartmentsAreLoaded, recenteredViewportCounter } = useGetDemoApartmentsAPI();
+    const { newDemoHousing, moveViewport, recenteredViewportCounter } = useGetDemoApartmentsAPI();
 
     useEffect(() => {
         // on page load, get gyms
@@ -47,7 +47,6 @@ const LandingPage: React.FC<{}> = () => {
 
     useEffect(() => {
         // updating the selected city will re-center the map.
-        console.log("Selecting:", SEED_CITIES[selectedCityIndex], "43rm");
         const newCity = SEED_CITIES[selectedCityIndex];
         setSelectedCity(newCity);
     }, [selectedCityIndex]);
@@ -67,7 +66,6 @@ const LandingPage: React.FC<{}> = () => {
             if (centerCoords === undefined) {
                 return;
             }
-            console.log("moivng viewport 63rm");
             moveViewport(centerCoords.ne.long, centerCoords.ne.lat, centerCoords.sw.long, centerCoords.sw.lat);
         };
         fetchDemoApartments();
@@ -82,7 +80,6 @@ const LandingPage: React.FC<{}> = () => {
             // run again on resize
             if (mobileCurveImgRef.current) {
                 const divHeight = mobileCurveImgRef.current.clientHeight;
-                console.log(divHeight, "77rm");
                 setHeight(divHeight);
             }
         }

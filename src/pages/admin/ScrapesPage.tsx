@@ -3,12 +3,10 @@ import React, { useEffect, useState } from "react";
 import PageBase from "../PageBase";
 import { IHousing } from "../../interface/Housing.interface";
 import Button from "../../components/button/Button";
-import { useGetAllBatchNumsAPI, useGetHousingByLocationAPI, useGetTaskMarkersByBatchNumAndCityIdAPI, useHealthCheckAPI } from "../../api/adminAPI";
+import { useGetTaskMarkersByBatchNumAndCityIdAPI } from "../../api/adminAPI";
 import { ITask } from "../../interface/Task.interface";
-import AdminMap from "../../components/map/AdminApartmentsMap";
 
 import "./ScrapesPage.scss";
-import TitledDropdown from "../../components/titledDropdown/TitledDropdown";
 import AdminApartmentsMap from "../../components/map/AdminApartmentsMap";
 import TitledDropdownWithButtons from "../../components/titledDropdown/TitledDropdownWithButtons";
 import { SEED_CITIES } from "../../util/cities";
@@ -20,9 +18,9 @@ const ScrapesPage: React.FC<{}> = props => {
     // responses from server
     const [apartments, setApartments] = useState<IHousing[]>([]);
     const [tasks, setTasks] = useState<ITask[]>([]);
-    const [batchNums, setBatchNums] = useState<number[]>([]);
+    // const [batchNums, setBatchNums] = useState<number[]>([]);
     // inputs
-    const [provider, setProvider] = useState<string>("rentCanada");
+    // const [provider, setProvider] = useState<string>("rentCanada");
     const [cityId, setCityId] = useState<number>(6);
     const [activeBatchNum, setActiveBatchNum] = useState<number | undefined>(undefined);
     const [activeTaskId, setActiveTaskId] = useState<number | undefined>(undefined);
@@ -34,10 +32,7 @@ const ScrapesPage: React.FC<{}> = props => {
     const [showApartments, setShowApartments] = useState<boolean>(false);
     const [showTaskMarkers, setShowTaskMarkers] = useState<boolean>(false);
 
-    const { taskMarkersForBatchNumAndCityId, runGetTaskMarkersByParameters, getTaskMarkerByBatchNumErr, getTaskMarkersIsLoading } =
-        useGetTaskMarkersByBatchNumAndCityIdAPI();
-
-    const { housingByLocation, runGetHousingByLocation, getHousingByLocationErr, loaded } = useGetHousingByLocationAPI();
+    const { taskMarkersForBatchNumAndCityId, runGetTaskMarkersByParameters } = useGetTaskMarkersByBatchNumAndCityIdAPI();
 
     useEffect(() => {
         if (taskMarkersForBatchNumAndCityId) {

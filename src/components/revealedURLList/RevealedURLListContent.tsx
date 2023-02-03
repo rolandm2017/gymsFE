@@ -5,20 +5,9 @@ import { IHousingWithUrl } from "../../interface/Housing.interface";
 import RevealedURLEntry from "./RevealedURLEntry";
 
 const RevealedURLListContent: React.FC<{}> = ({}) => {
-    // const [allURLs, setAllURLs] = useState<IHousingWithUrl[]>([]);
-
     const { addRevealedUrlIsLoading } = useAddRevealedURLAPI();
-    // const { revealedURLs, revealedURLsIsLoaded } = useGetRevealedURLsAPI();
 
     const { revealedURLsContext } = useRevealedURLs();
-
-    // useEffect(() => {
-    //     // on load revealed urls list, populate state
-    //     if (revealedURLs && revealedURLsIsLoaded) {
-    //         console.log("setting", revealedURLs, "15rm");
-    //         setAllURLs(revealedURLs);
-    //     }
-    // }, [revealedURLs, revealedURLsIsLoaded]);
 
     return (
         <div className="w-full p-3">

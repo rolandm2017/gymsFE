@@ -18,14 +18,11 @@ const DetailsBarContainer: React.FC<DetailsBarContainerProps> = ({
     const [currentlyDisplayed, setCurrentlyDisplayed] = useState<IHousing[]>([]);
 
     useEffect(() => {
-        console.log(currentPage, "current page 16rm");
         const startOfPg = (currentPage - 1) * 15;
         const endOfPg = currentPage * 15;
         const current = apartments.slice(startOfPg, endOfPg);
-        console.log(apartments, current, "details bar container state 18rm");
         setCurrentlyDisplayed(current);
     }, [apartments, currentPage]);
-    // console.log(currentlyDisplayed, "20rm");
 
     return (
         <div>

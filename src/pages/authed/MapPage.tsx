@@ -1,28 +1,24 @@
 import React, { useState, useContext, useEffect } from "react";
 
 import PageBase from "./../PageBase";
-import SearchBar from "../../components/searchBar/SearchBar";
 import ApartmentCard from "../../components/apartmentCard/ApartmentCard";
 
 import PaidMap from "../../components/map/PaidMap";
 import PageNumber from "../../components/pageNumber/PageNumber";
-import NavigationBtns from "../../components/navigationBtns/NavigationBtns";
 import { ILocationContext, LocationsProviderContext } from "../../context/LocationsContext";
 import { IAssociation } from "../../interface/Association.interface";
 import { IHousing } from "../../interface/Housing.interface";
 import { calcTotalPages } from "../../util/calcTotalPages";
 import WithAuthentication from "../../components/hoc/WithAuth";
-import { useNavigate, useRoutes, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import NavigationBtnsWithNavLink from "../../components/navigationBtns/NavigationBtnWithNavLink";
-import { useSearchAPI } from "../../api/placesAPI";
 
 const MapPage: React.FC<{}> = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [active, setActive] = useState<number | null>(null);
     const { qualified } = useContext(LocationsProviderContext) as ILocationContext;
 
-    const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
     const pageNum = searchParams.get("pageNum");
     const city = searchParams.get("city");
@@ -71,8 +67,6 @@ const MapPage: React.FC<{}> = () => {
         const minusOne = asInteger - 1;
         return "/map?city=" + cityName + "&pageNum=" + minusOne;
     }
-
-    const { searchResults, runSearch } = useSearchAPI();
 
     return (
         <PageBase>

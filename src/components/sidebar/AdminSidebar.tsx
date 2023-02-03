@@ -1,10 +1,9 @@
-import React, { useCallback, useState } from "react";
-import { useNavigate, useLocation, Navigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import Icon from "../icons/Icon";
 
 import Profile from "../profile/Profile";
 // import ProfilePic from "../profile/ProfilePic";
-import Divider from "./components/Divider";
 import MenuItem from "./components/MenuItem";
 
 import "./Sidebar.scss";
@@ -17,11 +16,7 @@ interface AdminSidebarProps {
 // TODO: Convert layoutType to a css media query. Have display: none; and display: flex in media queries.
 
 const AdminSidebar: React.FC<AdminSidebarProps> = ({ isOpen, toggleIsOpen }) => {
-    const location = useLocation();
-
     const [activeItem, setActiveItem] = useState<number>(1);
-
-    const navigate = useNavigate();
 
     return (
         <div

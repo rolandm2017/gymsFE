@@ -68,7 +68,6 @@ const FeedbackPage: React.FC<{}> = props => {
                                 type="Opaque"
                                 text="Submit"
                                 onClickHandler={() => {
-                                    console.log("submitting", featureReqAnswerOne, featureReqAnswerTwo, "59rm");
                                     sendFeatureReq(featureReqAnswerOne, featureReqAnswerTwo);
                                 }}
                             />

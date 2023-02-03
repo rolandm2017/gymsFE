@@ -27,7 +27,6 @@ const ApartmentsCarousel: React.FC<ApartmentsCarouselProps> = ({ apartments, act
         const numberOfIndexes = availableIndexes.length;
         const nIsGreaterThanNumberOfSlides = n > numberOfIndexes;
         const newHightlightId = apartments[selectedApartmentIndex].housingId;
-        console.log("New highlight id:", newHightlightId, "30rm");
         if (nIsGreaterThanNumberOfSlides) {
             setSelectedApartmentIndex(0);
             activeMapMarkerApartmentIdSetter(newHightlightId);

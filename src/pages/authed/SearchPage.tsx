@@ -73,7 +73,6 @@ const SearchPage: React.FC<{}> = props => {
     }
 
     useEffect(() => {
-        console.log(searchResults, "42rm");
         if (searchResults) {
             setResultsFromSearch(searchResults);
         }
@@ -82,11 +81,8 @@ const SearchPage: React.FC<{}> = props => {
     useEffect(() => {
         // load some data the first time user gets to the page.
         // confirm its a blank url without params, so its REALLY the first time they're here, not them navigating "back"
-        console.log([mapPageFromParams, cityNameFromParams, minDistanceFromParams, maxDistanceFromParams], "43rm");
         const noSearchPgParams = [mapPageFromParams, cityNameFromParams, minDistanceFromParams, maxDistanceFromParams].some(param => param === null);
-        console.log(noSearchPgParams, "45rm");
         if (noSearchPgParams) {
-            console.log("running search 47rm");
             const minDist = 0;
             const maxDist = 2;
             const pg = 1;

@@ -4,7 +4,6 @@ import { ISidebarContext, SidebarStateContext } from "../../context/SidebarConte
 import { IAssociation } from "../../interface/Association.interface";
 import { IGym } from "../../interface/Gym.interface";
 import { IHousing } from "../../interface/Housing.interface";
-import { ILatLong } from "../../interface/LatLong.interface";
 import { IViewportBounds } from "../../interface/ViewportBounds.interface";
 import { calculateWalkTimeInMinutes } from "../../util/calcWalkTime";
 import { getMinMaxLatLong, putAllMarkersIntoView } from "../../util/mapTools/putAllMarkersIntoView";
@@ -90,8 +89,6 @@ const PaidMap: React.FC<PaidMapProps> = ({ center, qualifiedFromCurrentPage, act
         let allMarkers: mapboxgl.Marker[] = [];
         if (qualifiedFromCurrentPage.length !== 0 && map.current) {
             const { apartmentMarkers, gymMarkers } = unpackMarkers(qualifiedFromCurrentPage);
-            const temp = getMinMaxLatLong(apartmentMarkers);
-            console.log(temp, "94rm");
             allMarkers = [apartmentMarkers, gymMarkers].flat();
 
             addNewMarkers(allMarkers, markers, setMarkers, map.current);

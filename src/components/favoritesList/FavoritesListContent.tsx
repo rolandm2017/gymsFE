@@ -49,7 +49,6 @@ const FavoritesListContent: React.FC<{}> = () => {
             </div>
             {favoritesContext.map(f => {
                 const isRevealed = revealedURLsIds.includes(f.housingId);
-                console.log(f, "52rm");
                 return (
                     <FavoritesItemDesktop
                         key={f.housingId}

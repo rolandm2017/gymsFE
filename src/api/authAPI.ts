@@ -80,12 +80,9 @@ export function useLoginWithEmailAPI(): {
                     const { acctId, email, name, isVerified, credits, role, favoriteCity, jwtToken } = response.data;
                     setLoginData({ acctId, email, name, isVerified, role, credits, favoriteCity });
                     console.log("setting jwt...");
-                    console.log(jwtToken, "storing jwt, 83rm");
                     setAccessToken(jwtToken);
                 } catch (error) {
-                    console.log(error, "84rm");
                     const msg = handleError(error);
-                    console.log(msg, "86rm");
                     setLoginErr(msg);
                 } finally {
                     setLoginIsLoaded(true);
@@ -124,7 +121,6 @@ export function useRefreshJwtAPI(): {
                     const path = getEndpoint("/auth/refresh-token");
                     const response = await axios.post(path, {}, { withCredentials: true });
                     const { acctId, email, name, role, isVerified, credits, favoriteCity, jwtToken } = response.data;
-                    // console.log(jwtToken, "setting access token, 125rm");
                     setAccessToken(jwtToken ? jwtToken : "");
                     setProfile({ acctId, email, name, role, isVerified, credits, favoriteCity });
                 } catch (error) {

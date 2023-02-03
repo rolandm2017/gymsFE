@@ -1,7 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Link } from "react-router-dom";
 import Button from "../button/Button";
 
 interface SearchPgNavigationBtnProps {
@@ -19,7 +18,6 @@ const SearchPgNavigationBtns: React.FC<SearchPgNavigationBtnProps> = ({
     reportGoForward,
     reportGoBack,
 }: SearchPgNavigationBtnProps) => {
-    console.log(currentPage, nextPgURL, prevPageURL, "urls 12rm");
     const navigate = useNavigate();
 
     return (
@@ -32,7 +30,6 @@ const SearchPgNavigationBtns: React.FC<SearchPgNavigationBtnProps> = ({
             ) : (
                 <div
                     onClick={() => {
-                        console.log("navigating to " + prevPageURL + " 22rm");
                         reportGoBack();
                         navigate(prevPageURL);
                     }}
@@ -43,7 +40,6 @@ const SearchPgNavigationBtns: React.FC<SearchPgNavigationBtnProps> = ({
             )}
             <div
                 onClick={() => {
-                    console.log("navigating to " + nextPgURL + " 39rm");
                     reportGoForward();
                     navigate(nextPgURL);
                 }}

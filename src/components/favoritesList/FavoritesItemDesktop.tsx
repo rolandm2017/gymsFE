@@ -3,8 +3,7 @@ import { useAuth } from "../../context/AuthContext";
 import { CreditsModalContext, ICreditsModalContext } from "../../context/CreditsModalContext";
 import Button from "../button/Button";
 import Garbage from "../../assets/waste.png";
-import Visit from "../../assets/visit.png";
-import { calculateWalkTimeInMinutes, getMetersFromKM, walkTimeInMinutes, walkTimeInSeconds } from "../../util/calcWalkTime";
+import { calculateWalkTimeInMinutes, walkTimeInMinutes, walkTimeInSeconds } from "../../util/calcWalkTime";
 
 interface FavoritesItemProps {
     address: string;
@@ -23,8 +22,6 @@ const FavoritesItemDesktop: React.FC<FavoritesItemProps> = ({
 }: FavoritesItemProps) => {
     const { outOfCredits } = useAuth();
     const { openAddCreditsModal } = useContext(CreditsModalContext) as ICreditsModalContext;
-
-    console.log(distanceToGym, "27rm");
 
     const walkTimeFraction = calculateWalkTimeInMinutes(distanceToGym);
 

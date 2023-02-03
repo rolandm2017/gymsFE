@@ -57,7 +57,6 @@ const TaskMarkerPage: React.FC<{}> = props => {
         const activeSuccessFilterWasUpdated = successFilter !== loadedSuccessFilter;
         if (activeBatchNumWasUpdated || activeCityWasUpdated || activeProviderWasUpdated || activeSuccessFilterWasUpdated) {
             const correspondingBatchNum = getCorrespondingBatchNum(activeBatchNumIndex, availableBatchNumbers); //
-            console.log(activeBatchNumIndex, availableBatchNumbers, correspondingBatchNum, "87rm");
             runGetTaskMarkersByParameters(correspondingBatchNum, correspondingCityOptionTitle, activeProvider, successFilter);
         }
     }, [
@@ -83,7 +82,6 @@ const TaskMarkerPage: React.FC<{}> = props => {
     useEffect(() => {
         // re-center city on city when city changes
         const activeCity = adminCitiesDropdownOptions[activeCityId];
-        console.log(activeCityId, activeCity, "72rm");
         const longLatOfCity = [activeCity.centerLong, activeCity.centerLat];
         console.log("centered map on", activeCity.cityName);
         setMapCenter(longLatOfCity);

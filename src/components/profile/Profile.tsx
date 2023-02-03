@@ -32,7 +32,6 @@ function Profile() {
     const { success, loaded, runLogOut } = useLogOutAPI();
 
     useEffect(() => {
-        console.log(success, loaded, "35rm");
         if (success && loaded) {
             navigate("/");
         }
