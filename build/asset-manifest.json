@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "/static/css/main.67a795a2.css",
+    "main.js": "/static/js/main.eed3d813.js",
+    "static/media/SignupMan.png": "/static/media/SignupMan.17c0894133d2656ffb00.png",
+    "static/media/LoginMan.png": "/static/media/LoginMan.e8169580f03d5cb78106.png",
+    "static/media/NiceMan.png": "/static/media/NiceMan.647aa5af73d5b22572b8.png",
+    "static/media/login-pg-curve.png": "/static/media/login-pg-curve.56b125f34e7661e8fcd2.png",
+    "static/media/signup-pg-curve.png": "/static/media/signup-pg-curve.4c1924dcb16b14616f84.png",
+    "static/media/google.jpg": "/static/media/google.fb4ee34b2063d7d29df7.jpg",
+    "static/media/brand1.png": "/static/media/brand1.0786d64846198bbf6a5a.png",
+    "static/media/brand3.png": "/static/media/brand3.46a93d877dc994b28f62.png",
+    "static/media/person1.png": "/static/media/person1.f7d8f021bf5c03a73bcb.png",
+    "static/media/person2.png": "/static/media/person2.b44b90769ba13eca347c.png",
+    "static/media/brand2.png": "/static/media/brand2.b306eae7d143f90a6957.png",
+    "static/media/brand5.png": "/static/media/brand5.b8be42a2da5064f54213.png",
+    "static/media/person3.png": "/static/media/person3.7234c29b6c68151087a5.png",
+    "static/media/brand4.png": "/static/media/brand4.b3d9c8473160fb845016.png",
+    "index.html": "/index.html",
+    "main.67a795a2.css.map": "/static/css/main.67a795a2.css.map",
+    "main.eed3d813.js.map": "/static/js/main.eed3d813.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.67a795a2.css",
+    "static/js/main.eed3d813.js"
+  ]
+}
