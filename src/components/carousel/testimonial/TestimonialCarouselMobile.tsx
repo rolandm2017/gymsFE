@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { TESTIMONIALS } from "../../../util/hardcodeTestimonials";
 import Testimonial from "./Testimonial";
 
-const TestimonialCarousel: React.FC<{}> = () => {
+const TestimonialCarouselMobile: React.FC<{}> = () => {
     const availableIndexes = Array.from(Array(TESTIMONIALS.length).keys());
     const [selectedTestimonialIndex, setSelectedTestimonialIndex] = useState<number>(0);
 
@@ -28,7 +28,7 @@ const TestimonialCarousel: React.FC<{}> = () => {
     }
 
     return (
-        <div className="w-full h-72 relative flex ">
+        <div className="w-full h-72 relative flex justify-center ">
             {/* <!-- Slideshow container --> */}
             <div className="w-24">
                 <span
@@ -40,7 +40,7 @@ const TestimonialCarousel: React.FC<{}> = () => {
                     &#10094;
                 </span>
             </div>
-            <div className="slideshow-container h-72 relative w-full ">
+            <div className="slideshow-container h-72 relative w-full sm:w-3/5 flex justify-center">
                 {/* //   <!-- Full-width slides --> */}
 
                 {TESTIMONIALS.map((testimonial, index) => (
@@ -63,4 +63,4 @@ const TestimonialCarousel: React.FC<{}> = () => {
     );
 };
 
-export default TestimonialCarousel;
+export default TestimonialCarouselMobile;

@@ -20,9 +20,11 @@ import NiceMan from "../assets/NiceMan.png";
 import LandingPageCurve from "../assets/signup-pg-curve.png";
 
 import ApartmentsCarousel from "../components/carousel/apartmentsCarousel/ApartmentsCarousel";
-import TestimonialCarousel from "../components/carousel/testimonial/TestimonialCarousel";
+import TestimonialCarousel from "../components/carousel/testimonial/TestimonialCarouselMobile";
 
 import "./LandingPage.scss";
+import TestimonialCarouselMobile from "../components/carousel/testimonial/TestimonialCarouselMobile";
+import TestimonialCarouselDesktop from "../components/carousel/testimonial/TestimonialCarouselDesktop";
 
 const LandingPage: React.FC<{}> = () => {
     const [apartments, setApartments] = useState<IDemoHousing[]>([]);
@@ -246,7 +248,7 @@ const LandingPage: React.FC<{}> = () => {
                 <div className="w-full flex justify-center">
                     <ApartmentsCarousel apartments={apartments} activeMapMarkerApartmentIdSetter={setSelectedApartmentId} />
                 </div>
-                <div>
+                <div className="px-0 sm:px-12">
                     <DemoMap
                         center={[selectedCity.centerLat, selectedCity.centerLong]}
                         viewportContents={apartments}
@@ -270,15 +272,21 @@ const LandingPage: React.FC<{}> = () => {
                     <h2 className="text-xl font-bold">What Lifters Say About Us</h2>
                 </div>
             </div>
-            <div>
-                <TestimonialCarousel />
+            <div className="block sm:hidden">
+                <TestimonialCarouselMobile />
+            </div>
+
+            <div className="hidden sm:block">
+                <TestimonialCarouselDesktop />
             </div>
 
             <div>
-                <h3 className="mt-8 text-2xl font-semibold">Sign Up</h3>
+                <h3 className="mt-16 text-3xl font-semibold">Sign Up</h3>
             </div>
-            <div className="flex justify-center">
-                <SignUpPrompt />
+            <div className="mt-8 w-full  flex justify-center ">
+                <div className="w-full sm:w-4/5 md:w-3/5 flex justify-center ">
+                    <SignUpPrompt muteSignUpHeader={true} />
+                </div>
             </div>
             <div className="h-24">{/* // spacer div */}</div>
         </div>

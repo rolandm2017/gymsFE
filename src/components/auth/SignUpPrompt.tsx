@@ -6,7 +6,11 @@ import { useSignUpWithEmailAPI } from "../../api/authAPI";
 import { useNavigate } from "react-router-dom";
 import { isEmail, isValidName, isValidPassword } from "../../util/validation";
 
-const SignUpPrompt: React.FC<{}> = () => {
+interface SignUpPromptProps {
+    muteSignUpHeader?: boolean;
+}
+
+const SignUpPrompt: React.FC<SignUpPromptProps> = ({ muteSignUpHeader }: SignUpPromptProps) => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -82,7 +86,7 @@ const SignUpPrompt: React.FC<{}> = () => {
 
     return (
         <div className="w-1/2 mt-12 sm:mt-0 z-50">
-            <div className="mb-8 text-left hidden sm:block">
+            <div className={`mb-8 ${muteSignUpHeader ? "hidden" : "text-left hidden sm:block"} `}>
                 <p className="text-4xl font-medium">Sign up</p>
             </div>
             <div>
