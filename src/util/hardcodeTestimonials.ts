@@ -13,13 +13,13 @@ export const TESTIMONIALS: ITestimonial[] = [
     {
         name: "Jack Shepherd",
         content: "This site helped me train to look great and get ready for an ironman competition.",
-        rating: 4.5,
+        rating: 5,
         imgPath: Person2,
     },
     {
         name: "Benjamin Linus",
         content: "Your team got me going to the gym six days a week. I used to skip the gym. Not anymore!",
-        rating: 5,
+        rating: 4,
         imgPath: Person3,
     },
 ];

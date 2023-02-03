@@ -4,8 +4,8 @@ import Testimonial from "./Testimonial";
 
 const TestimonialCarouselDesktop: React.FC<{}> = () => {
     return (
-        <div className="w-full h-72 relative flex justify-center ">
-            <div className=" h-72 relative w-4/5 flex justify-evenly">
+        <div className="w-full h-full relative flex justify-center ">
+            <div className="h-full relative w-4/5 flex justify-evenly">
                 {/* //   <!-- Full-width slides --> */}
 
                 {TESTIMONIALS.map((testimonial, index) => (
