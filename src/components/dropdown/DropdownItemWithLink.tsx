@@ -9,8 +9,8 @@ interface DropdownItemWithLinkProps {
 const DropdownItemWithLink: React.FC<DropdownItemWithLinkProps> = ({ text, location }: DropdownItemWithLinkProps) => {
     return (
         <Link to={location}>
-            <div>
-                <p>{text}</p>
+            <div className="text-left">
+                <p className="pl-1">{text}</p>
             </div>
         </Link>
     );

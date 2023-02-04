@@ -27,7 +27,6 @@ const LocationsProvider: React.FC<ChildrenProps> = ({ children }) => {
 
     useEffect(() => {
         if (qualifiedApsAreLoaded) {
-            console.log("setting qualified aps", qualifiedAps, "40rm");
             setQualified(qualifiedAps);
             return;
         }
