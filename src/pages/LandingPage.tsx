@@ -256,7 +256,7 @@ const LandingPage: React.FC<{}> = () => {
                 <div className="w-full flex justify-center">
                     <ApartmentsCarousel apartments={apartments} activeMapMarkerApartmentIdSetter={setSelectedApartmentId} />
                 </div>
-                <div className="px-0 sm:px-12">
+                <div className="px-8 sm:px-12">
                     <DemoMap
                         center={[selectedCity.centerLat, selectedCity.centerLong]}
                         viewportContents={apartments}
