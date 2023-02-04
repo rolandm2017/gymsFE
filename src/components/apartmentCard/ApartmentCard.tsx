@@ -13,12 +13,14 @@ import ApartmentCardActions from "./ApartmentCardActions";
 interface ApartmentCardProps {
     apartment: IHousing;
     addr: string;
-    gyms: IAssociation[];
+    distanceToNearestGym: number;
     activeNum: number | null;
     setActive: Function;
 }
 
-const ApartmentCard: React.FC<ApartmentCardProps> = ({ apartment, addr, gyms, activeNum, setActive }) => {
+const ApartmentCard: React.FC<ApartmentCardProps> = ({ apartment, addr, distanceToNearestGym, activeNum, setActive }) => {
+    const walkTimeInMinutes: number = truncateDecimals(calculateWalkTimeInMinutes(distanceToNearestGym), 1);
+
     return (
         <div
             onMouseEnter={() => {
@@ -34,45 +36,11 @@ const ApartmentCard: React.FC<ApartmentCardProps> = ({ apartment, addr, gyms, ac
                             <span className="grayText text-left mr-4">{addr}</span>
                         </p>
                     </div>
-                    {gyms && gyms.length > 0 ? (
-                        gyms
-                            .sort((a, b) => {
-                                if (a.distanceInKM > b.distanceInKM) {
-                                    return 1;
-                                }
-                                if (a.distanceInKM < b.distanceInKM) {
-                                    return -1;
-                                }
-                                return 0;
-                            })
-                            .map((association, index) => {
-                                if (index > 0) {
-                                    return; // Temp until Kavindu tells me what to do with >=1 gyms in the UI
-                                }
-                                const gym: IGym = association.gym as IGym;
-                                const gymName: string = gym.name.length > 0 ? gym.name : "noNameFound";
-                                const distanceFromApartmentInKM: number = truncateDecimals(association.distanceInKM, 2); // get only 3 decimals
-                                const walkTimeInMinutes: number = truncateDecimals(calculateWalkTimeInMinutes(distanceFromApartmentInKM), 1);
-                                const linkToGym = gym.url;
-                                return (
-                                    <div key={index} className="w-full flex justify-between items-center">
-                                        <div>
-                                            <p className="grayText">Gym {gymName}</p>
-                                        </div>
-                                        <div>
-                                            <p className="grayText">{distanceFromApartmentInKM} km</p>
-                                        </div>
-                                        <div>
-                                            <p className="grayText">{walkTimeInMinutes} min away</p>
-                                        </div>
-                                    </div>
-                                );
-                            })
-                    ) : (
-                        <div className="text-left">
-                            <p>gyms didn't load</p>
+                    <div className="w-full flex justify-between items-center">
+                        <div>
+                            <p className="grayText">{walkTimeInMinutes} min walk</p>
                         </div>
-                    )}
+                    </div>
                 </div>
                 <ApartmentCardActions apartmentId={apartment.housingId} />
             </div>

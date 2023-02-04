@@ -21,22 +21,13 @@ interface ChildrenProps {
 export const LocationsProviderContext = createContext<ILocationContext | null>(null);
 
 const LocationsProvider: React.FC<ChildrenProps> = ({ children }) => {
-    // const [apartments, setApartments] = React.useState<IHousing[]>([]);
-    // const [gyms, setGyms] = React.useState<IGym[]>([]);
     const [qualified, setQualified] = React.useState<IHousing[]>([]);
 
     const { qualifiedAps, qualifiedApsAreLoaded, runGetQualifiedAps } = useGetQualifiedApsAPI();
 
-    // useEffect(() => {
-    //     if (apartments.length !== 0) return;
-    // }, [apartments]);
-
-    // useEffect(() => {
-    //     if (gyms.length !== 0) return;
-    // }, [gyms]);
-
     useEffect(() => {
         if (qualifiedApsAreLoaded) {
+            console.log("setting qualified aps", qualifiedAps, "40rm");
             setQualified(qualifiedAps);
             return;
         }

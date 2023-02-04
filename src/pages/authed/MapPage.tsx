@@ -79,15 +79,14 @@ const MapPage: React.FC<{}> = () => {
                     ) : null}
                     <div id="apartmentCardContainer" className="">
                         {qualified
-                            ? qualifiedFromCurrentPage.map((ap, i) => {
+                            ? qualifiedFromCurrentPage.map((ap: IHousing, i) => {
                                   const address = ap.address ? ap.address : "Placeholder St.";
-                                  const associatedGymsWithDistances = ap.nearbyGyms as IAssociation[];
                                   return (
                                       <ApartmentCard
                                           key={i}
                                           apartment={ap}
                                           addr={address}
-                                          gyms={associatedGymsWithDistances}
+                                          distanceToNearestGym={ap.distanceToNearestGym}
                                           activeNum={i}
                                           setActive={setActive}
                                       />
