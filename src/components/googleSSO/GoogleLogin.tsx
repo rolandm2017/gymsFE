@@ -1,10 +1,12 @@
 import React from "react";
+import { getEndpoint } from "../../util/getEndpoint";
 
 const GoogleLogin: React.FC<{}> = () => {
+    const redirectURL = getEndpoint("/auth/google");
     return (
         <div>
             <div>
-                <a href="http://127.0.0.1:8000/auth/google">Log in with Google</a>
+                <a href={redirectURL}>Log in with Google</a>
             </div>
         </div>
     );
