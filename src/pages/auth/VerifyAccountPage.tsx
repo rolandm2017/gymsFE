@@ -41,7 +41,7 @@ const VerifyAccountPage: React.FC<{}> = () => {
                         </p>
                     </div>
                 ) : null}
-                {err && !success ? <p>{err}</p> : null}
+                {err && !success ? <p>{err}. Did you already complete verification?</p> : null}
             </div>
         </div>
     );
