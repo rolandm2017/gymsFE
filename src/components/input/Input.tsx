@@ -12,7 +12,7 @@ const Input: React.FC<InputProps> = ({ type, placeholder, changeReporter }) => {
     return (
         <div className="mr-1">
             <input
-                className={`inputText  ${type === "text" ? "w-48 addrIcon" : "w-40 distanceIcon"}`}
+                className={`inputText pl-2 ${type === "text" ? "w-48 addrIcon" : "w-40 distanceIcon"}`}
                 type={type}
                 placeholder={placeholder}
                 onChange={e => {
