@@ -97,16 +97,18 @@ const LandingPage: React.FC<{}> = () => {
             {/* // mobile header */}
             <div className="px-4 w-full  flex sm:hidden justify-between items-center bg-black h-16">
                 <div>
-                    <h1 className="poppins blueText text-xl">Apartments Near Gyms</h1>
+                    <h1 className="poppins blueText text-md sm:text-xl">Apartments Near Gyms</h1>
                 </div>
-                <div>
-                    <Button
-                        type="Opaque"
-                        text="Sign Up"
-                        onClickHandler={() => {
-                            navigater("/signup");
-                        }}
-                    />
+                <div className="ml-2 flex">
+                    <div className="mr-3">
+                        <Button
+                            type="Opaque"
+                            text="Sign Up"
+                            onClickHandler={() => {
+                                navigater("/signup");
+                            }}
+                        />
+                    </div>
                     <Button
                         type="Opaque"
                         text="Log In"
