@@ -30,7 +30,7 @@ const PageRoutes = () => {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/account/forgot-password" element={<ForgotPasswordPage />} />
-            <Route path="/account/is-verified" element={<VerifyAccountPage />} />
+            <Route path="/account/verify" element={<VerifyAccountPage />} />
             <Route path="/account/reset-password" element={<ResetPasswordPage />} />
             {/* // todo: wrap Private Route with admin privileges */}
             {/* //  */}

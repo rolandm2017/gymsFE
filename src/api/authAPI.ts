@@ -9,6 +9,7 @@ import { getEndpoint } from "../util/getEndpoint";
 import { makeHeaders } from "../util/makeHeaders";
 import { ForgotPassword } from "../interface/payload/ForgotPassword.interface";
 import { ResetPassword } from "../interface/payload/ResetPassword.interface";
+import { VerificationCode } from "../interface/VerificationCode.interface";
 
 export function useSignUpWithEmailAPI(): {
     signUpData: UserAccount | undefined;
@@ -232,4 +233,33 @@ export function useResetPasswordAPI() {
     }, [payload]);
 
     return { isReset, err, loaded, runResetPassword };
+}
+
+export function useSendVerificationCodeAPI() {
+    const [success, setSuccess] = useState(false);
+    const [err, setErr] = useState("");
+    const [payload, setPayload] = useState<VerificationCode | undefined>(undefined);
+
+    function runSendVerificationCode(verificationCode: string) {
+        setPayload({ verificationCode });
+    }
+
+    useEffect(() => {
+        if (payload) {
+            (async () => {
+                try {
+                    const response = await axios.post(getEndpoint("/auth/verify-email"), { ...payload });
+                    const { message } = response.data;
+                    setSuccess(message === "Verified!");
+                } catch (error) {
+                    const msg = handleError(error);
+                    setErr(msg);
+                } finally {
+                    setPayload(undefined);
+                }
+            })();
+        }
+    }, [payload]);
+
+    return { success, err, runSendVerificationCode };
 }

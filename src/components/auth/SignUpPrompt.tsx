@@ -3,7 +3,7 @@ import AuthInput from "../input/AuthInput";
 import ExpanderButton from "../button/ExpanderButton";
 import GoogleButton from "../button/GoogleButton";
 import { useSignUpWithEmailAPI } from "../../api/authAPI";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { isEmail, isValidName, isValidPassword } from "../../util/validation";
 
 interface SignUpPromptProps {
@@ -100,7 +100,15 @@ const SignUpPrompt: React.FC<SignUpPromptProps> = ({ muteSignUpHeader }: SignUpP
             </div>
             <div className="text-left">
                 {err ? <p className="text-red-500 mt-3">{err}</p> : null}
-                {successMsg ? <p className="text-black mt-3">{successMsg}. Check your spam!</p> : null}
+                {successMsg ? (
+                    <p className="text-black mt-3">
+                        {successMsg}. You can input the code{" "}
+                        <Link to={"/account/verify"}>
+                            <span className="underline blueText">here</span>
+                        </Link>
+                        .
+                    </p>
+                ) : null}
             </div>
 
             <div>
