@@ -7,7 +7,7 @@ import "./Button.scss";
 
 const GoogleButton: React.FC<{}> = () => {
     const startGoogleSignInFlow = getEndpoint("/auth/google");
-    console.log(startGoogleSignInFlow, "10rm");
+    console.log(startGoogleSignInFlow, "google sign in flow url, 10rm");
     return (
         <a href={startGoogleSignInFlow} className="flex items-center">
             <div className="w-full h-12 flex justify-center rounded-lg googleBtn">
