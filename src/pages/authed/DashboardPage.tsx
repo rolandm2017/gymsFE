@@ -12,9 +12,6 @@ const DashboardPage: React.FC<{}> = props => {
         <PageBase>
             <div>
                 <div className="hidden lg:flex">
-                    {/* Favorites List
-                        <div>Search for More</div>
-                        <div>Show URL</div> */}
                     <FavoritesList />
                     <RevealedURLList />
                 </div>

@@ -63,14 +63,17 @@ function Profile() {
             <div className="flex">
                 <div className="flex">
                     {profile?.role === "ADMIN" ? <div>admin</div> : null}
-                    <div>
+                    <div className="hidden md:block">
                         <CreditsCounter />
                     </div>
-                    <div>
+                    <div className="pl-6 md:pl-0">
                         <NameAndEmail
                             name={profile?.name ? profile.name : "No name found"}
                             email={profile?.email ? profile.email : "No email found"}
                         />
+                        <div className="block md:hidden">
+                            <CreditsCounter />
+                        </div>
                     </div>
                 </div>
             </div>

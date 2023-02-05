@@ -9,7 +9,7 @@ interface NameAndEmailProps {
 
 const NameAndEmail: React.FC<NameAndEmailProps> = ({ name, email }) => {
     return (
-        <div className="h-full pl-2 flex flex-col items-start justify-center">
+        <div className="h-full md:pl-2 flex flex-col items-start justify-center">
             <div className="flex justify-start">
                 <p className="nameText">{name}</p>
             </div>

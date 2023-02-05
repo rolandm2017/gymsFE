@@ -58,22 +58,12 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleIsOpen }) => {
                         {isOpen ? (
                             <div className="mt-4">
                                 <Profile />
-                                <div className="w-full pl-6 mt-6 mb-2 flex">
-                                    <Icon type="Notification" />
-                                    <p className={`${isOpen ? "" : "hidden"}`}>Notification</p>
-                                </div>
                             </div>
                         ) : (
-                            <div className="mt-4 flex flex-col h-20 justify-between items-center">
-                                {/* <ProfilePic /> */}
-                                <div className="flex">
-                                    <Icon type="Notification" />
-                                    <p className={`${isOpen ? "" : "hidden"}`}>Notification</p>
-                                </div>
-                            </div>
+                            <div className="mt-4 flex flex-col h-20 justify-between items-center">{/* <ProfilePic /> */}</div>
                         )}
                     </div>
-                    <div className="pb-11">
+                    <div className="pb-11 pt-8">
                         <MenuItem
                             changeActiveItem={() => {
                                 console.log(1);
