@@ -30,16 +30,18 @@ const VerifyAccountPage: React.FC<{}> = () => {
                     </div>
                 </div>
                 {success ? (
-                    <p>
-                        {" "}
-                        Account verified!{" "}
-                        <Link to="/login" className="underline">
-                            Log in
-                        </Link>
-                        .
-                    </p>
+                    <div className="mt-4">
+                        <p>
+                            {" "}
+                            Account verified!{" "}
+                            <Link to="/login" className="underline">
+                                <span className="blueText">Log in</span>
+                            </Link>
+                            .
+                        </p>
+                    </div>
                 ) : null}
-                {err ? <p>{err}</p> : null}
+                {err && !success ? <p>{err}</p> : null}
             </div>
         </div>
     );
