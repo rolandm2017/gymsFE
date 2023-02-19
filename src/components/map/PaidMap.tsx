@@ -26,12 +26,15 @@ interface PaidMapProps {
 
 const PaidMap: React.FC<PaidMapProps> = ({ center, qualifiedFromCurrentPage, activeApartment, adjustedCenterReporter }: PaidMapProps) => {
     // initialization
-    console.log(center, "29rm");
+    console.log(center, "center 29rm");
     const mapContainer = useRef(null);
     const map = useRef<mapboxgl.Map | null>(null);
-    const [long, setLong] = useState(center[1]);
-    const [lat, setLat] = useState(center[0]);
-    const [zoom, setZoom] = useState(12);
+    const long = center[1];
+    const lat = center[0];
+    // const [long, setLong] = useState(center[1]);
+    // const [lat, setLat] = useState(center[0]);
+    // const [zoom, setZoom] = useState(12);
+    const zoom = 12;
     const [markers, setMarkers] = useState<mapboxgl.Marker[]>([]);
     const { isOpen } = useContext(SidebarStateContext) as ISidebarContext;
 
@@ -45,12 +48,6 @@ const PaidMap: React.FC<PaidMapProps> = ({ center, qualifiedFromCurrentPage, act
         map.current.setCenter(centerMarker);
         // report new dimensions to parent
         const boundsOfNewlyCenteredMap: IViewportBounds = getMapBounds(map.current.getBounds());
-        // const neCornerCoords = boundsOfNewlyCenteredMap.getNorthEast();
-        // const swCornerCoords = boundsOfNewlyCenteredMap.getSouthWest();
-        // const newBounds: IViewportBounds = {
-        //     sw: { lat: swCornerCoords.lat, long: swCornerCoords.lng },
-        //     ne: { lat: neCornerCoords.lat, long: neCornerCoords.lng },
-        // };
         console.log(boundsOfNewlyCenteredMap, "54rm");
         adjustedCenterReporter(boundsOfNewlyCenteredMap);
     }, [center[0], center[1]]);

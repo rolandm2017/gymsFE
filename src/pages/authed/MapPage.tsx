@@ -12,15 +12,14 @@ import WithAuthentication from "../../components/hoc/WithAuth";
 import { useSearchParams } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import NavigationBtnsWithNavLink from "../../components/navigationBtns/NavigationBtnWithNavLink";
-import CityPicker from "../../components/carousel/cityPicker/CityPicker";
 import { SEED_CITIES } from "../../util/cities";
-import { ICity } from "../../interface/City.interface";
 import { IViewportBounds } from "../../interface/ViewportBounds.interface";
 import { useGetMapPageApartmentsAPI } from "../../api/placesAPI";
+import CityPickerWithDefault from "../../components/carousel/cityPicker/CityPickerWithDefault";
 
 const MapPage: React.FC<{}> = () => {
     const navigater = useNavigate();
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
     const pageNum = searchParams.get("pageNum");
     const city = searchParams.get("city");
 
@@ -28,10 +27,7 @@ const MapPage: React.FC<{}> = () => {
     const [active, setActive] = useState<number | null>(null);
     const [centerCoords, setCenterCoords] = useState<IViewportBounds | undefined>(undefined);
 
-    // const { qualified } = useContext(LocationsProviderContext) as ILocationContext;
     const { newHousing, moveViewport, recenteredViewportCounter } = useGetMapPageApartmentsAPI();
-
-    // console.log(qualified.length, "25rm");
 
     useEffect(() => {
         const fetchDemoApartments = async () => {
@@ -43,6 +39,7 @@ const MapPage: React.FC<{}> = () => {
             moveViewport(centerCoords.ne.long, centerCoords.ne.lat, centerCoords.sw.long, centerCoords.sw.lat);
         };
         fetchDemoApartments();
+        // note: if you put "moveViewport" here you get an infinite loop
     }, [centerCoords]);
 
     useEffect(() => {
@@ -54,12 +51,11 @@ const MapPage: React.FC<{}> = () => {
         setActive(firstApartment.housingId);
     }, [recenteredViewportCounter, newHousing]);
 
-    console.log(city, "26rm");
-
     useEffect(() => {
         // if mapPage, set as current page
         if (pageNum) {
             const pageAsInteger = parseInt(pageNum, 10);
+            console.log("setting page num", pageAsInteger, "57rm");
             setCurrentPage(pageAsInteger);
         }
     }, [setCurrentPage, pageNum]);
@@ -87,7 +83,7 @@ const MapPage: React.FC<{}> = () => {
             return "/map?city=" + cityName + "&pageNum=" + 1;
         }
         const asInteger = parseInt(pageNum, 10);
-        const minusOne = asInteger - 1;
+        const minusOne = asInteger + 1;
         const nextPgURL = "/map?city=" + cityName + "&pageNum=" + minusOne;
         return nextPgURL;
     }
@@ -102,7 +98,6 @@ const MapPage: React.FC<{}> = () => {
     }
 
     function setNewCityFocus(choice: number) {
-        console.log(choice, "73rm");
         const cityName = getCityNameOf(choice);
         navigater("/map?city=" + cityName);
     }
@@ -127,7 +122,7 @@ const MapPage: React.FC<{}> = () => {
                 <div id="middleContainer" className="w-full flex flex-col md2:flex-row">
                     <div>
                         <div className="w-full mt-0 flex justify-center">
-                            <CityPicker choiceReporter={setNewCityFocus} />
+                            <CityPickerWithDefault choiceReporter={setNewCityFocus} defaultCity={city} />
                         </div>
                         {/* <PaidMap center={[45, -73]} qualifiedFromCurrentPage={qualifiedFromCurrentPage} activeApartment={active} /> */}
                         <PaidMap
