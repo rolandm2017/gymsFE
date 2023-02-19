@@ -193,7 +193,7 @@ export function useSearchAPI() {
                     const path = "/housing/search";
                     const res = await axios.get(getEndpoint(path), { ...makeHeaders(accessToken), params: { ...payload } });
                     const { results, totalPages } = res.data;
-                    setTotalPagesForThisQuery(totalPages);
+                    setTotalPagesForThisQuery(Math.floor(totalPages));
 
                     setSearchResults(results);
                 } catch (err) {
