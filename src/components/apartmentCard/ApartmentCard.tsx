@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Route } from "react-router-dom";
+import { SidebarStateContext, ISidebarContext } from "../../context/SidebarContext";
 
 import { IAssociation } from "../../interface/Association.interface";
 import { IGym } from "../../interface/Gym.interface";
@@ -19,6 +20,8 @@ interface ApartmentCardProps {
 }
 
 const ApartmentCard: React.FC<ApartmentCardProps> = ({ apartment, addr, distanceToNearestGym, activeNum, setActive }) => {
+    const { isOpen } = useContext(SidebarStateContext) as ISidebarContext;
+
     const walkTimeInMinutes: number = truncateDecimals(calculateWalkTimeInMinutes(distanceToNearestGym), 1);
 
     return (
@@ -26,7 +29,9 @@ const ApartmentCard: React.FC<ApartmentCardProps> = ({ apartment, addr, distance
             onMouseEnter={() => {
                 setActive(activeNum);
             }}
-            className="apCardContainer apCardBoxShadow mb-2 mr-2 md2:mr-0 mt-2 md2:mt-0 py-3 bg-white rounded-md"
+            className={`${
+                isOpen ? "apCardContainerOpen" : "apCardContainerClosed"
+            } apCardBoxShadow mb-2 mr-2 md2:mr-0 mt-2 md2:mt-0 py-3 bg-white rounded-md`}
         >
             <div className="apCardText h-full mx-4 flex justify-between items-start">
                 <div className="h-full flex flex-col">

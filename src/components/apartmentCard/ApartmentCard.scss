@@ -4,7 +4,13 @@
     box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.08);
 }
 
-.apCardContainer {
+.apCardContainerClosed {
+    // height: $apartment-card-height;
+    height: auto;
+    width: auto;
+}
+
+.apCardContainerOpen {
     // height: $apartment-card-height;
     height: auto;
     width: auto;
@@ -12,8 +18,14 @@
 
 // @media (min-width: 900px) {
 @media (min-width: $apartment-cards-on-side-breakpoint) {
-    .apCardContainer {
+    .apCardContainerOpen {
         width: $apartment-card-width;
+    }
+
+    .apCardContainerClosed {
+        // height: $apartment-card-height;
+        height: auto;
+        width: 100%;
     }
 }
 
