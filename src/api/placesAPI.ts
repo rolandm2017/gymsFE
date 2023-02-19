@@ -208,3 +208,46 @@ export function useSearchAPI() {
 
     return { searchResults, totalPagesForThisQuery, runSearch };
 }
+
+export function useGetMapPageApartmentsAPI(): {
+    newHousing: IHousing[];
+    moveViewport: Function;
+    err: string;
+    apartmentsAreLoaded: boolean;
+    recenteredViewportCounter: number;
+} {
+    const [newHousing, setNewHousing] = useState<IHousing[]>([]);
+    const [err, setErr] = useState("");
+    const [apartmentsAreLoaded, setLoaded] = useState(false);
+    const [payload, setPayload] = useState<MapViewportDimensions | undefined>(undefined);
+    const [recenteredViewportCounter, setRecenteredViewportCounter] = useState(0);
+
+    function moveViewport(neLong: number, neLat: number, swLong: number, swLat: number) {
+        setPayload({ neLong, neLat, swLong, swLat });
+        setLoaded(false);
+    }
+
+    useEffect(() => {
+        if (payload && !apartmentsAreLoaded) {
+            (async () => {
+                try {
+                    setErr("");
+                    const path = "/housing/map-page";
+                    console.log(payload, "236rm");
+                    const res = await axios.get(getEndpoint(path), { params: { ...payload } });
+                    const { mapPageContent } = res.data;
+                    setNewHousing(mapPageContent);
+                } catch (err) {
+                    const msg = handleError(err);
+                    setErr(msg);
+                } finally {
+                    setPayload(undefined);
+                    setLoaded(true);
+                    setRecenteredViewportCounter(old => old + 1);
+                }
+            })();
+        }
+    }, [payload, apartmentsAreLoaded]);
+
+    return { newHousing, moveViewport, err, apartmentsAreLoaded, recenteredViewportCounter };
+}

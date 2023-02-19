@@ -20,8 +20,6 @@ const SearchPage: React.FC<{}> = props => {
     const [activeCityName, setActiveCityName] = useState("");
     const [activeMinDist, setActiveMinDist] = useState<null | number>(null);
     const [activeMaxDist, setActiveMaxDist] = useState<null | number>(null);
-    // we don't need the qualified list
-    // const { qualified } = useContext(LocationsProviderContext) as ILocationContext;
     const { searchResults, totalPagesForThisQuery, runSearch } = useSearchAPI();
 
     const [searchParams, setSearchParams] = useSearchParams();

@@ -1,27 +1,60 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import PageBase from "./../PageBase";
 import ApartmentCard from "../../components/apartmentCard/ApartmentCard";
 
 import PaidMap from "../../components/map/PaidMap";
 import PageNumber from "../../components/pageNumber/PageNumber";
-import { ILocationContext, LocationsProviderContext } from "../../context/LocationsContext";
-import { IAssociation } from "../../interface/Association.interface";
 import { IHousing } from "../../interface/Housing.interface";
 import { calcTotalPages } from "../../util/calcTotalPages";
 import WithAuthentication from "../../components/hoc/WithAuth";
 import { useSearchParams } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import NavigationBtnsWithNavLink from "../../components/navigationBtns/NavigationBtnWithNavLink";
+import CityPicker from "../../components/carousel/cityPicker/CityPicker";
+import { SEED_CITIES } from "../../util/cities";
+import { ICity } from "../../interface/City.interface";
+import { IViewportBounds } from "../../interface/ViewportBounds.interface";
+import { useGetMapPageApartmentsAPI } from "../../api/placesAPI";
 
 const MapPage: React.FC<{}> = () => {
-    const [currentPage, setCurrentPage] = useState<number>(1);
-    const [active, setActive] = useState<number | null>(null);
-    const { qualified } = useContext(LocationsProviderContext) as ILocationContext;
-
+    const navigater = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
     const pageNum = searchParams.get("pageNum");
     const city = searchParams.get("city");
+
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const [active, setActive] = useState<number | null>(null);
+    const [centerCoords, setCenterCoords] = useState<IViewportBounds | undefined>(undefined);
+
+    // const { qualified } = useContext(LocationsProviderContext) as ILocationContext;
+    const { newHousing, moveViewport, recenteredViewportCounter } = useGetMapPageApartmentsAPI();
+
+    // console.log(qualified.length, "25rm");
+
+    useEffect(() => {
+        const fetchDemoApartments = async () => {
+            if (centerCoords === undefined) {
+                return;
+            }
+            console.log("settings viewport");
+            console.log(centerCoords.ne.long, centerCoords.ne.lat, centerCoords.sw.long, centerCoords.sw.lat);
+            moveViewport(centerCoords.ne.long, centerCoords.ne.lat, centerCoords.sw.long, centerCoords.sw.lat);
+        };
+        fetchDemoApartments();
+    }, [centerCoords]);
+
+    useEffect(() => {
+        if (newHousing.length === 0) return;
+        // add housings whenever there are new loaded housings from moving the viewport.
+        // setApartments(newHousing);
+        // set default highlight id for demo map
+        const firstApartment = newHousing[0];
+        setActive(firstApartment.housingId);
+    }, [recenteredViewportCounter, newHousing]);
+
+    console.log(city, "26rm");
 
     useEffect(() => {
         // if mapPage, set as current page
@@ -43,11 +76,11 @@ const MapPage: React.FC<{}> = () => {
         return qualified.slice(startOfPage, endOfPage);
     }
 
-    const qualifiedFromCurrentPage = getCurrentPageResults(qualified, currentPage);
+    const qualifiedFromCurrentPage = getCurrentPageResults(newHousing, currentPage);
 
     const { getDefaultCity } = useAuth();
 
-    const totalPages = calcTotalPages(qualified);
+    const totalPages = calcTotalPages(newHousing);
 
     function getNextPgURL(cityName: string, pageNum: string | null) {
         if (pageNum === null) {
@@ -68,17 +101,44 @@ const MapPage: React.FC<{}> = () => {
         return "/map?city=" + cityName + "&pageNum=" + minusOne;
     }
 
+    function setNewCityFocus(choice: number) {
+        console.log(choice, "73rm");
+        const cityName = getCityNameOf(choice);
+        navigater("/map?city=" + cityName);
+    }
+
+    function getCityNameOf(choice: number) {
+        return SEED_CITIES[choice].cityName;
+    }
+
+    function getCenterOf(cityName: string | null): [number, number] {
+        if (cityName === null) {
+            // return montreal
+            const selected = SEED_CITIES[9];
+            return [selected.centerLat, selected.centerLong];
+        }
+        const selected = SEED_CITIES.filter(city => city.cityName === cityName)[0];
+        return [selected.centerLat, selected.centerLong];
+    }
+
     return (
         <PageBase>
             <div id="pageBaseInnerContainer">
-                {/* Results */}
-                {/* <SearchBar runSearch={runSearch} /> */}
                 <div id="middleContainer" className="w-full flex flex-col md2:flex-row">
-                    {qualified && qualified.length > 0 ? (
-                        <PaidMap center={[45, -73]} qualifiedFromCurrentPage={qualifiedFromCurrentPage} activeApartment={active} />
-                    ) : null}
+                    <div>
+                        <div className="w-full mt-0 flex justify-center">
+                            <CityPicker choiceReporter={setNewCityFocus} />
+                        </div>
+                        {/* <PaidMap center={[45, -73]} qualifiedFromCurrentPage={qualifiedFromCurrentPage} activeApartment={active} /> */}
+                        <PaidMap
+                            center={getCenterOf(city)}
+                            qualifiedFromCurrentPage={qualifiedFromCurrentPage}
+                            activeApartment={active}
+                            adjustedCenterReporter={setCenterCoords}
+                        />
+                    </div>
                     <div id="apartmentCardContainer" className="">
-                        {qualified
+                        {newHousing
                             ? qualifiedFromCurrentPage.map((ap: IHousing, i) => {
                                   const address = ap.address ? ap.address : "Placeholder St.";
                                   return (

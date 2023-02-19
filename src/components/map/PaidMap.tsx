@@ -6,7 +6,8 @@ import { IGym } from "../../interface/Gym.interface";
 import { IHousing } from "../../interface/Housing.interface";
 import { IViewportBounds } from "../../interface/ViewportBounds.interface";
 import { calculateWalkTimeInMinutes } from "../../util/calcWalkTime";
-import { getMinMaxLatLong, putAllMarkersIntoView } from "../../util/mapTools/putAllMarkersIntoView";
+import { getMapBounds } from "../../util/mapTools/getMapBounds";
+import { putAllMarkersIntoView } from "../../util/mapTools/putAllMarkersIntoView";
 import { truncateDecimals } from "../../util/truncateDecimals";
 
 import useWindowSize from "../../util/useWindowSize";
@@ -20,22 +21,39 @@ interface PaidMapProps {
     center: [number, number];
     qualifiedFromCurrentPage: IHousing[];
     activeApartment: number | null;
-    adjustedCenterReporter?: Function;
-    // zoom: number;
+    adjustedCenterReporter: Function;
 }
 
 const PaidMap: React.FC<PaidMapProps> = ({ center, qualifiedFromCurrentPage, activeApartment, adjustedCenterReporter }: PaidMapProps) => {
     // initialization
+    console.log(center, "29rm");
     const mapContainer = useRef(null);
     const map = useRef<mapboxgl.Map | null>(null);
-    const [long, setLong] = useState(-73.554);
-    const [lat, setLat] = useState(45.5);
+    const [long, setLong] = useState(center[1]);
+    const [lat, setLat] = useState(center[0]);
     const [zoom, setZoom] = useState(12);
     const [markers, setMarkers] = useState<mapboxgl.Marker[]>([]);
     const { isOpen } = useContext(SidebarStateContext) as ISidebarContext;
 
     const [width, height] = useWindowSize();
     const isOnMobile = width < 768;
+
+    useEffect(() => {
+        if (map === null || map.current === null) return;
+        const centerMarker = new mapboxgl.LngLat(center[1], center[0]);
+
+        map.current.setCenter(centerMarker);
+        // report new dimensions to parent
+        const boundsOfNewlyCenteredMap: IViewportBounds = getMapBounds(map.current.getBounds());
+        // const neCornerCoords = boundsOfNewlyCenteredMap.getNorthEast();
+        // const swCornerCoords = boundsOfNewlyCenteredMap.getSouthWest();
+        // const newBounds: IViewportBounds = {
+        //     sw: { lat: swCornerCoords.lat, long: swCornerCoords.lng },
+        //     ne: { lat: neCornerCoords.lat, long: neCornerCoords.lng },
+        // };
+        console.log(boundsOfNewlyCenteredMap, "54rm");
+        adjustedCenterReporter(boundsOfNewlyCenteredMap);
+    }, [center[0], center[1]]);
 
     function resizeMap() {
         if (map === null || map.current === null) return;
@@ -78,7 +96,8 @@ const PaidMap: React.FC<PaidMapProps> = ({ center, qualifiedFromCurrentPage, act
                 ne: { long: coordsNE.lng, lat: coordsNE.lat },
                 sw: { long: coordsSW.lng, lat: coordsSW.lat },
             };
-            if (adjustedCenterReporter) adjustedCenterReporter(coordsButAsInterface);
+            console.log(coordsButAsInterface, "99rm");
+            adjustedCenterReporter(coordsButAsInterface);
         });
     });
 

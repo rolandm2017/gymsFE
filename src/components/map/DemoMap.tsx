@@ -5,6 +5,7 @@ import { IDemoHousing } from "../../interface/DemoHousing.interface";
 import { IGym } from "../../interface/Gym.interface";
 import { IViewportBounds } from "../../interface/ViewportBounds.interface";
 import { calculateWalkTimeInMinutes } from "../../util/calcWalkTime";
+import { getMapBounds } from "../../util/mapTools/getMapBounds";
 import { truncateDecimals } from "../../util/truncateDecimals";
 
 import "./Map.scss";
@@ -37,15 +38,15 @@ const DemoMap: React.FC<DemoMapProps> = ({ center, viewportContents, adjustedCen
 
         map.current.setCenter(centerMarker);
         // report new dimensions to parent
-        const boundsOfNewlyCenteredMap: LngLatBounds = map.current.getBounds();
-        const neCornerCoords = boundsOfNewlyCenteredMap.getNorthEast();
-        const swCornerCoords = boundsOfNewlyCenteredMap.getSouthWest();
-        const newBounds: IViewportBounds = {
-            sw: { lat: swCornerCoords.lat, long: swCornerCoords.lng },
-            ne: { lat: neCornerCoords.lat, long: neCornerCoords.lng },
-        };
-        adjustedCenterReporter(newBounds);
-        // i dont care what es-line says, the correct dependency is the primitive values center[0] & center[1]
+        const boundsOfNewlyCenteredMap: IViewportBounds = getMapBounds(map.current.getBounds());
+        // const neCornerCoords = boundsOfNewlyCenteredMap.getNorthEast();
+        // const swCornerCoords = boundsOfNewlyCenteredMap.getSouthWest();
+        // const newBounds: IViewportBounds = {
+        //     sw: { lat: swCornerCoords.lat, long: swCornerCoords.lng },
+        //     ne: { lat: neCornerCoords.lat, long: neCornerCoords.lng },
+        // };
+        console.log("new bounds", boundsOfNewlyCenteredMap, "48rm");
+        adjustedCenterReporter(boundsOfNewlyCenteredMap);
     }, [center[0], center[1]]);
 
     function resizeMap() {
@@ -78,7 +79,8 @@ const DemoMap: React.FC<DemoMapProps> = ({ center, viewportContents, adjustedCen
             ne: { long: coordsNE.lng, lat: coordsNE.lat },
             sw: { long: coordsSW.lng, lat: coordsSW.lat },
         };
-        if (adjustedCenterReporter) adjustedCenterReporter(coordsButAsInterface);
+        console.log("setting bounds", coordsButAsInterface, "82rm");
+        adjustedCenterReporter(coordsButAsInterface);
     }
 
     useEffect(() => {
