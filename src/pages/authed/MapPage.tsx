@@ -124,7 +124,7 @@ const MapPage: React.FC<{}> = () => {
             <div id="pageBaseInnerContainer">
                 <div id="middleContainer" className="w-full flex flex-col md2:flex-row">
                     <div className="">
-                        <div className="w-full mt-0 flex justify-center">
+                        <div className="w-full mt-0 mb-2 flex justify-center">
                             <CityPicker choiceReporter={setNewCityFocus} defaultCity={city} />
                         </div>
                         {/* <PaidMap center={[45, -73]} qualifiedFromCurrentPage={qualifiedFromCurrentPage} activeApartment={active} /> */}
