@@ -19,7 +19,7 @@
 // @media (min-width: 900px) {
 @media (min-width: $apartment-cards-on-side-breakpoint) {
     .apCardContainerOpen {
-        width: $apartment-card-width;
+        width: calc($apartment-card-width - 100px);
     }
 
     .apCardContainerClosed {

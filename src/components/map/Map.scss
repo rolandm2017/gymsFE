@@ -56,7 +56,7 @@
     .mapWidthSidebarOpen {
         width: calc(
             100vw - $sidebar-width-open - $map-screen-padding-left - $map-screen-padding-right - $apartment-card-width - $map-screen-margin-right -
-                $misc-remaining-pixels - 3.75rem
+                $misc-remaining-pixels + 2.3rem
         ); // why - 3.75rem? No idea. Where did it come from? No clue.
     }
 
