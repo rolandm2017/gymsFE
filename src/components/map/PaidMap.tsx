@@ -18,7 +18,7 @@ const MAPBOX_TOKEN: string = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN || "";
 mapboxgl.accessToken = MAPBOX_TOKEN;
 
 interface PaidMapProps {
-    center: [number, number];
+    center: [number, number]; // todo: replace with {long:x, lat: y}
     qualifiedFromCurrentPage: IHousing[];
     activeApartment: number | null;
     adjustedCenterReporter: Function;
@@ -26,7 +26,8 @@ interface PaidMapProps {
 
 const PaidMap: React.FC<PaidMapProps> = ({ center, qualifiedFromCurrentPage, activeApartment, adjustedCenterReporter }: PaidMapProps) => {
     // initialization
-    console.log(center, "center 29rm");
+    console.log(center, " bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb center 29rm");
+    console.log(qualifiedFromCurrentPage, "30rm");
     const mapContainer = useRef(null);
     const map = useRef<mapboxgl.Map | null>(null);
     const long = center[1];
@@ -108,7 +109,7 @@ const PaidMap: React.FC<PaidMapProps> = ({ center, qualifiedFromCurrentPage, act
             allMarkers = [apartmentMarkers, gymMarkers].flat();
 
             addNewMarkers(allMarkers, markers, setMarkers, map.current);
-            putAllMarkersIntoView(allMarkers, map.current);
+            // putAllMarkersIntoView(allMarkers, map.current);
         }
         return () => {
             // remove all old markers

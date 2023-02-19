@@ -15,7 +15,7 @@ const MAPBOX_TOKEN: string = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN || "";
 mapboxgl.accessToken = MAPBOX_TOKEN;
 
 interface AdminApartmentsMapboxProps {
-    center: [number, number];
+    center: [number, number]; // todo: replace with {long:x, lat: y}
     qualified: IHousing[];
     activeApartment: number | null;
     activeTaskId: number | undefined;

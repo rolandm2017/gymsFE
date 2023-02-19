@@ -15,7 +15,7 @@ import NavigationBtnsWithNavLink from "../../components/navigationBtns/Navigatio
 import { SEED_CITIES } from "../../util/cities";
 import { IViewportBounds } from "../../interface/ViewportBounds.interface";
 import { useGetMapPageApartmentsAPI } from "../../api/placesAPI";
-import CityPickerWithDefault from "../../components/carousel/cityPicker/CityPickerWithDefault";
+import CityPicker from "../../components/carousel/cityPicker/CityPicker";
 
 const MapPage: React.FC<{}> = () => {
     const navigater = useNavigate();
@@ -107,22 +107,25 @@ const MapPage: React.FC<{}> = () => {
     }
 
     function getCenterOf(cityName: string | null): [number, number] {
+        console.log("getting center of", cityName, "110rm");
         if (cityName === null) {
             // return montreal
             const selected = SEED_CITIES[9];
             return [selected.centerLat, selected.centerLong];
         }
         const selected = SEED_CITIES.filter(city => city.cityName === cityName)[0];
-        return [selected.centerLat, selected.centerLong];
+        const newCenter: [number, number] = [selected.centerLat, selected.centerLong];
+        console.log(newCenter, "aaaaaaaaaaaaaa 118rm");
+        return newCenter;
     }
 
     return (
         <PageBase>
             <div id="pageBaseInnerContainer">
                 <div id="middleContainer" className="w-full flex flex-col md2:flex-row">
-                    <div>
+                    <div className="">
                         <div className="w-full mt-0 flex justify-center">
-                            <CityPickerWithDefault choiceReporter={setNewCityFocus} defaultCity={city} />
+                            <CityPicker choiceReporter={setNewCityFocus} defaultCity={city} />
                         </div>
                         {/* <PaidMap center={[45, -73]} qualifiedFromCurrentPage={qualifiedFromCurrentPage} activeApartment={active} /> */}
                         <PaidMap
@@ -133,6 +136,19 @@ const MapPage: React.FC<{}> = () => {
                         />
                     </div>
                     <div id="apartmentCardContainer" className="">
+                        <div className="mt-3 pr-2  flex justify-between items-center md2:hidden ">
+                            <PageNumber currentPage={currentPage} totalPages={totalPages} />
+
+                            <NavigationBtnsWithNavLink
+                                currentCity={city ? city : getDefaultCity()}
+                                currentPage={currentPage}
+                                totalPages={totalPages}
+                                // change active card to null when change page
+                                resetActive={setActive}
+                                nextPgURL={getNextPgURL(city ? city : getDefaultCity(), pageNum)}
+                                prevPageURL={getPrevPgURL(city ? city : getDefaultCity(), pageNum)}
+                            />
+                        </div>
                         {newHousing
                             ? qualifiedFromCurrentPage.map((ap: IHousing, i) => {
                                   const address = ap.address ? ap.address : "Placeholder St.";
@@ -151,7 +167,7 @@ const MapPage: React.FC<{}> = () => {
                     </div>
                 </div>
 
-                <div id="pageNumberContainer" className="mb-3 flex justify-between items-center">
+                <div id="pageNumberContainer" className="mb-3 hidden md2:flex justify-between items-center">
                     <PageNumber currentPage={currentPage} totalPages={totalPages} />
                     <NavigationBtnsWithNavLink
                         currentCity={city ? city : getDefaultCity()}

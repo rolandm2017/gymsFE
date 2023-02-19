@@ -14,7 +14,7 @@ const MAPBOX_TOKEN: string = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN || "";
 mapboxgl.accessToken = MAPBOX_TOKEN;
 
 interface AdminTasksMapboxProps {
-    center: [number, number];
+    center: [number, number]; // todo: replace with {long:x, lat: y}
     tasks: ITask[];
     // zoom: number;
 }

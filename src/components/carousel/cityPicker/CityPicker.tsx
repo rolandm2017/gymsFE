@@ -8,11 +8,17 @@ import "./CityPicker.scss";
 
 interface CityPickerProps {
     choiceReporter: Function;
+    defaultCity?: string | null;
 }
 
-const CityPicker: React.FC<CityPickerProps> = ({ choiceReporter }: CityPickerProps) => {
+const CityPicker: React.FC<CityPickerProps> = ({ choiceReporter, defaultCity }: CityPickerProps) => {
     const availableIndexes = SEED_CITIES.map((city, index) => index);
-    const [selectedCityIndex, setSelectedCityIndex] = useState<number>(0);
+    const [selectedCityIndex, setSelectedCityIndex] = useState<number>(defaultCity ? getCorrespondingCity(defaultCity) : 0);
+
+    function getCorrespondingCity(cityName: string) {
+        const correspondingEntryIndex = SEED_CITIES.findIndex(city => city.cityName === cityName);
+        return correspondingEntryIndex;
+    }
 
     function plusSlides(n: number) {
         const newselectedCityIndex = selectedCityIndex + n;
