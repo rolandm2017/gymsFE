@@ -26,8 +26,6 @@ interface PaidMapProps {
 
 const PaidMap: React.FC<PaidMapProps> = ({ center, qualifiedFromCurrentPage, activeApartment, adjustedCenterReporter }: PaidMapProps) => {
     // initialization
-    console.log(center, " bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb center 29rm");
-    console.log(qualifiedFromCurrentPage, "30rm");
     const mapContainer = useRef(null);
     const map = useRef<mapboxgl.Map | null>(null);
     const long = center[1];
@@ -43,13 +41,16 @@ const PaidMap: React.FC<PaidMapProps> = ({ center, qualifiedFromCurrentPage, act
     const isOnMobile = width < 768;
 
     useEffect(() => {
+        // on page load, report viewport so the freshly loaded page knows where to gather data for
+    });
+
+    useEffect(() => {
         if (map === null || map.current === null) return;
         const centerMarker = new mapboxgl.LngLat(center[1], center[0]);
 
         map.current.setCenter(centerMarker);
         // report new dimensions to parent
         const boundsOfNewlyCenteredMap: IViewportBounds = getMapBounds(map.current.getBounds());
-        console.log(boundsOfNewlyCenteredMap, "54rm");
         adjustedCenterReporter(boundsOfNewlyCenteredMap);
     }, [center[0], center[1]]);
 
@@ -85,17 +86,12 @@ const PaidMap: React.FC<PaidMapProps> = ({ center, qualifiedFromCurrentPage, act
             attributionControl: false,
         }).addControl(new mapboxgl.AttributionControl({ compact: true }));
         map.current = currentMap;
+        const boundsOfNewlyCenteredMap: IViewportBounds = getMapBounds(map.current.getBounds());
+        adjustedCenterReporter(boundsOfNewlyCenteredMap); // report on page load so the apartment fetcher knows where to fetch
 
         currentMap.on("dragend", () => {
-            const coords: mapboxgl.LngLatBounds = currentMap.getBounds();
-            const coordsNE: mapboxgl.LngLat = coords.getNorthEast();
-            const coordsSW: mapboxgl.LngLat = coords.getSouthWest();
-            const coordsButAsInterface: IViewportBounds = {
-                ne: { long: coordsNE.lng, lat: coordsNE.lat },
-                sw: { long: coordsSW.lng, lat: coordsSW.lat },
-            };
-            console.log(coordsButAsInterface, "99rm");
-            adjustedCenterReporter(coordsButAsInterface);
+            const coords: IViewportBounds = getMapBounds(currentMap.getBounds());
+            adjustedCenterReporter(coords);
         });
     });
 

@@ -55,7 +55,6 @@ const MapPage: React.FC<{}> = () => {
         // if mapPage, set as current page
         if (pageNum) {
             const pageAsInteger = parseInt(pageNum, 10);
-            console.log("setting page num", pageAsInteger, "57rm");
             setCurrentPage(pageAsInteger);
         }
     }, [setCurrentPage, pageNum]);
@@ -107,7 +106,6 @@ const MapPage: React.FC<{}> = () => {
     }
 
     function getCenterOf(cityName: string | null): [number, number] {
-        console.log("getting center of", cityName, "110rm");
         if (cityName === null) {
             // return montreal
             const selected = SEED_CITIES[9];
@@ -115,7 +113,6 @@ const MapPage: React.FC<{}> = () => {
         }
         const selected = SEED_CITIES.filter(city => city.cityName === cityName)[0];
         const newCenter: [number, number] = [selected.centerLat, selected.centerLong];
-        console.log(newCenter, "aaaaaaaaaaaaaa 118rm");
         return newCenter;
     }
 
