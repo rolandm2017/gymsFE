@@ -6,8 +6,8 @@ The frontend, or the client, handles the landing page, user authentication, and 
 
 If the program is right for the user, the user will be able to hunt for apartments conveniently located near a gym in as little as five minutes.
 
-The backend can be seen at this URL: https://github.com/plutownium/gymSaas
+The backend can be seen at this URL: https://github.com/rolandm2017/gymSaas
 
-And the web scraper component lives here: https://github.com/plutownium/apScraper
+And the web scraper component lives here: https://github.com/rolandm2017/apScraper
 
 Happy reading!
